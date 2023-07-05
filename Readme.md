@@ -11,6 +11,7 @@ Utilisation
 
 
 * Bootstrap 5.3
+* Mapbox : https://docs.mapbox.com/mapbox-gl-js/example/map-projection/
 * Thème build https://themestr.app https://huemint.com/bootstrap-basic/ ? 
     * https://huemint.com/bootstrap-basic/#palette=e0eec5-ffffff-030303-fec568-9a5520-9466a9
 
