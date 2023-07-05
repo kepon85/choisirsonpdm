@@ -1,11 +1,15 @@
 <?php
+
+####################################
+# Config
+####################################
+
 $config['cache_dir']='../../tmp';
-$config['cache_timelife']=1; # in seconde
+$config['cache_timelife']=432000; # 5 jours
 $config['paramDefault']['nbYearsArchive']=10;
 $config['paramDefault']['temperature_unit']='celsius';
 $config['api_url']='https://archive-api.open-meteo.com/v1/archive';
 $config['contiguousDay']=5;
-
 $config['curl_opt'] = [
 	CURLOPT_RETURNTRANSFER => true,
 	CURLOPT_ENCODING => "",
@@ -21,16 +25,21 @@ $config['curl_opt_httpheader'] = [
 	"User-Agent: baseTemperature (https://framagit.org/kepon/choisirsonpdm/-/blob/main/api)"
 ];
 
+####################################
+# Init
+####################################
+
 if (empty($_GET['debug'])) {
     header("Access-Control-Allow-Origin: *");
     header("Content-Type: application/json");
     // header("Access-Control-Max-Age: 3600");
 }
-
 if (! is_writable($config['cache_dir'])) {
-    exit('Cache dir ('.$config['cache_dir'].') is not writable');
+    http_response_code(500);
+    $return['message'] = 'Cache dir ('.$config['cache_dir'].') is not writable';
+    echo json_encode($return);
+    exit(254);
 }
-
 function debug($msg) {
     global $_GET;
     if (isset($_GET['debug'])) {
@@ -40,7 +49,10 @@ function debug($msg) {
 
 // Vérification des paramètres
 if (empty($_GET['latitude']) || empty($_GET['longitude'])) {
-    exit('latitude & longitude param is required.');
+    http_response_code(400);
+    $return['message'] = 'latitude & longitude param is required';
+    echo json_encode($return);
+    exit(254);
 } 
 $latitude=$_GET['latitude'];
 $longitude=$_GET['longitude'];
@@ -112,27 +124,29 @@ if (!is_file($dataFilePath) || filemtime($dataFilePath)+$config['cache_timelife'
 
 #var_dump(json_decode($data));
 $data_decode = json_decode($data);
-
 # Classement par année
+$n=0;
+$yearNow='';
 foreach ($data_decode->daily->time as $key => $date) { 
     $date_explode = explode("-", $date);
-    // Classement par année 
-    $byYear[$date_explode[0]]['time'][$key] = $date;
-    $byYear[$date_explode[0]]['temperature_min'][$key] = $data_decode->daily->temperature_2m_min[$key];
+    if ($yearNow != $date_explode[0]) {
+        $n = 0;
+        $yearNow = $date_explode[0];
+    }
+    $byYear[$yearNow]['record']['temperatire_min_contiguous']=99;
+    $byYear[$yearNow]['record']['temperatire_min_contiguous_nb_day']=$config['contiguousDay'];
+    $byYear[$yearNow]['record']['temperatire_min_contiguous_days'] = 'Error';
+    $byYear[$yearNow]['time'][$n] = $date;
+    $byYear[$yearNow]['temperature_min'][$n] = $data_decode->daily->temperature_2m_min[$key];
+    $n++;
 }
 
-//var_dump($byYear);
-
-# Addition par tranche de 5 jours
+# Addition par tranche de x jours et recherche du record de l'année
 foreach ($byYear as $year => $data) {
     debug("Year : $year");
     //var_dump($data['temperature_min']);
     $countTemperature=count($data['temperature_min']);
     debug("Count temperature  : ".$countTemperature);
-    debug($data['temperature_min'][2]);
-    $byYear[$year]['record']['temperatire_min_contiguous']=99;
-    $byYear[$year]['record']['temperatire_min_contiguous_nb_day']=$config['contiguousDay'];
-    $byYear[$year]['record']['days'] = 'Error';
     $breakEndYear=false;
     for ($i = 0; $i <= $countTemperature; $i++) {
         $recordAddition=0;
@@ -153,19 +167,31 @@ foreach ($byYear as $year => $data) {
         debug('ID : '.$recordId .', Addition : '. $recordAddition .", Moyenne : ".$recordMoy);
         if ($recordMoy <= $byYear[$year]['record']['temperatire_min_contiguous']) {
             $byYear[$year]['record']['temperatire_min_contiguous'] = $recordMoy;
-            $byYear[$year]['record']['days'] = '';
+            $byYear[$year]['record']['temperatire_min_contiguous_days']= '';
             $recordIdExplode = explode("|", $recordId);
             foreach($recordIdExplode as $dayId) {
-                $byYear[$year]['record']['days'] .= " ".$data['time'][$dayId];
+                $byYear[$year]['record']['temperatire_min_contiguous_days'].=" ".$data['time'][$dayId];
             }
-            debug('Nouveau record : ID : '.$recordId .', Addition : '. $recordAddition .", Moyenne : ".$recordMoy." Days  : ".$byYear[$year]['record']['days']);
+            debug('Nouveau record : ID : '.$recordId .', Addition : '. $recordAddition .", Moyenne : ".$recordMoy." Days  : ".$byYear[$year]['record']['temperatire_min_contiguous_days']);
         }
-        #$record[]=$data['temperature_min'][$i]+$data['temperature_min'][$i+1]
     }
-    debug("Reccord pour l'année ".$year." : ".$byYear[$year]['record']['temperatire_min_contiguous']." qui a eu lieu le : ".$byYear[$year]['record']['days']);
-    //foreach ($data['temperature_min'] as $key => $temperature_min) {
-        //debug("$key : $temperature_min");
-    //}
-
+    debug("Reccord pour l'année ".$year." : ".$byYear[$year]['record']['temperatire_min_contiguous']." qui a eu lieu le : ".$byYear[$year]['record']['temperatire_min_contiguous_days']);
+    if (empty($_GET['verbose'])) {
+        unset($byYear[$year]['time']);
+        unset($byYear[$year]['temperature_min']);
+    }
 }
+
+# Moyenne des années
+$reccordAddition=0;
+debug(count($byYear));
+foreach ($byYear as $year => $data) {
+    $reccordAddition=$reccordAddition+$byYear[$year]['record']['temperatire_min_contiguous'];
+}
+debug("Température reccord additionné : ".$reccordAddition);
+debug("Temperature de base ".$reccordAddition/count($byYear));
+$byYear['base']=$reccordAddition/count($byYear);
+
+debug('Json return : ');
+echo json_encode($byYear);
 ?>
