@@ -67,41 +67,45 @@
                 </div>
 
                 <!-- Coefficient de déperditions G -->
-             
+                <textarea id="debug"></textarea>
                 <div id="map" style="width: 100%; height: 300px;"></div>
                 <script>
                   mapboxgl.accessToken = 'pk.eyJ1Ijoia2Vwb24tcGRtIiwiYSI6ImNsam91MzF4ejAyYXMzZHA3YzJocnZjemIifQ.Lx-TCB9dD9R_3EhNH7Wf_Q';
-                  const map = new mapboxgl.Map({
-                    container: 'map', // container ID
-                    // Choose from Mapbox's core styles, or make your own style with Mapbox Studio
-                    style: 'mapbox://styles/mapbox/outdoors-v12', // style URL
-                    center: [3, 47],
-                    zoom: 4
-                  });
-                  // Add the control to the map.
-                  map.addControl(
-                    new MapboxGeocoder({
-                      accessToken: mapboxgl.accessToken,
-                      mapboxgl: mapboxgl
-                    })
-                  );
-                  // Add zoom and rotation controls to the map.
-                  map.addControl(new mapboxgl.NavigationControl());
-                  /*
-                  // Create a default Marker and add it to the map.
-                  const marker1 = new mapboxgl.Marker()
-                  .setLngLat([12.554729, 55.70651])
-                  .addTo(map);
-                  */
-                  // Add marker
-                  var marker = new mapboxgl.Marker();
-                  function add_marker (event) {
-                    var coordinates = event.lngLat;
-                    $( "#lat" ).val( coordinates.lat );	
-                    $( "#lon" ).val( coordinates.lng );	
-                    marker.setLngLat(coordinates).addTo(map);
-                  }
-                  map.on('click', add_marker);
+
+                  
+                  var map = new mapboxgl.Map({
+        container: 'map', // container id
+        style: 'mapbox://styles/mapbox/streets-v11',
+        center: [-96, 37.8], // starting position
+        zoom: 2 // starting zoom
+    });
+
+    map.addControl(new mapboxgl.NavigationControl());
+
+const geocoder = new MapboxGeocoder({
+  mapboxgl: mapboxgl,                                                                               
+  accessToken: mapboxgl.accessToken,
+  marker: false
+})
+geocoder.on('result', e => {
+  //$( "#debug" ).val( e.lngLat[0] );	
+  
+  
+  $( "#lon" ).val( e.result.center[0] );
+  $( "#lat" ).val( e.result.center[1] );	
+  
+  
+  const marker = new mapboxgl.Marker({
+    draggable: true
+  })
+  .setLngLat(e.result.center)
+  .addTo(map)
+  marker.on('dragend', e => {
+    $( "#lat" ).val( precise_round(e.target._lngLat.lat, 6) );	
+    $( "#lon" ).val( precise_round(e.target._lngLat.lng, 6) );
+  })
+})
+map.addControl(geocoder)
                 </script>
 
               <button class="w-100 btn btn-primary btn-lg" type="submit">Continue to checkout</button>

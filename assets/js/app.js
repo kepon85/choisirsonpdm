@@ -3,6 +3,13 @@ function debug(msg) {
         console.log(msg);
     }
 }
+//https://www.w3resource.com/javascript-exercises/javascript-math-exercise-14.php
+function precise_round(n, r) {
+    let int = Math.floor(n).toString()
+    if (typeof n !== 'number' || typeof r !== 'number') return 'Not a Number'
+    if (int[0] == '-' || int[0] == '+') int = int.slice(int[1], int.length)
+    return n.toPrecision(int.length + r)
+}
 
 $( document ).ready(function() {
     //
