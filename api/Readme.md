@@ -1,17 +1,20 @@
 # API Température de base
 
-https://archive-api.open-meteo.com/v1/archive
+La température "de base" est une donnée d'entrée pour la méthode G & ubat
+
+C'est la température des 5 jours consécutif les plus froid de l'année, moyenné sur les X année (X étant souhaité paramétrable)
 
 ## Utilisation
 
 ### GET : baseTemperature.php
 
-| Paramètre      | Format  | Requis ? | Exemple | Description                               |
-| -------------- | ------- | -------- | ------- | ----------------------------------------- |
-| latitude       | Float   | Oui      | 47.22   | Localisation géographique                 |
-| longitude      | Float   | Oui      | -1.55   | Localisation géographique                 |
-| nbYearsArchive | Float   | Non      | 10      | Nombre d'année d'analyse météo (max 1940) |
-| debug          | Booléen | Non      | true    | Pour lire le debug                        |
+| Paramètre        | Format  | Requis ? | Exemple             | Description                               |
+| ---------------- | ------- | -------- | ------------------- | ----------------------------------------- |
+| latitude         | Float   | Oui      | 47.22               | Localisation géographique                 |
+| longitude        | Float   | Oui      | -1.55               | Localisation géographique                 |
+| nbYearsArchive   | Float   | Non      | 10                  | Nombre d'année d'analyse météo entre 1-20 |
+| temperature_unit | String  | Non      | celsius\|fahrenheit | (par défaut celsius)                      |
+| debug            | Booléen | Non      | true                | Pour lire le debug                        |
 
 Exemple : baseTemperature.php?latitude=47.22&longitude=-1.55&nbYearsArchive=10
 
