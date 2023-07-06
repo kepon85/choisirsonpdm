@@ -48,14 +48,14 @@ function debug($msg) {
 }
 
 // Vérification des paramètres
-if (empty($_GET['latitude']) || empty($_GET['longitude'])) {
+if (empty($_GET['lat']) || empty($_GET['lng'])) {
     http_response_code(400);
-    $return['message'] = 'latitude & longitude param is required';
+    $return['message'] = 'lat & lng param is required';
     echo json_encode($return);
     exit(254);
 } 
-$latitude=$_GET['latitude'];
-$longitude=$_GET['longitude'];
+$latitude=$_GET['lat'];
+$longitude=$_GET['lng'];
 if (isset($_GET['nbYearsArchive'])) {
     $nbYearsArchive=$_GET['nbYearsArchive'];
 } else {

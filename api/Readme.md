@@ -10,14 +10,14 @@ C'est la température des 5 jours consécutif les plus froid de l'année, moyenn
 
 | Paramètre        | Format  | Requis ? | Exemple             | Description                                                  |
 | ---------------- | ------- | -------- | ------------------- | ------------------------------------------------------------ |
-| latitude         | Float   | Oui      | 47.22               | Localisation géographique                                    |
-| longitude        | Float   | Oui      | -1.55               | Localisation géographique                                    |
+| lat              | Float   | Oui      | 47.22               | Localisation géographique                                    |
+| lng              | Float   | Oui      | -1.55               | Localisation géographique                                    |
 | nbYearsArchive   | Float   | Non      | 10                  | Nombre d'année d'analyse météo entre 1-20                    |
 | temperature_unit | String  | Non      | celsius\|fahrenheit | (par défaut celsius)                                         |
 | verbose          | Booléen | Non      | true                | Pour avoir du détail dans les valeurs                        |
 | debug            | Booléen | Non      | true                | Pour lire le debug (change de format de retour de Json à TXT) |
 
-Exemple : baseTemperature.php?latitude=47.22&longitude=-1.55&nbYearsArchive=3
+Exemple : baseTemperature.php?lat=47.22&lng=-1.55&nbYearsArchive=3
 
 Cette requête permet de déterminer la température de base sur les 3 dernières années, elle retournes : 
 
@@ -59,7 +59,7 @@ Cette requête permet de déterminer la température de base sur les 3 dernière
 
 L'API est accessible :  https://choisirson.pdm.retzo.net/api/baseTemperature.php
 
-* Exemple de données https://choisirson.pdm.retzo.net/api/baseTemperature.php?latitude=47.22&longitude=-1.55&nbYearsArchive=3
+* Exemple de données https://choisirson.pdm.retzo.net/api/baseTemperature.php?lat=47.22&lng=-1.55&nbYearsArchive=3
 
 ## Source des données
 
