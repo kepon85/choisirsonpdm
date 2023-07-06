@@ -11,9 +11,7 @@
     <link href="./assets/css/app.css" rel="stylesheet">    
     <!-- Load mapbox -->
     <link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet">
-    <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
     <!-- Load the `mapbox-gl-geocoder` plugin. -->
-    <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.min.js"></script>
     <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.css" type="text/css">
   </head>
   <body class="bg-body-tertiary">
@@ -28,51 +26,70 @@
 
         <div class="row g-4">
           <div class="col-md-6">
-            <h4 class="mb-3">Geographical location</h4>
-            <form>
-              <div class="row g-3 card p-2">
-                <div class="input-group">
-                  <label for="lat" class="form-label">Latitude : </label>
-                  <input type="number" class="form-control hashchange" min="-180" max="180" step="0.000001" name="lat" id="lat" value="">
-                  <label for="lon" class="form-label">Longitude : </label>
-                  <input type="number" class="form-control hashchange"  min="-180" max="180" step="0.000001" name="lon" id="lon" value="">
-                </div>
+            <label for="level" class="form-label">Your degree of knowledge in mass stove : </label>
+            <select id="level" name="level" class="hashchange">
+              <option value="1">Beginner</option>
+              <option value="2" selected="selected">Enlightened</option>
+              <option value="3">Expert</option>
+            </select>
+
+            <h4 class="mb-3">The volume to be heated</h4>
+        
+            <!-- Surface habitable -->
+            <label for="livingspace" class="form-label">Living space</label>
+            <div class="input-group has-validation">
+              <input type="text" class="form-control hashchange" id="livingspace" placeholder="Living space" required>
+              <span class="input-group-text">m<sup>2</sup></span>
+              <div class="invalid-feedback">
+                Living space required
               </div>
-            </form>
+            </div>
+
+            <div class="row g-3 card p-2">
+              <div class="input-group level2 level3">
+                <label for="temp_base" class="form-label">Temperature de base : </label>
+                <input type="number" class="form-control hashchange" min="-40" max="30" step="0.1" name="temp_base" id="temp_base" value="" disabled="disabled" />
+                
+
+                <div class="form-check form-switch">
+                  <input class="form-check-input hashchange" type="checkbox" role="switch" id="temp_base_auto" name="temp_base_auto" checked>
+                  <label class="form-check-label" for="temp_base_auto">Auto</label>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="row g-3 card p-2">
+              <button class="w-100 btn btn-primary btn-lg" type="submit">Continue to checkout</button>
+            </div>
+
           </div>
           <div class="col-md-6">
             <div class="row g-3">
-              <div class="col-12">
-                <label for="level" class="form-label">Your degree of knowledge in mass stove : </label>
-                <select id="level" name="level">
-                  <option value="1">Beginner</option>
-                  <option value="2" selected="selected">Enlightened</option>
-                  <option value="3">Expert</option>
-                </select>
-              </div>
-            </div>
-            <h4 class="mb-3">The volume to be heated</h4>
-            <form class="needs-validation" novalidate>
-              <div class="row g-3">
-                <!-- Surface habitable -->
-                <div class="col-12">
-                  <label for="livingspace" class="form-label">Living space</label>
-                  <div class="input-group has-validation">
-                    <input type="text" class="form-control" id="livingspace" placeholder="Living space" required>
-                    <span class="input-group-text">m<sup>2</sup></span>
-                    <div class="invalid-feedback">
-                      Living space required
+
+              <!-- Map pour temperature de base -->
+              <div class="temp_base_auto">
+                <nav>
+                  <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                    <button class="nav-link active" id="nav-carte-tab" data-bs-toggle="tab" data-bs-target="#nav-carte" type="button" role="tab" aria-controls="nav-carte" aria-selected="true">Carte</button>
+                    <button class="nav-link" id="nav-manuel-tab" data-bs-toggle="tab" data-bs-target="#nav-manuel" type="button" role="tab" aria-controls="nav-manuel" aria-selected="false">Manuel</button>
+                  </div>
+                </nav>
+                <div class="tab-content" id="nav-tabContent">
+                  <div class="tab-pane fade show active" id="nav-carte" role="tabpanel" aria-labelledby="nav-home-tab" tabindex="0">
+                    <div id="map" style="width: 100%; height: 300px;"></div>
+                  </div>
+                  <div class="tab-pane fade" id="nav-manuel" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="0">
+                    <div class="input-group">
+                      <label for="lat" class="form-label">Latitude : </label>
+                      <input type="number" class="form-control hashchange" min="-180" max="180" step="0.000001" name="lat" id="lat" value="" />
+                      <label for="lng" class="form-label">Longitude : </label>
+                      <input type="number" class="form-control hashchange"  min="-180" max="180" step="0.000001" name="lng" id="lng" value="" />
                     </div>
                   </div>
                 </div>
+              </div>
 
-                <!-- Coefficient de déperditions G -->
-                
-                <div id="map" style="width: 100%; height: 300px;"></div>
-                
-
-              <button class="w-100 btn btn-primary btn-lg" type="submit">Continue to checkout</button>
-            </form>
           </div>
         </div>
 
@@ -82,7 +99,6 @@
           <div class="col-md-6">
             <h4 class="mb-3">Result</h4>
           </div>
-
         </div>
 
       </main>
@@ -104,6 +120,10 @@
 <script src="./assets/js/default-settings.js"></script>
 <script src="./assets/js/bootstrap.bundle.min.js"></script>
 <script src="./assets/js/jquery-3.7.0.min.js"></script>
+<!-- Load mapbox -->
+<script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
+<!-- Load the `mapbox-gl-geocoder` plugin. -->
+<script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.min.js"></script>
 <script src="./assets/js/app.js"></script>
 
 </html>

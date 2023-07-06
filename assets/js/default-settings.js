@@ -3,11 +3,16 @@
 // *********** DO NOT MODIFY DEFAULT SETTINGS DOWN HERE **********
 
 const defaultSettings = {
-  "debug": false,
-  "ui_defaultlanguage": "en-GB",
+  "debug":                  false,
+  "debugLoadMap":           false,
+  "apiBaseTemperature":     "https://choisirson.pdm.retzo.net/api/baseTemperature.php",
+  "apiDebounceTtimeout":    1500,
+  "ui_defaultlanguage":     "en-GB",
   "domains": {
-    domain: "choisirson.pdm.retzo.net"
-  }
+    "domain":                 "choisirson.pdm.retzo.net"
+  },
+  
+  "includeJavascript" : {},
 }
 
 // make settings global
@@ -17,7 +22,6 @@ settings = {};
 let keys = Object.keys(defaultSettings);
 for (let key of keys){
   settings[key] = defaultSettings[key];
-
 }
 
 if (typeof userSettings == 'undefined') {
