@@ -189,8 +189,8 @@ foreach ($byYear as $year => $data) {
     $reccordAddition=$reccordAddition+$byYear[$year]['record']['temperatire_min_contiguous'];
 }
 debug("Température reccord additionné : ".$reccordAddition);
-debug("Temperature de base ".$reccordAddition/count($byYear));
-$byYear['base']=$reccordAddition/count($byYear);
+debug("Temperature de base ".round($reccordAddition/count($byYear), 2));
+$byYear['base']=round($reccordAddition/count($byYear), 2);
 
 debug('Json return : ');
 echo json_encode($byYear);
