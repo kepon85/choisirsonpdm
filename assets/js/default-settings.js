@@ -3,15 +3,17 @@
 // *********** DO NOT MODIFY DEFAULT SETTINGS DOWN HERE **********
 
 const defaultSettings = {
-  "debug":                  false,
-  "debugLoadMap":           false,
-  "apiBaseTemperature":     "https://choisirson.pdm.retzo.net/api/baseTemperature.php",
-  "apiDebounceTtimeout":    1500,
-  "ui_defaultlanguage":     "en-GB",
+  "debug":                        false,
+  "debugLoadMap":                 false,
+  "apiBaseTemperature":           "https://choisirson.pdm.retzo.net/api/baseTemperature.php",
+  "apiDebounceTtimeout":           1500,
+  "ui_defaultlanguage":           "en-GB",
   "domains": {
-    "domain":                 "choisirson.pdm.retzo.net"
+    "domain":                     "choisirson.pdm.retzo.net"
   },
-  
+  "form_default": {
+    "temp_base_years_archive":     10,
+  },
   "includeJavascript" : {},
 }
 

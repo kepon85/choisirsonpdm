@@ -39,23 +39,37 @@ function hashChange() {
 function debounce(func, timeout = 1000){
     let timer;
     return (...args) => {
+        $('#temp_base_load').show();
         clearTimeout(timer);
         timer = setTimeout(() => { func.apply(this, args); }, timeout);
     };
 }
 function getBaseTemperature(){
-    debug('GET API baseTemperature');
-    $.getJSON( settings.apiBaseTemperature ) 
+    if ($("#lat").val() != '' && $("#lng").val() != '') {
+        debug('GET API baseTemperature');
+        $.getJSON( settings.apiBaseTemperature+'?lat='+$("#lat").val()+'&lng='+$("#lng").val()+'&nbYearsArchive='+$("#temp_base_years_archive").val()) 
         .done(function( json ) {
-            console.log( json );
+            $("#temp_base").val(json.base);
+            hashChange();
         })
         .fail(function( jqxhr, textStatus, error ) {
-            var err = textStatus + ", " + error;
-            console.log( "Request Failed: " + err );
+            $("#alert").show();
+            $("#alert").html( "<span>Request Failed to get API base temperature : " + jqxhr.responseJSON.message + ". <b>Indicate there manually and contact the developer of this calculator</b></span>");
+            debug("API return : " + error);
+            $(".temp_base_input_group").show();
+            $("#temp_base").prop('disabled', false);
+            $("#temp_base_auto").prop("checked", false);
+            $(".temp_base_auto").hide();
+        })
+        .always(function() {
+            $('#temp_base_load').hide();
         });
-        /*$.each( data, function( key, val ) {
-            debug(key, val);
-        });*/
+    } else {
+        debug('Pas de GET API baseTemperature, il manque la latitude ou la longitude')
+        $('#temp_base_load').hide();
+    }
+
+    
 }
 const processChangelngLat = debounce(() => getBaseTemperature(), settings.apiDebounceTtimeout);
 
@@ -81,7 +95,7 @@ $( document ).ready(function() {
     // HASH URL (remplir les champs)
     ////////////////////////////////////
     debug( "ready !" );
-    changeLevel();
+    
     var hash = window.location.hash.substr(1);
     if (hash) {
         debug(hash);
@@ -97,6 +111,13 @@ $( document ).ready(function() {
         }, {});
         debug(result);
     }
+    // Switch level
+    changeLevel($("#level").val());
+    
+    $("#alert").on( "click", function(e) {
+        $("#alert").hide();
+    });
+
     debug('Add listener hashchange');
     $(".hashchange").on( "change", function(e) {
         if (this.name == 'lat' || this.name == 'lng') {
@@ -104,6 +125,7 @@ $( document ).ready(function() {
         }
         hashChange();
     });
+
     
     ////////////////////////
     // Form comportement
@@ -119,7 +141,18 @@ $( document ).ready(function() {
         } else {
             $("#temp_base").prop('disabled', false);
             $(".temp_base_auto").hide();
-            
+        }
+    });
+    $("#temp_base_years_archive").on( "change", function(e) {
+        processChangelngLat();
+    });
+
+    // Valeur par défaut du formulaire
+    Object.entries(settings.form_default).forEach(entry => {
+        const [key, value] = entry;
+        debug('Default value for ' + key);
+        if ($('#'+key).val() == '') {
+            $('#'+key).val(value);
         }
     });
 
@@ -145,7 +178,7 @@ $( document ).ready(function() {
     ////////////////////////
     // MAPBOX
     ////////////////////////
-    if (!settings.debug && !settings.debugLoadMap) {
+    if (!settings.debugLoadMap) {
         // Change de comportement si marker présent par défaut
         var justClick = true;
         // Set Longitude/latitude 
