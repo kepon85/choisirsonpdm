@@ -7,7 +7,7 @@ const defaultSettings = {
   "debugLoadMap":                 false,
   "apiBaseTemperature":           "https://choisirson.pdm.retzo.net/api/baseTemperature.php",
   "apiDebounceTtimeout":           1500,
-  "ui_defaultlanguage":           "en-GB",
+  "defaultLanguage":              "en",
   "domains": {
     "domain":                     "choisirson.pdm.retzo.net"
   },

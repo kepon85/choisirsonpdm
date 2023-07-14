@@ -1,0 +1,47 @@
+jQuery(function($) {
+    var do_translate = function() {
+        $('html').i18n();
+    }
+    //Chargement des fichiers de traduction
+    $.i18n().load({
+        'en': '/i18n/en.json',
+        'fr': '/i18n/fr.json'
+    }).done(function() {
+        // Switch language
+        $('.locale-switcher').on('click', 'a', function(e) {
+            e.preventDefault();
+            debug('Locale switch : ' + $(this).data('locale'));
+            localStorage.setItem('i18n', $(this).data('locale'));
+            $.i18n().locale = $(this).data('locale');
+            do_translate();
+        });
+        var userLang = navigator.language || navigator.userLanguage;
+        // Détection paramètre utilisateur
+        if (localStorage.getItem('i18n')) {
+            debug('Detect locale localSstorage : '+localStorage.getItem('i18n'));
+            $.i18n().locale = localStorage.getItem('i18n');
+        // Sinon je prend la langue du navigateur
+        } else if($('.' + userLang.split('-')[0]).length) {
+            debug('Detect locale user : '+userLang.split('-')[0]);
+            $('li').removeClass('active');
+            $('.' + userLang.split('-')[0]).addClass('active');
+            $.i18n().locale = userLang.split('-')[0];
+        // Sinon la langue par defaut
+        } else {
+            debug('Default locale  : '+settings.defaultLanguage);
+            $.i18n().locale = settings.defaultLanguage
+        }
+        do_translate();
+    });
+
+/*
+    var userLang = navigator.language || navigator.userLanguage;
+    if($('.' + userLang.split('-')[0]).length) {
+        debug('Detect language : '+userLang.split('-')[0]);
+        $('li').removeClass('active');
+        $('.' + userLang.split('-')[0]).addClass('active');
+        $.i18n().locale = userLang.split('-')[0];
+        do_translate();
+    }
+*/
+});

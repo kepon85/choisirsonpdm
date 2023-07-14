@@ -1,0 +1,15 @@
+{
+	"@metadata": {
+		"authors": [
+			"David M"
+		],
+		"last-updated": "2013-07-01",
+		"locale": "fr"
+	},
+    "welcome": "Bienvenu!",
+	"appname-title": "Exemple d'application",
+	"appname-sub-title": "un exemple d'application avec jquery.i18n",
+	"appname-header-introduction": "Introduction",
+	"appname-about": "About this application",
+	"appname-footer": "Footer text"
+}
