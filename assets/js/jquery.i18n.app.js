@@ -1,6 +1,9 @@
 jQuery(function($) {
     var do_translate = function() {
         $('html').i18n();
+        // switch active flag
+        $( ".locale-switcher .flag").removeClass( "active" );
+        $( ".locale-switcher ." + $.i18n().locale).addClass( "active" );
     }
     //Chargement des fichiers de traduction
     $.i18n().load({
@@ -33,15 +36,4 @@ jQuery(function($) {
         }
         do_translate();
     });
-
-/*
-    var userLang = navigator.language || navigator.userLanguage;
-    if($('.' + userLang.split('-')[0]).length) {
-        debug('Detect language : '+userLang.split('-')[0]);
-        $('li').removeClass('active');
-        $('.' + userLang.split('-')[0]).addClass('active');
-        $.i18n().locale = userLang.split('-')[0];
-        do_translate();
-    }
-*/
 });

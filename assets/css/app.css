@@ -6,6 +6,53 @@
     height: 20px;
     display: none;
 }
+#map {
+    width: 100%; height: 300px;
+}
+#result {
+    display: none;
+}
+.card {
+    padding: 10px;
+    margin: 10px;
+}
+.input-group {
+    margin-bottom: 3px;
+    margin-top: 3px;
+}
+/* i18n */ 
+.locale-switcher {
+    position: fixed;
+    top: 0px;
+    right: 20px;
+    padding: 6px;
+    border: 1px solid #2F2F2F;
+	border-bottom-left-radius: 8px;
+	border-bottom-right-radius: 8px;
+	background: #616161; 
+	-moz-box-shadow: 0 0 10px black; 
+	-webkit-box-shadow: 0 0 10px black; 
+	box-shadow: 0 0 10px black; 
+	opacity: 0.60;
+	z-index: 999; /* Sit on top */
+}
+.locale-switcher li {
+    display: inline-block;
+}
+.locale-switcher ul {
+    margin: 0px;
+    padding: 0px;
+    list-style-type:none;
+}
+.locale-switcher img {
+	margin-right: 6px;
+	margin-left: 6px;
+}
+.locale-switcher .active {
+	opacity: 0.50;
+}
+
+/* Default */
 
 .bd-placeholder-img {
     font-size: 1.125rem;

@@ -3,6 +3,17 @@ function debug(msg) {
         console.log(msg);
     }
 }
+
+function submitForm() {
+    alert('@TODO : j en suis là');
+    // Vérification pour calcul
+    // faire apparaître les résultats
+    $("#result").show();
+    document.getElementById("result").scrollIntoView();
+    $("#submit_input").val(1);
+    hashChange();
+}
+
 // https://www.w3resource.com/javascript-exercises/javascript-math-exercise-14.php
 function precise_round(n, r) {
     let int = Math.floor(n).toString()
@@ -68,8 +79,6 @@ function getBaseTemperature(){
         debug('Pas de GET API baseTemperature, il manque la latitude ou la longitude')
         $('#temp_base_load').hide();
     }
-
-    
 }
 const processChangelngLat = debounce(() => getBaseTemperature(), settings.apiDebounceTtimeout);
 
@@ -90,43 +99,21 @@ function changeLevel(level) {
     }
 }
 
+// Calcule du volume fonction de la surface/hauteur
+function calcVolume (){
+    $("#livingvolume").val($("#livingspace").val() * $("#livingheight").val());
+}
+
 $( document ).ready(function() {
     ////////////////////////////////////
     // HASH URL (remplir les champs)
     ////////////////////////////////////
     debug( "ready !" );
     
-    var hash = window.location.hash.substr(1);
-    if (hash) {
-        debug(hash);
-        var result = hash.split('&').reduce(function (res, item) {
-            var parts = item.split('=');
-            res[parts[0]] = parts[1];
-            if ($("#"+parts[0])[0].type == "checkbox") {
-                $("#"+parts[0]).prop("checked", parts[1]);
-            } else {
-                $("#"+parts[0]).val(parts[1]);
-            }
-            return res;
-        }, {});
-        debug(result);
-    }
-    // Switch level
-    changeLevel($("#level").val());
-    
+
     $("#alert").on( "click", function(e) {
         $("#alert").hide();
     });
-
-    debug('Add listener hashchange');
-    $(".hashchange").on( "change", function(e) {
-        if (this.name == 'lat' || this.name == 'lng') {
-            processChangelngLat();
-        }
-        hashChange();
-    });
-
-    
     ////////////////////////
     // Form comportement
     ////////////////////////
@@ -143,18 +130,82 @@ $( document ).ready(function() {
             $(".temp_base_auto").hide();
         }
     });
+    $("#livingvolume_auto").on( "change", function(e) {
+        if ($("#livingvolume_auto").prop("checked")) {
+            $("#livingvolume").prop('disabled', true);
+            $(".livingvolume_auto").show();
+            $(".livingvolume_manuel").show();
+        } else {
+            $("#livingvolume").prop('disabled', false);
+            $(".livingvolume_auto").hide();
+            $(".livingvolume_manuel").hide();
+        }
+    });
+
+    $(".livingvolumecalc").on( "change", function(e) {
+        calcVolume();
+        $("#livingvolume_auto").prop('checked', true);
+    });
+
+    
     $("#temp_base_years_archive").on( "change", function(e) {
         processChangelngLat();
     });
 
+    // Default value
+    var hash = window.location.hash.substr(1);
+    if (hash) {
+        debug('hash : ' + hash);
+        var result = hash.split('&').reduce(function (res, item) {
+            var parts = item.split('=');
+            res[parts[0]] = parts[1];
+            if ($("#"+parts[0])[0].type == "checkbox") {
+                $("#"+parts[0]).prop("checked", parts[1]);
+            } else {
+                $("#"+parts[0]).val(parts[1]);
+            }
+            return res;
+        }, {});
+        debug('result' + result);
+        // Si le hash demande à présenter un résultat
+        if ($("#submit_input").val() == 1) {
+            submitForm();
+        }
+    }
+    
+
     // Valeur par défaut du formulaire
     Object.entries(settings.form_default).forEach(entry => {
         const [key, value] = entry;
-        debug('Default value for ' + key);
-        if ($('#'+key).val() == '') {
-            $('#'+key).val(value);
+        debug('Default value for ' + key + ' = ' + value);
+        if ($("#"+key).type == "checkbox") {
+            $("#"+key).prop("checked", value);
+        } else {
+            // 
+            var regexObj = new RegExp(key)
+            if (!regexObj.test(hash)) {
+                $('#'+key).val(value);
+            }
         }
     });
+    
+    // Switch level
+    changeLevel($("#level").val());
+    
+    debug('Add listener hashchange');
+    $(".hashchange").on( "change", function(e) {
+        if (this.name == 'lat' || this.name == 'lng') {
+            processChangelngLat();
+        }
+        hashChange();
+    });
+    
+    
+    // Si on click
+    $("#submit_button").on( "click", function(e) {
+        submitForm();
+    });
+
 
     ////////////////////////////
     // INCLUDE SRC JAVASCRIPT
