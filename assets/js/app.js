@@ -4,14 +4,28 @@ function debug(msg) {
     }
 }
 
+// Envoi du formulaire
 function submitForm() {
-    alert('@TODO : j en suis là');
+    debug('Soumission du formulaire');
+    //var error
     // Vérification pour calcul
-    // faire apparaître les résultats
+    // Faire apparaître les résultats
     $("#result").show();
     document.getElementById("result").scrollIntoView();
     $("#submit_input").val(1);
     hashChange();
+    // Méthode G, niveau 1
+    if ($("#level").val() == 1) {
+        // Pour la méthode de calcul
+        debug('Level 1');
+        $(".res_temp_indor").replaceWith($("#temp_indor").val());
+        $(".res_temp_base").replaceWith($("#temp_base").val());
+        $(".res_volume").replaceWith($("#livingvolume").val());
+        $(".res_g").replaceWith($("#g").val());
+        var resDeperditionMax = precise_round(( $("#temp_indor").val() - $("#temp_base").val() ) * $("#livingvolume").val() * $("#g").val(), 2);
+        $(".res_level1").replaceWith(resDeperditionMax);
+    }
+    $("#resDeperditionMax").replaceWith(precise_round(resDeperditionMax/1000, 2));
 }
 
 // https://www.w3resource.com/javascript-exercises/javascript-math-exercise-14.php
@@ -167,13 +181,7 @@ $( document ).ready(function() {
             return res;
         }, {});
         debug('result' + result);
-        // Si le hash demande à présenter un résultat
-        if ($("#submit_input").val() == 1) {
-            submitForm();
-        }
     }
-    
-
     // Valeur par défaut du formulaire
     Object.entries(settings.form_default).forEach(entry => {
         const [key, value] = entry;
@@ -188,6 +196,12 @@ $( document ).ready(function() {
             }
         }
     });
+    // Si on a appliqué toutes les valeurs du Hash + celle par défaut on voit s'il faut "poster" le formulaire :
+    if (hash) {
+        if ($("#submit_input").val() == 1) {
+            submitForm();
+        }
+    }
     
     // Switch level
     changeLevel($("#level").val());
@@ -203,7 +217,11 @@ $( document ).ready(function() {
     
     // Si on click
     $("#submit_button").on( "click", function(e) {
-        submitForm();
+        if($("form")[0].checkValidity()) {
+            submitForm();
+        } else {
+            debug("HTML5 : invalid form");
+        }
     });
 
 

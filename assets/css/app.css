@@ -20,7 +20,7 @@
     margin-bottom: 3px;
     margin-top: 3px;
 }
-/* i18n */ 
+/* i18n */
 .locale-switcher {
     position: fixed;
     top: 0px;
@@ -34,7 +34,7 @@
 	-webkit-box-shadow: 0 0 10px black; 
 	box-shadow: 0 0 10px black; 
 	opacity: 0.60;
-	z-index: 999; /* Sit on top */
+	z-index: 999;
 }
 .locale-switcher li {
     display: inline-block;
