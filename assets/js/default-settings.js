@@ -5,11 +5,11 @@
 const defaultSettings = {
   "debug":                        false,
   "debugLoadMap":                 false,
-  "apiBaseTemperature":           "https://choisirson.zici.fr/api/baseTemperature.php",
+  "apiBaseTemperature":           "https://choisirsonpdm.zici.fr/api/baseTemperature.php",
   "apiDebounceTtimeout":           1500,
   "defaultLanguage":              "fr",
   "domains": {
-    "domain":                     "choisirson.zici.fr"
+    "domain":                     "choisirsonpdm.zici.fr"
   },
   "form_default": {
     "temp_base_years_archive":     10,
