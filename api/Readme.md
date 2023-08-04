@@ -57,9 +57,9 @@ Cette requête permet de déterminer la température de base sur les 3 dernière
 
 ## Démonstration
 
-L'API est accessible :  https://choisirson.pdm.retzo.net/api/baseTemperature.php
+L'API est accessible :  https://choisirsonpdm.zici.fr/api/baseTemperature.php
 
-* Exemple de données https://choisirson.pdm.retzo.net/api/baseTemperature.php?lat=47.22&lng=-1.55&nbYearsArchive=3
+* Exemple de données https://choisirson.zici.fr/api/baseTemperature.php?lat=47.22&lng=-1.55&nbYearsArchive=3
 
 ## Source des données
 

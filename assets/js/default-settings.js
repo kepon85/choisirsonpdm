@@ -5,11 +5,11 @@
 const defaultSettings = {
   "debug":                        false,
   "debugLoadMap":                 false,
-  "apiBaseTemperature":           "https://choisirson.pdm.retzo.net/api/baseTemperature.php",
+  "apiBaseTemperature":           "https://choisirson.zici.fr/api/baseTemperature.php",
   "apiDebounceTtimeout":           1500,
   "defaultLanguage":              "fr",
   "domains": {
-    "domain":                     "choisirson.pdm.retzo.net"
+    "domain":                     "choisirson.zici.fr"
   },
   "form_default": {
     "temp_base_years_archive":     10,
@@ -40,4 +40,5 @@ keys = Object.keys(userSettings);
 for (let key of keys){
   settings[key] = userSettings[key];
 }
-//console.log(settings);
+
+console.log(settings);
