@@ -8,9 +8,6 @@ const defaultSettings = {
   "apiBaseTemperature":           "https://choisirsonpdm.zici.fr/api/baseTemperature.php",
   "apiDebounceTtimeout":           1500,
   "defaultLanguage":              "fr",
-  "domains": {
-    "domain":                     "choisirsonpdm.zici.fr"
-  },
   "form_default": {
     "temp_base_years_archive":     10,
     "ubat_global":                 0.3,
@@ -174,5 +171,4 @@ keys = Object.keys(userSettings);
 for (let key of keys){
   settings[key] = userSettings[key];
 }
-
 //console.log(settings);

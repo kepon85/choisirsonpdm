@@ -23,17 +23,14 @@
         <div class="row text-center">
           <div class="col-12">
             <img class="d-block mx-auto mb-4" src="./assets/img/choose-mass-stove.svg" alt="" width="177" height="87">
-            <h2>Choose your mass stove</h2>
-            <div class="alert alert-warning" role="alert">
+            <div id="title"><h2 data-i18n="app-title">Choose your mass stove</h2></div>
+            <div class="alert alert-warning" role="alert" data-i18n="app-in-dev">
               Ce logiciel n'est pas terminé, il est en cours de développement...
             </div>            
-            <p class="lead">Application qui vise à vous aider à choisir le bon poêle de masse pour votre habitat.</p>
+            <p class="lead" data-i18n="app-lead">Application that aims to help you choose the right mass stove for your home.</p>
 
             <div id="alert" role="alert" class="alert alert-danger"></div>
-
-            todo : refaire le hash url pour qu'il n'y est que les éléments du niveau (affiché) d'enregistré... sinon ça va être trop long dans l'URL
-            <div data-i18n="welcome">Welcooooooooooooom</div>
-            <p class="disclamer"><b>Avertissement</b> : Les résultats sont donnés à titre indicatif, nous vous conseillons de vous rapprocher d'un <a href="https://www.afpma.pro/#carte-des-membres">artisan poêlier professionnel</a> pour une étude thermique personnalisé afin de vous orienter vers le poêle de masse qui vous conviendra le mieux. </p>
+            <p class="disclamer"><b data-i18n="alert-warning">Avertissement</b> : <span data-i18n="app-disclamer">Les résultats sont donnés à titre indicatif, nous vous conseillons de vous rapprocher d'un <a href="https://www.afpma.pro/#carte-des-membres">artisan poêlier professionnel</a> pour une étude thermique personnalisé afin de vous orienter vers le poêle de masse qui vous conviendra le mieux. </span></p>
           </div>
         </div>
 
@@ -43,25 +40,25 @@
             <div class="col-md-6">
               <div class="card">
                 <div class="m-1">
-                  <label for="level" class="form-label">Your degree of knowledge in mass stove : </label>
+                  <label for="level" class="form-label" data-i18n="form-level-label">Your degree of knowledge in mass stove : </label>
                   <select id="level" name="level" class="hashchange">
-                    <option value="1">Beginner</option>
-                    <option value="2" selected="selected">Enlightened</option>
-                    <option value="3">Expert</option>
+                    <option value="1" data-i18n="form-level-1">Beginner</option>
+                    <option value="2" selected="selected" data-i18n="form-level-2">Enlightened</option>
+                    <option value="3" data-i18n="form-level-3">Expert</option>
                   </select>
                 </div>
-                <p class="level1">La méthode utilisé est la méthode dite "G", expliqué dans le détail par <a href="https://www.uzume.fr/quelle-puissance-pour-mon-poele-de-masse" target="_blank">Uzume</a></p>
-                <p class="level2">La méthode utilisé est la méthode dite "Ubat" général, elle fonctionne si votre maison est isolé uniformément. Sinon vous devez passer en mode expert pour détailler chaque parois</p>
-                <p class="level3">La méthode utilisé est la méthode dite "Ubat". Elle demande d'avoir des bonnes connaissances/compréhension en thermie, mais c'est la méthode la plus précise qui vous permet de détailler chaque mur de votre maison.</p>
+                <p class="level1" data-i18n="form-level-1-explain">The method used is the so-called 'G' method, explained in detail by <a href="https://www.uzume.fr/quelle-power-pour-mon-poele-de-masse" target="_blank">Uzume</a></p>
+                <p class="level2" data-i18n="form-level-2-explain">The method used is the general "Ubat" method, it works if your house is evenly insulated. Otherwise you must switch to expert mode to detail each wall</p>
+                <p class="level3" data-i18n="form-level-3-explain">The method used is the so-called "Ubat" method. It requires good thermal knowledge/understanding, but it is the most precise method that allows you to detail each wall of your house.</p>
                 <p class="level3"><b>En cours de développement...</b></p>
               </div>
 
               <div class="card">
-                <h4 class="m-1">Your home</h4>
+                <h4 class="m-1" data-i18n="form-home">Your home</h4>
               
                 <!-- Surface habitable -->
                 <div class="livingvolume_manuel level1 level2 level3">
-                  <label for="livingspace" class="form-label">Living space</label>
+                  <label for="livingspace" class="form-label" data-i18n="form-livingspace-label">Living space</label>
                   <div class="input-group has-validation">
                     <input type="number" class="form-control hashchange livingvolumecalc" min="0" max="9999999" step="0.1" id="livingspace" placeholder="60" required>
                     <span class="input-group-text">m<sup>2</sup></span>
@@ -70,19 +67,16 @@
 
                 <!-- Hauteur habitable -->
                 <div class="livingvolume_manuel level1 level2 level3">
-                  <label for="livingheight" class="form-label">Living height</label>
+                  <label for="livingheight" class="form-label" data-i18n="form-livingheight-label">Living height</label>
                   <div class="input-group has-validation">
                     <input type="number" class="form-control hashchange livingvolumecalc" min="0" max="9999999" step="0.1" id="livingheight" placeholder="2.5" required>
                     <span class="input-group-text">m</span>
-                    <div class="invalid-feedback">
-                      Living height required
-                    </div>
                   </div>
                 </div>
 
                 <!-- Volume habitable -->
                 <div class="level1 level2 level3">
-                  <label for="livingvolume" class="form-label">Living volume : </label>
+                  <label for="livingvolume" class="form-label" data-i18n="form-livingvolume-label">Living volume</label>
                   <div class="input-group">
                     <input type="number" class="form-control hashchange" min="0" max="9999999" step="1" name="livingvolume" id="livingvolume" value="" disabled="disabled" />
                     <span class="input-group-text">m<sup>3</sup></span>
@@ -94,56 +88,52 @@
                 </div>
 
                 <!-- Temperature intérieur -->
-                <label for="temp_indor" class="form-label">Indoor temperature</label>
+                <label for="temp_indor" class="form-label" data-i18n="form-temp_indor-label">Indoor temperature</label>
                 <div class="input-group has-validation">
                   <input type="text" class="form-control hashchange" id="temp_indor" placeholder="18" required>
                   <span class="input-group-text"><sup>°</sup>C</span>
-                  <div class="invalid-feedback">
-                    Indoor temperature required
-                  </div>
                 </div>
 
                 <div class="level1">
-                  <label for="g" class="form-label">Estimated insulation coefficient</label>
+                  <label for="g" class="form-label" data-i18n="form-g-label">Estimated insulation coefficient</label>
                   <select id="g" class="form-select form-control hashchange">
-                    <option value="0.22">Maison bio-climatique - G=0.22</option>
-                    <option value="0.3">Maison très bien isolé - G=0.3</option>
-                    <option value="0.5">Maison RT 2012 - G=0.5</option>
-                    <option value="0.8">Maison RT 2005 - G=0.8</option>
-                    <option value="0.9">Maison RT 2000 - G=0.9</option>
-                    <option value="1.1">Maison années 1980 - G=1.1</option>
-                    <option value="1.3">Maison années 1970 - G=1.3</option>
-                    <option value="1.5">Maison ancienne mur épais pas isolée - G=1.5</option>
-                    <option value="1.6">Bâtiments années 1960 - G=1.6</option>
-                    <option value="1.8">Bâtiments non isolée - G=1.8</option>
-                    <option value="2.75">Véranda - G=2.75</option>
+                    <option value="0.22" data-i18n="form-g-0-22">Bio-climatic house - G=0.22</option>
+                    <option value="0.3" data-i18n="form-g-0-3">Very well insulated house - G=0.3</option>
+                    <option value="0.5" data-i18n="form-g-0-5">RT 2012 house - G=0.5</option>
+                    <option value="0.8" data-i18n="form-g-0-8">RT 2005 house - G=0.8</option>
+                    <option value="0.9" data-i18n="form-g-0-9">RT 2000 house - G=0.9</option>
+                    <option value="1.1" data-i18n="form-g-1-1">1980s house - G=1.1</option>
+                    <option value="1.3" data-i18n="form-g-1-3">1970s house - G=1.3</option>
+                    <option value="1.5" data-i18n="form-g-1-5">Old house thick wall not insulated - G=1.5</option>
+                    <option value="1.6" data-i18n="form-g-1-6">1960s buildings - G=1.6</option>
+                    <option value="1.8" data-i18n="form-g-1-8">Uninsulated buildings - G=1.8</option>
+                    <option value="2.75" data-i18n="form-g-2-75">Veranda - G=2.75</option>
                   </select>
                 </div>
                 
 
                 <div class="level2">
-                  <label for="ubat_global" class="form-label">Estimated insulation coefficient</label>
+                  <label for="ubat_global" class="form-label" data-i18n="form-ubat_global-label">Estimated insulation coefficient</label>
                   <select id="ubat_global" class="form-select form-control hashchange">
-                    <option value="0.15">0,15 : Maison passive</option>
-                    <option value="0.3">0,3 : Maison avec une isolation exceptionnelle</option>
-                    <option value="0.4">0,4 : Excellente isolation sans ponts thermiques</option>
-                    <option value="0.6">0,6 : Excellente isolation, pont thermique refend</option>
-                    <option value="0.75">0,75 : Pour les maisons à isolation conventionnelle "RT2005" et réalisées entre 2007 et 2012</option>
-                    <option value="0.8">0,8 : Pour les maisons à isolation conventionnelle "RT2000" et réalisées entre 2001 et 2006</option>
-                    <option value="0.95">0,95 : Pour les maisons construites entre 1990 et 2000</option>
-                    <option value="1.15">1,15 : Pour les maisons construites entre 1983 et 1989</option>
-                    <option value="1.4">1,4 : Pour les maisons construites entre 1974 et 1982</option>
-                    <option value="1.8">1,8 : Maison non isolée(murs, combles)et à menuiseries simples vitrage.</option>
+                    <option value="0.15" data-i18n="form-ubat_global-0-15">0.15: Passive House</option>
+                    <option value="0.3" data-i18n="form-ubat_global-0-3">0,3 : Maison avec une isolation exceptionnelle</option>
+                    <option value="0.4" data-i18n="form-ubat_global-0-4">0.4: Excellent insulation without thermal bridges</option>
+                    <option value="0.6" data-i18n="form-ubat_global-0-6">0.6: Excellent insulation, thermal bridge shear</option>
+                    <option value="0.75"  data-i18n="form-ubat_global-0-75">0.75: For houses with conventional insulation "RT2005" and built between 2007 and 2012</option>
+                    <option value="0.8" data-i18n="form-ubat_global-0-8">0.8: For houses with conventional insulation "RT2000" and built between 2001 and 2006</option>
+                    <option value="0.95" data-i18n="form-ubat_global-0-95">0.95: For houses built between 1990 and 2000</option>
+                    <option value="1.15" data-i18n="form-ubat_global-1-15">1.15: For houses built between 1983 and 1989</option>
+                    <option value="1.4" data-itoujoursn="form-ubat_global-1-8">1.8: Uninsulated house (walls, attic) and single-glazed joinery</option>
                   </select>
                 </div>
 
                 <div class="level2">
-                  <label for="venti_global" class="form-label">Estimated insulation coefficient</label>
+                  <label for="venti_global" class="form-label" data-i18n="form-venti_global-label">Ventilation (thermal resistance)</label>
                   <select id="venti_global" class="form-select form-control hashchange">
-                    <option value="0.14">VMC hygroréglable</option>
-                    <option value="0.2">VMC autoréglable</option>
-                    <option value="0.08">VMC double flux</option>
-                    <option value="0.2">Pas de VMC</option>
+                    <option value="0.14" data-i18n="form-venti_global-0-14">0.14 humidity controlled mechanical ventilation</option>
+                    <option value="0.2" data-i18n="form-venti_global-0-2">0.2 self-adjusting controlled mechanical ventilation</option>
+                    <option value="0.08" data-i18n="form-venti_global-0-08">0.08 dual-flow controlled mechanical ventilation</option>
+                    <option value="0.2" data-i18n="form-venti_global-0-2-no">0.2 no controlled mechanical ventilation</option>
                   </select>
                 </div>
               </div>
@@ -152,7 +142,7 @@
             <div class="col-md-6">
               <!-- Map pour temperature de base -->
               <div class="card">
-                <h4 class="m-1">Your location</h4>
+                <h4 class="m-1" data-i18n="form-location">Your location</h4>
                 <div class="temp_base_auto">
                   <nav>
                     <div class="nav nav-tabs" id="nav-tab" role="tablist">
@@ -166,11 +156,11 @@
                     </div>
                     <div class="m-3 tab-pane fade" id="nav-manuel" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="0">
                       <div class="input-group">
-                        <label for="lat" class="form-label">Latitude : </label>
+                        <label for="lat" class="form-label" data-i18n="form-lat-label">Latitude</label>
                         <input type="number" class="form-control hashchange" min="-180" max="180" step="0.000001" name="lat" id="lat" value="" />
                       </div>
                       <div class="input-group">
-                        <label for="lng" class="form-label">Longitude : </label>
+                        <label for="lng" class="form-label" data-i18n="form-lng-label">Longitude : </label>
                         <input type="number" class="form-control hashchange"  min="-180" max="180" step="0.000001" name="lng" id="lng" value="" />
                       </div>
                     </div>
@@ -178,7 +168,7 @@
                 </div>
                 <div>
                   <div class="level1 level2 level3 temp_base_input_group">
-                    <label for="temp_base" class="form-label">Temperature de base : <img src="assets/img/loading.gif" class="load" id="temp_base_load" /></label>
+                    <label for="temp_base" class="form-label"><span data-i18n="form-temp_base-label">Temperature de base</span> : <img src="assets/img/loading.gif" class="load" id="temp_base_load" /></label>
                     <div class="input-group">
                       <input type="number" class="form-control hashchange" min="-40" max="30" step="0.1" name="temp_base" id="temp_base" value="" disabled="disabled" />
                       <div class="form-check form-switch">
@@ -188,7 +178,7 @@
                     </div>
                   </div>
                   <div class="md-3 level3 temp_base_auto">
-                    <label for="temp_base_years_archive" class="form-label">Année de d'archive pour la temperature de base : </label>
+                    <label for="temp_base_years_archive" class="form-label" data-i18n="form-temp_base_years_archive-label">Année de d'archive pour la temperature de base</label>
                     <input type="number" class="form-control hashchange" min="1" max="20" step="1" name="temp_base_years_archive" id="temp_base_years_archive" value="" />
                   </div>
                 </div>
@@ -197,11 +187,11 @@
           </div>
           <div class="row p-3">
             <div class="col-md-3">
-              <button class="w-100 btn btn-secondary btn-lg" id="reset" type="button">Reset</button>
+              <button class="w-100 btn btn-secondary btn-lg" id="reset" type="button" data-i18n="form-reset-button">Reset</button>
             </div>
             <div class="col-md-9">
               <input type="hidden" id="submit_input" class="hashchange" value="0" />
-              <button class="w-100 btn btn-primary btn-lg level1 level2" id="submit_button" type="submit">Choose my mass stove</button>
+              <button class="w-100 btn btn-primary btn-lg level1 level2" id="submit_button" type="submit" data-i18n="form-submit-button">Choose my mass stove</button>
             </div>
           </div>
         </form>
