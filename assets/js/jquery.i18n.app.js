@@ -8,7 +8,7 @@ jQuery(function($) {
     //Chargement des fichiers de traduction
     $.i18n().load({
         'en': '/i18n/en.json',
-        'fr': '/i18n/fr.json'
+        'fr': '/i18n/fr.json',
     }).done(function() {
         // Switch language
         $('.locale-switcher').on('click', 'a', function(e) {
@@ -36,4 +36,5 @@ jQuery(function($) {
         }
         do_translate();
     });
+
 });
