@@ -1,6 +1,6 @@
 RewriteEngine on
-RewriteCond %{DOCUMENT_ROOT}/child/%{HTTP_HOST}/assets/js/app-before.js -f
-RewriteRule ^assets/js/app-before.js$ child/%{HTTP_HOST}/assets/js/app-before.js [NC,QSA]
+RewriteCond %{DOCUMENT_ROOT}/child/%{HTTP_HOST}/assets/js/app-custom.js -f
+RewriteRule ^assets/js/app-custom.js$ child/%{HTTP_HOST}/assets/js/app-custom.js [NC,QSA]
 RewriteCond %{DOCUMENT_ROOT}/child/%{HTTP_HOST}/assets/css/bootstrap.css -f
 RewriteRule ^assets/css/bootstrap.css$ child/%{HTTP_HOST}/assets/css/bootstrap.css [NC,QSA]
 RewriteCond %{DOCUMENT_ROOT}/child/%{HTTP_HOST}/assets/img/logo.png -f

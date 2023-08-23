@@ -1,7 +1,7 @@
 #!/bin/bash
 
 fichiers=(
-    'assets/js/app-before.js'
+    'assets/js/app-custom.js'
     'assets/css/bootstrap.css'
     'assets/img/logo.png'
 )

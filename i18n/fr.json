@@ -7,7 +7,6 @@
 		"locale": "fr"
 	},
     "app-title": "Choisir son poêle de masse !",
-	"app-minimasse-title": "Un MiniMasse pour chez vous ?",
 	"app-in-dev": "Ce logiciel n'est pas terminé, il est en cours de développement...",
 	"app-disclamer": "Les résultats sont donnés à titre indicatif, nous vous conseillons de vous rapprocher d'un <a href=\"https://www.afpma.pro/#carte-des-membres\">artisan poêlier professionnel</a> pour une étude thermique personnalisé afin de vous orienter vers le poêle de masse qui vous conviendra le mieux. ",
 	"app-lead": "Application qui vise à vous aider à choisir le bon poêle de masse pour votre habitat.",

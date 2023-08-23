@@ -1,1 +1,0 @@
-$("#title").html('<h2 data-i18n="[html]app-minimasse-title"></h2>');
