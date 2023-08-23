@@ -22,7 +22,7 @@ fi
 for fichier in ${fichiers[@]}
 do
     echo "Pour $fichier"
-    unlink $pwd/$fichier
-    ln -s $pwd/child/$child/$fichier $pwd/$fichier
+    rm $pwd/$fichier
+    cp $pwd/child/$child/$fichier $pwd/$fichier
 done
 
