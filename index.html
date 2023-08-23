@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="David Mercereau">
-    <title>Choose stove mass</title>
+    <title data-i18n="app-title">Choose stove mass</title>
     <link href="./assets/css/bootstrap.min.css" rel="stylesheet">
     <link href="./assets/css/app.css" rel="stylesheet">    
     <!-- Load mapbox -->
@@ -22,7 +22,7 @@
         <!-- Titre -->
         <div class="row text-center mt-4">
           <div class="col-12">
-            <img class="d-block mx-auto mb-4" src="./assets/img/choose-mass-stove.svg" alt="" width="177" height="87">
+            <img class="d-block mx-auto mb-4" src="./assets/img/choose-mass-stove.png" alt="" width="177" height="87">
             <div id="title"><h2 data-i18n="[html]app-title">Choose your mass stove</h2></div>
             <div class="alert alert-warning" role="alert" data-i18n="[html]app-in-dev">
               Ce logiciel n'est pas terminé, il est en cours de développement...
@@ -50,7 +50,7 @@
                 <p class="level1" data-i18n="[html]form-level-1-explain">The method used is the so-called 'G' method, explained in detail by <a href="https://www.uzume.fr/quelle-power-pour-mon-poele-de-masse" target="_blank">Uzume</a></p>
                 <p class="level2" data-i18n="[html]form-level-2-explain">The method used is the general "Ubat" method, it works if your house is evenly insulated. Otherwise you must switch to expert mode to detail each wall</p>
                 <p class="level3" data-i18n="[html]form-level-3-explain">The method used is the so-called "Ubat" method. It requires good thermal knowledge/understanding, but it is the most precise method that allows you to detail each wall of your house.</p>
-                <p class="level3"><b>En cours de développement...</b></p>
+                <p class="level3 alert alert-danger" ><b>Pas opérationnel, en cours de développement...</b></p>
               </div>
 
               <div class="card">
@@ -85,6 +85,16 @@
                       <label class="form-check-label" for="livingvolume_auto" data-i18n="[html]form-auto-label">Auto</label>
                     </div>
                   </div>
+                </div>
+
+                <!-- Surface déperdition habitable -->
+                <div class="level2 level3">
+                  <label for="wastagesurface" class="form-label" data-i18n="[html]form-wastagesurface-label">Wastage surface</label> 
+                  <div class="input-group">
+                    <input type="number" class="form-control hashchange" min="0" max="9999999" step="1" name="wastagesurface" id="wastagesurface" placeholder="250" value=""  />
+                    <span class="input-group-text">m<sup>2</sup></span>  
+                  </div>
+                  <div id="wastagesurfaceHelp" class="form-text" data-i18n="[html]form-wastagesurface-help"></div>
                 </div>
 
                 <!-- Temperature intérieur -->
@@ -199,8 +209,8 @@
         <div class="row" id="result">
           <div class="col-md-12">
             <h4 class="mb-3" data-i18n="[html]result-title">Result</h4>
-            <p><a href="#" id="calcShowHide" data-i18n="[html]result-show_more">See, understand the process, the calculation</a></p>
-            <div class="calcul level1">
+            <p><span id="calcShowHide" class="btn btn-light btn-sm" data-i18n="[html]result-show_more">See, understand the process, the calculation</span></p>
+            <div class="calcul_level1">
               <p data-i18n="[html]result-g-explain">According to the 'G' method, we are looking here for the loss of your habitat in the most unfavorable sequence of days (base temperature) of the winter (taking into account your geographical location) in order to deduce your need for heating. The formula is as follows: </p>
               <p data-i18n="[html]result-g-formule">D = DT * V * G</p>
               <ul>
@@ -213,12 +223,26 @@
                 <li data-i18n="[html]result-g-formule-g">G: The insulation coefficient of your house.</li>
               </ul>
               <p data-i18n="[html]result-g-formule-your-case">In your case it makes us:</p>
-              <p data-i18n="[html]result-g-formule-completed">D = (<span class="res_temp_indor">?</span> - <span class="res_temp_base">?</span>) * <span class="res_volume">?</span> * <span class="res_g">?</span> = <span class="res_level1">?</span> </p>
+              <p>D = (<span class="res_temp_indor">?</span> - <span class="res_temp_base">?</span>) * <span class="res_volume">?</span> * <span class="res_g">?</span> = <span class="res_level1">?</span> </p>
             </div>
-            <div class="calcul level2">
+            <div class="calcul_level2">
               <p data-i18n="[html]result-ubat-explain">According to the Ubat method, we are looking here for the loss of your habitat in the most unfavorable sequence of days (base temperature) in winter (taking into account your geographical location) in order to deduct your heating needs. The formula is as follows: </p>
+              <p data-i18n="[html]result-ubat-formule">D = (Ubat * WS + V * Venti) * DT</p>
+              <ul>
+                <li data-i18n="[html]result-ubat-formule-d">D (W): The thermal losses of the building</li>
+                <li data-i18n="[html]result-ubat-formule-ubat">Ubat: The insulation coefficient of your house.</li>
+                <li data-i18n="[html]result-ubat-formule-ws">WS (m<sup>2</sup>) : Wastage surface</li>
+                <li data-i18n="[html]result-ubat-formule-v">V (m<sup>3</sup>): The volume to be heated (area x height).</li>
+                <li data-i18n="[html]result-ubat-formule-venti">Venti: The ventilation coefficient of your house (thermal resistance).</li>
+                <li data-i18n="[html]result-ubat-formule-dt">DT (°C): temperature difference 'DT', between the interior of the house and the exterior, when it is cold (subtraction between the desired interior temperature and the temperature 'basic' of your region.</li>
+                <ul>
+                  <li data-i18n="[html]result-ubat-formule-dt-more">The 'base' temperature is the temperature of the 5 coldest consecutive days of the year, averaged over the last X years. Here it is meteorological data retrieved by <a href='https://framagit.org/kepon/choisirsonpdm/-/tree/main/api'>API</a>.</li>
+                </ul>
+              </ul>
+              <p data-i18n="[html]result-ubat-formule-your-case">In your case it makes us:</p>
+              <p>D = (<span class="res_ubat">?</span> * <span class="res_ws">?</span> + <span class="res_volume">?</span> * <span class="res_venti">?</span>) * (<span class="res_temp_indor">?</span> - <span class="res_temp_base">?</span>) = <span class="res_level2">?</span> </p>
             </div>
-            <div data-i18n="[html]result-need-explain" id="deperdition">Your heating need is <span id='resDeperditionMax'></span> kWh</div>
+            <div id="deperdition"><span data-i18n="[html]result-need-explain">Your heating need is</span> <span id='resDeperditionMax'></span> kWh</div>
           </div>
         </div>
       </main>
@@ -259,5 +283,6 @@
 <!-- Load the `mapbox-gl-geocoder` plugin. -->
 <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.min.js"></script>
 <script src="./assets/js/app.js"></script>
+<script src="./assets/js/app-result.js"></script>
 
 </html>
