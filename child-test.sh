@@ -1,6 +1,7 @@
 #!/bin/bash
 
 fichiers=(
+    'assets/js/app-befor.js'
     'assets/css/bootstrap.css'
     'assets/img/logo.png'
 )
