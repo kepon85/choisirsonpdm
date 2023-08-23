@@ -1,5 +1,0 @@
-# Uniquement utile si vous voulez plusieurs configuration possible en fonction du nom de domaine...
-
-RewriteEngine on
-RewriteCond %{DOCUMENT_ROOT}/settings-%{HTTP_HOST}.js -f
-RewriteRule ^settings.js$ /settings-%{HTTP_HOST}.js [NC,QSA]
