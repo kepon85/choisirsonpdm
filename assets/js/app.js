@@ -184,12 +184,18 @@ $( document ).ready(function() {
     
     debug('Add listener hashchange');
     $(".hashchange").on( "change", function(e) {
+        $("#result").hide();
+        $("#submit_input").val(0);
         if (this.name == 'lat' || this.name == 'lng') {
             processChangelngLat();
         }
         hashChange();
     });
     
+    $("#reset").on( "click", function(e) {
+        debug('Reset');
+        location.href='/';
+    });
     
     // Si on click
     $("#submit_button").on( "click", function(e) {
