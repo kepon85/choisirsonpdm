@@ -7,6 +7,10 @@
 #alert {
     display: none;
 }
+.resp-sharing-button__link {
+  display: none;
+}
+
 #temp_base_load {
     width: 20px;
     height: 20px;
@@ -133,7 +137,7 @@
 }
 
 /* Bouton de partage : https://sharingbuttons.io/ */
-.resp-sharing-button__link,
+/*.resp-sharing-button__link,*/
 .resp-sharing-button__icon {
   display: inline-block
 }

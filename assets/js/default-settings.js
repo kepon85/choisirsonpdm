@@ -15,6 +15,20 @@ const defaultSettings = {
     "g":                           0.3,
     "livingvolume_auto" :           true,
   },
+  'sharingButton': {
+    'facebook': 'https://facebook.com/sharer/sharer.php?u=__URL__',
+    'twitter': 'https://twitter.com/intent/tweet/?text=__TITLE__&url=__URL__',
+    'tumblr': 'https://www.tumblr.com/widgets/share/tool?posttype=link&title=Choisir%20son%20po%C3%AAle%20de%20masse...&caption=__TITLE__&content=__URL__&canonicalUrl=__URL__&shareSource=tumblr_share_button',
+    'email': 'mailto:?subject=__TITLE__&body=__URL__',
+    'pinterest': 'https://pinterest.com/pin/create/button/?url=__URL__&media=__URL__&description=__TITLE__',
+    'linkedin': 'https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fchoisir.poeledemasse.org%2F&title=__TITLE__&summary=__TITLE__&source=__URL__',
+    'reddit': 'https://reddit.com/submit/?url=__URL__&resubmit=true&title=__TITLE__',
+    'xing': 'https://www.xing.com/app/user?op=share;url=__URL__;title=__TITLE__',
+    'whatsapp': 'whatsapp://send?text=__TITLE__%20__URL__',
+    'hackernews': 'https://news.ycombinator.com/submitlink?u=__URL__&t=__TITLE__',
+    'vk': 'http://vk.com/share.php?title=__TITLE__&url=__URL__',
+    'telegram': 'https://telegram.me/share/url?text=__TITLE__&url=__URL__',
+  },
   "pdmData": [
     {
       // https://wiki.lowtech.fr/s/Poele_de_Masse.Petit_Habitat:Doc:Pr%C3%A9sentation

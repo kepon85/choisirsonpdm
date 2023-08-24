@@ -94,6 +94,23 @@ function calcVolume (){
     $("#livingvolume").val($("#livingspace").val() * $("#livingheight").val());
 }
 
+function sharingButton() {
+    const title =  encodeURIComponent($("title").text());
+    const url = encodeURIComponent(document.location.href);
+
+    Object.entries(settings.sharingButton).forEach(entry => {
+        var [network, href] = entry;
+        // Remplacement des variables
+        href = href.replace('__TITLE__', title);
+        href = href.replace('__URL__', url);
+        // Attribution du href
+        $("#sharingButton, ." + network).attr('href', href);
+        $("#sharingButton, ." + network).css('display', 'inline-block');
+
+        debug('Add sharingButton for ' + network + ' = ' + href);
+    });
+}
+
 $( document ).ready(function() {
     ////////////////////////////////////
     // HASH URL (remplir les champs)
@@ -172,6 +189,9 @@ $( document ).ready(function() {
             }
         }
     });
+    // Init des boutton de partages
+    sharingButton();
+
     // Si on a appliqué toutes les valeurs du Hash + celle par défaut on voit s'il faut "poster" le formulaire :
     if (hash) {
         if ($("#submit_input").val() == 1) {
@@ -182,10 +202,13 @@ $( document ).ready(function() {
     // Switch level
     changeLevel($("#level").val());
     
+    // Si le formulaire change, on change le hash
     debug('Add listener hashchange');
     $(".hashchange").on( "change", function(e) {
-        $("#result").hide();
-        $("#submit_input").val(0);
+        sharingButton(); // Update sharing button
+        $("#result").hide(); // Hide résult
+        $("#submit_input").val(0); // Remise à 0 du résultat
+        // SI c'est la latitude ou la longitude qui ont changé, on recherche la valeur dans l'API
         if (this.name == 'lat' || this.name == 'lng') {
             processChangelngLat();
         }
