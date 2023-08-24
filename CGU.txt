@@ -1,0 +1,17 @@
+# Mention légal
+
+Publication :
+
+  * Responsable publication : Mercereau David
+  * Email : david [arobase] mercereau {point} info
+  * Hébergeur du site : Retzo.net 8 rue du lavoir 44640 Rouans
+
+## Mentions relatives à l’utilisation de cookies
+
+Les cookies ne sont pas utilisés sur ce site
+
+# Condition général d'utilisation
+
+Les résultats sont donnés à titre indicatif, ni l'auteur ni l'hébergeur de ce logiciel peut être tenu responsable de votre installation/du mauvais dimensionnement de celle-ci
+
+Le logiciel peut être utilisé dans le cadre de la licence GNU v3 détaillé dans le fichier https://choisir.poeledemasse.org/LICENSE.txt
