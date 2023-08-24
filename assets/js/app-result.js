@@ -32,4 +32,5 @@ function submitForm() {
         $(".res_level2").replaceWith(resDeperditionMax);
     }
     $("#resDeperditionMax").replaceWith(precise_round(resDeperditionMax/1000, 2));
+
 }

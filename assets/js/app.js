@@ -117,6 +117,10 @@ $( document ).ready(function() {
     ////////////////////////////////////
     debug( "ready !" );
     
+    $.get( "suggestion.html", function( data ) {
+        $( "#suggestion" ).html( data );
+        alert( "suggestion loading." );
+    });
 
     $("#alert").on( "click", function(e) {
         $("#alert").hide();
