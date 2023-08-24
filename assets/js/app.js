@@ -4,6 +4,48 @@ function debug(msg) {
     }
 }
 
+// Envoi du formulaire
+function submitForm() {
+    debug('Soumission du formulaire');
+    //var error
+    // Vérification pour calcul
+    // Faire apparaître les résultats
+    $("#result").show();
+    // En mode transparent on affiche le calcul direct
+    if ($("#transparent").prop("checked")) {
+        $(".calcul_level"+$("#level").val()).show();
+    }
+    document.getElementById("result").scrollIntoView();
+    $("#submit_input").val(1);
+    hashChange();
+    // Méthode G, niveau 1
+    if ($("#level").val() == 1) {
+        // Pour la méthode de calcul
+        debug('Level 1');
+        $(".res_temp_indor").replaceWith($("#temp_indor").val());
+        $(".res_temp_base").replaceWith($("#temp_base").val());
+        $(".res_volume").replaceWith($("#livingvolume").val());
+        $(".res_g").replaceWith($("#g").val());
+        var resDeperditionMax = precise_round(( $("#temp_indor").val() - $("#temp_base").val() ) * $("#livingvolume").val() * $("#g").val(), 2);
+        $(".res_level1").replaceWith(resDeperditionMax);
+    } else if ($("#level").val() == 2) {
+        // Pour la méthode de calcul
+        debug('Level 2');
+        $(".res_ubat").replaceWith($("#ubat_global").val());
+        $(".res_ws").replaceWith($("#wastagesurface").val());
+        $(".res_volume").replaceWith($("#livingvolume").val());
+        $(".res_venti").replaceWith($("#venti_global").val());
+        $(".res_temp_indor").replaceWith($("#temp_indor").val());
+        $(".res_temp_base").replaceWith($("#temp_base").val());
+        var resDeperditionMax = precise_round(($("#ubat_global").val() * $("#wastagesurface").val() + $("#livingvolume").val() * $("#venti_global").val()) * ($("#temp_indor").val() - $("#temp_base").val()), 2);
+        $(".res_level2").replaceWith(resDeperditionMax);
+    }
+    $("#resDeperditionMax").replaceWith(precise_round(resDeperditionMax/1000, 2));
+    $("#resDeperdition").val(resDeperditionMax);
+    debug("Besoin de chauffage : " + resDeperditionMax + "Wh");
+    suggestion();
+}
+
 // https://www.w3resource.com/javascript-exercises/javascript-math-exercise-14.php
 function precise_round(n, r) {
     let int = Math.floor(n).toString()
@@ -78,6 +120,8 @@ function changeLevel(level) {
         $(".level3").hide();
         $(".level2").hide();
         $(".level1").show();
+        // Bug required..
+        //$("input, .level1").attr("required", "true");
     } else if (level == 2) {
         $(".level3").hide();
         $(".level1").hide();
@@ -116,11 +160,6 @@ $( document ).ready(function() {
     // HASH URL (remplir les champs)
     ////////////////////////////////////
     debug( "ready !" );
-    
-    $.get( "suggestion.html", function( data ) {
-        $( "#suggestion" ).html( data );
-        alert( "suggestion loading." );
-    });
 
     $("#alert").on( "click", function(e) {
         $("#alert").hide();
@@ -228,6 +267,8 @@ $( document ).ready(function() {
     $("#submit_button").on( "click", function(e) {
         if($("form")[0].checkValidity()) {
             submitForm();
+            // Fix bug submit 2 fois...
+            return false;
         } else {
             debug("HTML5 : invalid form");
         }

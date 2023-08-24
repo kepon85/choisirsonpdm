@@ -19,8 +19,23 @@
 #map {
     width: 100%; height: 300px;
 }
-#result {
+#result,
+#suggestion {
     display: none;
+}
+#suggestion th {
+  text-align: center;
+}
+#suggestion table {
+  width: 100%;
+}
+#suggestion table,
+#suggestion td,
+#suggestion th {
+  border: 1px solid #2F2F2F;
+}
+#suggestionTransparentConsole {
+  font-size: 80%;
 }
 .card {
     padding: 10px;
