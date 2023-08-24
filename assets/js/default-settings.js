@@ -29,6 +29,10 @@ const defaultSettings = {
     'vk': 'http://vk.com/share.php?title=__TITLE__&url=__URL__',
     'telegram': 'https://telegram.me/share/url?text=__TITLE__&url=__URL__',
   },
+  "pdmSuggestion": {
+    'percentPowerSuper': 10,
+    'percentPowerCool': 24,
+  },
   "pdmData": [
     {
       // https://wiki.lowtech.fr/s/Poele_de_Masse.Petit_Habitat:Doc:Pr%C3%A9sentation

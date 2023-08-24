@@ -10,7 +10,7 @@ function submitForm() {
     //var error
     // Vérification pour calcul
     // Faire apparaître les résultats
-    $("#result").show();
+    $(".result").show();
     // En mode transparent on affiche le calcul direct
     if ($("#transparent").prop("checked")) {
         $(".calcul_level"+$("#level").val()).show();
@@ -22,25 +22,25 @@ function submitForm() {
     if ($("#level").val() == 1) {
         // Pour la méthode de calcul
         debug('Level 1');
-        $(".res_temp_indor").replaceWith($("#temp_indor").val());
-        $(".res_temp_base").replaceWith($("#temp_base").val());
-        $(".res_volume").replaceWith($("#livingvolume").val());
-        $(".res_g").replaceWith($("#g").val());
+        $(".res_temp_indor").html($("#temp_indor").val());
+        $(".res_temp_base").html($("#temp_base").val());
+        $(".res_volume").html($("#livingvolume").val());
+        $(".res_g").html($("#g").val());
         var resDeperditionMax = precise_round(( $("#temp_indor").val() - $("#temp_base").val() ) * $("#livingvolume").val() * $("#g").val(), 2);
-        $(".res_level1").replaceWith(resDeperditionMax);
+        $(".res_level1").html(resDeperditionMax);
     } else if ($("#level").val() == 2) {
         // Pour la méthode de calcul
         debug('Level 2');
-        $(".res_ubat").replaceWith($("#ubat_global").val());
-        $(".res_ws").replaceWith($("#wastagesurface").val());
-        $(".res_volume").replaceWith($("#livingvolume").val());
-        $(".res_venti").replaceWith($("#venti_global").val());
-        $(".res_temp_indor").replaceWith($("#temp_indor").val());
-        $(".res_temp_base").replaceWith($("#temp_base").val());
+        $(".res_ubat").html($("#ubat_global").val());
+        $(".res_ws").html($("#wastagesurface").val());
+        $(".res_volume").html($("#livingvolume").val());
+        $(".res_venti").html($("#venti_global").val());
+        $(".res_temp_indor").html($("#temp_indor").val());
+        $(".res_temp_base").html($("#temp_base").val());
         var resDeperditionMax = precise_round(($("#ubat_global").val() * $("#wastagesurface").val() + $("#livingvolume").val() * $("#venti_global").val()) * ($("#temp_indor").val() - $("#temp_base").val()), 2);
-        $(".res_level2").replaceWith(resDeperditionMax);
+        $(".res_level2").html(resDeperditionMax);
     }
-    $("#resDeperditionMax").replaceWith(precise_round(resDeperditionMax/1000, 2));
+    $("#resDeperditionMax").html(precise_round(resDeperditionMax/1000, 2));
     $("#resDeperdition").val(resDeperditionMax);
     debug("Besoin de chauffage : " + resDeperditionMax + "Wh");
     suggestion();
@@ -249,7 +249,7 @@ $( document ).ready(function() {
     debug('Add listener hashchange');
     $(".hashchange").on( "change", function(e) {
         sharingButton(); // Update sharing button
-        $("#result").hide(); // Hide résult
+        $(".result").hide(); // Hide résult
         $("#submit_input").val(0); // Remise à 0 du résultat
         // SI c'est la latitude ou la longitude qui ont changé, on recherche la valeur dans l'API
         if (this.name == 'lat' || this.name == 'lng') {

@@ -1,10 +1,8 @@
 function suggestion() {
     debug("Suggestion...")
     $('#suggestion').show();
-    /*Object.entries(settings.pdmData).forEach(entry => {
-        var [key, value] = entry;
-        debug(key);
-    });*/
+    // Reset suggestion
+    $("#suggestionContent").html('');
     if ($("#transparent").prop("checked")) {
         $("#suggestionContent").append('<div id="suggestionTransparentConsole" class="bg-info card"><p>Transparence de la suggestion : <ul></ul></p></div>');
     }
@@ -38,22 +36,30 @@ function suggestion() {
             id=id+1;
             var diffPowerDeperdition = this.power-resDeperdition;
             var diffPowerDeperditionAbs = Math.abs(diffPowerDeperdition);
-            var diffPowerDeperditionPercent = (100*this.power)/resDeperdition;
-            $("#suggestionTransparentConsole ul").append('<li>'+id+' : '+pdmData.name+' '+this.power+'W</li>');
+            var diffPowerDeperditionPercent =  100*diffPowerDeperdition/resDeperdition;
+            $("#suggestionTransparentConsole ul").append('<li>'+id+' : '+pdmData.name+' '+this.power+'W. La différence avec le besoin est de '+diffPowerDeperdition+'</li>');
             if (diffPowerDeperditionAbs < bestDiffPowerDeperdition) {
                 bestId=id;
                 bestDiffPowerDeperdition=diffPowerDeperditionAbs;
+                $("#suggestionTransparentConsole ul").append('<li><b>=> C\'est, pour le moment, le poêle qui s\'approche le plus du besoin</b></li>');
             }
             //debug("diffPowerDeperdition="+diffPowerDeperdition);
+            if (Math.abs(diffPowerDeperditionPercent) < settings.pdmSuggestion.percentPowerSuper) {
+                trClass='bg-success-subtle';
+            } else if (Math.abs(diffPowerDeperditionPercent) < settings.pdmSuggestion.percentPowerCool) {
+                trClass='bg-warning-subtle';
+            } else {
+                trClass='text-secondary';
+            }
             $('#suggestionTab > tbody:last-child').append(
-                '<tr>'
+                '<tr class="'+trClass+'">'
                     +'<td>'+pdmData.name+'</td>'
                     +'<td class="text-center">'+precise_round(this.power/1000,2)+'kW</td>'
                     +'<td class="text-center">'+this.fire+'</td>'
                     +'<td class="text-center">'+this.woodLoad+'kg</td>'
                     +'<td class="text-center">'+pdmData.weight+'kg</td>'
                     +'<td class="text-center"><a href="'+pdmData.link+'">link</a></td>'
-                    +'<td class="text-center">'+precise_round(diffPowerDeperditionAbs/1000, 2)+' ('+precise_round(diffPowerDeperditionPercent,0)+'%)</td>'
+                    +'<td class="text-center">'+precise_round(diffPowerDeperditionAbs/1000, 2)+' ('+Math.round(diffPowerDeperditionPercent)+'%)</td>'
                 +'<tr>'
             );
         });
