@@ -1,12 +1,13 @@
 #!/bin/bash
 
 fichiers=(
-    'assets/js/app-custom.js'
+    'assets/js/app-suggestion.js'
     'assets/css/bootstrap.css'
     'assets/img/logo.png'
     'assets/img/favicon-32.png'
     'assets/img/favicon-180.png'
     'assets/img/favicon-192.png'
+    'settings.js'
 )
 pwd=`pwd`
 htaccess="$pwd/.htaccess"

@@ -1,1 +1,0 @@
-$("#title").html('<h2>Un MiniMasse pour votre maison ?</h2>');
