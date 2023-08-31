@@ -5,7 +5,7 @@
 const defaultSettings = {
   "debug":                        false,
   "debugLoadMap":                 false,
-  "apiBaseTemperature":           "https://choisirsonpdm.zici.fr/api/baseTemperature.php",
+  "apiBaseTemperature":           "https://choisir.poeledemasse.org/api/baseTemperature.php",
   "apiDebounceTtimeout":           1500,
   "defaultLanguage":              "fr",
   "form_default": {
