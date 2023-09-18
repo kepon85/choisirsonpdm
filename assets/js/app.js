@@ -120,17 +120,22 @@ function changeLevel(level) {
         $(".level3").hide();
         $(".level2").hide();
         $(".level1").show();
-        // Bug required..
-        //$("input, .level1").attr("required", "true");
+        $("input").removeAttr("required");
+        $(".level1required").attr("required", "true");
     } else if (level == 2) {
         $(".level3").hide();
         $(".level1").hide();
         $(".level2").show();
+        $("input").removeAttr("required");
+        $(".level2required").attr("required", "true");
     } else if (level == 3) {
         $(".level1").hide();
         $(".level2").hide();
         $(".level3").show();
+        $("input").removeAttr("required");
+        $(".level3required").attr("required", "true");
     }
+    // required input change    
 }
 
 // Calcule du volume fonction de la surface/hauteur
