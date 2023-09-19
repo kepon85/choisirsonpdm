@@ -89,6 +89,7 @@
 	"app-legal": "Mention légal",	
 	"app-source": "Code source",
 	"app-contact": "Contact",
+	"app-sharing": "Partage : ",
 	"suggestion-title": "Suggestion",
 	"suggestion-name": "Nom",
 	"suggestion-per-day": "Par jour",
@@ -103,5 +104,15 @@
 	"suggestion-best-3": " flambée de  ",
 	"suggestion-best-4": "kg de bois par jour pour une puissance journalière de ",
 	"suggestion-best-5": "kW.",
-	"other": "other"
+	"suggestion-too-large-1": "Aucun poêle de masse référencez ici ne correspond à votre besoin (trop important). Nous vous conseillons de faire appel à un ",
+	"suggestion-too-large-2": "artisant maçon poêllier professionnel",
+	"suggestion-too-large-3": " afin qu'il vous oriente. ",
+	"minimasse-suggestion-too-small": "Le MiniMasse est trop puissant pour vos besoins",
+	"minimasse-suggestion-too-big": "Le MiniMasse est trop peu puissant pour le besoin, il peut éventuellement être envisagé comme chauffage d'appoint. ",
+	"minimasse-suggestion-too-big-1": "Si vous souhaitez un poêle de masse comme chauffage principal nous vous suggérons  ",
+	"minimasse-suggestion-too-big-2": "d'élargir votre recherche à d'autres poêles de masses open source ",
+	"minimasse-suggestion-too-big-3": "voir à faire appel à un ",
+	"minimasse-suggestion-too-big-4": "artisant maçon poêllier professionnel.", 
+	"minimasse-suggestion-success": "Le MiniMasse semble correspondre à votre besoin",
+	"othen": "other"
 }

@@ -39,8 +39,8 @@ const defaultSettings = {
       "name": "[Agir Low-Tech] MiniMasse",
       "dalyPower": [ 
         { "fire": 1, "woodLoad": 2.5, "power": 325 },
-        { "fire": 2, "woodLoad": 2.5, "power": 650 },
-        { "fire": 3, "woodLoad": 2.5, "power": 975 },
+        //{ "fire": 2, "woodLoad": 2.5, "power": 650 },
+        //{ "fire": 3, "woodLoad": 2.5, "power": 975 },
         { "fire": 1, "woodLoad": 5, "power": 650 },
         { "fire": 2, "woodLoad": 5, "power": 1300 },
         { "fire": 3, "woodLoad": 5, "power": 1950 },

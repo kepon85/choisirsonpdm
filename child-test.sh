@@ -30,7 +30,8 @@ for fichier in ${fichiers[@]}
 do
     echo "Pour $fichier"
     rm $pwd/$fichier
-    cp $pwd/child/$child/$fichier $pwd/$fichier
+    #cp $pwd/child/$child/$fichier $pwd/$fichier
+    ln $pwd/child/$child/$fichier $pwd/$fichier
     echo "RewriteCond %{DOCUMENT_ROOT}/child/%{HTTP_HOST}/$fichier -f" >> $htaccess
     echo "RewriteRule ^$fichier$ child/%{HTTP_HOST}/$fichier [NC,QSA]" >> $htaccess
 done

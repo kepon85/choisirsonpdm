@@ -4,16 +4,18 @@ function suggestion() {
     // Reset suggestion
     $("#suggestionContent").html('');
     const resDeperdition = $("#resDeperdition").val();
-    if (resDeperdition < 280) {
-        $("#suggestionContent").append("Le MiniMasse est encore trop puissant pour votre besoin");
-    } else if (resDeperdition > 1900) {
-        $("#suggestionContent").append("trop suggestion d'autres poêle de masse open source, voir LIEN ou faire appel à un Artisan poêlier (LIEN vers calculateur AFPMA)"+resDeperdition);
+    if (resDeperdition < 280) { 
+        $("#suggestionContent").append('<div data-i18n="[html]minimasse-suggestion-too-small" role="alert" class="alert alert-danger">The MiniMasse is too powerful for your needs</div>');
+    } else if (resDeperdition > 2000) {
+        $("#suggestionContent").append('<div data-i18n="[html]minimasse-suggestion-too-big"  role="alert" class="alert alert-warning"></div>');
+        $("#suggestionContent").append('<p><span data-i18n="[html]minimasse-suggestion-too-big-1">If you want a mass stove as your main heating we suggest </span>' 
+            + '<a data-i18n="[html]minimasse-suggestion-too-big-2" href="https://choisir.poeledemasse.org/'+window.location.hash+'">expand your search to other open source mass stoves</a>'
+            + '<span data-i18n="[html]minimasse-suggestion-too-big-3">see to calling on a </span>'
+            + '<a data-i18n="[html]minimasse-suggestion-too-big-4" href="https://afpma.choisir.poeledemasse.org/'+window.location.hash+'">expand your search to other open source mass stoves</a>'
+            + '</p>');
     } else {
-        $("#suggestionContent").append('<p><span data-i18n="[html]suggestion-best-1"></span><span id="bestName"></span><span data-i18n="[html]suggestion-best-2"></span><span id="bestFire"></span><span data-i18n="[html]suggestion-best-3"></span><span id="bestWood"></span><span data-i18n="[html]suggestion-best-4"></span><span id="bestPower"></span><span data-i18n="[html]suggestion-best-5"></span></p>');
-        if (resDeperdition > 1900) {
-            $("#suggestionContent").append("Le MiniMasse ne conviendra pas pour ");
-        }
-        // Si bestFire = 3, limite haute de l'utilisation, peut être passer sur un autre poêle open source : 
+        $("#suggestionContent").append('<div data-i18n="[html]minimasse-suggestion-success" role="alert" class="alert alert-success">The MiniMasse seems to meet your needs.</div>');
+        $("#suggestionContent").append('<p class="disclamer"><b data-i18n="[html]alert-warning">Avertissement</b> : <span data-i18n="[html]app-disclamer">Les résultats sont donnés à titre indicatif, nous vous conseillons de vous rapprocher d\'un <a href="https://www.afpma.pro/#carte-des-membres">artisan poêlier professionnel</a> pour une étude thermique personnalisé afin de vous orienter vers le poêle de masse qui vous conviendra le mieux. </span></p>');
         $("#suggestionContent").append(
             '<table id="suggestionTab">'
                 +'<thead><tr>'
@@ -89,5 +91,6 @@ function suggestion() {
             });
         });
     }
-    
+    // Ré-appeler la traduction pour ce qui est chargé à posteriori... 
+    $('html').i18n();    
 }
