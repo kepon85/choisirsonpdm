@@ -10,7 +10,7 @@ const defaultSettings = {
   "defaultLanguage":              "fr",
   "form_default": {
     "temp_base_years_archive":     10,
-    "ubat_global":                 0.3,
+    "ubat_global":                 0.4,
     "venti_global":                0.14,
     "g":                           0.3,
     "livingvolume_auto" :           true,
@@ -134,33 +134,72 @@ const defaultSettings = {
       "comment": "",
     },
     {
-      // https://www.oxalis-asso.org/?page_id=3202
-      // Nombre de flambée / poids du bois à confirmer
-      "name": "[Oxalis] 4kW",
+      // https://forum.poeledemasse.org/t/donnee-differents-modeles-4-6-8kw-qte-de-bois-nombre-de-flambee/2106/18
+      "name": "[Oxalis] 4kW sans BAF",
       "dalyPower": [ 
-        { "fire": 1, "woodLoad": "?", "power": 4000 },
+        { "fire": 1, "woodLoad": "10.2", "power": 1450 },
+        { "fire": 2, "woodLoad": "10.2", "power": 2900 },
+        { "fire": 3, "woodLoad": "10.2", "power": 4360 },
       ],
       "weight": 2000,
       "link": "https://www.oxalis-asso.org/?page_id=3202",
-      "comment": "",
+      "comment": "Avec boîte à feu",
     },
     {
-      // https://www.oxalis-asso.org/?page_id=3202
-      // Nombre de flambée / poids du bois à confirmer
-      "name": "[Oxalis] 6kW",
+      // https://forum.poeledemasse.org/t/donnee-differents-modeles-4-6-8kw-qte-de-bois-nombre-de-flambee/2106/18
+      "name": "[Oxalis] 4kW avec BAF",
       "dalyPower": [ 
-        { "fire": 1, "woodLoad": "?", "power": 6000 },
+        { "fire": 1, "woodLoad": "6.4", "power": 900 },
+        { "fire": 2, "woodLoad": "6.4", "power": 1810 },
+        { "fire": 3, "woodLoad": "6.4", "power": 2710 },
+      ],
+      "weight": 2000,
+      "link": "https://www.oxalis-asso.org/?page_id=3202",
+      "comment": "Avec boîte à feu",
+    },
+    {
+      // https://forum.poeledemasse.org/t/donnee-differents-modeles-4-6-8kw-qte-de-bois-nombre-de-flambee/2106/18
+      "name": "[Oxalis] 6kW sans BAF",
+      "dalyPower": [ 
+        { "fire": 1, "woodLoad": "14.4", "power": 2000 },
+        { "fire": 2, "woodLoad": "14.4", "power": 4000 },
+        { "fire": 3, "woodLoad": "14.4", "power": 6100 },
       ],
       "weight": 2300,
+      "link": "https://www.oxalis-asso.org/?page_id=3202",
+      "comment": "Sans boîte à feu",
+    },
+    {
+      // https://forum.poeledemasse.org/t/donnee-differents-modeles-4-6-8kw-qte-de-bois-nombre-de-flambee/2106/18
+      "name": "[Oxalis] 6kW avec BAF",
+      "dalyPower": [ 
+        { "fire": 1, "woodLoad": "8.35", "power": 1180 },
+        { "fire": 2, "woodLoad": "8.35", "power": 2370 },
+        { "fire": 3, "woodLoad": "8.35", "power": 3550 },
+      ],
+      "weight": 2300,
+      "link": "https://www.oxalis-asso.org/?page_id=3202",
+      "comment": "Sans boîte à feu",
+    },
+    {
+      // https://forum.poeledemasse.org/t/donnee-differents-modeles-4-6-8kw-qte-de-bois-nombre-de-flambee/2106/18
+      "name": "[Oxalis] 8kW sans BAF",
+      "dalyPower": [ 
+        { "fire": 1, "woodLoad": "20", "power": 2850 },
+        { "fire": 2, "woodLoad": "20", "power": 5700 },
+        { "fire": 3, "woodLoad": "20", "power": 8500 },
+      ],
+      "weight": 2650,
       "link": "https://www.oxalis-asso.org/?page_id=3202",
       "comment": "",
     },
     {
-      // https://www.oxalis-asso.org/?page_id=3202
-      // Nombre de flambée / poids du bois à confirmer
-      "name": "[Oxalis] 8kW",
+      // https://forum.poeledemasse.org/t/donnee-differents-modeles-4-6-8kw-qte-de-bois-nombre-de-flambee/2106/18
+      "name": "[Oxalis] 8kW avec BAF",
       "dalyPower": [ 
-        { "fire": 1, "woodLoad": "?", "power": 8000 },
+        { "fire": 1, "woodLoad": "12.2", "power": 1720 },
+        { "fire": 2, "woodLoad": "12.2", "power": 3440 },
+        { "fire": 3, "woodLoad": "12.2", "power": 5200 },
       ],
       "weight": 2650,
       "link": "https://www.oxalis-asso.org/?page_id=3202",
