@@ -270,7 +270,10 @@ $( document ).ready(function() {
     
     // Si on click
     $("#submit_button").on( "click", function(e) {
-        if($("form")[0].checkValidity()) {
+        if ($('#temp_base').val() == '') {
+            alert("Basal temperature not preset. Choose your location on the map.");
+            return false;
+        } else if($("form")[0].checkValidity()) {
             submitForm();
             // Fix bug submit 2 fois...
             return false;

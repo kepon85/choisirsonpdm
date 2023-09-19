@@ -136,7 +136,7 @@
                     <option value="0.2" data-i18n="[html]form-venti_global-0-2-no">0.2 no controlled mechanical ventilation</option>
                   </select>
                 </div>
-
+                <!--
                 <div class="level2 level3">
                   <label for="nbfire" class="form-label" data-i18n="[html]form-nbfire-label">Number of fires max per day</label>
                   <select id="nbfire" class="form-select form-control hashchange">
@@ -146,6 +146,7 @@
                     <option value="3" data-i18n="[html]form-nbfire-3">3</option>
                   </select>
                 </div>
+                -->
               </div>
             </div>
 
@@ -165,7 +166,7 @@
                 <p class="level3" data-i18n="[html]form-level-3-explain">The method used is the so-called "Ubat" method. It requires good thermal knowledge/understanding, but it is the most precise method that allows you to detail each wall of your house.</p>
                 <p class="level3 alert alert-danger" ><b>Pas opérationnel, en cours de développement...</b></p>
                 <div class="form-check form-switch">
-                  <input class="form-check-input hashchange" type="checkbox" role="switch" id="transparent" name="transparent" checked>
+                  <input class="form-check-input hashchange" type="checkbox" role="switch" id="transparent" name="transparent">
                   <label class="form-check-label" for="transparent" data-i18n="[html]form-transparent">Enable transparent mode to better understand how it works</label>
                 </div>
               </div>
@@ -198,7 +199,7 @@
                 </div>
                 <div>
                   <div class="level1 level2 level3 temp_base_input_group">
-                    <label for="temp_base" class="form-label"><span data-i18n="[html]form-temp_base-label">Temperature de base</span> : <img src="assets/img/loading.gif" class="load" id="temp_base_load" /></label>
+                    <label for="temp_base" class="form-label"><span data-i18n="[html]form-temp_base-label">Basal temperature</span> : <img src="assets/img/loading.gif" class="load" id="temp_base_load" /></label>
                     <div class="input-group">
                       <input type="number" class="form-control hashchange" min="-40" max="30" step="0.1" name="temp_base" id="temp_base" value="" disabled="disabled" />
                       <div class="form-check form-switch">
