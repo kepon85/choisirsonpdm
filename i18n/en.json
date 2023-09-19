@@ -63,7 +63,7 @@
 	"form-temp_base_years_archive-label": "Year of archive for base temperature",
 	"form-reset-button": "Reset",
 	"form-submit-button": "Choose my mass stove",
-	"result-title": "Result",
+	"result-title": "Your heating needs",
 	"result-show_more": "See, understand the process, the calculation",
 	"result-g-explain": "According to the 'G' method, we are looking here for the loss of your habitat in the most unfavorable sequence of days (base temperature) of the winter (taking into account your geographical location) in order to deduce your need for heating. The formula is as follows: ",
 	"result-g-formule": "D = DT * V * G",
@@ -106,12 +106,15 @@
 	"suggestion-too-large-1": "No mass stove listed here meets your needs (it is too large). We advise you to call on a ",
 	"suggestion-too-large-2": " ",
 	"suggestion-too-large-3": "professional stove mason so that he can guide you.",
+	"minimasse-app-title": "Is MiniMasse right for you?",
+	"minimasse-suggestion-title": "It's ok for MiniMasse?",
 	"minimasse-suggestion-too-small": "The MiniMasse is too powerful for your needs",
 	"minimasse-suggestion-too-big": "The MiniMasse is too underpowered for the needs, it could possibly be considered as additional heating.",
 	"minimasse-suggestion-too-big-1": "If you want a mass stove as your main heating we suggest ",
 	"minimasse-suggestion-too-big-2": "expand your search to other open source mass stoves",
 	"minimasse-suggestion-too-big-3": "see to calling on a ",
-	"minimasse-suggestion-too-big-4": "professional stove mason"
+	"minimasse-suggestion-too-big-4": "professional stove mason",
 	"minimasse-suggestion-success": "The MiniMasse seems to meet your needs.",
+	"afpma-app-title": "Determine a heating need",
 	"othen": "other"
 }

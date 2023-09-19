@@ -64,7 +64,7 @@
 	"form-temp_base_years_archive-label": "Année de d'archive pour la temperature de base",
 	"form-reset-button": "Ré-initialisation",
 	"form-submit-button": "Choisir mon poêle de masse",
-	"result-title": "Résultat",
+	"result-title": "Votre besoin de chauffage",
 	"result-show_more": "Voir, comprendre la démarche, le calcul",
 	"result-g-explain": "Selon la méthode 'G', on cherche ici la déperdition de votre habitat dans la succession de jour (température de base) la plus défavofable de l'hiver (en tenant compte de votre situation géographique) afin de déduire votre besoin de chauffage. La formule est la suivante : ",
 	"result-g-formule": "D = DT * V * G",
@@ -107,6 +107,8 @@
 	"suggestion-too-large-1": "Aucun poêle de masse référencez ici ne correspond à votre besoin (trop important). Nous vous conseillons de faire appel à un ",
 	"suggestion-too-large-2": "artisant maçon poêllier professionnel",
 	"suggestion-too-large-3": " afin qu'il vous oriente. ",
+	"minimasse-app-title": "Est-ce que le MiniMasse est fait pour vous ?",
+	"minimasse-suggestion-title": "Et le MiniMasse ?",
 	"minimasse-suggestion-too-small": "Le MiniMasse est trop puissant pour vos besoins",
 	"minimasse-suggestion-too-big": "Le MiniMasse est trop peu puissant pour le besoin, il peut éventuellement être envisagé comme chauffage d'appoint. ",
 	"minimasse-suggestion-too-big-1": "Si vous souhaitez un poêle de masse comme chauffage principal nous vous suggérons  ",
@@ -114,5 +116,6 @@
 	"minimasse-suggestion-too-big-3": "voir à faire appel à un ",
 	"minimasse-suggestion-too-big-4": "artisant maçon poêllier professionnel.", 
 	"minimasse-suggestion-success": "Le MiniMasse semble correspondre à votre besoin",
+	"afpma-app-title": "Déterminer un besoin de chauffage",
 	"othen": "other"
 }

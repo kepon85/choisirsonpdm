@@ -2,6 +2,7 @@
 
 fichiers=(
     'assets/js/app-suggestion.js'
+    'assets/js/app-custom.js'
     'assets/css/bootstrap.css'
     'assets/img/logo.png'
     'assets/img/favicon-32.png'
