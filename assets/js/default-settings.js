@@ -185,9 +185,9 @@ const defaultSettings = {
       // https://www.uzume.fr/quelle-puissance-pour-mon-poele-de-masse
       "name": "[Uzume] Cuisinière Batchblock ",
       "dalyPower": [ 
-        { "fire": 1, "woodLoad": 8, "power": 1200 },
-        { "fire": 2, "woodLoad": 8, "power": 2500 },
-        { "fire": 3, "woodLoad": 8, "power": 3700 }
+        { "fire": 1, "woodLoad": 12, "power": 1200 },
+        { "fire": 2, "woodLoad": 12, "power": 2500 },
+        { "fire": 3, "woodLoad": 12, "power": 3700 }
       ],
       "weight": 1050,
       "link": "https://www.uzume.fr/plans-poeles-de-masse/Cuisini%C3%A8re-Batchblock-",
@@ -197,9 +197,9 @@ const defaultSettings = {
       // https://www.uzume.fr/quelle-puissance-pour-mon-poele-de-masse
       "name": "[Uzume] Mini Batchblock avec banc",
       "dalyPower": [ 
-        { "fire": 1, "woodLoad": 8, "power": 1200 },
-        { "fire": 2, "woodLoad": 8, "power": 2500 },
-        { "fire": 3, "woodLoad": 8, "power": 3700 }
+        { "fire": 1, "woodLoad": 12, "power": 1200 },
+        { "fire": 2, "woodLoad": 12, "power": 2500 },
+        { "fire": 3, "woodLoad": 12, "power": 3700 }
       ],
       "weight": 1250,
       "link": "https://www.uzume.fr/plans-poeles-de-masse/Mini-Batchblock-avec-banc",
