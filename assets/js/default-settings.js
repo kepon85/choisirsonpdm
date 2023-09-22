@@ -38,12 +38,12 @@ const defaultSettings = {
       // https://wiki.lowtech.fr/s/Poele_de_Masse.Petit_Habitat:Doc:Pr%C3%A9sentation
       "name": "[Agir Low-Tech] MiniMasse",
       "dalyPower": [ 
-        { "fire": 1, "woodLoad": 2.5, "power": 325 },
-        //{ "fire": 2, "woodLoad": 2.5, "power": 650 },
-        //{ "fire": 3, "woodLoad": 2.5, "power": 975 },
-        { "fire": 1, "woodLoad": 5, "power": 650 },
-        { "fire": 2, "woodLoad": 5, "power": 1300 },
-        { "fire": 3, "woodLoad": 5, "power": 1950 },
+        { "fire": 1, "woodLoad": 2.5, "power": 325, "use": "normal" },
+        { "fire": 2, "woodLoad": 2.5, "power": 650, "use": "normal" },
+        { "fire": 3, "woodLoad": 2.5, "power": 975, "use": "critical" },
+        { "fire": 1, "woodLoad": 5, "power": 650, "use": "normal" },
+        { "fire": 2, "woodLoad": 5, "power": 1300, "use": "normal" },
+        { "fire": 3, "woodLoad": 5, "power": 1950, "use": "critical"},
       ],
       "weight": 450,
       "link": "https://agir.lowtech.fr/minimasse/",
@@ -53,9 +53,9 @@ const defaultSettings = {
       // https://forum.poeledemasse.org/t/donnee-differents-modeles-4-6-8kw-qte-de-bois-nombre-de-flambee/2106/18
       "name": "[Oxalis] 4kW sans BAF",
       "dalyPower": [ 
-        { "fire": 1, "woodLoad": "10.2", "power": 1450 },
-        { "fire": 2, "woodLoad": "10.2", "power": 2900 },
-        { "fire": 3, "woodLoad": "10.2", "power": 4360 },
+        { "fire": 1, "woodLoad": "10.2", "power": 1450, "use": "normal" },
+        { "fire": 2, "woodLoad": "10.2", "power": 2900, "use": "normal" },
+        { "fire": 3, "woodLoad": "10.2", "power": 4360, "use": "critical" },
       ],
       "weight": 2000,
       "link": "https://www.oxalis-asso.org/?page_id=3202",
@@ -65,9 +65,9 @@ const defaultSettings = {
       // https://forum.poeledemasse.org/t/donnee-differents-modeles-4-6-8kw-qte-de-bois-nombre-de-flambee/2106/18
       "name": "[Oxalis] 4kW avec BAF",
       "dalyPower": [ 
-        { "fire": 1, "woodLoad": "6.4", "power": 900 },
-        { "fire": 2, "woodLoad": "6.4", "power": 1810 },
-        { "fire": 3, "woodLoad": "6.4", "power": 2710 },
+        { "fire": 1, "woodLoad": "6.4", "power": 900, "use": "normal" },
+        { "fire": 2, "woodLoad": "6.4", "power": 1810, "use": "normal" },
+        { "fire": 3, "woodLoad": "6.4", "power": 2710, "use": "critical" },
       ],
       "weight": 2000,
       "link": "https://www.oxalis-asso.org/?page_id=3202",
@@ -77,9 +77,9 @@ const defaultSettings = {
       // https://forum.poeledemasse.org/t/donnee-differents-modeles-4-6-8kw-qte-de-bois-nombre-de-flambee/2106/18
       "name": "[Oxalis] 6kW sans BAF",
       "dalyPower": [ 
-        { "fire": 1, "woodLoad": "14.4", "power": 2000 },
-        { "fire": 2, "woodLoad": "14.4", "power": 4000 },
-        { "fire": 3, "woodLoad": "14.4", "power": 6100 },
+        { "fire": 1, "woodLoad": "14.4", "power": 2000, "use": "normal" },
+        { "fire": 2, "woodLoad": "14.4", "power": 4000, "use": "normal" },
+        { "fire": 3, "woodLoad": "14.4", "power": 6100, "use": "critical" },
       ],
       "weight": 2300,
       "link": "https://www.oxalis-asso.org/?page_id=3202",
@@ -89,9 +89,9 @@ const defaultSettings = {
       // https://forum.poeledemasse.org/t/donnee-differents-modeles-4-6-8kw-qte-de-bois-nombre-de-flambee/2106/18
       "name": "[Oxalis] 6kW avec BAF",
       "dalyPower": [ 
-        { "fire": 1, "woodLoad": "8.35", "power": 1180 },
-        { "fire": 2, "woodLoad": "8.35", "power": 2370 },
-        { "fire": 3, "woodLoad": "8.35", "power": 3550 },
+        { "fire": 1, "woodLoad": "8.35", "power": 1180, "use": "normal" },
+        { "fire": 2, "woodLoad": "8.35", "power": 2370, "use": "normal" },
+        { "fire": 3, "woodLoad": "8.35", "power": 3550, "use": "critical" },
       ],
       "weight": 2300,
       "link": "https://www.oxalis-asso.org/?page_id=3202",
@@ -101,9 +101,9 @@ const defaultSettings = {
       // https://forum.poeledemasse.org/t/donnee-differents-modeles-4-6-8kw-qte-de-bois-nombre-de-flambee/2106/18
       "name": "[Oxalis] 8kW sans BAF",
       "dalyPower": [ 
-        { "fire": 1, "woodLoad": "20", "power": 2850 },
-        { "fire": 2, "woodLoad": "20", "power": 5700 },
-        { "fire": 3, "woodLoad": "20", "power": 8500 },
+        { "fire": 1, "woodLoad": "20", "power": 2850, "use": "normal" },
+        { "fire": 2, "woodLoad": "20", "power": 5700, "use": "normal" },
+        { "fire": 3, "woodLoad": "20", "power": 8500, "use": "critical" },
       ],
       "weight": 2650,
       "link": "https://www.oxalis-asso.org/?page_id=3202",
@@ -113,9 +113,9 @@ const defaultSettings = {
       // https://forum.poeledemasse.org/t/donnee-differents-modeles-4-6-8kw-qte-de-bois-nombre-de-flambee/2106/18
       "name": "[Oxalis] 8kW avec BAF",
       "dalyPower": [ 
-        { "fire": 1, "woodLoad": "12.2", "power": 1720 },
-        { "fire": 2, "woodLoad": "12.2", "power": 3440 },
-        { "fire": 3, "woodLoad": "12.2", "power": 5200 },
+        { "fire": 1, "woodLoad": "12.2", "power": 1720, "use": "normal" },
+        { "fire": 2, "woodLoad": "12.2", "power": 3440, "use": "normal" },
+        { "fire": 3, "woodLoad": "12.2", "power": 5200, "use": "critical" },
       ],
       "weight": 2650,
       "link": "https://www.oxalis-asso.org/?page_id=3202",
@@ -123,86 +123,50 @@ const defaultSettings = {
     },
     {
       // https://www.uzume.fr/quelle-puissance-pour-mon-poele-de-masse
-      "name": "[Uzume] Medi Batchblock semi-masse",
+      "name": "[Uzume] Mini Batchblock",
       "dalyPower": [ 
-        { "fire": 1, "woodLoad": 18, "power": 2800 },
-        { "fire": 2, "woodLoad": 18, "power": 5600 },
-        { "fire": 3, "woodLoad": 18, "power": 8400 }
+        { "fire": 1, "woodLoad": 12, "power": 1600, "use": "normal" },
+        { "fire": 2, "woodLoad": 12, "power": 3300, "use": "normal" },
+        { "fire": 3, "woodLoad": 12, "power": 4900, "use": "critical" }
       ],
-      "weight": 1400,
-      "link": "https://www.uzume.fr/plans-poeles-de-masse/Medi-Batchblock",
-      "comment": "",
-    },
-    {
-      // https://www.uzume.fr/quelle-puissance-pour-mon-poele-de-masse
-      "name": "[Uzume] Medi Batchblock semi-masse avec banc",
-      "dalyPower": [ 
-        { "fire": 1, "woodLoad": 18, "power": 2800 },
-        { "fire": 2, "woodLoad": 18, "power": 5600 },
-        { "fire": 3, "woodLoad": 18, "power": 8400 }
-      ],
-      "weight": 1660,
-      "link": "https://www.uzume.fr/plans-poeles-de-masse/Medi-Batchblock-avec-banc",
-      "comment": "",
-    },
-    {
-      // https://www.uzume.fr/quelle-puissance-pour-mon-poele-de-masse
-      "name": "[Uzume] Medi Batchblock semi-masse avec mur de chauffe",
-      "dalyPower": [ 
-        { "fire": 1, "woodLoad": 18, "power": 2800 },
-        { "fire": 2, "woodLoad": 18, "power": 5600 },
-        { "fire": 3, "woodLoad": 18, "power": 8400 }
-      ],
-      "weight": 1750,
-      "link": "https://www.uzume.fr/plans-poeles-de-masse/Medi-Batchblock-avec-mur-de-chauffe",
-      "comment": "",
-    },
-    {
-      // https://www.uzume.fr/quelle-puissance-pour-mon-poele-de-masse
-      "name": "[Uzume] Maxi Batchblock avec banc",
-      "dalyPower": [ 
-        { "fire": 1, "woodLoad": 28, "power": 4300 },
-        { "fire": 2, "woodLoad": 28, "power": 8600 },
-        { "fire": 3, "woodLoad": 28, "power": 12800 }
-      ],
-      "weight": 1830,
-      "link": "https://www.uzume.fr/plans-poeles-de-masse/Maxi-Batchblock-avec-banc",
-      "comment": "",
-    },
-    {
-      // https://www.uzume.fr/quelle-puissance-pour-mon-poele-de-masse
-      "name": "[Uzume] Maxi Batchblock si chargement de type Batchblock. ",
-      "dalyPower": [ 
-        { "fire": 1, "woodLoad": 28, "power": 3800 },
-        { "fire": 2, "woodLoad": 28, "power": 7700 },
-        { "fire": 3, "woodLoad": 28, "power": 11500 }
-      ],
-      "weight": 2000,
-      "link": "https://www.uzume.fr/plans-poeles-de-masse/Maxi-Batchblock",
+      "weight": 1200,
+      "link": "https://www.uzume.fr/plans-poeles-de-masse/Mini-Batchblock-avec-banc",
       "comment": "",
     },
     {
       // https://www.uzume.fr/quelle-puissance-pour-mon-poele-de-masse
       "name": "[Uzume] Cuisinière Batchblock ",
       "dalyPower": [ 
-        { "fire": 1, "woodLoad": 12, "power": 1200 },
-        { "fire": 2, "woodLoad": 12, "power": 2500 },
-        { "fire": 3, "woodLoad": 12, "power": 3700 }
+        { "fire": 1, "woodLoad": 12, "power": 1600, "use": "normal" },
+        { "fire": 2, "woodLoad": 12, "power": 3300, "use": "normal" },
+        { "fire": 3, "woodLoad": 12, "power": 4900, "use": "critical" }
       ],
-      "weight": 1050,
+      "weight": 1200,
       "link": "https://www.uzume.fr/plans-poeles-de-masse/Cuisini%C3%A8re-Batchblock-",
       "comment": "",
     },
     {
       // https://www.uzume.fr/quelle-puissance-pour-mon-poele-de-masse
-      "name": "[Uzume] Mini Batchblock avec banc",
+      "name": "[Uzume] Medi Batchblock",
       "dalyPower": [ 
-        { "fire": 1, "woodLoad": 12, "power": 1200 },
-        { "fire": 2, "woodLoad": 12, "power": 2500 },
-        { "fire": 3, "woodLoad": 12, "power": 3700 }
+        { "fire": 1, "woodLoad": 18, "power": 2500, "use": "normal" },
+        { "fire": 2, "woodLoad": 18, "power": 5000, "use": "normal" },
+        { "fire": 3, "woodLoad": 18, "power": 7500, "use": "critical" }
       ],
-      "weight": 1250,
-      "link": "https://www.uzume.fr/plans-poeles-de-masse/Mini-Batchblock-avec-banc",
+      "weight": 1550,
+      "link": "https://www.uzume.fr/plans-poeles-de-masse/Medi-Batchblock",
+      "comment": "",
+    },
+    {
+      // https://www.uzume.fr/quelle-puissance-pour-mon-poele-de-masse
+      "name": "[Uzume] Maxi Batchblock avec banc",
+      "dalyPower": [ 
+        { "fire": 1, "woodLoad": 28, "power": 3900, "use": "normal" },
+        { "fire": 2, "woodLoad": 28, "power": 7700, "use": "normal" },
+        { "fire": 3, "woodLoad": 28, "power": 11600, "use": "critical" }
+      ],
+      "weight": 2000,
+      "link": "https://www.uzume.fr/plans-poeles-de-masse/Maxi-Batchblock",
       "comment": "",
     }
   ],
