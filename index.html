@@ -28,8 +28,8 @@
           <div class="col-12">
             <img class="d-block mx-auto mb-4" src="./assets/img/logo.png" alt="">
             <div id="title"><h2 data-i18n="[html]app-title">Choose your mass stove</h2></div>
-            <div class="alert  alert-secondary" role="alert" data-i18n="[html]app-in-dev">
-              Ce logiciel n'est pas terminé, il est en cours de développement...
+            <div class="alert  alert-warning role="alert" data-i18n="[html]app-in-dev">
+              This software is not finished, it is under development...
             </div>            
             <p class="lead" data-i18n="[html]app-lead">Application that aims to help you choose the right mass stove for your home.</p>
 
@@ -38,6 +38,27 @@
           </div>
         </div>
 
+        <div class="row card result" id="opendata">
+          <div class="col-md-12 p-2">
+            <h4 class="mb-3" data-i18n="[html]app-opendata-title">Open Data</h4>
+             <table id="opendataTab" class="table table-hover" width="100%">
+              <thead><tr>
+                  <th data-i18n="[html]suggestion-name" rowspan="2">Name</th>
+                  <th data-i18n="[html]suggestion-per-day"  colspan="4">Per day</th>
+                  <th data-i18n="[html]suggestion-weight" rowspan="2">Weight</th>
+                  <th data-i18n="[html]suggestion-link" rowspan="2">link</th>
+              </tr><tr>
+                  <th data-i18n="[html]suggestion-power">Power</th>
+                  <th data-i18n="[html]suggestion-fire">Fire</th>
+                  <th data-i18n="[html]suggestion-wood">Wood</th>
+                  <th data-i18n="[html]suggestion-use">Use</th>
+              </tr></thead>
+              <tbody>
+              </tbody>
+            </table>'
+          </div>
+        </div>
+        
         <!-- Formulaire -->
         <form id="form-choisirsonpdm">
           <div class="row ">

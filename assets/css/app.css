@@ -19,10 +19,20 @@
 #map {
     width: 100%; height: 300px;
 }
+#opendata,
 #result,
 #suggestion {
     display: none;
 }
+
+#opendataTab {
+    width: 100%
+}
+
+#opendataTab thead {
+  text-align: center
+}
+
 #suggestion th {
   text-align: center;
 }

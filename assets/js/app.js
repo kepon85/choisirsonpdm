@@ -4,6 +4,28 @@ function debug(msg) {
     }
 }
 
+// Juste pour "afficher" les données
+function openData() {
+    debug('Opendata print');
+    $('#opendata').show(); 
+    $.each(settings.pdmData, function() {
+        var pdmData = this;
+        $.each(this.dalyPower, function() {
+            $('#opendataTab > tbody:last-child').append(
+                '<tr>'
+                    +'<td>'+pdmData.name+'</td>'
+                    +'<td class="text-center">'+precise_round(this.power/1000,2)+'kW</td>'
+                    +'<td class="text-center">'+this.fire+'</td>'
+                    +'<td class="text-center">'+this.woodLoad+'kg</td>'
+                    +'<td class="text-center">'+this.use+'</td>'
+                    +'<td class="text-center">'+pdmData.weight+'kg</td>'
+                    +'<td class="text-center"><a href="'+pdmData.link+'">link</a></td>'
+                +'<tr>'
+            );
+        });
+    });
+}
+
 // Envoi du formulaire
 function submitForm() {
     debug('Soumission du formulaire');
@@ -211,17 +233,23 @@ $( document ).ready(function() {
     var hash = window.location.hash.substr(1);
     if (hash) {
         debug('hash : ' + hash);
-        var result = hash.split('&').reduce(function (res, item) {
-            var parts = item.split('=');
-            res[parts[0]] = parts[1];
-            if ($("#"+parts[0])[0].type == "checkbox") {
-                $("#"+parts[0]).prop("checked", parts[1]);
-            } else {
-                $("#"+parts[0]).val(parts[1]);
-            }
-            return res;
-        }, {});
-        debug('result' + result);
+        if (hash == 'opendata') {
+            openData();
+        } else {
+            var result = hash.split('&').reduce(function (res, item) {
+                var parts = item.split('=');
+                res[parts[0]] = parts[1];
+                if ($("#"+parts[0]) !== undefined) {
+                    if ($("#"+parts[0])[0].type == "checkbox") {
+                        $("#"+parts[0]).prop("checked", parts[1]);
+                    } else {
+                        $("#"+parts[0]).val(parts[1]);
+                    }
+                }
+                return res;
+            }, {});
+            debug('result' + result);
+        }
     }
     // Valeur par défaut du formulaire
     Object.entries(settings.form_default).forEach(entry => {
