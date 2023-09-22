@@ -49,6 +49,7 @@ const defaultSettings = {
       "link": "https://agir.lowtech.fr/minimasse/",
       "comment": "",
     },
+/*
     {
       // https://forum.poeledemasse.org/t/donnee-differents-modeles-4-6-8kw-qte-de-bois-nombre-de-flambee/2106/18
       "name": "[Oxalis] 4kW sans BAF",
@@ -61,6 +62,7 @@ const defaultSettings = {
       "link": "https://www.oxalis-asso.org/?page_id=3202",
       "comment": "Avec boîte à feu",
     },
+*/
     {
       // https://forum.poeledemasse.org/t/donnee-differents-modeles-4-6-8kw-qte-de-bois-nombre-de-flambee/2106/18
       "name": "[Oxalis] 4kW avec BAF",
@@ -73,6 +75,7 @@ const defaultSettings = {
       "link": "https://www.oxalis-asso.org/?page_id=3202",
       "comment": "Avec boîte à feu",
     },
+/*
     {
       // https://forum.poeledemasse.org/t/donnee-differents-modeles-4-6-8kw-qte-de-bois-nombre-de-flambee/2106/18
       "name": "[Oxalis] 6kW sans BAF",
@@ -85,6 +88,7 @@ const defaultSettings = {
       "link": "https://www.oxalis-asso.org/?page_id=3202",
       "comment": "Sans boîte à feu",
     },
+*/
     {
       // https://forum.poeledemasse.org/t/donnee-differents-modeles-4-6-8kw-qte-de-bois-nombre-de-flambee/2106/18
       "name": "[Oxalis] 6kW avec BAF",
@@ -97,6 +101,7 @@ const defaultSettings = {
       "link": "https://www.oxalis-asso.org/?page_id=3202",
       "comment": "Sans boîte à feu",
     },
+/*
     {
       // https://forum.poeledemasse.org/t/donnee-differents-modeles-4-6-8kw-qte-de-bois-nombre-de-flambee/2106/18
       "name": "[Oxalis] 8kW sans BAF",
@@ -109,6 +114,7 @@ const defaultSettings = {
       "link": "https://www.oxalis-asso.org/?page_id=3202",
       "comment": "",
     },
+*/
     {
       // https://forum.poeledemasse.org/t/donnee-differents-modeles-4-6-8kw-qte-de-bois-nombre-de-flambee/2106/18
       "name": "[Oxalis] 8kW avec BAF",
