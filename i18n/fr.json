@@ -9,7 +9,7 @@
 	},
     "app-title": "Choisir son poêle de masse !",
 	"app-in-dev": "Ce logiciel n'est pas terminé, il est en cours de développement... <b>Il ne faut (pour le moment) pas se fier à ces résultats</b>.",
-	"app-disclamer": "Les résultats sont donnés à titre indicatif, nous vous conseillons de vous rapprocher d'un <a href=\"https://www.afpma.pro/#carte-des-membres\">artisan poêlier professionnel</a> pour une étude thermique personnalisée afin de vous orienter vers le poêle de masse qui vous conviendra le mieux. ",
+	"app-disclamer": "Les résultats sont donnés à titre indicatif, nous vous conseillons de vous rapprocher d'un <a href=\"https://www.afpma.pro/#carte-des-membres\">artisan poêlier professionnel</a> et/ou d'un BET (bureau d'étude thermique) pour une étude thermique personnalisée afin de vous orienter vers le poêle de masse qui vous conviendra le mieux. ",
 	"app-lead": "Application qui vise à vous aider à choisir le bon poêle de masse pour votre habitat.",
 	"app-opendata-title": "OpenData",
 	"alert-warning": "Avertissement",
