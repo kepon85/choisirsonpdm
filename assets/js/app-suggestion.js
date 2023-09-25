@@ -41,12 +41,13 @@ function suggestion() {
         $.each(settings.pdmData, function() {
             var pdmData = this;
             $.each(this.dalyPower, function() {
+                id=id+1;
                 if (this.use == "critical") {
-                    id=id+1;
+                    debug('Suggestion ID ' + id);
                     var diffPowerDeperdition = this.power-resDeperdition;
                     var diffPowerDeperditionAbs = Math.abs(diffPowerDeperdition);
                     var diffPowerDeperditionPercent =  100*diffPowerDeperdition/resDeperdition;
-                    $("#suggestionTransparentConsole ul").append('<li>'+id+' : '+pdmData.name+' '+this.power+'W. La différence avec le besoin est de '+diffPowerDeperdition+'</li>');
+                    $("#suggestionTransparentConsole ul").append('<li>'+id+' : '+pdmData.name+' '+Math.round(this.power)+'W. La différence avec le besoin est de '+Math.round(diffPowerDeperdition)+'W</li>');
                     if (diffPowerDeperditionAbs < bestDiffPowerDeperdition) {
                         bestId=id;
                         bestDiffPowerDeperdition=diffPowerDeperditionAbs;
@@ -60,8 +61,9 @@ function suggestion() {
                     } else {
                         trClass='text-secondary';
                     }
+                    debug('trClass ID ' + id + '= '+ trClass);
                     $('#suggestionTab > tbody:last-child').append(
-                        '<tr class="'+trClass+'">'
+                        '<tr id="pdm-suggestion-'+id+'" class="'+trClass+'">'
                             +'<td>'+pdmData.name+'</td>'
                             +'<td class="text-center">'+precise_round(this.power/1000,2)+'kW</td>'
                             +'<td class="text-center">'+this.fire+'</td>'
@@ -82,6 +84,9 @@ function suggestion() {
             $.each(this.dalyPower, function() {
                 id=id+1;
                 if (id == bestId) {
+                    $('#pdm-suggestion-'+id).removeClass('text-secondary');
+                    $('#pdm-suggestion-'+id).removeClass('bg-warning-subtle');
+                    $('#pdm-suggestion-'+id).addClass('bg-success-subtle');
                     $('#bestName').html("<a href='"+pdmData.link+"'>"+pdmData.name+"</a>");
                     $('#bestFire').html(this.fire);
                     $('#bestWood').html(this.woodLoad);

@@ -52,7 +52,7 @@ const defaultSettings = {
 /*
     {
       // https://forum.poeledemasse.org/t/donnee-differents-modeles-4-6-8kw-qte-de-bois-nombre-de-flambee/2106/18
-      "name": "[Oxalis] 4kW sans BAF",
+      "name": "[Oxa-libre] 4kW sans BAF",
       "dalyPower": [ 
         { "fire": 1, "woodLoad": "10.2", "power": 1450, "use": "normal" },
         { "fire": 2, "woodLoad": "10.2", "power": 2900, "use": "normal" },
@@ -65,7 +65,7 @@ const defaultSettings = {
 */
     {
       // https://forum.poeledemasse.org/t/donnee-differents-modeles-4-6-8kw-qte-de-bois-nombre-de-flambee/2106/18
-      "name": "[Oxalis] 4kW avec BAF",
+      "name": "[Oxa-libre] 4kW avec BAF",
       "dalyPower": [ 
         { "fire": 1, "woodLoad": "6.4", "power": 900, "use": "normal" },
         { "fire": 2, "woodLoad": "6.4", "power": 1810, "use": "normal" },
@@ -78,7 +78,7 @@ const defaultSettings = {
 /*
     {
       // https://forum.poeledemasse.org/t/donnee-differents-modeles-4-6-8kw-qte-de-bois-nombre-de-flambee/2106/18
-      "name": "[Oxalis] 6kW sans BAF",
+      "name": "[Oxa-libre] 6kW sans BAF",
       "dalyPower": [ 
         { "fire": 1, "woodLoad": "14.4", "power": 2000, "use": "normal" },
         { "fire": 2, "woodLoad": "14.4", "power": 4000, "use": "normal" },
@@ -91,7 +91,7 @@ const defaultSettings = {
 */
     {
       // https://forum.poeledemasse.org/t/donnee-differents-modeles-4-6-8kw-qte-de-bois-nombre-de-flambee/2106/18
-      "name": "[Oxalis] 6kW avec BAF",
+      "name": "[Oxa-libre] 6kW avec BAF",
       "dalyPower": [ 
         { "fire": 1, "woodLoad": "8.35", "power": 1180, "use": "normal" },
         { "fire": 2, "woodLoad": "8.35", "power": 2370, "use": "normal" },
@@ -104,7 +104,7 @@ const defaultSettings = {
 /*
     {
       // https://forum.poeledemasse.org/t/donnee-differents-modeles-4-6-8kw-qte-de-bois-nombre-de-flambee/2106/18
-      "name": "[Oxalis] 8kW sans BAF",
+      "name": "[Oxa-libre] 8kW sans BAF",
       "dalyPower": [ 
         { "fire": 1, "woodLoad": "20", "power": 2850, "use": "normal" },
         { "fire": 2, "woodLoad": "20", "power": 5700, "use": "normal" },
@@ -117,7 +117,7 @@ const defaultSettings = {
 */
     {
       // https://forum.poeledemasse.org/t/donnee-differents-modeles-4-6-8kw-qte-de-bois-nombre-de-flambee/2106/18
-      "name": "[Oxalis] 8kW avec BAF",
+      "name": "[Oxa-libre] 8kW avec BAF",
       "dalyPower": [ 
         { "fire": 1, "woodLoad": "12.2", "power": 1720, "use": "normal" },
         { "fire": 2, "woodLoad": "12.2", "power": 3440, "use": "normal" },
