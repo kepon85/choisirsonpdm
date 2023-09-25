@@ -74,7 +74,7 @@
 	"result-g-formule-dt-more": "The 'base' temperature is the temperature of the 5 coldest consecutive days of the year, averaged over the last X years. Here it is meteorological data retrieved by <a href='https://framagit.org/kepon/choisirsonpdm/-/tree/main/api'>API</a>.",
 	"result-ubat-formule-dt": "DT (°C): temperature difference 'DT', between the interior of the house and the exterior, when it is cold (subtraction between the desired interior temperature and the temperature 'basic' of your region.",
 	"result-ubat-formule-dt-more": "The 'base' temperature is the temperature of the 5 coldest consecutive days of the year, averaged over the last X years. Here it is meteorological data retrieved by <a href='https://framagit.org/kepon/choisirsonpdm/-/tree/main/api'>API</a>.",
-	"result-g-formula-v": "V (m<sup>3</sup>): The volume to be heated (area x height).",
+	"result-g-formule-v": "V (m<sup>3</sup>): The volume to be heated (area x height).",
 	"result-g-formule-g": "G: The insulation coefficient of your house.",
 	"result-g-formule-your-case": "In your case it makes us:",
 	"result-ubat-formule-your-case": "In your case it makes us:",
