@@ -1,6 +1,6 @@
 const userSettings = {
   "debug": true,
-  "debugLoadMap": false,
+  "debugLoadMap": true,
   "form_default": {
     "level":     1,
     "temp_base_years_archive":     10,
