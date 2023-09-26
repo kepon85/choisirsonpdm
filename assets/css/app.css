@@ -55,6 +55,41 @@
     margin-bottom: 3px;
     margin-top: 3px;
 }
+
+/* Loader : */
+
+#loadData_background {
+  /* https://css-tricks.com/css-page-loader/ */
+  position: absolute;
+  top: 0;
+  bottom: 0%;
+  left: 0;
+  right: 0%;
+  /* https://www.primfx.com/creer-flou-arriere-plan-css/ */
+  -webkit-backdrop-filter: blur(15px); /* assure la compatibilitÃ© avec safari */
+  backdrop-filter: blur(15px) grayscale(2) opacity(0.9);
+  z-index: 89;
+}
+
+#loadData_messages {
+  /* https://css-tricks.com/css-page-loader/ */
+  position: absolute;
+  left: 50%;
+  margin-left: -50px;
+  top: 30%;
+  margin-top: -50px;
+  z-index: 99;
+}
+
+#loadData_messages .loading-gif,
+#loadData_messages .message,
+#loadData_error {
+  text-align: center;
+}
+#loadData_error {
+  display: none;
+}
+
 /* i18n */
 .locale-switcher {
     position: fixed;

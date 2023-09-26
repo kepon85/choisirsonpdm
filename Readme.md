@@ -1,14 +1,26 @@
-    Todo : 
-* Pas de calcul au début, 1 case avec le résultat, le bouton donne le résultat
-* Settings différents selon domaine 
- * modifier le logo, les couleurs ? les phrases ?
-* Traduction
-* Résultat différent selon type de poêle... page appeler en ajax avec en paramètre toutes les valeurs (dont le résultat)
-* Implémenté plusieurs méthode de calcul
+# Choisir son poêle de masse
 
+Vous aide à considérer votre besoin de chauffage et vous suggère le "bon poêle de masse" open source en conséquences.
 
-Utilisation 
+En ligne : https://choisir.poeledemasse.org/
 
+## Besoin de chauffage
+
+## Suggestion
+
+@todo à compléter (développer l'algo en mode texte)
+
+### Dev suggestion
+
+Quelques exemples qui permettent différentes suggestion pour tester l'algo :
+
+Exemple n'aboutissant à aucune "super"suggestion, que des "cool" : http://127.0.0.1:3000/index.html#level=1&transparent=true&livingspace=50&livingheight=2.5&livingvolume=125&livingvolume_auto=true&wastagesurface=120&temp_indor=19&g=1.8&ubat_global=0.4&venti_global=0.14&lat=&lng=&temp_base=11.6&temp_base_auto=&temp_base_years_archive=10&submit_input=1
+Exemple à plusieurs "super" suggestion : http://127.0.0.1:3000/index.html#level=1&transparent=true&livingspace=149.7&livingheight=2.5&livingvolume=374.25&livingvolume_auto=true&wastagesurface=120&temp_indor=19&g=1.8&ubat_global=0.4&venti_global=0.14&lat=&lng=&temp_base=11.6&temp_base_auto=&temp_base_years_archive=10&submit_input=1
+2 cool mais rien de super : http://127.0.0.1:3000/index.html#level=1&transparent=true&livingspace=149.7&livingheight=2.5&livingvolume=374.25&livingvolume_auto=true&wastagesurface=120&temp_indor=26&g=1.8&ubat_global=0.4&venti_global=0.14&lat=&lng=&temp_base=11.6&temp_base_auto=&temp_base_years_archive=10&submit_input=1
+
+## Dépendances / Utilisations
+
+Quelques projets open sources utilisé dans celui-ci :
 
 * Bootstrap 5.3
 * Mapbox : https://docs.mapbox.com/mapbox-gl-js/example/map-projection/
@@ -22,3 +34,6 @@ Utilisation
 
 * Auteurs : Mercereau David
 * Soutien technique sur la partie Thermique : Damien Sgorlon
+* La page d'Uzume pour la compréhension de la méthode G :https://www.uzume.fr/quelle-puissance-pour-mon-poele-de-masse 
+* Le calculateur Oxalis pour la compréhension de la méthode Ubat : https://www.oxalis-asso.org/?page_id=3206
+* Les retours de la communauté : https://forum.poeledemasse.org/tag/choisirpoeledemasseo

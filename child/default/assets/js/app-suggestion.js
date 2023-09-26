@@ -11,8 +11,9 @@ function suggestion() {
             + '<span data-i18n="[html]suggestion-too-large-3"> </span>'
             + '</div>');
     } else {
-        $("#suggestionContent").append('<p><span data-i18n="[html]suggestion-best-1">The open source mass stove (referenced here) that comes closest to your maximum heating requirement seems to be the </span><span id="bestName"></span><span data-i18n="[html]suggestion-best-2">, with </span><span id="bestFire"></span><span data-i18n="[html]suggestion-best-3"> surge of </span><span id="bestWood"></span><span data-i18n="[html]suggestion-best-4">kg of wood per day for a daily power of </span><span id="bestPower"></span><span data-i18n="[html]suggestion-best-5">kW.</span></p>');
-        $("#suggestionContent").append('<p id="step-back></p>');
+        $("#suggestionContent").append('<p id="best"><span data-i18n="[html]suggestion-best-1">Le poêle de masse open source (référencé ici) qui se rapproche le plus de votre besoin de chauffage maximum, lors des 5 jours les plus froids de l’année, semble être le </span><span id="bestName"></span> <span data-i18n="[html]suggestion-best-2">pour une puissance journalière de</span><span id="bestPower"></span><span data-i18n="[html]suggestion-best-3">kW.</span></p>');
+        $("#suggestionContent").append('<p id="best-multi" class="display: none"><span data-i18n="[html]suggestion-best-multi-1">Plusieurs poêle de masse open source (référencé ici) semble se rapproche le de votre besoin de chauffage maximum (lors des 5 jours les plus froids de l’année) : </span><ul id="best-multi-ul"></ul></p>');
+        $("#suggestionContent").append('<p id="bestCool-multi" class="display: none"><span data-i18n="[html]suggestion-bestCool-multi-1">Aucun poêle de masse open source (référencé ici) semble complètement satisfaisant mais voici ceux qui se rapproche le plus de votre besoin de chauffage maximum (lors des 5 jours les plus froids de l’année) : </span><ul id="bestCool-multi-ul"></ul></p>');
         $("#suggestionContent").append('<p class="disclamer"><b data-i18n="[html]alert-warning">Avertissement</b> : <span data-i18n="[html]app-disclamer">Les résultats sont donnés à titre indicatif, nous vous conseillons de vous rapprocher d\'un <a href="https://www.afpma.pro/#carte-des-membres">artisan poêlier professionnel</a> pour une étude thermique personnalisé afin de vous orienter vers le poêle de masse qui vous conviendra le mieux. </span></p>');
         $("#suggestionContent").append(
             '<table id="suggestionTab">'
@@ -30,14 +31,17 @@ function suggestion() {
                 +'</tr></thead>'
                 +'<tbody>'
                 +'</tbody>'
-            +'</table>');
+            +'</table>'
+            +'<a href="#opendata">Voir toutes les données disponibles</a>');
         if ($("#transparent").prop("checked")) {
-            $("#suggestionContent").append('<div id="suggestionTransparentConsole" class="bg-secondary card"><p>Transparence de la suggestion : <ul></ul></p></div>');
+            $("#suggestionContent").append('<div id="suggestionTransparentConsole" class="bg-secondary card"><p>Pour le dimensionnement on part de la température "critique" (extrême) donc on ne considère que les cas d\'usages critiques des poêles.</p><p>Transparence de la suggestion : <ul></ul></p></div>');
         }
         var id=0;
-        var bestId=0;
-        var bestDiffPowerDeperdition=999999999;
-        // @todo Couleur de la ligne avec un % 
+        var veryBestId=0;
+        var veryBestDiffPowerDeperdition=999999999;
+        var best = new Array();
+        var bestCool = new Array();
+        // Afficher les colonnes et leur couleur, on détermine les "best"
         $.each(settings.pdmData, function() {
             var pdmData = this;
             $.each(this.dalyPower, function() {
@@ -48,16 +52,19 @@ function suggestion() {
                     var diffPowerDeperditionAbs = Math.abs(diffPowerDeperdition);
                     var diffPowerDeperditionPercent =  100*diffPowerDeperdition/resDeperdition;
                     $("#suggestionTransparentConsole ul").append('<li>'+id+' : '+pdmData.name+' '+Math.round(this.power)+'W. La différence avec le besoin est de '+Math.round(diffPowerDeperdition)+'W</li>');
-                    if (diffPowerDeperditionAbs < bestDiffPowerDeperdition) {
-                        bestId=id;
-                        bestDiffPowerDeperdition=diffPowerDeperditionAbs;
-                        $("#suggestionTransparentConsole ul").append('<li><b>=> C\'est, pour le moment, le poêle qui s\'approche le plus du besoin</b></li>');
-                    }
                     //debug("diffPowerDeperdition="+diffPowerDeperdition);
                     if (Math.abs(diffPowerDeperditionPercent) < settings.pdmSuggestion.percentPowerSuper) {
                         trClass='bg-success-subtle';
+                        // On enregistre sir c'est une super correspondance
+                        best.push(id);
+                        if (diffPowerDeperditionAbs < veryBestDiffPowerDeperdition) {
+                            veryBestId=id;
+                            veryBestDiffPowerDeperdition=diffPowerDeperditionAbs;
+                            $("#suggestionTransparentConsole ul").append('<li><b>=> C\'est, pour le moment, le poêle qui s\'approche le plus du besoin</b></li>');
+                        }
                     } else if (Math.abs(diffPowerDeperditionPercent) < settings.pdmSuggestion.percentPowerCool) {
                         trClass='bg-warning-subtle';
+                        bestCool.push(id) ;
                     } else {
                         trClass='text-secondary';
                     }
@@ -77,23 +84,39 @@ function suggestion() {
                 }
             });
         });
-        debug("Best ID = "+bestId);
+        debug("Best ID = "+veryBestId);
+        debug(best);
+        debug(bestCool);
+        if (best.length >= 1) {
+            $('#best-multi').hide();
+        } 
+        if (best.length < 1) {
+            $('#best-multi').show();
+            $('#best').hide();
+        } 
+        if (veryBestId === 0) {
+            $('#best').hide();
+        }
         var id=0;
         $.each(settings.pdmData, function() {
             var pdmData = this;
             $.each(this.dalyPower, function() {
                 id=id+1;
-                if (id == bestId) {
+                if ( best.includes(id) ) {
+                    $("#best-multi-ul").append('<li><a href="'+pdmData.link+'">'+pdmData.name+'</a> <span data-i18n="[html]suggestion-best-2">pour une puissance journalière de</span> ' + precise_round(this.power/1000, 2) + '<span data-i18n="[html]suggestion-best-3">kW.</span></li>');
+                }
+                if ( bestCool.includes(id) ) {
+                    $("#bestCool-multi-ul").append('<li><a href="'+pdmData.link+'">'+pdmData.name+'</a> <span data-i18n="[html]suggestion-best-2">pour une puissance journalière de</span> ' + precise_round(this.power/1000, 2) + '<span data-i18n="[html]suggestion-best-3">kW.</span></li>');
+                }
+                if (id == veryBestId) {
                     $('#pdm-suggestion-'+id).removeClass('text-secondary');
                     $('#pdm-suggestion-'+id).removeClass('bg-warning-subtle');
                     $('#pdm-suggestion-'+id).addClass('bg-success-subtle');
                     $('#bestName').html("<a href='"+pdmData.link+"'>"+pdmData.name+"</a>");
-                    $('#bestFire').html(this.fire);
-                    $('#bestWood').html(this.woodLoad);
+                    //$('#bestFire').html(this.fire);
+                    //$('#bestWood').html(this.woodLoad);
                     $('#bestPower').html(precise_round(this.power/1000, 2));
                 }
-                var diffPowerDeperdition = this.power-resDeperdition;
-                var diffPowerDeperditionAbs = Math.abs(diffPowerDeperdition);
             });
         });
     }

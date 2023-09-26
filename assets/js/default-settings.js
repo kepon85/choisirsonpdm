@@ -9,6 +9,7 @@ const defaultSettings = {
   "apiDebounceTtimeout":           1500,
   "defaultLanguage":              "fr",
   "form_default": {
+    "level":     1,
     "temp_base_years_archive":     10,
     "ubat_global":                 0.4,
     "venti_global":                0.14,

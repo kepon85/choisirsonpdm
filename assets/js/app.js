@@ -427,4 +427,5 @@ $( document ).ready(function() {
         $('#map').text("Disable by settings.debugLoadMap");
     }
 
+    $('#loadData').hide();
 });

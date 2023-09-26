@@ -11,6 +11,7 @@
 	"app-disclamer": "The results are given for information only, we advise you to contact a <a href=\"https://www.afpma.pro/#carte-des-membres\">craftsman professional stove</a> for a personalized thermal study in order to guide you towards the mass stove that will suit you best.",
 	"app-lead": "Application that aims to help you choose the right mass stove for your home.",
 	"app-opendata-title": "OpenData",
+	"loading": "Loading",
 	"alert-warning": "Warning",
 	"form-level-label": "Your degree of knowledge in mass stove : ",
 	"form-level-1": "Beginner",
@@ -103,10 +104,9 @@
 	"suggestion-link": "Link",
 	"suggestion-diffpowerdeperdition": "Difference with need",
 	"suggestion-best-1": "The open source mass stove (referenced here) which comes closest to meeting your maximum heating needs, during the 5 coldest days of the year, seems to be the ",
-	"suggestion-best-2": ", with ",
-	"suggestion-best-3": " surge of ",
-	"suggestion-best-4": "kg of wood per day for a daily power of ",
-	"suggestion-best-5": "kW.",
+	"suggestion-best-2": "for a daily power of ",
+	"suggestion-best-3": "kW.",
+	"suggestion-best-multi-1": "Several open source mass stoves (referenced here) seem to come close to your maximum heating needs (during the 5 coldest days of the year) : ",
 	"suggestion-too-large-1": "No mass stove listed here meets your needs (it is too large). We advise you to call on a ",
 	"suggestion-too-large-2": " ",
 	"suggestion-too-large-3": "professional stove mason so that he can guide you.",
@@ -119,6 +119,5 @@
 	"minimasse-suggestion-too-big-3": "see to calling on a ",
 	"minimasse-suggestion-too-big-4": "professional stove mason",
 	"minimasse-suggestion-success": "The MiniMasse seems to meet your needs.",
-	"afpma-app-title": "Determine a heating need",
-	"othen": "other"
+	"afpma-app-title": "Determine a heating need"
 }
