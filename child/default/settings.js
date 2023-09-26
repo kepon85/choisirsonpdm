@@ -1,6 +1,6 @@
 const userSettings = {
   "debug": true,
-  "debugLoadMap": true,
+  "debugLoadMap": false,
   "form_default": {
     "level":     1,
     "temp_base_years_archive":     10,
@@ -14,7 +14,7 @@ const userSettings = {
       "wastagesurface":           200,
     "temp_indor":                 18, 
     "temp_base_auto":             true,
-  "temp_base":                    1,
+  //"temp_base":                    1,
   "transparent":                  true,
 
 

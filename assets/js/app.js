@@ -364,13 +364,18 @@ $( document ).ready(function() {
             lat = $( "#lat" ).val();
             zoom = 8;
             markerDefault = true;
+            getBaseTemperature();
         // Ensuite le localStorage
         } else if (localStorage.getItem('lngLat')) {
+            debug('Load localStorage');
             var storageLngLat = JSON.parse(localStorage.getItem('lngLat'));
             lng = storageLngLat.lng;
+            $( "#lng" ).val(lng);
             lat = storageLngLat.lat;
+            $( "#lat" ).val(lat);
             zoom = 8;
             markerDefault = true;
+            getBaseTemperature();
         }
         // Init de la cart
         var map = new mapboxgl.Map({
