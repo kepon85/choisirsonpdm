@@ -69,8 +69,8 @@ const defaultSettings = {
       "name": "[Oxa-libre] 4kW avec BAF",
       "dalyPower": [ 
         { "fire": 1, "woodLoad": "6.4", "power": 900, "use": "normal" },
-        { "fire": 2, "woodLoad": "6.4", "power": 1810, "use": "critical" },
-        //{ "fire": 3, "woodLoad": "6.4", "power": 2710, "use": "critical" },
+        { "fire": 2, "woodLoad": "6.4", "power": 1810, "use": "normal" },
+        { "fire": 3, "woodLoad": "6.4", "power": 2710, "use": "critical" },
       ],
       "weight": 2000,
       "link": "https://www.oxalis-asso.org/?page_id=3202",
@@ -95,8 +95,8 @@ const defaultSettings = {
       "name": "[Oxa-libre] 6kW avec BAF",
       "dalyPower": [ 
         { "fire": 1, "woodLoad": "8.35", "power": 1180, "use": "normal" },
-        { "fire": 2, "woodLoad": "8.35", "power": 2370, "use": "critical" },
-        //{ "fire": 3, "woodLoad": "8.35", "power": 3550, "use": "critical" },
+        { "fire": 2, "woodLoad": "8.35", "power": 2370, "use": "normal" },
+        { "fire": 3, "woodLoad": "8.35", "power": 3550, "use": "critical" },
       ],
       "weight": 2300,
       "link": "https://www.oxalis-asso.org/?page_id=3202",
@@ -121,8 +121,8 @@ const defaultSettings = {
       "name": "[Oxa-libre] 8kW avec BAF",
       "dalyPower": [ 
         { "fire": 1, "woodLoad": "12.2", "power": 1720, "use": "normal" },
-        { "fire": 2, "woodLoad": "12.2", "power": 3440, "use": "critical" },
-        //{ "fire": 3, "woodLoad": "12.2", "power": 5200, "use": "critical" },
+        { "fire": 2, "woodLoad": "12.2", "power": 3440, "use": "normal" },
+        { "fire": 3, "woodLoad": "12.2", "power": 5200, "use": "critical" },
       ],
       "weight": 2650,
       "link": "https://www.oxalis-asso.org/?page_id=3202",
