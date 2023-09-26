@@ -8,13 +8,38 @@ En ligne : https://choisir.poeledemasse.org/
 
 ## Suggestion
 
-@todo à compléter (développer l'algo en mode texte)
+[2 paramètres](https://framagit.org/kepon/choisirsonpdm/-/blob/main/assets/js/default-settings.js?search=debug#L33) se trouve :
+
+* *percentPowerSuper* : pourcentage de correspondance auquel on considère que le poêle propose correspond bien (actuellement : 10%)
+* *percentPowerCool* : pourcentage de correspondance auquel on considère que le poêle propose correspond pas trop mal... (actuellement : 24%)
+
+La suggestion pour le "bon poêle de masse" se déroule comme suite : 
+
+* Nous disposons du besoin de chauffage (déperdition du bâtiment) noté "D". 
+* On prend chaque poêle 1 par 1 avec ces caractéristiques : https://choisir.poeledemasse.org/#opendata dans son cas d'usage "critique" (car D est calculé avec la température critique), ensuite on détermine : 
+    * *diffPowerDeperdition* : la différence de puissance du poêle de masse avec D (puissance - D)
+    * *diffPowerDeperditionPercent* = 100**diffPowerDeperdition*/D (le pourcentage de différence entre la puissance et D)
+    * *diffPowerDeperditionAbs* : *diffPowerDeperdition* en absolu 
+    * *diffPowerDeperditionPercentAbs* : *diffPowerDeperditionPercent* en absolu
+    * *bestClass* défini le niveau de corrélation avec les déperdition D ; 
+        * 2 si *diffPowerDeperditionPercentAbs* < *percentPowerSuper*
+        * 1 si *diffPowerDeperditionPercentAbs* < *percentPowerCool*
+        * 0 sinon...
+    
+
+* Ensuite on explique les cohix
+  * S'il n'y a aucun poêle en *bestClass* à 2 : Aucune correspondance parfaite
+    * On cherche les bestClass à 1 et on liste les poêle imparfait mais qui se rapproche quand même...
+  * S'il y a 1 poêle en *bestClass* à 12: On dit que le poêle qui correspond le mieux est ....
+  * S'il y a plus de 1 poêle en bestClass à 2 : on dit qu'on a trouvé plusieurs qui pourrait correspondre
+
+A chaque citation de suggestion on indique s'il est sur ou sous dimensionné et de combien.
 
 ### Dev suggestion
 
 Quelques exemples qui permettent différentes suggestion pour tester l'algo :
 
-Exemple n'aboutissant à aucune "super"suggestion, que des "cool" : http://127.0.0.1:3000/index.html#level=1&transparent=true&livingspace=50&livingheight=2.5&livingvolume=125&livingvolume_auto=true&wastagesurface=120&temp_indor=19&g=1.8&ubat_global=0.4&venti_global=0.14&lat=&lng=&temp_base=11.6&temp_base_auto=&temp_base_years_archive=10&submit_input=1
+Exemple n'aboutissant à aucune "super suggestion", que des "cool" : http://127.0.0.1:3000/index.html#level=1&transparent=true&livingspace=50&livingheight=2.5&livingvolume=125&livingvolume_auto=true&wastagesurface=120&temp_indor=19&g=1.8&ubat_global=0.4&venti_global=0.14&lat=&lng=&temp_base=11.6&temp_base_auto=&temp_base_years_archive=10&submit_input=1
 Exemple à plusieurs "super" suggestion : http://127.0.0.1:3000/index.html#level=1&transparent=true&livingspace=149.7&livingheight=2.5&livingvolume=374.25&livingvolume_auto=true&wastagesurface=120&temp_indor=19&g=1.8&ubat_global=0.4&venti_global=0.14&lat=&lng=&temp_base=11.6&temp_base_auto=&temp_base_years_archive=10&submit_input=1
 2 cool mais rien de super : http://127.0.0.1:3000/index.html#level=1&transparent=true&livingspace=149.7&livingheight=2.5&livingvolume=374.25&livingvolume_auto=true&wastagesurface=120&temp_indor=26&g=1.8&ubat_global=0.4&venti_global=0.14&lat=&lng=&temp_base=11.6&temp_base_auto=&temp_base_years_archive=10&submit_input=1
 
