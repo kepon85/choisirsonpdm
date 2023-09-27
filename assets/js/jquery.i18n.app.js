@@ -9,6 +9,7 @@ jQuery(function($) {
     $.i18n().load({
         'en': '/i18n/en.json',
         'fr': '/i18n/fr.json',
+        'es': '/i18n/es.json',
     }).done(function() {
         // Switch language
         $('.locale-switcher').on('click', 'a', function(e) {
