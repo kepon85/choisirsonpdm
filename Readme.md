@@ -89,6 +89,7 @@ Quelques projets open sources utilisé dans celui-ci :
 
 * Auteurs : Mercereau David
 * Soutien technique sur la partie Thermique : Damien Sgorlon
+* Traduction edufas http://www.estufasdeinercia.wordpress.com/
 * La page d'Uzume pour la compréhension de la méthode G :https://www.uzume.fr/quelle-puissance-pour-mon-poele-de-masse 
 * Le calculateur Oxalis pour la compréhension de la méthode Ubat : https://www.oxalis-asso.org/?page_id=3206
 * Les retours de la communauté : https://forum.poeledemasse.org/tag/choisirpoeledemasseo
