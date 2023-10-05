@@ -44,11 +44,7 @@ La suggestion pour le "bon poêle de masse" se déroule comme suite :
         * 1 si *diffPowerDeperditionPercent* < *percentPowerCool*
         * 0 sinon...
     
-* Ensuite on explique les choix
-  * S'il n'y a aucun poêle en *bestClass* à 2 : Aucune correspondance parfaite
-    * On cherche les bestClass à 1 et on liste les poêle imparfait mais qui se rapproche quand même...
-  * S'il y a 1 poêle en *bestClass* à 12: On dit que le poêle qui correspond le mieux est ....
-  * S'il y a plus de 1 poêle en bestClass à 2 : on dit qu'on a trouvé plusieurs qui pourraient correspondre
+* Ensuite on explique les choix en confondant bestClass 1 & 2 (juste en surlignant en primaire le 2 et en secondaire le 1 pour mettre en valeur le poêle le plus proche s'il y en a plusieurs)
 
 A chaque citation de suggestion on indique s'il est sur ou sous dimensionné et de combien.
 
