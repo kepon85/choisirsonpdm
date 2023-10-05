@@ -138,7 +138,7 @@ const defaultSettings = {
         { "fire": 3, "woodLoad": 12, "power": 4900, "use": "critical" }
       ],
       "weight": 1200,
-      "link": "https://www.uzume.fr/plans-poeles-de-masse/Mini-Batchblock-avec-banc",
+      "link": "https://www.uzume.fr/plans-poeles-de-masse/Mini-Batchblock",
       "comment": "",
     },
     {
@@ -150,7 +150,7 @@ const defaultSettings = {
         { "fire": 3, "woodLoad": 12, "power": 4900, "use": "critical" }
       ],
       "weight": 1200,
-      "link": "https://www.uzume.fr/plans-poeles-de-masse/Cuisini%C3%A8re-Batchblock-",
+      "link": "https://www.uzume.fr/plans-poeles-de-masse/Cuisiniere-Batchblock",
       "comment": "",
     },
     {
