@@ -32,8 +32,8 @@ const defaultSettings = {
     'telegram': 'https://telegram.me/share/url?text=__TITLE__&url=__URL__',
   },
   "pdmSuggestion": {
-    'percentPowerSuper': 10,
-    'percentPowerCool': 24,
+    'percentPowerSuper': 8,
+    'percentPowerCool': 20,
   },
   "pdmData": [
     {

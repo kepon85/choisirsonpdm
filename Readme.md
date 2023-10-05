@@ -28,8 +28,8 @@ Permet une évaluation des besoins de chauffage :
 
 [2 paramètres](https://framagit.org/kepon/choisirsonpdm/-/blob/main/assets/js/default-settings.js?search=debug#L33) se trouve :
 
-* *percentPowerSuper* : pourcentage de correspondance auquel on considère que le poêle propose correspond bien (actuellement : 10%)
-* *percentPowerCool* : pourcentage de correspondance auquel on considère que le poêle propose correspond pas trop mal... (actuellement : 24%)
+* *percentPowerSuper* : pourcentage (+/-) de correspondance auquel on considère que le poêle propose correspond bien (actuellement : 8%)
+* *percentPowerCool* : pourcentage (+) de correspondance auquel on considère que le poêle propose correspond pas trop mal... (actuellement : 20%)
 
 La suggestion pour le "bon poêle de masse" se déroule comme suite : 
 
@@ -41,10 +41,9 @@ La suggestion pour le "bon poêle de masse" se déroule comme suite :
     * *diffPowerDeperditionPercentAbs* : *diffPowerDeperditionPercent* en absolu
     * *bestClass* défini le niveau de corrélation avec les déperditions D ; 
         * 2 si *diffPowerDeperditionPercentAbs* < *percentPowerSuper*
-        * 1 si *diffPowerDeperditionPercentAbs* < *percentPowerCool*
+        * 1 si *diffPowerDeperditionPercent* < *percentPowerCool*
         * 0 sinon...
     
-
 * Ensuite on explique les choix
   * S'il n'y a aucun poêle en *bestClass* à 2 : Aucune correspondance parfaite
     * On cherche les bestClass à 1 et on liste les poêle imparfait mais qui se rapproche quand même...
