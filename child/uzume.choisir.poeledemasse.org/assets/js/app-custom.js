@@ -16,11 +16,10 @@ $(".card.levelchose").hide();
 
 // Formulaire auto sur le volume
 $(".form-livingvolume_auto").hide();
-$(".temp_base_auto").hide();
 
 // Avertissement
 $(".disclamer").hide();
-
+$(".temp_base_years_archive").hide();
 
 if (inIframe()) {
     // En tête
