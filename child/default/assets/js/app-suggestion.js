@@ -72,6 +72,7 @@ function suggestion() {
                         "woodLoad": this.woodLoad,
                         "use": this.use,
                         "weight": pdmData.weight,
+                        "link": pdmData.link,
                         "diffPowerDeperdition": diffPowerDeperdition,
                         "diffPowerDeperditionAbs": diffPowerDeperditionAbs,
                         "diffPowerDeperditionPercent": diffPowerDeperditionPercent,
@@ -102,7 +103,7 @@ function suggestion() {
             $('#best').show();
             $.each(pdmSuggestions, function() {
                 if (this.bestClass == 2) {
-                    $('#bestName').html("<a href='"+this.link+"'>"+this.name+"</a>");
+                    $('#bestName').html("<a href='"+this.link+"' target='_blank'>"+this.name+"</a>");
                     $('#bestPower').html("<b>"+precise_round(this.power/1000, 2)+"</b>");
                 }
             });
@@ -111,7 +112,7 @@ function suggestion() {
             $('#best').show();
             $.each(pdmSuggestions, function() {
                 if (this.bestClass == 1) {
-                    $('#bestName').html("<a href='"+this.link+"'>"+this.name+"</a>");
+                    $('#bestName').html("<a href='"+this.link+"' target='_blank'>"+this.name+"</a>");
                     $('#bestPower').html("<b>"+precise_round(this.power/1000, 2)+"</b>");
                 }
             });
@@ -121,7 +122,7 @@ function suggestion() {
             $('#best-multi').show();
             $.each(pdmSuggestions, function() {
                 if (this.bestClass == 2 || this.bestClass == 1) {
-                    $("#best-multi-ul").append('<li><a href="'+this.link+'">'+this.name+'</a> <span data-i18n="[html]suggestion-best-2">pour une puissance journalière de</span><b> ' + precise_round(this.power/1000, 2) + '</b><span data-i18n="[html]suggestion-best-3">kW.</span></li>');
+                    $("#best-multi-ul").append('<li><a href="'+this.link+'" target="_blank">'+this.name+'</a> <span data-i18n="[html]suggestion-best-2">pour une puissance journalière de</span><b> ' + precise_round(this.power/1000, 2) + '</b><span data-i18n="[html]suggestion-best-3">kW.</span></li>');
                 }
             });
         // Aucun
@@ -134,12 +135,13 @@ function suggestion() {
         }
 
         $.each(pdmSuggestions, function() {
+            debug(this);
             $('#suggestionTab > tbody:last-child').append(
                 '<tr class="'+this.trClass+'">'
                     +'<td>'+this.name+'</td>'
                     +'<td class="text-center">'+precise_round(this.power/1000,2)+'kW</td>'
                     +'<td class="text-center">'+this.weight+'kg</td>'
-                    +'<td class="text-center"><a href="'+this.link+'">link</a></td>'
+                    +'<td class="text-center"><a href="'+this.link+'" target="_blank">link</a></td>'
                     +'<td class="text-center">'+precise_round(this.diffPowerDeperditionAbs/1000, 2)+' ('+Math.round(this.diffPowerDeperditionPercent)+'%)</td>'
                 +'<tr>'
             );

@@ -21,10 +21,18 @@ $(".form-livingvolume_auto").hide();
 $(".disclamer").hide();
 $(".temp_base_years_archive").hide();
 
+$("#result h4").hide();
+$("p #calcShowHide").hide();
+
+
+
 if (inIframe()) {
     // En tête
     $(".header").hide();
     // pied de page
     $("footer").hide();
-}
+    // Full page https://getbootstrap.com/docs/5.0/layout/containers/
+    $('#body-container').removeClass('container');
+    $('#body-container').addClass(' container-fluid');
 
+}
