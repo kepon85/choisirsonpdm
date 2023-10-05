@@ -1,0 +1,65 @@
+cath,matériau,masse volumique ρ (kg/m3),conductivité thermique λ (W/m.K),capacité thermique massique Cp (kJ/kg.°C),résistance diffusion de la vapeur d’eau μ (-),déphasage (h – pour 20cm),Conditionnement,"Lien
+Sources"
+Isolants,BioFib,30,"0,045",,,,,
+Isolants,Chanvre,35,"0,04",,"1,5",7,"panneau
+Rouleau",
+Isolants,Chènevotte,100,"0,048",,"1,5","8,5",vrac,Parc Eco Habitat
+Isolants,Laine de bois souple,45,"0,038",,"1,5",7,rouleau,Parc Eco Habitat
+Isolants,Laine de bois rigide,160,"0,045",,4,15,panneau,Parc Eco Habitat
+Isolants,Laine de lin,25,"0,037",,"1,5",6,"panneau
+Rouleau",Parc Eco Habitat
+Isolants,Laine de mouton,20,"0,037",,"1,5",5,"panneau
+Rouleau",Parc Eco Habitat
+Isolants,Laine de roche,15,"0,044",,1,6,rouleau,Parc Eco Habitat
+Isolants,Laine de verre,10,"0,042",,1,4,rouleau,Parc Eco Habitat
+Isolants,Liège expansé,240,"0,043",,10,13,panneau,Parc Eco Habitat
+Isolants,Liège expansé (vrac),65,"0,042",,2,9,vrac,Parc Eco Habitat
+Isolants,Métisse,25,"0,039",,"2,5",5,"panneau
+Rouleau",Parc Eco Habitat
+Isolants,Mousse minérale,115,"0,045",,3,7,panneau,Parc Eco Habitat
+Isolants,Ouate de cellulose soufflée,30,"0,041",,"1,5",10,vrac,Parc Eco Habitat
+Isolants,Ouate de cellulose panneaux,45,"0,039",,2,12,panneau,Parc Eco Habitat
+Isolants,Paille – Botte,80,"0,052",,1,8,botte,Parc Eco Habitat
+Isolants,Paille – Vrac,40,"0,7",,1,6,vrac,
+Isolants,Perlite expansée,70,"0,045",,3,6,granulats vrac,Parc Eco Habitat
+Isolants,Plume,30,"0,05",,2,5,panneau,Parc Eco Habitat
+Isolants,PSE Polystyrène expansé,20,"0,038",,20,4,panneau,Parc Eco Habitat
+Isolants,PSX Polystyrène extrudé,30,"0,035",,80,6,panneau,Parc Eco Habitat
+Isolants,Polyuréthane,30,"0,03",,30,6,panneau,Parc Eco Habitat
+Isolants,Roseau,200,"0,06",,"2,5",8,panneau,Parc Eco Habitat
+Isolants,Vermiculite expansée,100,"0,08",,"3,5",6,granulats vrac,Parc Eco Habitat
+Isolants,Verre cellulaire,100,"0,06",,10000,7,panneau,Parc Eco Habitat
+Enduits – Revêtements,Chaux,800,"0,12",,,,,
+Enduits – Revêtements,Chaux-chanvre,400,"0,12",,,,,
+Enduits – Revêtements,Pisé,1900,"1,1",,,,,
+Enduits – Revêtements,Plâtre,"715,38","0,325",,1,,,Placo
+Enduits – Revêtements,Sable,1800,,,6,,,
+Enduits – Revêtements,Terre argileuse,1500,"1,1",,10,,,
+Enduits – Revêtements,Torchis,750,"0,2",,,,,
+Structure,Acacia (Robinier),770,,,,,,
+Structure,Béton,2200,"1,75",,,,,
+Structure,Châtaigner,620,"0,17",,,,,
+Structure,Chêne,750,"0,17",,,,,
+Structure,Douglas,540,"0,12",,,,,
+Structure,Epicéa,510,,,,,,
+Structure,Frêne,720,"0,04",,,,,
+Structure,Hêtre,680,,,,,,
+Structure,Mélèze,600,"0,13",,,,,
+Structure,Noyer,700,,,,,,
+Structure,"Pin (maritime, sylvestre)",600,"0,12",,,,,
+Structure,Red Cedar (Thuya),370,,,,,,
+Structure,Sapin,450,,,,,,
+Fondations,Galets 20/40,1700,,,,,,
+Fondations,Misapor,140,"0,08",,10000,,,
+Fondations,Pouzzolane,1050,"0,15",,,,,
+Contreventement,Feuillard,,,,,,,
+Contreventement,OSB2,610,,,,,,
+Contreventement,OSB3,610,,,,,,
+Contreventement,OSB4,660,,,,,,
+Contreventement,RWH,600,"0,1",2100,12,,UNILIN,
+Humidité,Pare-pluie - fibre de bois,270,"0,048",,,,,
+Humidité,Pare-vapeur,40,"0,034",,,,,
+Couverture,Ardoise,2750,2,,,,,
+Menuiserie,Verre,2530,"1,2",,,,,
+Fluide,Air,"1,205","0,0257",1005,1,,,
+Fluide,Eau (à 20°C),998,"0,5977","4181,8",1,,,

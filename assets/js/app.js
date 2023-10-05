@@ -212,10 +212,14 @@ $( document ).ready(function() {
             $("#livingvolume").prop('disabled', true);
             $(".livingvolume_auto").show();
             $(".livingvolume_manuel").show();
+            $("#livingspace").attr("required", "true");
+            $("#livingheight").attr("required", "true");
         } else {
             $("#livingvolume").prop('disabled', false);
             $(".livingvolume_auto").hide();
             $(".livingvolume_manuel").hide();
+            $("#livingspace").removeAttr("required");
+            $("#livingheight").removeAttr("required");
         }
     });
 

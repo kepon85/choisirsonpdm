@@ -12,7 +12,7 @@ const userSettings = {
     "livingspace":                  40,
     "livingheight":               2.3,
       "wastagesurface":           200,
-    "temp_indor":                 18, 
+    "temp_indor":                 19, 
     "temp_base_auto":             true,
   //"temp_base":                    1,
   "transparent":                  true,
