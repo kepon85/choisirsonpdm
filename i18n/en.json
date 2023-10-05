@@ -51,7 +51,7 @@
 	"form-ubat_global-1-15": "1.15: For houses built between 1983 and 1989",
 	"form-ubat_global-1-8": "1.8: Uninsulated house (walls, attic) and single-glazed joinery",
 	"form-wastagesurface-label": "Wastage surface",
-	"form-wastagesurface-help": "This is all surfaces adjoining the outside air, including the roof",
+	"form-wastagesurface-help": "This concerns all wall, roof, floor surfaces",
 	"form-venti_global-label": "Ventilation (thermal resistance)",
 	"form-venti_global-0-14": "0.14 humidity controlled mechanical ventilation",
 	"form-venti_global-0-2": "0.2 self-adjusting controlled mechanical ventilation",

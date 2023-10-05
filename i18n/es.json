@@ -51,7 +51,7 @@
 	"form-ubat_global-1-15": "1,15: Para casas construidas entre 1983 y 1989",
 	"form-ubat_global-1-8": "1,8: Casas sin aislamiento (paredes, ático) con ventanas de acristalamiento simple.",
 	"form-wastagesurface-label": "Superficie de pérdida de calor",
-	"form-wastagesurface-help": "Se refiere a todas las superficies contiguas al aire exterior, incluido el tejado.",
+	"form-wastagesurface-help": "This concerns all wall, roof, floor surfaces",
 	"form-venti_global-label": "Ventilación (resistencia térmica)",
 	"form-venti_global-0-14": "0,14 Ventilación mecánica higrorregulable",
 	"form-venti_global-0-2": "0,2 Ventilación mecánica controlada autorregulable",

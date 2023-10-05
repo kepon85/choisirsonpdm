@@ -52,7 +52,7 @@
 	"form-ubat_global-1-15": "1,15 : Pour les maisons construites entre 1983 et 1989",
 	"form-ubat_global-1-8": "1,8 : Maison non isolée(murs, combles)et à menuiseries simple vitrage.",
 	"form-wastagesurface-label": "Surface de déperdition",
-	"form-wastagesurface-help": "Il s'agit de toutes les surfaces attenantes à l'air extérieur, toit compris",
+	"form-wastagesurface-help": "Il s'agit de toutes les surfaces de mur, toiture, sol",
 	"form-venti_global-label": "Ventilation (résistance thermique)",
 	"form-venti_global-0-14": "0.14  ventilation mécanique contrôlée hygroréglable",
 	"form-venti_global-0-2": "0.2 ventilation mécanique contrôlée autoréglable",
