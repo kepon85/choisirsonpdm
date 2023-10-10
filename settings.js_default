@@ -1,0 +1,8 @@
+// View assets/js/default-settings.js for all params...
+
+const userSettings = {
+  "debug": false,
+  "form_default": {
+    "level":     1,
+  },
+}

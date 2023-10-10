@@ -29,7 +29,7 @@
         </div>
       </div>
       <main>
-        
+
         <!-- Titre -->
         <div class="header row text-center mt-4">
           <div class="col-12">
@@ -92,13 +92,13 @@
               </div>
 
               <div class="card">
-                <h4 class="m-1" data-i18n="[html]form-home">Your home</h4>
+                <h4 class="m-1" id="form-home" data-i18n="[html]form-home">Your home</h4>
               
                 <!-- Surface habitable -->
                 <div class="livingvolume_manuel level1 level2 level3">
                   <label for="livingspace" class="form-label" data-i18n="[html]form-livingspace-label">Living space</label>
                   <div class="input-group has-validation">
-                    <input type="number" class="form-control hashchange livingvolumecalc level1required level2required level3required" min="0" max="9999999" step="0.1" id="livingspace" placeholder="60">
+                    <input type="number" class="form-control hashchange livingvolumecalc level1required level2required level3required" min="0" max="9999999" step="0.1" id="livingspace" placeholder="Ex: 60">
                     <span class="input-group-text">m<sup>2</sup></span>
                   </div>
                 </div>
@@ -107,7 +107,7 @@
                 <div class="livingvolume_manuel level1 level2 level3">
                   <label for="livingheight" class="form-label" data-i18n="[html]form-livingheight-label">Living height</label>
                   <div class="input-group has-validation">
-                    <input type="number" class="form-control hashchange livingvolumecalc level1required level2required level3required" min="0" max="9999999" step="0.1" id="livingheight" placeholder="2.5">
+                    <input type="number" class="form-control hashchange livingvolumecalc level1required level2required level3required" min="0" max="9999999" step="0.1" id="livingheight" placeholder="Ex: 2.5">
                     <span class="input-group-text">m</span>
                   </div>
                 </div>
@@ -129,7 +129,7 @@
                 <div class="level2 level3">
                   <label for="wastagesurface" class="form-label" data-i18n="[html]form-wastagesurface-label">Wastage surface</label> 
                   <div class="input-group">
-                    <input type="number" class="form-control hashchange level2required level3required" min="0" max="9999999" step="1" name="wastagesurface" id="wastagesurface" placeholder="250" value="">
+                    <input type="number" class="form-control hashchange level2required level3required" min="0" max="9999999" step="1" name="wastagesurface" id="wastagesurface" placeholder="Ex : 250" value="">
                     <span class="input-group-text">m<sup>2</sup></span>  
                   </div>
                   <div id="wastagesurfaceHelp" class="form-text" data-i18n="[html]form-wastagesurface-help"></div>
@@ -138,7 +138,7 @@
                 <!-- Temperature intérieur -->
                 <label for="temp_indor" class="form-label" data-i18n="[html]form-temp_indor-label">Indoor temperature</label>
                 <div class="input-group has-validation">
-                  <input type="number" class="form-control hashchange level1required level2required level3required" min="0" max="45" step="1" id="temp_indor" placeholder="19">
+                  <input type="number" class="form-control hashchange level1required level2required level3required" min="0" max="45" step="1" id="temp_indor" placeholder="Ex : 19">
                   <span class="input-group-text"><sup>°</sup>C</span>
                 </div>
 
@@ -203,7 +203,7 @@
 
               <!-- Map pour temperature de base -->
               <div class="card">
-                <h4 class="m-1" data-i18n="[html]form-location">Your location</h4>
+                <h4 class="m-1" id="form-location" data-i18n="[html]form-location">Your location</h4>
                 <div class="temp_base_auto">
                   <nav>
                     <div class="nav nav-tabs" id="nav-tab" role="tablist">

@@ -4,26 +4,16 @@ function suggestion() {
     // Reset suggestion
     $("#suggestionContent").html('');
     const resDeperdition = $("#resDeperdition").val();
-    if (resDeperdition > 12000 || resDeperdition < 200) {
+    if (resDeperdition > 12000) {
         $("#suggestionContent").append('<div class="alert  alert-danger" role="alert">' 
-            + '<span data-i18n="[html]suggestion-too-large-1">No mass stove listed here meets your needs (it is too large). We advise you to call on a professional stove mason so that he can guide you.</span>'
-            + '<a data-i18n="[html]suggestion-too-large-2" href="https://afpma.choisir.poeledemasse.org/'+window.location.hash+'"></a>'
-            + '<span data-i18n="[html]suggestion-too-large-3"> </span>'
+            + '<span>Votre besoin est atypique (supérieur à 12kW), installez plutôt une chaudière ou un poêle en fonte.</span>'
             + '</div>');
     } else {
         $("#suggestionContent").append('<p id="best" style="display: none"><span data-i18n="[html]suggestion-best-1">Le poêle de masse open source (référencé ici) qui se rapproche le plus de votre besoin de chauffage maximum, lors des 5 jours les plus froids de l’année, semble être le </span><span id="bestName"></span> <span data-i18n="[html]suggestion-best-2">pour une puissance journalière de</span> <span id="bestPower"></span><span data-i18n="[html]suggestion-best-3">kW.</span></p>');
         $("#suggestionContent").append('<p id="best-multi" style="display: none"><span data-i18n="[html]suggestion-best-multi-1">Plusieurs poêle de masse open source (référencé ici) semble se rapproche le de votre besoin de chauffage maximum (lors des 5 jours les plus froids de l’année) : </span><ul id="best-multi-ul"></ul></p>');
         $("#suggestionContent").append('<p id="bestCool-multi" style="display: none"><span data-i18n="[html]suggestion-best-multi-1">Plusieurs poêle de masse open source (référencé ici) semble se rapproche le de votre besoin de chauffage maximum (lors des 5 jours les plus froids de l’année) : </span><ul id="bestCool-multi-ul"></ul></p>');
         //$("#suggestionContent").append('<p id="bestCool-multi" style="display: none"><span data-i18n="[html]suggestion-bestCool-multi-1">Aucun poêle de masse open source (référencé ici) semble complètement satisfaisant mais voici ceux qui se rapproche le plus de votre besoin de chauffage maximum (lors des 5 jours les plus froids de l’année) : </span><ul id="bestCool-multi-ul"></ul></p>');
-        $("#suggestionContent").append('<p class="disclamer"><b data-i18n="[html]alert-warning">Avertissement</b> : <span data-i18n="[html]app-disclamer">Les résultats sont donnés à titre indicatif, nous vous conseillons de vous rapprocher d\'un <a href="https://www.afpma.pro/#carte-des-membres">artisan poêlier professionnel</a> pour une étude thermique personnalisé afin de vous orienter vers le poêle de masse qui vous conviendra le mieux. </span></p>');
-        if ($("#transparent").prop("checked")) {
-            $("#suggestionContent").append('<div id="suggestionTransparentConsole" class="border-secondary card">'
-                + '<p>Pour le dimensionnement on part de la température "critique" (extrême) donc on ne considère que les cas d\'usages critiques des poêles (<a href="/#opendata">voir toutes les données des poêles de masses</a>).</p>'
-                + '<p>La marge d\'approximation (+/- percentPowerSuper) des calculs considéré est de '+settings.pdmSuggestion.percentPowerSuper+'%</p>'
-                + '<p>La marge de dimensionnement (+ percentPowerCool) par rapport au besoin est de '+settings.pdmSuggestion.percentPowerCool+'%</p>'
-                + '<p><a href="https://framagit.org/kepon/choisirsonpdm/#suggestion" target="_blank">Plus d\'information pour comprendre les choix de l\'algorythme de suggestion</a></p>'
-            +'</div>');
-        }
+        $("#suggestionContent").append('<p class="disclamer"><b data-i18n="[html]alert-warning">Avertissement</b> : <span id="suggestion-disclamer">Ces résultats dépendent du coefficient d’isolation que vous avez estimé. <a href="https://www.uzume.fr/contact" target="_blank">Contactez nous</a> en détaillant votre projet pour que nous puissions vérifier votre calcul.</span></p>');
         $("#suggestionContent").append('<div><table id="suggestionTab">'
                 +'<thead><tr>'
                     +'<th data-i18n="[html]suggestion-name">Name</th>'
@@ -35,7 +25,7 @@ function suggestion() {
                 +'<tbody>'
                 +'</tbody>'
             +'</table>'
-            +'<div class="opendata-link"><a href="/#opendata"  data-i18n="[html]opendata-link">Voir toutes les données disponibles</a></div>'
+            +'<div class="opendata-link"><a href="https://choisir.poeledemasse.org/'+window.location.hash+'">Refaire ce calcul avec d’autres poêles de masse open-source</a></div>'
         +'</div>');
         var id=0;
         var pdmSuggestions = new Array();
@@ -128,9 +118,7 @@ function suggestion() {
         // Aucun
         } else {
             $("#suggestionContent").prepend('<div class="alert  alert-warning" role="alert">' 
-            + '<span data-i18n="[html]suggestion-no-1">No mass stove listed here meets your needs. We advise you to call on a professional stove mason so that he can guide you.</span>'
-            + '<a data-i18n="[html]suggestion-too-large-2" href="https://afpma.choisir.poeledemasse.org/'+window.location.hash+'"></a>'
-            + '<span data-i18n="[html]suggestion-too-large-3"> </span>'
+            + '<span>Aucun poêle de masse Uzume ne correspond à votre besoin. Nous vous conseillons de <a href="https://choisir.poeledemasse.org/'+window.location.hash+'">refaire ce calcul avec d’autres poêles de masse open-source</a></span>'
             + '</div>');
         }
 
