@@ -24,7 +24,11 @@ $(".temp_base_years_archive").hide();
 $("#result h4").hide();
 $("p #calcShowHide").hide();
 
+$("#form-home").html("Entrez les caractéristiques de votre maison");
+$("#form-home").removeAttr('data-i18n');
 
+$("#form-location").html("Entrez votre ville ");
+$("#form-location").removeAttr('data-i18n');
 
 if (inIframe()) {
     // En tête
