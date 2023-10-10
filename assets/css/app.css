@@ -1,3 +1,13 @@
+/* placeholder plus clair */
+.form-control::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  opacity: 0.4; /* Firefox */
+}
+.form-control:-ms-input-placeholder { /* Internet Explorer 10-11 */
+  opacity: 0.4;
+}
+.form-control::-ms-input-placeholder { /* Microsoft Edge */
+  opacity: 0.4;
+}
 
 .calcul_level1,
 .calcul_level2,

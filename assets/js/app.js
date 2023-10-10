@@ -437,4 +437,7 @@ $( document ).ready(function() {
     }
 
     $('#loadData').hide();
+
+    // Tooltips (infobule)
+    $('[data-toggle="tooltip"]').tooltip()
 });

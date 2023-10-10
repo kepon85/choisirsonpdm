@@ -135,14 +135,19 @@ function suggestion() {
         }
 
         $.each(pdmSuggestions, function() {
-            debug(this);
+            //debug(this);
+            if (Math.round(this.diffPowerDeperditionPercent) < 0) {
+                var tooltips='Puissance maximale '+Math.round(this.diffPowerDeperditionPercent)+'% inférieure au besoin';
+            } else {
+                var tooltips='Puissance maximale '+Math.round(this.diffPowerDeperditionPercent)+'% supérieure au besoin';
+            }
             $('#suggestionTab > tbody:last-child').append(
                 '<tr class="'+this.trClass+'">'
                     +'<td>'+this.name+'</td>'
                     +'<td class="text-center">'+precise_round(this.power/1000,2)+'kW</td>'
                     +'<td class="text-center">'+this.weight+'kg</td>'
-                    +'<td class="text-center"><a href="'+this.link+'" target="_blank">link</a></td>'
-                    +'<td class="text-center">'+precise_round(this.diffPowerDeperditionAbs/1000, 2)+' ('+Math.round(this.diffPowerDeperditionPercent)+'%)</td>'
+                    +'<td class="text-center"><a href="'+this.link+'" data-i18n="[html]suggestion-link" target="_blank">link</a></td>'
+                    +'<td class="text-center" data-toggle="tooltip" title="'+tooltips+'">'+precise_round(this.diffPowerDeperditionAbs/1000, 2)+' ('+Math.round(this.diffPowerDeperditionPercent)+'%)</td>'
                 +'<tr>'
             );
         });
