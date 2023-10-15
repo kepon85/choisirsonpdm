@@ -1,0 +1,8 @@
+<?php
+
+$config['mysql']['hostname']='localhost';
+$config['mysql']['username']='choisirpdm';
+$config['mysql']['password']='****';
+$config['mysql']['db']='materiaux';
+
+?>
