@@ -1,5 +1,6 @@
 <?php
 include('./config.php');
+header("Access-Control-Allow-Origin: *");
 
 (empty($_GET['debug'])) && header('Content-Type: application/json; charset=utf-8');  
 
