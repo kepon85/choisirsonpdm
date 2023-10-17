@@ -3,3 +3,5 @@ stats
 robots.txt
 /settings.js
 .vscode
+api/materiaux/config.php
+api/materiaux/cache
