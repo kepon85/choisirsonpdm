@@ -4,6 +4,51 @@ function debug(msg) {
     }
 }
 
+function detailBuildingAddWall() {
+    debug('Add une paroi')
+    //Récupérer le nombre de paroi pour savoir où nous en sommes
+    let wallId=parseFloat($("#wall-id").val())+1;
+    debug('Add une paroi : '+wallId)
+    $('#tabke-level3-detail-building > tbody:last-child').append(
+        + '<tr id="wall-' + wallId + '">'
+            + '<td><input type="text" class="form-control hashchange wall-perso" name="wall-name[]" id="wall-name-' + wallId + '" value=""  placeholder="Ex: Façade Sud" /></td>'
+            + '<td><input type="number" class="form-control hashchange" min="0" max="1" step="0.01" name="wall-ri[]" id="wall-ri-' + wallId + '" value="0" /></td>'
+            + '<td><input type="number" class="form-control hashchange" min="0" max="1" step="0.01" name="wall-ro[]" id="wall-ro-' + wallId + '" value="0" /></td>'
+            + '<td><input type="number" class="form-control hashchange" min="0" step="0.1" name="wall-height[]" id="wall-height-' + wallId + '" value="0" /></td>'
+            + '<td><input type="number" class="form-control hashchange" min="0" step="0.1" name="wall-width[]" id="wall-width-' + wallId + '" value="0" /></td>'
+            + '<td><input type="text" class="form-control" name="wall-area[]" id="wall-area-' + wallId + '" value="0" disabled="disabled" /></td>'
+            + '<td><input type="text" class="form-control" name="wall-r[]" id="wall-r-' + wallId + '" value="0" disabled="disabled" /></td>'
+        + '</tr>'
+        + '<tr id="wall-' + wallId + '-window-__WINID__">'
+            + '<td colspan="7">'
+            + '<table class="table" width="100%">'
+                + '<thead>'
+                + '<tr>'
+                    + '<th>&nbsp;</th>'
+                    + '<th colspan="2" data-i18n="[html]thead-window">Vitre</th>'
+                    + '<th data-i18n="[html]thead-window-height">Hauteur de la vitre (cm)</th>'
+                    + '<th data-i18n="[html]thead-window-width">Largeur de la vitre (cm)</th>'
+                    + '<th data-i18n="[html]thead-window-area">Surface de la vitre (m)</th>'
+                    + '<th data-i18n="[html]thead-window-dep">Déperdition (W/°C)</th>'
+                + '</tr>'
+                + '</thead>'
+                + '<tbody>'
+                + '<tr>'
+                    + '<th>&rarr;</th>'
+                    + '<td colspan="2"><input type="text" class="form-control hashchange wall-perso" name="window-name[]" id="wall-name-' + wallId + '-window-__WINID__" value=""  placeholder="Ex: Fenêtre cuisine" /></td>'
+                    + '<td><input type="number" class="form-control hashchange" min="0" step="0.1" name="window-height[]" id="wall-height-' + wallId + '-window-__WINID__" value="0" /></td>'
+                    + '<td><input type="number" class="form-control hashchange" min="0" step="0.1" name="window-width[]" id="wall-width-' + wallId + '-window-__WINID__" value="0" /></td>'
+                    + '<td><input type="text" class="form-control" name="window-area[]" id="wall-area-' + wallId + '-window-__WINID__" value="0" disabled="disabled" /></td>'
+                    + '<td><input type="text" class="form-control" name="window-dep[]" id="wall-dep-' + wallId + '-window-__WINID__" value="0" disabled="disabled" /></td>'
+                + '</tr>'
+                + '</tbody>'
+            + '</table>'
+            + '</td>'
+        + '</tr>'
+    );
+    $("#wall-id").val(wallId);
+}
+
 // Juste pour "afficher" les données
 function openData() {
     debug('Opendata print');
@@ -243,7 +288,16 @@ $( document ).ready(function() {
             var result = hash.split('&').reduce(function (res, item) {
                 var parts = item.split('=');
                 res[parts[0]] = parts[1];
-                if ($("#"+parts[0]) !== undefined) {
+                // Soit défini par son ID ou par son NOM si celui-ci n'a pas d'ID
+                /// ça doit pas être la bonne syntax ...
+                // INSISTER SINON REVENIR AU ID incrémentaux... on trouvera une astuce pour les suppressions de ligne...
+                if ($("input[name='"+parts[0]+"'") === undefined) {
+                    //if ($("#"+parts[0])[0].type == "checkbox") {
+                    //    $("#"+parts[0]).prop("checked", parts[1]);
+                    //} else {
+                        $("input[name='"+parts[0]+"'").val(parts[1]);
+                    //}
+                } else if ($("#"+parts[0]) === undefined) {
                     if ($("#"+parts[0])[0].type == "checkbox") {
                         $("#"+parts[0]).prop("checked", parts[1]);
                     } else {
@@ -439,5 +493,81 @@ $( document ).ready(function() {
     $('#loadData').hide();
 
     // Tooltips (infobule)
-    $('[data-toggle="tooltip"]').tooltip()
+    // Désactivé par Bootstrap
+    $('[data-toggle="tooltip"]').tooltip();
+    // Plutôt par Jquery
+    //$( document ).tooltip();
+
+    /* 
+    Expert Mode 
+    */
+    $( ".rsirse-chose" ).on( "click", function() {
+        debug("Click open dialog rsirse");
+        // SEULEMENT SI RSI / RSE = 0
+
+        debug(this);
+        // Trouver sur quel ligne ça a été cliquer pour pouvoir renvoyer la donner...
+        $( "#dialog-rsirse" ).dialog();
+    });
+
+    /*
+    debug('Add listener detail-building');
+    $(".building-change").on( "change", function(e) {
+        buildingChange(); // Update 
+        
+        //hashChange();
+    });
+*/
+    detailBuildingAddWall();
+
+              /*
+
+
+
+function buildingChange() {
+    debug("Building change - function")
+    var building_change_new = '';
+    var building_change_len = $('.building-change').length;
+    var building_change_nb = 0
+    $(".building-change").each(function() {
+        debug(this.name);
+        //this.type
+        debug(this);
+        if (this.type == "checkbox") { 
+            if (this.checked == true) {
+                building_change_new=building_change_new+this.id+'='+this.checked;
+            } else {
+                building_change_new=building_change_new+this.id+'=';
+            }
+        } else {
+            building_change_new=building_change_new+this.id+'='+this.value;
+        }
+        if (building_change_nb != (building_change_len - 1)) {
+            building_change_new=building_change_new+"&";
+        }
+        building_change_nb = building_change_nb +1
+    });
+    $('#building-change').val(building_change_new);
+    $('#building-change').val($(".building-change").toString());
+}
+
+                var cache = {};
+                $( "#birds" ).autocomplete({
+                  minLength: 2,
+                  source: function( request, response ) {
+                    var search = request.search;
+                    if ( search in cache ) {
+                      response( cache[ search ] );
+                      return;
+                    }
+
+                    $.getJSON( settings.apiMateriaux, request, function( data, status, xhr ) {
+                      cache[ search ] = data;
+                      response( data );
+                    });
+                  }
+                });
+*/
+                
+
 });

@@ -8,6 +8,7 @@
     <meta name="author" content="David Mercereau">
     <title data-i18n="app-title">Choose stove mass</title>
     <link href="./assets/css/bootstrap.css" rel="stylesheet">
+    <link href="./assets/css/jquery-ui.min.css" rel="stylesheet">    
     <link href="./assets/css/app.css" rel="stylesheet">    
     <!-- Load mapbox -->
     <link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet">
@@ -44,6 +45,7 @@
             <p class="disclamer"><b data-i18n="[html]alert-warning">Avertissement</b> : <span data-i18n="[html]app-disclamer">Les résultats sont donnés à titre indicatif, nous vous conseillons de vous rapprocher d'un <a href="https://www.afpma.pro/#carte-des-membres">artisan poêlier professionnel</a> pour une étude thermique personnalisé afin de vous orienter vers le poêle de masse qui vous conviendra le mieux. </span></p>
           </div>
         </div>
+        
 
         <div class="row card" id="opendata">
           <div class="col-md-12 p-2">
@@ -70,7 +72,7 @@
         <form id="form-choisirsonpdm">
           <div class="row ">
             <div class="col-md-6">
-
+              
 
               <div class="card levelchose">
                 <div class="m-1">
@@ -126,7 +128,7 @@
                 </div>
 
                 <!-- Surface déperdition habitable -->
-                <div class="level2 level3">
+                <div class="level2">
                   <label for="wastagesurface" class="form-label" data-i18n="[html]form-wastagesurface-label">Wastage surface</label> 
                   <div class="input-group">
                     <input type="number" class="form-control hashchange level2required level3required" min="0" max="9999999" step="1" name="wastagesurface" id="wastagesurface" placeholder="Ex : 250" value="">
@@ -245,6 +247,121 @@
                 </div>
               </div>
             </div>
+          </div>
+          <div class="row level3">
+            <div class="col-md-12">
+              <div class="card">
+
+
+
+                <style>
+                  .g:hover
+                {
+                    opacity:1;
+                    color: red;
+                }
+            
+                #projectsvg svg 
+                { 
+                    display: inline-block;
+                    position: absolute; 
+                    top: 0; 
+                    left: 0; 
+                }
+
+#dialog-rsirse {
+  display: none;
+}
+            </style>
+            <script type="text/javascript">
+            function rsirse(rsi, rse) {
+                debug("RSI : "+rsi);
+                debug("RSE : "+rse);
+            }
+            /*$( function() {
+                $( document ).tooltip();
+              } );*/
+
+      
+  
+
+            </script>
+
+
+<div id="dialog-rsirse" title="Rsi / Rse">
+  <figure id="projectsvg">
+    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1123" height="794" viewBox="0 0 11226 7938" stroke="#000" stroke-linecap="round" stroke-linejoin="round" fill="#fff" fill-rule="evenodd"><style><![CDATA[.B{fill:none}.C{stroke:#f99}.D{stroke-width:10}.E{stroke-width:3.077}.F{stroke-width:5}.G{fill:#fffbcc}.H{fill-opacity:.54}.I{stroke:none}]]></style><defs><path d="M5 9L0 0-5 9" id="A" class="B" fill="none"/></defs><g fill="#e0e0e0" class="I" stroke="none"><path d="M1550.751 188.673l60.7 86.688-1021.683 715.39-60.7-86.688z"/><path d="M520.851 906.98l102.221 27.39-208.36 777.608-102.221-27.39z"/><path d="M321 1662h105.827v1360.63H321z"/></g><path fill="#ffcd99" d="M18 2343h302.362v1020.472H18z" class="I" stroke="none"/><g fill="#e0e0e0" class="I" stroke="none"><path d="M2835 3012v105.827H321.614V3012z"/><path d="M1474 264h105.827v2777.953H1474z"/></g><g transform="translate(146 1776)"><path d="M66 88h317v306H77v88L0 241 66 0z" class="F G H" stroke-width="5" fill="#fffbcc" fill-opacity=".54"/><g transform="matrix(-.906308 -.422618 .422618 -.906308 316.920363 323.298269)" class="C" stroke="#f99"><path d="M0 0q107 30 58 160" class="B D" fill="none" stroke-width="10"/><use x="16" y="58" transform="matrix(-3.034136 -1.164696 1.164696 -3.034136 36.487911 364.262635)" xlink:href="#A" class="E" stroke-width="3.077"/></g><g transform="matrix(.939693 .34202 -.34202 .939693 124.918632 145.637881)" class="C" stroke="#f99"><path d="M19 7q85 40 30 179" class="B D" fill="none" stroke-width="10"/><use y="3" transform="matrix(1.269876 -2.991641 2.991641 1.269876 0 0)" xlink:href="#A" class="E" stroke-width="3.077"/></g></g><g transform="matrix(.965926 .258819 -.258819 .965926 310.212928 1023.084106)" onclick="rsirse(0.13,0.04)"><path d="M66 91h317v319H77v91L0 250 66 0z" class="F G H" stroke-width="5" fill="#fffbcc" fill-opacity=".54"/><g transform="matrix(-.906308 -.422618 .422618 -.906308 314.652508 336.017192)" class="C" stroke="#f99"><path d="M0 0q108 31 59 165" class="B D" fill="none" stroke-width="10"/><use x="16" y="60" transform="matrix(-3.034136 -1.164696 1.164696 -3.034136 34.15852 376.830907)" xlink:href="#A" class="E" stroke-width="3.077"/></g><g transform="matrix(.939693 .34202 -.34202 .939693 126.004999 152.476783)" class="C" stroke="#f99"><path d="M19 7q86 41 30 185" class="B D" fill="none" stroke-width="10"/><use y="3" transform="matrix(1.269876 -2.991641 2.991641 1.269876 0 0)" xlink:href="#A" class="E" stroke-width="3.077"/></g></g><g transform="translate(146 2456)" onclick="rsirse(0.13,0)"><path d="M66 88h317v306H77v88L0 241 66 0z" class="F G H" stroke-width="5" fill="#fffbcc" fill-opacity=".54"/><g transform="matrix(-.906308 -.422618 .422618 -.906308 316.920363 323.298269)" class="C" stroke="#f99"><path d="M0 0q107 30 58 160" class="B D" fill="none" stroke-width="10"/><use x="16" y="58" transform="matrix(-3.034136 -1.164696 1.164696 -3.034136 36.487911 364.262635)" xlink:href="#A" class="E" stroke-width="3.077"/></g></g><g transform="matrix(0 -1 1 0 606 3285)"><path d="M83 92l300-4v306H83v85L0 241 83 7z" class="F G H" stroke-width="5" fill="#fffbcc" fill-opacity=".54"/><g transform="matrix(-.906308 -.422618 .422618 -.906308 316.920363 323.298269)" class="C" stroke="#f99"><path d="M0 0q107 30 58 160" class="B D" fill="none" stroke-width="10"/><use x="16" y="58" transform="matrix(-3.034136 -1.164696 1.164696 -3.034136 36.487911 364.262635)" xlink:href="#A" class="E" stroke-width="3.077"/></g><g transform="matrix(.939693 .34202 -.34202 .939693 124.918632 145.637881)" class="C" stroke="#f99"><path d="M19 7q85 40 30 179" class="B D" fill="none" stroke-width="10"/><use y="3" transform="matrix(1.269876 -2.991641 2.991641 1.269876 0 0)" xlink:href="#A" class="E" stroke-width="3.077"/></g></g><g transform="matrix(-1 0 0 -1 1742 1568)"><path d="M83 92l300-4v306H83v85L0 241 83 7z" class="F G H" stroke-width="5" fill="#fffbcc" fill-opacity=".54"/><g transform="matrix(-.906308 -.422618 .422618 -.906308 316.920363 323.298269)" class="C" stroke="#f99"><path d="M19 7q90 38 32 172" class="B D" fill="none" stroke-width="10"/><use y="3" transform="matrix(1.164696 -3.034136 3.034136 1.164696 0 0)" xlink:href="#A" class="E" stroke-width="3.077"/></g><g transform="matrix(.939693 .34202 -.34202 .939693 124.918632 145.637881)" class="C" stroke="#f99"><path d="M19 7q85 40 30 179" class="B D" fill="none" stroke-width="10"/><use y="3" transform="matrix(1.269876 -2.991641 2.991641 1.269876 0 0)" xlink:href="#A" class="E" stroke-width="3.077"/></g></g></svg>
+  </figure>
+</div>
+ 
+            <!-- https://vecta.io/blog/the-best-way-to-make-image-maps -->
+            
+<!-- https://stackoverflow.com/questions/15734105/jquery-ui-tooltip-does-not-support-html-content -->            
+
+<!-- Une fonction qui parse et qui attribue des ID à chaque input dans le bon ordre ? 
+
+Non, on fait simple : un hidden avec l'ID et l'autre avec le "nombre"
+Les 2 sont dans le hash, on s'en fiche de savoir si y'a plus l'ID 12 entre le 11 et le 13... c'est de l'interne...
+-->
+
+                <h4 class="m-1" id="title-detail-building"><span data-i18n="[html]title-detail-building">Détailler les parois de votre bâtiment</span> <input type="text" class="form-control hashchange level1required level2required level3required" id="building-title" placeholder="Ex: My home" /></h4>
+                <input type="number" id="wall-nb" name="wall-nb" value="0" />
+                <input type="number" id="wall-id" name="wall-id" value="0" />
+                <table class="table" id="tabke-level3-detail-building" width="100%">
+                  <thead>
+                    <tr>
+                      <th data-i18n="[html]thead-wall">Paroi</th>
+                      <th data-i18n="[html]thead-wall-ri">Ri</th>
+                      <th data-i18n="[html]thead-wall-ro">Ro</th>
+                      <th data-i18n="[html]thead-wall-height">Hauteur de la paroi(m)</th>
+                      <th data-i18n="[html]thead-wall-width">Largeur de la paroi (m)</th>
+                      <th data-i18n="[html]thead-wall-area">Surface de la paroi (m)</th>
+                      <th data-i18n="[html]thead-wall-r">Résistance de la paroi (°C.m²/W)</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <!--<tr id="wall--__ID__" class="wall">
+                      <td><input type="text" class="form-control hashchange" name="wall-name[]" id="wall-name--__ID__" value="A"  placeholder="Ex: Façade Sud" /></td>
+                      <td class="rsirse-chose"><input type="number" class="form-control hashchange" min="0" max="1" step="0.01" name="wall-ri[]" id="wall-ri--__ID__" value="0" /></td>
+                      <td class="rsirse-chose"><input type="number" class="form-control hashchange" min="0" max="1" step="0.01" name="wall-ro[]" id="wall-ro--__ID__" value="0" /></td>
+                      <td><input type="number" class="form-control hashchange" min="0" step="0.1" name="wall-height[]" id="wall-height--__ID__"  value="0" /></td>
+                      <td><input type="number" class="form-control hashchange" min="0" step="0.1" name="wall-width[]" id="wall-width--__ID__"  value="0" /></td>
+                      <td><input type="text" class="form-control" name="wall-area[]" id="wall-area-__ID__" value="0" disabled="disabled" /></td>
+                      <td><input type="text" class="form-control" name="wall-r[]" id="wall-r-__ID__" value="0" disabled="disabled" /></td>
+                    </tr>
+                    <tr id="wall--__ID__-window--__WINID__">
+                      <td colspan="7">
+                        <table class="table" width="100%">
+                          <thead>
+                            <tr>
+                              <th>&nbsp;</th>
+                              <th colspan="2" data-i18n="[html]thead-window">Vitre</th>
+                              <th data-i18n="[html]thead-window-height">Hauteur de la vitre (cm)</th>
+                              <th data-i18n="[html]thead-window-width">Largeur de la vitre (cm)</th>
+                              <th data-i18n="[html]thead-window-area">Surface de la vitre (m)</th>
+                              <th data-i18n="[html]thead-window-dep">Déperdition (W/°C)</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <th>&rarr;</th>
+                              <td colspan="2"><input type="text" class="form-control wall-perso" name="window-name[]" value=""  placeholder="Ex: Fenêtre cuisine" /></td>
+                              <td><input type="number" class="form-control" min="0" step="0.1" name="window-height[]"  value="0" /></td>
+                              <td><input type="number" class="form-control" min="0" step="0.1" name="window-width[]" value="0" /></td>
+                              <td><input type="text" class="form-control" name="window-area[]" value="0" disabled="disabled" /></td>
+                              <td><input type="text" class="form-control" name="window-dep[]" value="0" disabled="disabled" /></td>
+                            </tr>
+                          </tbody>
+                        </table>'
+                      </td>
+                    </tr>
+                  -->
+                  </tbody>
+                </table>'
+              </div>
+            </div>
+
+        
           </div>
           <div class="row p-3">
             <div class="col-md-3">
@@ -387,28 +504,29 @@
         </div>
       </footer>
     </div>
-
-<!-- Parametres -->
-<script src="./settings.js"></script>
-<script src="./assets/js/default-settings.js"></script>
-<script src="./assets/js/bootstrap.bundle.min.js"></script>
-<script src="./assets/js/jquery-3.7.0.min.js"></script>
-<!-- Translate -->
-<script src="./assets/js/CLDRPluralRuleParser.js"></script>
-<script src="./assets/js/jquery.i18n.js"></script>
-<script src="./assets/js/jquery.i18n.messagestore.js"></script>
-<script src="./assets/js/jquery.i18n.fallbacks.js"></script>
-<script src="./assets/js/jquery.i18n.language.js"></script>
-<script src="./assets/js/jquery.i18n.parser.js"></script>
-<script src="./assets/js/jquery.i18n.emitter.js"></script>
-<script src="./assets/js/jquery.i18n.emitter.bidi.js"></script>
-<!--<script src="./assets/js/languages/ru.js"></script>-->
-<script src="./assets/js/jquery.i18n.app.js"></script>
-<!-- Load mapbox -->
-<script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
-<!-- Load the `mapbox-gl-geocoder` plugin. -->
-<script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.min.js"></script>
-<script src="./assets/js/app.js"></script>
-<script src="./assets/js/app-custom.js"></script>
-<script src="./assets/js/app-suggestion.js"></script>
+    <!-- Parametres -->
+    <script src="./settings.js"></script>
+    <script src="./assets/js/default-settings.js"></script>
+    <script src="./assets/js/bootstrap.bundle.min.js"></script>
+    <script src="./assets/js/jquery-3.7.0.min.js"></script>
+    <script src="./assets/js/jquery-ui.min.js"></script>
+    <!-- Translate -->
+    <script src="./assets/js/CLDRPluralRuleParser.js"></script>
+    <script src="./assets/js/jquery.i18n.js"></script>
+    <script src="./assets/js/jquery.i18n.messagestore.js"></script>
+    <script src="./assets/js/jquery.i18n.fallbacks.js"></script>
+    <script src="./assets/js/jquery.i18n.language.js"></script>
+    <script src="./assets/js/jquery.i18n.parser.js"></script>
+    <script src="./assets/js/jquery.i18n.emitter.js"></script>
+    <script src="./assets/js/jquery.i18n.emitter.bidi.js"></script>
+    <!--<script src="./assets/js/languages/ru.js"></script>-->
+    <script src="./assets/js/jquery.i18n.app.js"></script>
+    <!-- Load mapbox -->
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
+    <!-- Load the `mapbox-gl-geocoder` plugin. -->
+    <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.min.js"></script>
+    <script src="./assets/js/app.js"></script>
+    <script src="./assets/js/app-custom.js"></script>
+    <script src="./assets/js/app-suggestion.js"></script>
+  </body>
 </html>
