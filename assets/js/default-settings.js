@@ -6,6 +6,7 @@ const defaultSettings = {
   "debug":                        false,
   "debugLoadMap":                 false,
   "apiBaseTemperature":           "https://choisir.poeledemasse.org/api/baseTemperature.php",
+  "apiMateriaux":                 "https://choisir.poeledemasse.org/api/materiaux/index.php",
   "apiDebounceTtimeout":           1500,
   "defaultLanguage":              "fr",
   "form_default": {

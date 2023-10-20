@@ -2,7 +2,7 @@ const userSettings = {
   "debug": true,
   "debugLoadMap": true,
   "form_default": {
-    "level":     1,
+    "level":     3,
     "temp_base_years_archive":     10,
     "ubat_global":                 0.3,
     "venti_global":                0.14,

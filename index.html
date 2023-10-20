@@ -305,59 +305,36 @@ Les 2 sont dans le hash, on s'en fiche de savoir si y'a plus l'ID 12 entre le 11
 -->
 
                 <h4 class="m-1" id="title-detail-building"><span data-i18n="[html]title-detail-building">Détailler les parois de votre bâtiment</span> <input type="text" class="form-control hashchange level1required level2required level3required" id="building-title" placeholder="Ex: My home" /></h4>
-                <input type="number" id="wall-nb" name="wall-nb" value="0" />
-                <input type="number" id="wall-id" name="wall-id" value="0" />
-                <table class="table" id="tabke-level3-detail-building" width="100%">
+                <div class="debug">
+                  Wall Nb : <input type="number" id="wall-nb" name="wall-nb" value="0" />
+                  Wall Id : <input type="number" id="wall-id" name="wall-id" class="hashchange" value="0" />
+                </div>
+                <table class="table table-hover" id="tabke-level3-detail-building" width="100%">
                   <thead>
                     <tr>
                       <th data-i18n="[html]thead-wall">Paroi</th>
-                      <th data-i18n="[html]thead-wall-ri">Ri</th>
+                      <th data-i18n="[html]thead-wall">Type</th>
+                      <th data-i18n="[html]thead-wall-ri-ro">Ri</th>
                       <th data-i18n="[html]thead-wall-ro">Ro</th>
                       <th data-i18n="[html]thead-wall-height">Hauteur de la paroi(m)</th>
                       <th data-i18n="[html]thead-wall-width">Largeur de la paroi (m)</th>
-                      <th data-i18n="[html]thead-wall-area">Surface de la paroi (m)</th>
                       <th data-i18n="[html]thead-wall-r">Résistance de la paroi (°C.m²/W)</th>
+                      <th><svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"/></svg></th>
                     </tr>
                   </thead>
                   <tbody>
-                    <!--<tr id="wall--__ID__" class="wall">
-                      <td><input type="text" class="form-control hashchange" name="wall-name[]" id="wall-name--__ID__" value="A"  placeholder="Ex: Façade Sud" /></td>
-                      <td class="rsirse-chose"><input type="number" class="form-control hashchange" min="0" max="1" step="0.01" name="wall-ri[]" id="wall-ri--__ID__" value="0" /></td>
-                      <td class="rsirse-chose"><input type="number" class="form-control hashchange" min="0" max="1" step="0.01" name="wall-ro[]" id="wall-ro--__ID__" value="0" /></td>
-                      <td><input type="number" class="form-control hashchange" min="0" step="0.1" name="wall-height[]" id="wall-height--__ID__"  value="0" /></td>
-                      <td><input type="number" class="form-control hashchange" min="0" step="0.1" name="wall-width[]" id="wall-width--__ID__"  value="0" /></td>
-                      <td><input type="text" class="form-control" name="wall-area[]" id="wall-area-__ID__" value="0" disabled="disabled" /></td>
-                      <td><input type="text" class="form-control" name="wall-r[]" id="wall-r-__ID__" value="0" disabled="disabled" /></td>
-                    </tr>
-                    <tr id="wall--__ID__-window--__WINID__">
-                      <td colspan="7">
-                        <table class="table" width="100%">
-                          <thead>
-                            <tr>
-                              <th>&nbsp;</th>
-                              <th colspan="2" data-i18n="[html]thead-window">Vitre</th>
-                              <th data-i18n="[html]thead-window-height">Hauteur de la vitre (cm)</th>
-                              <th data-i18n="[html]thead-window-width">Largeur de la vitre (cm)</th>
-                              <th data-i18n="[html]thead-window-area">Surface de la vitre (m)</th>
-                              <th data-i18n="[html]thead-window-dep">Déperdition (W/°C)</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr>
-                              <th>&rarr;</th>
-                              <td colspan="2"><input type="text" class="form-control wall-perso" name="window-name[]" value=""  placeholder="Ex: Fenêtre cuisine" /></td>
-                              <td><input type="number" class="form-control" min="0" step="0.1" name="window-height[]"  value="0" /></td>
-                              <td><input type="number" class="form-control" min="0" step="0.1" name="window-width[]" value="0" /></td>
-                              <td><input type="text" class="form-control" name="window-area[]" value="0" disabled="disabled" /></td>
-                              <td><input type="text" class="form-control" name="window-dep[]" value="0" disabled="disabled" /></td>
-                            </tr>
-                          </tbody>
-                        </table>'
+                    <tr id="addWallButton">
+                      <td colspan="8">
+                        <button type="button" class="btn btn-primary add-button wall" data-i18n="[html]add-wall-button" onclick="detailBuildingAddWall();">
+                          +
+                        </button>
                       </td>
                     </tr>
-                  -->
                   </tbody>
+
+
                 </table>'
+
               </div>
             </div>
 
@@ -525,6 +502,7 @@ Les 2 sont dans le hash, on s'en fiche de savoir si y'a plus l'ID 12 entre le 11
     <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
     <!-- Load the `mapbox-gl-geocoder` plugin. -->
     <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.min.js"></script>
+    <script src="./assets/js/app-function.js"></script>
     <script src="./assets/js/app.js"></script>
     <script src="./assets/js/app-custom.js"></script>
     <script src="./assets/js/app-suggestion.js"></script>
