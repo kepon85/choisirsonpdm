@@ -12,6 +12,7 @@ function debug(msg) {
  * Résumé : Listener pour le changement des class "hashchange"
  */
 function hashchangeListener() {
+    $(".hashchange").unbind(); 
     $(".hashchange").on( "change", function(e) {
         sharingButton(); // Update sharing button
         $(".result").hide(); // Hide résult
@@ -28,9 +29,82 @@ function hashchangeListener() {
  * Résumé : Rafraîchie les éléments après un ajout dynamique
  * Description : hash listener, traduction...
  */
-function refreshAfterDynamicChange() {
+function refreshDetailBuildingChange() {
     // Listener hash
     hashchangeListener();
+
+    $(".wall-type").unbind(); 
+    $(".wall-type").on( "change", function(e) {
+        wallId = this.id.split('-')[2];
+        debug(this);
+        //wallId = $(".wall-type").attr('id').split('-')[2];
+        debug('wallId = ' + wallId)
+        if ($("#wall-type-"+wallId).val() == 'u') {
+            $("#wall-r-" + wallId).val(0);
+            $("#wall-r-" + wallId).prop('disabled', false);
+        } else {
+            $("#wall-r-" + wallId).val(this.value);
+            $("#wall-r-" + wallId).prop('disabled', true);
+        }
+    });
+
+    // Gestion rsi-rse popup
+    $( ".rsirse-chose" ).unbind(); 
+    $( ".rsirse-chose" ).on( "click", function() {
+        debug("Click open dialog rsirse");
+        // SEULEMENT SI RSI / RSE = 0
+
+        debug(this);
+        // Trouver sur quel ligne ça a été cliquer pour pouvoir renvoyer la donner...
+        $( "#dialog-rsirse" ).dialog();
+    });
+
+    $( ".wall-check" ).unbind(); 
+    $( ".wall-check" ).on( "change", function() {
+        debug("Wall check");
+        wallId = this.id.split('-')[1];
+        debug('wallId find : '+wallId);
+        if (
+            $('#wall-type-' + wallId).val() == ''
+            || $('#wall-ri-' + wallId).val() == ''
+            || $('#wall-ro-' + wallId).val() == ''
+            || $('#wall-height-' + wallId).val() == 0 ||  $('#wall-height-' + wallId).val() == ''
+            || $('#wall-width-' + wallId).val() == 0 || $('#wall-width-' + wallId).val() == ''
+            || $('#wall-r-' + wallId).val() == 0 || $('#wall-r-' + wallId).val() == ''
+            ) {
+            $('.wall-check-' + wallId).removeClass('bg-success-subtle');
+            $('#wall-' + wallId + '-check-svg').hide();
+            $('#wall-check-' + wallId).val(0);
+        } else {
+            $('.wall-check-' + wallId).addClass('bg-success-subtle');
+            $('#wall-' + wallId + '-check-svg').show();
+            $('#wall-check-' + wallId).val(1);
+        }
+    });
+    $( ".window-check" ).unbind(); 
+    $( ".window-check" ).on( "change", function() {
+        debug("window check");
+        wallId = this.id.split('-')[1];
+        winId = this.id.split('-')[3];
+        debug('wallId find : '+wallId);
+        debug('winId find : '+winId);
+        if (
+            $('#wall-type-' + wallId + '-window-'+ winId).val() == ''
+            || $('#wall-height-' + wallId + '-window-'+ winId).val() == 0 ||  $('#wall-height-' + wallId + '-window-'+ winId).val() == ''
+            || $('#wall-width-' + wallId + '-window-'+ winId).val() == 0 || $('#wall-height-' + wallId + '-window-'+ winId).val() == ''
+            ) {
+            debug("window Ko");
+            $('.window-check-' + wallId + '-' +winId).removeClass('bg-success-subtle');
+            $('#wall-' + wallId + '-window-'+ winId +'-check-svg').hide();
+            $('#wall-check-' + wallId+'-'+winId).val(0);
+        } else {
+            debug("window Ok");
+            $('.window-check-' + wallId+'-'+winId).addClass('bg-success-subtle');
+            $('#wall-' + wallId + '-window-'+ winId +'-check-svg').show();
+            $('#wall-check-' + wallId+'-'+winId).val(1);
+        }
+    });
+
     // Traduction
     $('html').i18n();
 }
@@ -43,14 +117,25 @@ function refreshAfterDynamicChange() {
  * Résumé : Ajout d'une paroi dans le formulaire
  */
 function detailBuildingAddWall() {
-    debug('Add une paroi')
+
     //Récupérer le nombre de paroi pour savoir où nous en sommes
     let wallId=parseFloat($("#wall-id").val())+1;
-    debug('Add une paroi : '+wallId)
+    debug('Ajout une paroi : '+wallId)
+
+    // Check if existe...
+    if ($("#wall-" + wallId).length != 0) {
+        debug('La paroi avec l\'ID '+wallId+' existe déjà...')
+        return true;
+    }
+
     $('#addWallButton').before(
-        '<tr id="wall-' + wallId + '" class="wall-' + wallId + '">'
+        '<tr id="wall-' + wallId + '" class="wall-' + wallId + ' wall-check">'
+            + '<td class="wall-check-' + wallId + '">'
+                + '<input class="debug" type="hidden" id="wall-check-' + wallId + '" name="wall-check" value="0" />'
+                + '<svg style="display: none;" id="wall-' + wallId + '-check-svg" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path class="bg-primary-subtle border border-primary-subtle " d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg>'
+            + '</td>'
             + '<td>'
-                + '<input class="debug" type="number" id="wall-' + wallId + '-window-id" name="wall-' + wallId + '-window-id" value="0" />'
+                + '<input class="debug" type="hidden" id="wall-' + wallId + '-window-id" name="wall-' + wallId + '-window-id" value="0" />'
                 + '<input type="text" class="form-control hashchange wall-perso" name="wall-name[]" id="wall-name-' + wallId + '" value=""  placeholder="Ex: Façade Sud" />'
             + '</td>'
             + '<td>'
@@ -100,7 +185,7 @@ function detailBuildingAddWall() {
             + '<td><input type="number" class="form-control hashchange" min="0" max="1" step="0.01" name="wall-ro[]" id="wall-ro-' + wallId + '" value="0" /></td>'
             + '<td><input type="number" class="form-control hashchange" min="0" step="0.1" name="wall-height[]" id="wall-height-' + wallId + '" value="0" /></td>'
             + '<td><input type="number" class="form-control hashchange" min="0" step="0.1" name="wall-width[]" id="wall-width-' + wallId + '" value="0" /></td>'
-            + '<td><input type="text" class="form-control" name="wall-r[]" id="wall-r-' + wallId + '" value="0" disabled="disabled" /></td>'
+            + '<td><input type="number" class="form-control hashchange"  min="0" step="0.1"  name="wall-r[]" id="wall-r-' + wallId + '" value="0" disabled="disabled" /></td>'
             + '<td>'
                 + '<button type="button" class="btn btn-danger delete-button window" onclick="detailBuildingDeleteWall('+wallId+');">'
                     + '<svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"/></svg>'
@@ -108,11 +193,12 @@ function detailBuildingAddWall() {
             + '</td>'
         + '</tr>'
         + '<tr  class="wall-' + wallId + '">'
-            + '<td colspan="8" style="padding: 0; margin: 0">'
+            + '<td colspan="9" style="padding: 0; margin: 0">'
                 + '<table style="padding: 0; margin: 0" id="wall-' + wallId + '-window" class="table" width="100%">'
                 + '<thead>'
                     + '<tr>'
-                        + '<th>&rarr;</th>'
+                        + '<th> </th>'
+                        + '<th> </th>'
                         + '<th colspan="2" data-i18n="[html]thead-window">Vitre</th>'
                         + '<th data-i18n="[html]thead-window-type">Type</th>'
                         + '<th data-i18n="[html]thead-window-height">Hauteur de la vitre (cm)</th>'
@@ -123,7 +209,7 @@ function detailBuildingAddWall() {
                 + '<tbody>'
                     + '<tr id="addWindow2Wall-' + wallId + '-button">'
                         + '<th>&rarr;</th>'
-                        + '<td colspan="6">'
+                        + '<td colspan="7">'
                             + '<button type="button" class="btn btn-primary add-button window" data-i18n="[html]add-window-button" onclick="detailBuildingAddWindows2Wall(' + wallId + ');">'
                                 + '+'
                             + '</button>'
@@ -136,6 +222,7 @@ function detailBuildingAddWall() {
     );
     detailBuildingAddWindows2Wall(wallId);
     $("#wall-id").val(wallId);
+    refreshDetailBuildingChange();
 }
 
 /**
@@ -144,12 +231,22 @@ function detailBuildingAddWall() {
  */
 function detailBuildingAddWindows2Wall(wallId) {
     // Déterminer le WinId
-    debug($('wall-' + wallId + '-window-id'));
     let winId=parseFloat($('#wall-' + wallId + '-window-id').val())+1;
     debug('Add une fenêtre ('+winId+') sur la paroi ' + wallId);
+
+    // Check if existe...
+    if ($("#wall-" + wallId + "-window-"+ winId).length != 0) {
+        debug('La fenêtre avec l\'ID '+winId+', sur le mur '+wallId+' existe déjà...')
+        return true;
+    }
+
     $('#addWindow2Wall-' + wallId + '-button').before(
-        '<tr id="wall-' + wallId + '-window-'+ winId +'">'
-            + '<th>&rarr;</th>'
+        '<tr id="wall-' + wallId + '-window-'+ winId +'" class="window-'+winId+' window-check">'
+            + '<td>&rarr;</td>'
+            + '<td class="window-check-' + wallId + '-'+ winId +'">'
+                + '<input class="debug" type="hidden" id="wall-check-' + wallId + '-'+ winId + '" name="wall-check" value="0" />'
+                + '<svg style="display: none;" id="wall-' + wallId + '-window-'+ winId +'-check-svg" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path class="bg-primary-subtle border border-primary-subtle " d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg>'
+            + '</td>'
             + '<td colspan="2"><input type="text" class="form-control hashchange wall-perso" name="window-name[]" id="wall-name-' + wallId + '-window-'+ winId +'" value=""  placeholder="Ex: Fenêtre cuisine" /></td>'
             + '<td>'
                 + '<select name="window-type[]" id="wall-type-' + wallId + '-window-'+ winId +'" class="form-control hashchange window-type">'
@@ -180,6 +277,7 @@ function detailBuildingAddWindows2Wall(wallId) {
         + '</tr>'
     );
     $('#wall-' + wallId + '-window-id').val(winId);
+    refreshDetailBuildingChange();
 }
 
 /**
@@ -190,6 +288,7 @@ function detailBuildingAddWindows2Wall(wallId) {
 function detailBuildingDeleteWindows2Wall(wallId, winId) {
     debug('Suppression de la fenêtre '+winId+' du mur '+wallId);
     $('#wall-' + wallId + '-window-'+ winId).remove();
+    refreshDetailBuildingChange();
 }
 
 /**
@@ -199,6 +298,7 @@ function detailBuildingDeleteWindows2Wall(wallId, winId) {
 function detailBuildingDeleteWall(wallId) {
     debug('Suppression du mur '+wallId);
     $('.wall-' + wallId).remove();
+    refreshDetailBuildingChange();
 }
 
 ////////////////////////////

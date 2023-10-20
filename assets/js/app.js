@@ -11,6 +11,7 @@ $( document ).ready(function() {
 
     // Debug on
     if (settings.debug) {
+        debug("Show class debug")
         $('.debug').show();
     }
 
@@ -120,27 +121,6 @@ $( document ).ready(function() {
     
     // Ajout de la première ligne 
     detailBuildingAddWall();
-    $(".wall-type").on( "change", function(e) {
-        wallId = $(".wall-type").attr('id').split('-')[2];
-        if ($(".wall-type").val() == 'u') {
-            $("#wall-r-" + wallId).val(0);
-            $("#wall-r-" + wallId).prop('disabled', false);
-        } else {
-            $("#wall-r-" + wallId).val(this.value);
-            $("#wall-r-" + wallId).prop('disabled', true);
-        }
-    });
-
-    // Gestion rsi-rse popup
-    $( ".rsirse-chose" ).on( "click", function() {
-        debug("Click open dialog rsirse");
-        // SEULEMENT SI RSI / RSE = 0
-
-        debug(this);
-        // Trouver sur quel ligne ça a été cliquer pour pouvoir renvoyer la donner...
-        $( "#dialog-rsirse" ).dialog();
-    });
-    
     
     /*
     debug('Add listener detail-building');
