@@ -11,18 +11,31 @@ function debug(msg) {
 /**
  * Résumé : Listener pour le changement des class "hashchange"
  */
-function hashchangeListener() {
+/*function hashchangeListener() {
+    debug('hashchangeListener');
     $(".hashchange").unbind(); 
-    $(".hashchange").on( "change", function(e) {
-        sharingButton(); // Update sharing button
-        $(".result").hide(); // Hide résult
-        $("#submit_input").val(0); // Remise à 0 du résultat
-        // SI c'est la latitude ou la longitude qui ont changé, on recherche la valeur dans l'API
-        if (this.name == 'lat' || this.name == 'lng') {
-            processChangelngLat();
-        }
-        hashChange();
+    $(".hashchange").on( "change", 'input', function(e) {
+        hashchangeAllAction();
     });
+}*/
+function hashchangeListener() {
+    //$(".hashchange").unbind(); 
+    $(".hashchange:not(.hashchange-bond)").addClass('hashchange-bond')
+    .on( "change", function(e) {
+        hashchangeAllAction(this);
+    });
+}
+
+function hashchangeAllAction(element) {
+    debug('hashchangeAllAction');
+    $(".result").hide(); // Hide résult
+    $("#submit_input").val(0); // Remise à 0 du résultat
+    // SI c'est la latitude ou la longitude qui ont changé, on recherche la valeur dans l'API
+    if (element != undefined && (element.name == 'lat' || element.name == 'lng')) {
+        processChangelngLat();
+    }
+    hashChange();
+    sharingButton(); // Update sharing button
 }
 
 /**
@@ -37,6 +50,7 @@ function rsirse(rsi, rse) {
     $('#wall-rse-' + wallId ).val(rse);
     $('#wall-rse-' + wallId + '-val').html(rse);
     $( "#dialog-rsirse" ).dialog( "close" );
+    hashchangeAllAction();
     wallCheck(wallId);
 }
 
@@ -67,31 +81,31 @@ function wallCheck(wallId) {
 }
 
 /**
+ * Résumé : Vérifie si le U est demandé "personnalisé" alors active le input
+ * @param {integer}           wallId Description : Id du mur
+ */
+function wallTypeUperso(wallId){
+    debug('wallTypeUperso');
+    if ($("#wall-type-"+wallId).val() == 'u') {
+        $("#wall-r-" + wallId).val(0);
+        $("#wall-r-" + wallId).prop('disabled', false);
+    } else {
+        $("#wall-r-" + wallId).val($("#wall-type-" + wallId).val());
+        $("#wall-r-" + wallId).prop('disabled', true);
+    }
+    hashchangeAllAction();
+}
+
+/**
  * Résumé : Rafraîchie les éléments après un ajout dynamique
  * Description : hash listener, traduction...
  */
 function refreshDetailBuildingChange() {
-    // Listener hash
-    hashchangeListener();
-
-    $(".wall-type").unbind(); 
-    $(".wall-type").on( "change", function(e) {
-        wallId = this.id.split('-')[2];
-        debug(this);
-        //wallId = $(".wall-type").attr('id').split('-')[2];
-        debug('wallId = ' + wallId)
-        if ($("#wall-type-"+wallId).val() == 'u') {
-            $("#wall-r-" + wallId).val(0);
-            $("#wall-r-" + wallId).prop('disabled', false);
-        } else {
-            $("#wall-r-" + wallId).val(this.value);
-            $("#wall-r-" + wallId).prop('disabled', true);
-        }
-    });
+    debug('Refresh detailBuilding Change');
 
     // Gestion rsi-rse popup
-    $( ".wall-rsi-rse-popup" ).unbind(); 
-    $( ".wall-rsi-rse-popup" ).on( "click", function() {
+    $( ".wall-rsi-rse-popup:not(.wall-rsi-rse-popup-bond)" ).addClass('wall-rsi-rse-popup-bond')
+    .on( "click", function() {
         wallId = $(this).find('input')[0].id.split('-')[2];
         debug("Click open dialog rsirse for wall "+wallId);
         $( "#wall-id-for-rsirse" ).val(wallId);
@@ -110,15 +124,22 @@ function refreshDetailBuildingChange() {
               }
           });
     });
-
-    $( ".wall-check" ).unbind(); 
-    $( ".wall-check" ).on( "change", function() {
+    $(".wall-type:not(.wall-type-bond)").addClass('wall-type-bond')
+    .on( "change", function(e) {
+        wallId = this.id.split('-')[2];
+        debug('pre wallTypeUperso : ' + wallId);
+        wallTypeUperso(wallId);
+    });
+    $( ".wall-check:not(.wall-check-bond)" ).addClass('wall-check-bond')
+    .on( "change", function() {
         wallId = this.id.split('-')[1];
-        debug('wallId find : '+wallId);
+        //debug('wallId find : '+wallId);
         wallCheck(wallId);
     });
-    $( ".window-check" ).unbind(); 
-    $( ".window-check" ).on( "change", function() {
+
+
+    $( ".window-check:not(.window-check-bond)" ).addClass('window-check-bond')
+    .on( "change", function() {
         debug("window check");
         wallId = this.id.split('-')[1];
         winId = this.id.split('-')[3];
@@ -140,6 +161,11 @@ function refreshDetailBuildingChange() {
             $('#wall-check-' + wallId+'-'+winId).val(1);
         }
     });
+
+    // Listener hash
+    hashchangeListener();
+
+    
 
     // Traduction
     $('html').i18n();
@@ -512,13 +538,13 @@ function precise_round(n, r) {
  * Résumé : Changer l'URL (hash) en fonction de la classe "hashchange"
  */
 function hashChange() {
+    debug('hashChange appel');
     var hashnew = '';
     var hashchange_len = $('.hashchange').length;
     var hashchange_nb = 0
     $(".hashchange").each(function() {
         //debug(this.id);
         //this.type
-        //debug(this);
         if (this.type == "checkbox") { 
             if (this.checked == true) {
                 hashnew=hashnew+this.id+'='+this.checked;
@@ -567,6 +593,6 @@ function sharingButton() {
         $("#sharingButton, ." + network).attr('href', href);
         $("#sharingButton, ." + network).css('display', 'inline-block');
 
-        debug('Add sharingButton for ' + network + ' = ' + href);
+        //debug('Add sharingButton for ' + network + ' = ' + href);
     });
 }

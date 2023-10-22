@@ -57,8 +57,8 @@ $( document ).ready(function() {
     // Default value
     //-Par le hash de l'URL
     var hash = window.location.hash.substr(1);
-    let reWall = /^wall-[a-z]+-(?<wallId>[0-9]+)$/u;
-    let reWallWin = /^wall-[a-z]+-(?<wallId2>[0-9]+)-window-(?<winId>[0-9]+)$/u;
+    let reWall = /^wall-(?<param>[a-z]+)-(?<wallId>[0-9]+)$/u;
+    let reWallWin = /^wall-(?<param>[a-z]+)-(?<wallId2>[0-9]+)-window-(?<winId>[0-9]+)$/u;
     if (hash) {
         debug('hash : ' + hash);
         if (hash == 'opendata') {
@@ -68,17 +68,27 @@ $( document ).ready(function() {
             var result = hash.split('&').reduce(function (res, item) {
                 var parts = item.split('=');
                 res[parts[0]] = parts[1];
+                debug('Param du hash ' + parts[0]);
+                //
+                // WALL/WIN  PRE  traitement
+                //
                 // Détecter si c'est pour un mur : 
                 let wallRe = reWall.exec(parts[0]);
                 if (wallRe != null && typeof wallRe == 'object') {
-                    debug('C\'est un mur');
+                    debug('C\'est pour un mur');
                     debug(wallRe.groups.wallId);
                     detailBuildingAddWall(wallRe.groups.wallId);
+                    if (wallRe.groups.param == "rsi" && parts[1] != '') {
+                        $('#wall-rsi-' + wallRe.groups.wallId + '-val').html(parts[1]);
+                    }
+                    if (wallRe.groups.param == "rse" && parts[1] != '') {
+                        $('#wall-rse-' + wallRe.groups.wallId + '-val').html(parts[1]);
+                    }
                 }
                 // Détecter si c'est pour une fenêtre : 
                 let winRe = reWallWin.exec(parts[0]);
                 if (winRe != null && typeof winRe == 'object') {
-                    debug('C\'est une fenêtre');
+                    debug('C\'est pour une fenêtre');
                     debug(winRe.groups.winId);
                 }
                 if ($("#"+parts[0]) !== undefined) {
@@ -87,6 +97,17 @@ $( document ).ready(function() {
                     } else {
                         $("#"+parts[0]).val(parts[1]);
                     }
+                }
+                //
+                // WALL/WIN  POST  traitement
+                //
+                // Détecter si c'est pour un mur : 
+                if (wallRe != null && typeof wallRe == 'object') {
+                    if (wallRe.groups.param == "type") {
+                        wallTypeUperso(wallRe.groups.wallId);
+                    }
+                    wallCheck(wallRe.groups.wallId)
+                    refreshDetailBuildingChange();
                 }
                 return res;
             }, {});
@@ -125,6 +146,8 @@ $( document ).ready(function() {
     debug('Add listener hashchange');
     hashchangeListener();
 
+    
+
     // Pour le reset du formulaire on retourne à la racine
     $("#reset").on( "click", function(e) {
         debug('Reset');
@@ -136,9 +159,7 @@ $( document ).ready(function() {
     ////////////////////////////
     
     // Ajout de la première ligne si inexistante
-    if ($("#wall-1").length != 0) {
-        detailBuildingAddWall();
-    }
+    detailBuildingAddWall();
     
     /*
     debug('Add listener detail-building');
