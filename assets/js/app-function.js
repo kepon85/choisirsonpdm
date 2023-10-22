@@ -118,6 +118,13 @@ function wallTypeUperso(wallId){
 }
 
 /**
+ * Résumé : Popup ajout d'une paroi personalisée
+ */
+function addWallPersoDialog(wallId = null) {
+
+}
+
+/**
  * Résumé : Rafraîchie les éléments après un ajout dynamique
  * Description : hash listener, traduction...
  */
@@ -138,6 +145,26 @@ function refreshDetailBuildingChange() {
             buttons: {
                 "Valider": function() {
                     rsirse($('#rsi').val(), $('#rse').val());
+                },
+                Cancel: function() {
+                    dialog.dialog( "close" );
+                }
+              }
+          });
+    });
+    $( ".custom-wall-button:not(.custom-wall-button-bond)" ).addClass('custom-wall-button-bond')
+    .on( "click", function() {
+        wallId=this.id.split('-')[3]
+        debug("Click open dialog-custom-wall "+wallId);
+        $('#wall-id-for-perso').val(wallId);
+        // Aficher le popup
+        dialog = $( "#dialog-custom-wall" ).dialog({
+            height: 600,
+            width: 600,
+            modal: true,
+            buttons: {
+                "Valider": function() {
+                    //rsirse($('#rsi').val(), $('#rse').val());
                 },
                 Cancel: function() {
                     dialog.dialog( "close" );
@@ -199,7 +226,8 @@ function detailBuildingAddWall(id = null) {
     }
 
     $('#addWallButton').before(
-        '<tr id="wall-' + wallId + '" class="wall-' + wallId + ' wall-check">'
+        + '<tbody class="wall-sortable">'
+        + '<tr id="wall-' + wallId + '" class="wall-' + wallId + ' wall-check">'
             + '<td class="wall-check-' + wallId + '">'
                 + '<input class="debug" type="hidden" id="wall-check-' + wallId + '" name="wall-check" value="0" />'
                 + '<svg style="display: none;" id="wall-' + wallId + '-check-svg" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path class="bg-primary-subtle border border-primary-subtle " d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg>'
@@ -209,6 +237,7 @@ function detailBuildingAddWall(id = null) {
                 + '<input type="text" class="form-control hashchange wall-perso" name="wall-name[]" id="wall-name-' + wallId + '" value=""  placeholder="Ex: Façade Sud" />'
             + '</td>'
             + '<td>'
+                +'<div class="input-group">'
                 + '<select name="wall-type[]" id="wall-type-' + wallId + '" class="wall-type form-control hashchange">'
                     + '<option value="" selected="selected">-</option>'
                     + '<option value="u" data-i18n="wall-type-u-perso">Valeur U personnalisé</option>'
@@ -250,6 +279,13 @@ function detailBuildingAddWall(id = null) {
                     + '<option value="2.1">Planchers bas donnant sur l’extérieur ou sur un local non chauffé (H3<800m)</option>'
                     + '</optgroup>'
                 + '</select>'
+                + '<button type="button" id="add-custom-wall-' + wallId + '" class="btn btn-secondary add-custom-wall-button custom-wall-button">'
+                    + '<svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 384 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M320 464c8.8 0 16-7.2 16-16V160H256c-17.7 0-32-14.3-32-32V48H64c-8.8 0-16 7.2-16 16V448c0 8.8 7.2 16 16 16H320zM0 64C0 28.7 28.7 0 64 0H229.5c17 0 33.3 6.7 45.3 18.7l90.5 90.5c12 12 18.7 28.3 18.7 45.3V448c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V64z"/></svg>'
+                + '</button>'
+                + '<button type="button" id="modify-custom-wall-' + wallId + '" class="btn btn-secondary modify-custom-wall-button custom-wall-button">'
+                    + '<svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M441 58.9L453.1 71c9.4 9.4 9.4 24.6 0 33.9L424 134.1 377.9 88 407 58.9c9.4-9.4 24.6-9.4 33.9 0zM209.8 256.2L344 121.9 390.1 168 255.8 302.2c-2.9 2.9-6.5 5-10.4 6.1l-58.5 16.7 16.7-58.5c1.1-3.9 3.2-7.5 6.1-10.4zM373.1 25L175.8 222.2c-8.7 8.7-15 19.4-18.3 31.1l-28.6 100c-2.4 8.4-.1 17.4 6.1 23.6s15.2 8.5 23.6 6.1l100-28.6c11.8-3.4 22.5-9.7 31.1-18.3L487 138.9c28.1-28.1 28.1-73.7 0-101.8L474.9 25C446.8-3.1 401.2-3.1 373.1 25zM88 64C39.4 64 0 103.4 0 152V424c0 48.6 39.4 88 88 88H360c48.6 0 88-39.4 88-88V312c0-13.3-10.7-24-24-24s-24 10.7-24 24V424c0 22.1-17.9 40-40 40H88c-22.1 0-40-17.9-40-40V152c0-22.1 17.9-40 40-40H200c13.3 0 24-10.7 24-24s-10.7-24-24-24H88z"/></svg>'
+                + '</button>'
+                +'</div>'
             + '</td>'
             + '<td class="wall-rsi-rse-popup text-center">'
                 +'<input type="hidden" class="form-control hashchange" name="wall-rsi[]" id="wall-rsi-' + wallId + '" />'
@@ -274,7 +310,7 @@ function detailBuildingAddWall(id = null) {
         + '</tr>'
         + '<tr  class="wall-' + wallId + '">'
             + '<td colspan="9" style="padding: 0; margin: 0">'
-                + '<table style="padding: 0; margin: 0"  id="wall-' + wallId + '-window" class="table table-vcenter" width="100%">'
+                + '<table style="padding: 0; margin: 0"  id="wall-' + wallId + '-window" class="window-table table table-vcenter" width="100%">'
                 + '<thead>'
                     + '<tr>'
                         + '<th> </th>'
@@ -299,6 +335,7 @@ function detailBuildingAddWall(id = null) {
               + '</table>'
             + '</td>'
         + '</tr>'
+        + '</tbody>'
     );
     if (id == null) {
         detailBuildingAddWindows2Wall(wallId);
@@ -336,7 +373,7 @@ function detailBuildingAddWindows2Wall(wallId, id = null) {
                 + '<input class="debug" type="hidden" id="wall-check-' + wallId + '-'+ winId + '" name="wall-check" value="0" />'
                 + '<svg style="display: none;" id="wall-' + wallId + '-window-'+ winId +'-check-svg" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path class="bg-primary-subtle border border-primary-subtle " d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg>'
             + '</td>'
-            + '<td colspan="2"><input type="text" class="form-control hashchange wall-perso" name="window-name[]" id="wall-name-' + wallId + '-window-'+ winId +'" value=""  placeholder="Ex: Fenêtre cuisine" /></td>'
+            + '<td colspan="2"><input type="text" class="form-control hashchange" name="window-name[]" id="wall-name-' + wallId + '-window-'+ winId +'" value=""  placeholder="Ex: Fenêtre cuisine" /></td>'
             + '<td>'
                 + '<select name="window-type[]" id="wall-type-' + wallId + '-window-'+ winId +'" class="form-control hashchange window-type">'
                     + '<option value="" selected="selected">-</option>'

@@ -166,7 +166,11 @@ $( document ).ready(function() {
     
     // Ajout de la première ligne si inexistante
     detailBuildingAddWall();
-    
+    $( ".window-table tbody" ).sortable({
+        update: function(event, ui) {
+            hashchangeAllAction();
+        }
+    });
 
               /*
                 var cache = {};
