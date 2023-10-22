@@ -58,7 +58,7 @@ $( document ).ready(function() {
     //-Par le hash de l'URL
     var hash = window.location.hash.substr(1);
     let reWall = /^wall-(?<param>[a-z]+)-(?<wallId>[0-9]+)$/u;
-    let reWallWin = /^wall-(?<param>[a-z]+)-(?<wallId2>[0-9]+)-window-(?<winId>[0-9]+)$/u;
+    let reWallWin = /^wall-(?<param>[a-z]+)-(?<wallId>[0-9]+)-window-(?<winId>[0-9]+)$/u;
     if (hash) {
         debug('hash : ' + hash);
         if (hash == 'opendata') {
@@ -90,6 +90,7 @@ $( document ).ready(function() {
                 if (winRe != null && typeof winRe == 'object') {
                     debug('C\'est pour une fenêtre');
                     debug(winRe.groups.winId);
+                    detailBuildingAddWindows2Wall(winRe.groups.wallId, winRe.groups.winId);
                 }
                 if ($("#"+parts[0]) !== undefined) {
                     if ($("#"+parts[0])[0] !== undefined && $("#"+parts[0])[0].type == "checkbox") {
@@ -107,6 +108,11 @@ $( document ).ready(function() {
                         wallTypeUperso(wallRe.groups.wallId);
                     }
                     wallCheck(wallRe.groups.wallId)
+                    refreshDetailBuildingChange();
+                }
+                // Détecter si c'est pour une fenêtre : 
+                if (winRe != null && typeof winRe == 'object') {
+                    winCheck(winRe.groups.wallId, winRe.groups.winId)
                     refreshDetailBuildingChange();
                 }
                 return res;
@@ -161,13 +167,6 @@ $( document ).ready(function() {
     // Ajout de la première ligne si inexistante
     detailBuildingAddWall();
     
-    /*
-    debug('Add listener detail-building');
-    $(".building-change").on( "change", function(e) {
-        buildingChange(); // Update 
-        //hashChange();
-    });
-*/
 
               /*
                 var cache = {};

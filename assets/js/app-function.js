@@ -56,7 +56,6 @@ function rsirse(rsi, rse) {
 
 /**
  * Résumé : Valide le formulaire par mur
- * Description : Valide le formulaire par mur
  */
 function wallCheck(wallId) {
     debug("Wall check");
@@ -77,6 +76,28 @@ function wallCheck(wallId) {
         $('.wall-check-' + wallId).addClass('bg-success-subtle');
         $('#wall-' + wallId + '-check-svg').show();
         $('#wall-check-' + wallId).val(1);
+    }
+}
+/**
+ * Résumé : Valide le formulaire par fenêtre
+ */
+function winCheck(wallId, winId) {
+    if (
+        $('#wall-type-' + wallId + '-window-'+ winId).val() == ''
+        || $('#wall-height-' + wallId + '-window-'+ winId).val() == 0 ||  $('#wall-height-' + wallId + '-window-'+ winId).val() == ''
+        || $('#wall-width-' + wallId + '-window-'+ winId).val() == 0 || $('#wall-height-' + wallId + '-window-'+ winId).val() == ''
+        ) {
+        debug("window Ko");
+        $('.window-check-' + wallId + '-' +winId).removeClass('bg-success-subtle');
+        $('.window-check-' + wallId+'-'+winId).addClass('bg-warning-subtle');
+        $('#wall-' + wallId + '-window-'+ winId +'-check-svg').hide();
+        $('#wall-check-' + wallId+'-'+winId).val(0);
+    } else {
+        debug("window Ok");
+        $('.window-check-' + wallId+'-'+winId).addClass('bg-success-subtle');
+        $('.window-check-' + wallId+'-'+winId).removeClass('bg-warning-subtle');
+        $('#wall-' + wallId + '-window-'+ winId +'-check-svg').show();
+        $('#wall-check-' + wallId+'-'+winId).val(1);
     }
 }
 
@@ -140,26 +161,10 @@ function refreshDetailBuildingChange() {
 
     $( ".window-check:not(.window-check-bond)" ).addClass('window-check-bond')
     .on( "change", function() {
-        debug("window check");
+        debug("winCheck");
         wallId = this.id.split('-')[1];
         winId = this.id.split('-')[3];
-        debug('wallId find : '+wallId);
-        debug('winId find : '+winId);
-        if (
-            $('#wall-type-' + wallId + '-window-'+ winId).val() == ''
-            || $('#wall-height-' + wallId + '-window-'+ winId).val() == 0 ||  $('#wall-height-' + wallId + '-window-'+ winId).val() == ''
-            || $('#wall-width-' + wallId + '-window-'+ winId).val() == 0 || $('#wall-height-' + wallId + '-window-'+ winId).val() == ''
-            ) {
-            debug("window Ko");
-            $('.window-check-' + wallId + '-' +winId).removeClass('bg-success-subtle');
-            $('#wall-' + wallId + '-window-'+ winId +'-check-svg').hide();
-            $('#wall-check-' + wallId+'-'+winId).val(0);
-        } else {
-            debug("window Ok");
-            $('.window-check-' + wallId+'-'+winId).addClass('bg-success-subtle');
-            $('#wall-' + wallId + '-window-'+ winId +'-check-svg').show();
-            $('#wall-check-' + wallId+'-'+winId).val(1);
-        }
+        winCheck(wallId, winId);
     });
 
     // Listener hash
@@ -310,9 +315,12 @@ function detailBuildingAddWall(id = null) {
  * Résumé : Ajout d'une fenêtre dans un mur
  * @param {integer}           wallId Description : Id du mur
  */
-function detailBuildingAddWindows2Wall(wallId) {
+function detailBuildingAddWindows2Wall(wallId, id = null) {
     // Déterminer le WinId
     let winId=parseFloat($('#wall-' + wallId + '-window-id').val())+1;
+    if (id != null) {
+        winId=id;
+    }
     debug('Add une fenêtre ('+winId+') sur la paroi ' + wallId);
 
     // Check if existe...
@@ -357,7 +365,15 @@ function detailBuildingAddWindows2Wall(wallId) {
             + '</td>'
         + '</tr>'
     );
-    $('#wall-' + wallId + '-window-id').val(winId);
+
+    if (id == null) {
+        $("#wall-"+wallId+"-window-id").val(winId);
+    } else {
+        if ($('#wall-' + wallId + '-window-id').val() < winId) {
+            $('#wall-' + wallId + '-window-id').val(winId);
+        }
+    }
+
     refreshDetailBuildingChange();
 }
 
@@ -379,6 +395,7 @@ function detailBuildingDeleteWindows2Wall(wallId, winId) {
 function detailBuildingDeleteWall(wallId) {
     debug('Suppression du mur '+wallId);
     $('.wall-' + wallId).remove();
+    hashchangeAllAction();
     refreshDetailBuildingChange();
 }
 
