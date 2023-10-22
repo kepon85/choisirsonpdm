@@ -27,11 +27,13 @@
 }
 
 /* Expert Mode */
-
+.wall-rsi-rse-popup {
+  cursor: pointer;
+}
 #temp_base_load {
-    width: 20px;
-    height: 20px;
-    display: none;
+  width: 20px;
+  height: 20px;
+  display: none;
 }
 #map {
     width: 100%; height: 300px;

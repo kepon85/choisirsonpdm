@@ -57,14 +57,30 @@ $( document ).ready(function() {
     // Default value
     //-Par le hash de l'URL
     var hash = window.location.hash.substr(1);
+    let reWall = /^wall-[a-z]+-(?<wallId>[0-9]+)$/u;
+    let reWallWin = /^wall-[a-z]+-(?<wallId2>[0-9]+)-window-(?<winId>[0-9]+)$/u;
     if (hash) {
         debug('hash : ' + hash);
         if (hash == 'opendata') {
             openData();
         } else {
+            //Parse hash, split et complete
             var result = hash.split('&').reduce(function (res, item) {
                 var parts = item.split('=');
                 res[parts[0]] = parts[1];
+                // Détecter si c'est pour un mur : 
+                let wallRe = reWall.exec(parts[0]);
+                if (wallRe != null && typeof wallRe == 'object') {
+                    debug('C\'est un mur');
+                    debug(wallRe.groups.wallId);
+                    detailBuildingAddWall(wallRe.groups.wallId);
+                }
+                // Détecter si c'est pour une fenêtre : 
+                let winRe = reWallWin.exec(parts[0]);
+                if (winRe != null && typeof winRe == 'object') {
+                    debug('C\'est une fenêtre');
+                    debug(winRe.groups.winId);
+                }
                 if ($("#"+parts[0]) !== undefined) {
                     if ($("#"+parts[0])[0] !== undefined && $("#"+parts[0])[0].type == "checkbox") {
                         $("#"+parts[0]).prop("checked", parts[1]);
@@ -119,8 +135,10 @@ $( document ).ready(function() {
     // Expert mode - formulaire
     ////////////////////////////
     
-    // Ajout de la première ligne 
-    detailBuildingAddWall();
+    // Ajout de la première ligne si inexistante
+    if ($("#wall-1").length != 0) {
+        detailBuildingAddWall();
+    }
     
     /*
     debug('Add listener detail-building');
