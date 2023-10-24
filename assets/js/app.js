@@ -1,8 +1,23 @@
 $( document ).ready(function() {
+    debug( "ready !" );
+
+    // Init global var
+    apiMateriauxData=null;
+
+    // Load localStorage setting
+    if (localStorage.getItem('setting') == null) {
+        localStorage.setItem('setting', JSON.stringify(settings.localSettingDefault));
+    } 
+    localSetting=JSON.parse(localStorage.getItem('setting'));
+    debug("Local setting : ");
+    debug(localSetting);
+
     ////////////////////////////////////
     // HASH URL (remplir les champs)
     ////////////////////////////////////
-    debug( "ready !" );
+    
+
+    $('.form-select').select2();
 
     // Cacher les alertes d'un clic au besoin
     $("#alert").on( "click", function(e) {
@@ -166,30 +181,122 @@ $( document ).ready(function() {
     
     // Ajout de la première ligne si inexistante
     detailBuildingAddWall();
+
+    // Draggable/sortable mode pour les lignes de fenêtres
     $( ".window-table tbody" ).sortable({
         update: function(event, ui) {
             hashchangeAllAction();
         }
     });
 
-              /*
-                var cache = {};
-                $( "#birds" ).autocomplete({
-                  minLength: 2,
-                  source: function( request, response ) {
-                    var search = request.search;
-                    if ( search in cache ) {
-                      response( cache[ search ] );
-                      return;
-                    }
+    ////////////////////////////
+    // Expert mode - Setting
+    ////////////////////////////
 
-                    $.getJSON( settings.apiMateriaux, request, function( data, status, xhr ) {
-                      cache[ search ] = data;
-                      response( data );
-                    });
-                  }
-                });
-*/
+    // Draggable/sortable mode pour le tableau de paroi
+    $( "#tabke-layer tbody" ).sortable();
+
+    // Dialog pour les custom-wall
+    $( ".custom-wall-button:not(.custom-wall-button-bond)" ).addClass('custom-wall-button-bond')
+    .on( "click", function() {
+        getMateriauxData();
+        if (this.id == 'modify-custom-wall') {
+            debug('Modification de la paroi '+$('#custom-wall'.val()));
+            //layer-custom-id SI 
+            // @TODO load data
+        } else {
+            debug('Ajout d\'une nouvelle paroi');
+            // Ajout d'une ligne vide
+            addLayer();
+        }
+        // Aficher le popup
+        var wWidth = $(window).width();
+        var dWidth = wWidth * 0.9;
+        var wHeight = $(window).height();
+        var dHeight = wHeight * 0.9;
+        dialog = $( "#dialog-custom-wall" ).dialog({
+            overlay: { opacity: 0.1, background: "black" },
+            width: dWidth,
+            height: dHeight,
+            modal: true,
+            open: function () {
+                // Pour le fonctionnement avec "select2"
+                if ($.ui && $.ui.dialog && !$.ui.dialog.prototype._allowInteractionRemapped && $(this).closest(".ui-dialog").length) {
+                    if ($.ui.dialog.prototype._allowInteraction) {
+                        $.ui.dialog.prototype._allowInteraction = function (e) {
+                            if ($(e.target).closest('.select2-drop').length) return true;
+        
+                            if (typeof ui_dialog_interaction!="undefined") {
+                                return ui_dialog_interaction.apply(this, arguments);
+                            } else {
+                                return true;
+                            }
+                        };
+                        $.ui.dialog.prototype._allowInteractionRemapped = true;
+                    }
+                    else {
+                        $.error("You must upgrade jQuery UI or else.");
+                    }
+                }
+            },
+            _allowInteraction: function (event) {
+                return !!$(e.target).closest('.ui-dialog, .ui-datepicker, .select2-drop').length;
+            },
+            buttons: {
+                "Valider": function() {
+                    //layer-custom-id SI pas 0 = enregistrement nouvel !
+                    // Sinon modification existant !
+                },
+                Cancel: function() {
+                    dialog.dialog( "close" );
+                }
+              }
+        });
+    });
+    // Afficher/Masquer les éléments en cas de contribution matériaux
+    $( "#material-forcontrib" ).on( "click", function() {
+        $( ".forcontrib" ).toggle();
+    });
+    // Dialog pour les custom-material
+    $( ".custom-material-button:not(.custom-material-button-bond)" ).addClass('custom-material-button-bond')
+    .on( "click", function() {
+        getMateriauxData();
+        materialCathSelect();
+        if (this.id == 'modify-custom-material') {
+            debug('Modification d\'un matériaux '+$('#custom-material').val());
+            $( ".forcontrib-checkbox" ).hide();
+            $( ".forcontrib" ).hide();
+            $( "#material-forcontrib" ).prop( "checked", false );
+            //layer-custom-id SI 
+            // @TODO load data
+        } else {
+            debug('Ajout d\'un materiau');
+            $( ".forcontrib-checkbox" ).show();
+            $( ".forcontrib" ).show();
+            $( "#material-forcontrib" ).prop( "checked", true );
+            // Ajout d'une ligne vide
+        }
+        // Aficher le popup
+        dialog = $( "#dialog-custom-material" ).dialog({
+            overlay: { opacity: 0.1, background: "black" },
+            width: 500,
+            height: 500,
+            modal: true,
+            buttons: {
+                "Valider": function() {
+                    var returnValidCustomMaterial = validCustomMaterial();
+                    if (returnValidCustomMaterial == true) {
+                        dialog.dialog( "close" );
+                    } else {
+                        alert(returnValidCustomMaterial);
+                    }
+                },
+                Cancel: function() {
+                    dialog.dialog( "close" );
+                }
+              }
+        });
+    });
 
     ////////////////////////////
     // Contrôle
@@ -333,11 +440,8 @@ $( document ).ready(function() {
         $('#map').text("Disable by settings.debugLoadMap");
     }
 
-    // Loader a cacher quand tout est fait
-    $('#loadData').hide();
-
     // Tooltips (infobule)
-    $('[data-toggle="tooltip"]').tooltip();                
+    $('[data-toggle="tooltip"]').tooltip();           
 
     // Loader a cacher quand tout est fait
     $('#loadData').hide();

@@ -120,8 +120,173 @@ function wallTypeUperso(wallId){
 /**
  * Résumé : Popup ajout d'une paroi personalisée
  */
-function addWallPersoDialog(wallId = null) {
+function getMateriauxData() {
+    if (apiMateriauxData == null) {
+        debug('Get materiaux data');
+        $.ajax({
+            url: settings.apiMateriaux+'?lang='+$.i18n().locale+'&spec=lambda',
+            async: false,
+            dataType: 'json',
+            success: function(data) {
+                apiMateriauxData = data;
+            },
+            error: function() {
+                alert("Une erreur à la récupération des matériaux, contactez le développeur du projet.")
+            }
+        });
+    }
+}
 
+/**
+ * Résumé : Complète le sélect des matériaux pour l'ajout/modification paroi
+ */
+function layerTypeSelect(layerId) {
+    debug('layerTypeSelect');
+    //Option vide
+    if ($('#layer-type-' + layerId + '-clean').length == 0) {
+        $('#layer-type-' + layerId).append('<option class="type-clean" id="layer-type-' + layerId + '-clean" value="">-</option>');
+    }
+    //Remplir avec les autres : 
+    $.each(apiMateriauxData, function(index, data) {
+        if ($('#layer-type-' + layerId + '-cath-'+data.cath_id).length == 0) {
+            $('#layer-type-' + layerId).append('<optgroup class="type-cath-'+data.cath_id+'" id="layer-type-' + layerId + '-cath-'+data.cath_id+'" label="'+data.cath+'"></optgroup>'); 
+        }
+        if ($('#layer-type-' + layerId + '-'+index).length == 0) {
+            $('#layer-type-' + layerId + '-cath-'+data.cath_id).append('<option class="type-'+index+'" id="layer-type-' + layerId + '-'+index+'" value="'+data.spec.lambda+'">'+data.libelle+'</option>'); 
+        }
+    });
+}
+/**
+ * Résumé : Complète le sélect des catégories de matériaux pour l'ajout/modification de matériaux
+ */
+function materialCathSelect() {
+    debug('materialCathSelect');
+    if ($('#material-cath_id-clean').length == 0) {
+        $('#material-cath_id').append('<option class="clean" id="material-cath_id-clean" value="">-</option>');
+    }
+    $.each(apiMateriauxData, function(index, data) {
+        if ($('#material-cath_id-'+data.cath_id).length == 0) {
+            $('#material-cath_id').append('<option id="material-cath_id-'+data.cath_id+'" value="'+data.cath_id+'">'+data.cath+'</option>'); 
+        }
+    });
+}
+
+/**
+ * Résumé : Envoyé un formulaire de contact en ajax
+ * @param {string}           from Description : Email from
+ * @param {string}           subject Description : Email subject
+ * @param {string}           body Description : Email body
+ */
+function sendContact(from, subject, body) {
+    $.ajax({
+        url: settings.apiContact+'?from='+from+'&subject='+subject+'&body='+body,
+        async: true,
+        success: function(data) {
+            return data;
+        },
+        error: function(data) {
+            return data;
+        }
+    });
+}
+
+/**
+ * Résumé : Enregistre le matériaux personnalisé
+ */
+function validCustomMaterial() {
+    // @todo
+    //layer-custom-id SI pas 0 = enregistrement nouvel !
+    // Sinon modification existant !
+    //if ($('#material-forcontrib').prop('checked')) {
+
+    //}
+    if ($('#material-libelle').val() == 0 || $('#material-lambda').val() == 0) {
+        return "Il faut aus moins le libelle et le lambda du matériaux";
+    }
+    var newmaterial = {
+        libelle: $('#material-libelle').val(),
+        generic: $('#material-generic').val(),
+        cath_id: $('#material-cath_id').val(),
+        spec: { 
+            lambda: $('#material-lambda').val(),
+            p: $('#material-p').val(),
+            c: $('#material-c').val(),
+            u: $('#material-u').val(),
+            h: $('#material-h').val()
+        },
+        src: { 
+            name: $('#material-src-name').val(),
+            link: $('#material-src-link').val(),
+            contrib: $('#material-src-contrib').val(),
+        },
+    };
+    localSetting.material.push(newmaterial);
+    localStorage.setItem('setting', JSON.stringify(localSetting));
+ 
+    var body = 'Contribution public : ' + $('#material-forcontrib').prop('checked') + '<br />'
+        + 'Libelle : ' + $('#material-libelle').val() + '<br />' 
+        + 'Generic : ' + $('#material-generic').val() + '<br />' 
+        + 'Cathégorie :  ' + $('#material-cath_id').val() + '<br />' 
+        + 'Spec : <br />' 
+        + ' - Lambda : ' + $('#material-lambda').val() + '<br />' 
+        + ' - p : ' + $('#material-p').val() + '<br />' 
+        + ' - c : ' + $('#material-c').val() + '<br />' 
+        + ' - u : ' + $('#material-u').val() + '<br />' 
+        + ' - h : ' + $('#material-h').val() + '<br />' 
+        + 'Source : <br />' 
+        + ' - src-name : ' + $('#material-src-name').val() + '<br />' 
+        + ' - src-link : ' + $('#material-src-link').val() + '<br />' 
+        + ' - src-contrib : ' + $('#material-src-contrib').val() + '<br />' 
+        + 'Commentaire : ' + $('#material-comment').val() + '<br />' 
+        + '<br />' 
+        + '"","' + $('#material-libelle').val() + '",'+$('#material-cath_id').val()+','+$('#material-generic').val()+','+$('#material-lambda').val()+','+$('#material-p').val()+','+$('#material-c').val()+','+$('#material-c').val()+','+$('#material-u').val()+','+$('#material-h').val()+','+$('#material-src-name').val()+','+$('#material-src-link').val()+','+$('#material-src-contrib').val();
+
+        debug(body);
+    sendContact('noreply@poeledemasse.org', 'Contribution matériaux', body);
+    return false;
+}
+/**
+ * Résumé : Action au changement de layer
+ */
+function layerCheck(layerId) {
+    debug('layerCheck '+layerId);
+    // Ajout du Lambda
+    $('#layer-lambda-'+layerId).val($('#layer-type-'+layerId).val());
+    // Calcul du R
+    $('#layer-r-'+layerId).val(precise_round($('#layer-size-'+layerId).val()/100/$('#layer-type-'+layerId).val(),1));
+    // Calcul Total size
+    var layerSizeTotal = 0;
+    $('.layer-size').each(function() {
+        if ($( this ).val() != '') {
+            layerSizeTotal=parseFloat(layerSizeTotal)+parseFloat($( this ).val())   ;
+        }
+    });
+    $('#layer-size-total').html(precise_round(layerSizeTotal, 0));
+    // Calcul Total r
+    var layerRTotal = 0;
+    $('.layer-r').each(function() {
+        if ($( this ).val() != '') {
+            layerRTotal=parseFloat(layerRTotal)+parseFloat($( this ).val());
+        }
+    });
+    $('#layer-r-total').html(precise_round(layerRTotal, 2));
+}
+
+/**
+ * Résumé : Rafraîchie les éléments de la boîte de dialogue paroi
+ * Description : hash listener, traduction...
+ */
+function refreshLayerDialogChange() {
+    $( ".layer-check:not(.layer-check-bond)" ).addClass('layer-check-bond')
+    .on( "change", function() {
+        layerId = this.id.split('-')[1];
+        debug('layerId find : '+layerId);
+        layerCheck(layerId);
+    });
+    // Listener hash
+    hashchangeListener();
+    // Traduction
+    $('html').i18n();
 }
 
 /**
@@ -145,26 +310,6 @@ function refreshDetailBuildingChange() {
             buttons: {
                 "Valider": function() {
                     rsirse($('#rsi').val(), $('#rse').val());
-                },
-                Cancel: function() {
-                    dialog.dialog( "close" );
-                }
-              }
-          });
-    });
-    $( ".custom-wall-button:not(.custom-wall-button-bond)" ).addClass('custom-wall-button-bond')
-    .on( "click", function() {
-        wallId=this.id.split('-')[3]
-        debug("Click open dialog-custom-wall "+wallId);
-        $('#wall-id-for-perso').val(wallId);
-        // Aficher le popup
-        dialog = $( "#dialog-custom-wall" ).dialog({
-            height: 600,
-            width: 600,
-            modal: true,
-            buttons: {
-                "Valider": function() {
-                    //rsirse($('#rsi').val(), $('#rse').val());
                 },
                 Cancel: function() {
                     dialog.dialog( "close" );
@@ -279,12 +424,6 @@ function detailBuildingAddWall(id = null) {
                     + '<option value="2.1">Planchers bas donnant sur l’extérieur ou sur un local non chauffé (H3<800m)</option>'
                     + '</optgroup>'
                 + '</select>'
-                + '<button type="button" id="add-custom-wall-' + wallId + '" class="btn btn-secondary add-custom-wall-button custom-wall-button">'
-                    + '<svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 384 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M320 464c8.8 0 16-7.2 16-16V160H256c-17.7 0-32-14.3-32-32V48H64c-8.8 0-16 7.2-16 16V448c0 8.8 7.2 16 16 16H320zM0 64C0 28.7 28.7 0 64 0H229.5c17 0 33.3 6.7 45.3 18.7l90.5 90.5c12 12 18.7 28.3 18.7 45.3V448c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V64z"/></svg>'
-                + '</button>'
-                + '<button type="button" id="modify-custom-wall-' + wallId + '" class="btn btn-secondary modify-custom-wall-button custom-wall-button">'
-                    + '<svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M441 58.9L453.1 71c9.4 9.4 9.4 24.6 0 33.9L424 134.1 377.9 88 407 58.9c9.4-9.4 24.6-9.4 33.9 0zM209.8 256.2L344 121.9 390.1 168 255.8 302.2c-2.9 2.9-6.5 5-10.4 6.1l-58.5 16.7 16.7-58.5c1.1-3.9 3.2-7.5 6.1-10.4zM373.1 25L175.8 222.2c-8.7 8.7-15 19.4-18.3 31.1l-28.6 100c-2.4 8.4-.1 17.4 6.1 23.6s15.2 8.5 23.6 6.1l100-28.6c11.8-3.4 22.5-9.7 31.1-18.3L487 138.9c28.1-28.1 28.1-73.7 0-101.8L474.9 25C446.8-3.1 401.2-3.1 373.1 25zM88 64C39.4 64 0 103.4 0 152V424c0 48.6 39.4 88 88 88H360c48.6 0 88-39.4 88-88V312c0-13.3-10.7-24-24-24s-24 10.7-24 24V424c0 22.1-17.9 40-40 40H88c-22.1 0-40-17.9-40-40V152c0-22.1 17.9-40 40-40H200c13.3 0 24-10.7 24-24s-10.7-24-24-24H88z"/></svg>'
-                + '</button>'
                 +'</div>'
             + '</td>'
             + '<td class="wall-rsi-rse-popup text-center">'
@@ -337,6 +476,7 @@ function detailBuildingAddWall(id = null) {
         + '</tr>'
         + '</tbody>'
     );
+    $('#wall-type-' + wallId).select2();
     if (id == null) {
         detailBuildingAddWindows2Wall(wallId);
         $("#wall-id").val(wallId);
@@ -402,7 +542,7 @@ function detailBuildingAddWindows2Wall(wallId, id = null) {
             + '</td>'
         + '</tr>'
     );
-
+    $('#wall-type-' + wallId + '-window-'+ winId).select2();
     if (id == null) {
         $("#wall-"+wallId+"-window-id").val(winId);
     } else {
@@ -412,6 +552,68 @@ function detailBuildingAddWindows2Wall(wallId, id = null) {
     }
 
     refreshDetailBuildingChange();
+}
+
+
+
+/**
+ * Résumé : Ajout d'une couche dans un mur personnalisé
+ * @param {integer}           Layer ID 
+ */
+function addLayer(id = null) {
+
+    // Déterminer le WinId
+    let layerId=parseFloat($('#layer-id').val())+1;
+    if (id != null) {
+        layerId=id;
+    }
+    debug('Add d\'une couche avec l\'id ' + layerId);
+
+    // Check if existe...
+    if ($("#layer-" + layerId ).length != 0) {
+        debug('La couche avec l\'ID '+layerId+' existe déjà...')
+        return true;
+    }
+
+    $('#addLayerButton').before(
+        '<tr id="layer-' + layerId +'" class="layer-'+layerId+' layer-check">'
+            + '<td><svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M278.6 9.4c-12.5-12.5-32.8-12.5-45.3 0l-64 64c-9.2 9.2-11.9 22.9-6.9 34.9s16.6 19.8 29.6 19.8h32v96H128V192c0-12.9-7.8-24.6-19.8-29.6s-25.7-2.2-34.9 6.9l-64 64c-12.5 12.5-12.5 32.8 0 45.3l64 64c9.2 9.2 22.9 11.9 34.9 6.9s19.8-16.6 19.8-29.6V288h96v96H192c-12.9 0-24.6 7.8-29.6 19.8s-2.2 25.7 6.9 34.9l64 64c12.5 12.5 32.8 12.5 45.3 0l64-64c9.2-9.2 11.9-22.9 6.9-34.9s-16.6-19.8-29.6-19.8H288V288h96v32c0 12.9 7.8 24.6 19.8 29.6s25.7 2.2 34.9-6.9l64-64c12.5-12.5 12.5-32.8 0-45.3l-64-64c-9.2-9.2-22.9-11.9-34.9-6.9s-19.8 16.6-19.8 29.6v32H288V128h32c12.9 0 24.6-7.8 29.6-19.8s2.2-25.7-6.9-34.9l-64-64z"/></svg></td>'
+            + '<td class="layer-check-' + layerId +'">'
+                + '<input class="debug" type="hidden" id="layer-check-' + layerId + '" name="layer-check" value="0" />'
+                + '<svg style="display: none;" id="layer-' + layerId +'-check-svg" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path class="bg-primary-subtle border border-primary-subtle " d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg>'
+            + '</td>'            
+            + '<td>'
+                + '<select name="layer-type[]" id="layer-type-' + layerId + '" class="form-control layer-type" style="width: 100%">'
+                + '</select>'
+            + '</td>'
+            + '<td class="text-center"><input type="number" class="form-control text-center layer-lambda" min="0" step="1" name="layer-lambda[]" id="layer-lambda-' + layerId +'" value="" disabled="disabled" /></td>'
+            + '<td class="text-center"><input type="number" class="form-control text-center layer-size" min="0" step="1" name="layer-size[]" id="layer-size-' + layerId +'" value="0" /></td>'
+            + '<td class="text-center"><input type="number" class="form-control text-center layer-r" min="0" step="1" name="layer-r[]" id="layer-r-' + layerId +'" value="" disabled="disabled" /></td>'
+            + '<td class="text-center">'
+                + '<button type="button" class="btn btn-danger delete-button layer" onclick="deleteLayer('+layerId+');">'
+                    + '<svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M170.5 51.6L151.5 80h145l-19-28.4c-1.5-2.2-4-3.6-6.7-3.6H177.1c-2.7 0-5.2 1.3-6.7 3.6zm147-26.6L354.2 80H368h48 8c13.3 0 24 10.7 24 24s-10.7 24-24 24h-8V432c0 44.2-35.8 80-80 80H112c-44.2 0-80-35.8-80-80V128H24c-13.3 0-24-10.7-24-24S10.7 80 24 80h8H80 93.8l36.7-55.1C140.9 9.4 158.4 0 177.1 0h93.7c18.7 0 36.2 9.4 46.6 24.9zM80 128V432c0 17.7 14.3 32 32 32H336c17.7 0 32-14.3 32-32V128H80zm80 64V400c0 8.8-7.2 16-16 16s-16-7.2-16-16V192c0-8.8 7.2-16 16-16s16 7.2 16 16zm80 0V400c0 8.8-7.2 16-16 16s-16-7.2-16-16V192c0-8.8 7.2-16 16-16s16 7.2 16 16zm80 0V400c0 8.8-7.2 16-16 16s-16-7.2-16-16V192c0-8.8 7.2-16 16-16s16 7.2 16 16z"/></svg>'
+                + '</button>'
+            + '</td>'
+        + '</tr>'
+    );
+
+    // Ajout des matériaux
+    layerTypeSelect(layerId);
+
+    // Le layer type en select2
+    $('#layer-type-' + layerId).select2({
+        width: 'resolve'
+    });
+
+    if (id == null) {
+        $("#layer-id").val(layerId);
+    } else {
+        if ($('#layer-id').val() < layerId) {
+            $('#layer-id').val(layerId);
+        }
+    }
+
+    refreshLayerDialogChange();
 }
 
 /**
@@ -426,14 +628,23 @@ function detailBuildingDeleteWindows2Wall(wallId, winId) {
 }
 
 /**
- * Résumé : Suppression d'un mur
- * @param {integer}           wallId Description : Id du mur
+ * Résumé : Suppression d'une paroi
+ * @param {integer}           wallId Description : Id de la paroi
  */
 function detailBuildingDeleteWall(wallId) {
     debug('Suppression du mur '+wallId);
     $('.wall-' + wallId).remove();
     hashchangeAllAction();
     refreshDetailBuildingChange();
+}
+/**
+ * Résumé : Suppression de la couche
+ * @param {integer}           wallId Description : Id de la couche
+ */
+function deleteLayer(layerId) {
+    debug('Suppression de la couche '+layerId);
+    $('.layer-' + wallId).remove();
+    refreshLayerDialogChange();
 }
 
 ////////////////////////////

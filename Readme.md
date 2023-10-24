@@ -72,7 +72,12 @@ Exemple à plusieurs "super" suggestion : http://127.0.0.1:3000/index.html#level
 
 Quelques projets open sources utilisé dans celui-ci :
 
+* Font Awesome
 * Bootstrap 5.3
+* Jquery
+* Jquery UI
+* Select 2
+* Jquery i18n pour la traduction
 * Mapbox : https://docs.mapbox.com/mapbox-gl-js/example/map-projection/
 * Thème build https://themestr.app https://huemint.com/bootstrap-basic/ ? 
     * https://huemint.com/bootstrap-basic/#palette=e0eec5-ffffff-030303-fec568-9a5520-9466a9

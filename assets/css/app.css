@@ -26,6 +26,11 @@
   display: none;
 }
 
+#dialog-custom-material,
+#dialog-custom-wall {
+  display:none;
+}
+
 /* Expert Mode */
 .wall-rsi-rse-popup {
   cursor: pointer;

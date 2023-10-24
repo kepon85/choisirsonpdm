@@ -7,6 +7,7 @@ const defaultSettings = {
   "debugLoadMap":                 false,
   "apiBaseTemperature":           "https://choisir.poeledemasse.org/api/baseTemperature.php",
   "apiMateriaux":                 "https://choisir.poeledemasse.org/api/materiaux/index.php",
+  "apiContact":                   "https://choisir.poeledemasse.org/api/contact.php",
   "apiDebounceTtimeout":           1500,
   "defaultLanguage":              "fr",
   "form_default": {
@@ -31,6 +32,11 @@ const defaultSettings = {
     'hackernews': 'https://news.ycombinator.com/submitlink?u=__URL__&t=__TITLE__',
     'vk': 'http://vk.com/share.php?title=__TITLE__&url=__URL__',
     'telegram': 'https://telegram.me/share/url?text=__TITLE__&url=__URL__',
+  },
+  "localSettingDefault": {
+    "version": 1, 
+    "material": [],
+    "wall": []
   },
   "pdmSuggestion": {
     'percentPowerSuper': 8,
