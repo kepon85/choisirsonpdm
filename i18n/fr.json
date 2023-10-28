@@ -23,7 +23,7 @@
 	"form-level-2-explain": "La méthode utilisée est la méthode dite \"Ubat\" générale, elle fonctionne si votre maison est isolée uniformément. Sinon vous devez passer en mode expert pour détailler chaque parois",
 	"form-level-3-explain": "La méthode utilisée est la méthode dite \"Ubat\". Elle demande d'avoir de bonnes connaissances / une bonne compréhension en thermie, mais c'est la méthode la plus précise qui vous permet de détailler chaque mur de votre maison.",
 	"form-transparent" : "Activer le mode transparent pour mieux comprendre la méthode utilisée ici",
-	"form-home": "Votre maison",
+	"form-building": "Le bâtiment",
 	"form-livingspace-label": "Surface habitable",
 	"form-livingheight-label": "Hauteur habitable",
 	"form-livingvolume-label": "Volume habitable",

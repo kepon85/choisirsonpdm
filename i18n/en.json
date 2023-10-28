@@ -22,7 +22,7 @@
 	"form-level-2-explain": "The method used is the general \"Ubat\" method, it works if your house is evenly insulated. Otherwise you must switch to expert mode to detail each wall",
 	"form-level-3-explain": "The method used is the so-called \"Ubat\" method. It requires good thermal knowledge/understanding, but it is the most precise method that allows you to detail each wall of your house.",
 	"form-transparent" : "Enable transparent mode to better understand how it works",
-	"form-home": "Your home",
+	"form-building": "",
 	"form-livingspace-label": "Living space",
 	"form-livingheight-label": "Living height",
 	"form-livingvolume-label": "Living volume",

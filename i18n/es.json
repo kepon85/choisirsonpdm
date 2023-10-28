@@ -22,7 +22,7 @@
 	"form-level-2-explain": "El método utilizado es el general \"Ubat\", funciona si tu casa está uniformemente aislada. En caso contrario necesitas cambiar al modo experto para detallar cada pared",
 	"form-level-3-explain": "El método utilizado es el método \"Ubat\". Requiere un buen conocimiento/comprensión de ingeniería térmica, pero es el método más preciso, permitiéndote detallar cada pared de tu casa.\n",
 	"form-transparent": "Active el modo transparente para comprender mejor el método utilizado aquí",
-	"form-home": "Tu casa",
+	"form-building": "",
 	"form-livingspace-label": "Superficie habitable",
 	"form-livingheight-label": "Altura habitable",
 	"form-livingvolume-label": "Volumen habitable",
