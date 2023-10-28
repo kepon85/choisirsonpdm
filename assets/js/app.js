@@ -134,6 +134,8 @@ $( document ).ready(function() {
             }, {});
             debug('result' + result);
         }
+        $('.wall-type').trigger('change');
+        $('.window-type').trigger('change');
     }
     //-Sinon par le setting
     Object.entries(settings.form_default).forEach(entry => {
@@ -193,21 +195,102 @@ $( document ).ready(function() {
     // Expert mode - Setting
     ////////////////////////////
 
+    // Import/export 
+    // Export
+    $( "#setting-export" )
+    .on( "click", function() {
+        //$("#data").click(function() {
+        $("<a />", {
+            "download": settings.appShortName+"-settings.json",
+            "href" : "data:application/json," + encodeURIComponent(JSON.stringify(localSetting))
+          }).appendTo("body")
+          .click(function() {
+             $(this).remove()
+          })[0].click()
+    });
+    // import
+    function readTextFile(file, callback) {
+        var rawFile = new XMLHttpRequest();
+        rawFile.overrideMimeType("application/json");
+        rawFile.open("GET", file, true);
+        rawFile.onreadystatechange = function() {
+            if (rawFile.readyState === 4 && rawFile.status == "200") {
+                callback(rawFile.responseText);
+            }
+        }
+        rawFile.send(null);
+    }
+    $("#setting-import").on('change',function(e){
+        $('#loadData').show();
+        var file =  e. target. files[0];
+        var path = (window.URL || window.webkitURL).createObjectURL(file);
+        readTextFile(path, function(text){
+            var data = JSON.parse(text);
+            debug(data);
+            // import dans le localstorage
+            localStorage.setItem('setting', JSON.stringify(data));
+            // Reload page
+            location.reload();
+        });
+      });
+    
     // Draggable/sortable mode pour le tableau de paroi
     $( "#tabke-layer tbody" ).sortable();
 
+    // Compléter matériaux et paroi personnalisé (select)
+    customMaterialSelect();
+    customWallSelect();
+
+    // Delete materiaux
+    $( "#delete-custom-wall" )
+    .on( "click", function() {
+        if ($('#custom-wall').val() != '')  {
+            debug('Suppresion d\'une paroi '+$('#custom-wall').val());
+            // Delete DATA
+            localSetting.wall.splice($('#custom-wall').val(), 1)
+            // Sauvegarde
+            localStorage.setItem('setting', JSON.stringify(localSetting));
+            // Refresh
+            customWallSelect();
+            wallTypeAllSelect();
+        } else {
+            alert('Sélectionner une paroi dans la liste')
+            return false;
+        }
+    });
     // Dialog pour les custom-wall
-    $( ".custom-wall-button:not(.custom-wall-button-bond)" ).addClass('custom-wall-button-bond')
+    $( "#add-custom-wall, #modify-custom-wall" )
     .on( "click", function() {
         getMateriauxData();
         if (this.id == 'modify-custom-wall') {
-            debug('Modification de la paroi '+$('#custom-wall'.val()));
-            //layer-custom-id SI 
-            // @TODO load data
+            if ($('#custom-wall').val() != '')  {
+                debug('Modification de la paroi '+$('#custom-wall').val());
+                // Load DATA
+                debug(localSetting.wall[$('#custom-wall').val()]);
+                $('#wall-custom-title').val(localSetting.wall[$('#custom-wall').val()].title);
+                $.each(localSetting.wall[$('#custom-wall').val()].layer, function(index, data) {
+                    addLayer(index);
+                    $('#layer-type-' + index).prepend('<option class="type-modify" id="layer-type-' + index + '-modify" value="'+data.r+'" selected="selected">'+data.material+'</option>');
+                    $('#layer-size-' + index).val(data.size);
+                    $('#layer-lambda-' + index).val(data.r);
+                    layerCheck(index);
+                });
+            } else {
+                alert('Sélectionner une paroi dans la liste')
+                return false;
+            }
         } else {
             debug('Ajout d\'une nouvelle paroi');
-            // Ajout d'une ligne vide
+            // Pour être sûr de ne pas confondre modification et ajout
+            $('#custom-wall').val("");
+            $('#custom-wall').trigger('change'); 
+            // Mise à 0 du formulaire
+            $('#wall-custom-title').val('');
+            $('#layer-id').val(0);
+            $('.layers').remove();
+            // Ajout d'une ligne vierge
             addLayer();
+            layerCheck(1);
         }
         // Aficher le popup
         var wWidth = $(window).width();
@@ -243,38 +326,87 @@ $( document ).ready(function() {
                 return !!$(e.target).closest('.ui-dialog, .ui-datepicker, .select2-drop').length;
             },
             buttons: {
-                "Valider": function() {
-                    //layer-custom-id SI pas 0 = enregistrement nouvel !
-                    // Sinon modification existant !
-                },
                 Cancel: function() {
                     dialog.dialog( "close" );
+                },
+                "Valider": function() {
+                    //layer-custom-id SI pas 0 = enregistrement nouvel !
+                    var returnValidCustomWall = validCustomWall();
+                    if (returnValidCustomWall == true) {
+                        dialog.dialog( "close" );
+                    } else {
+                        alert(returnValidCustomWall);
+                    }
                 }
-              }
+              },
+            open: function() {
+                $('.ui-dialog-buttonpane').find('button:contains("Cancel")').addClass('btn btn-secondary');
+                $('.ui-dialog-buttonpane').find('button:contains("Valider")').addClass('btn btn-primary');
+            }
+
         });
     });
     // Afficher/Masquer les éléments en cas de contribution matériaux
     $( "#material-forcontrib" ).on( "click", function() {
         $( ".forcontrib" ).toggle();
     });
-    // Dialog pour les custom-material
-    $( ".custom-material-button:not(.custom-material-button-bond)" ).addClass('custom-material-button-bond')
+
+    // Delete materiaux
+    $( "#delete-custom-material" )
+    .on( "click", function() {
+        if ($('#custom-material').val() != '')  {
+            debug('Suppresion d\'un matériaux '+$('#custom-material').val());
+            // Delete DATA
+            localSetting.material.splice($('#custom-material').val(), 1)
+            // Sauvegarde
+            localStorage.setItem('setting', JSON.stringify(localSetting));
+            // Refresh
+            customMaterialSelect();
+        } else {
+            alert('Sélectionner un matériaux dans la liste')
+            return false;
+        }
+    });
+    // Dialog pour les custom-material (ajout/modification)
+    $( "#add-custom-material, #modify-custom-material" )
     .on( "click", function() {
         getMateriauxData();
         materialCathSelect();
+        // Proposer contribution
+        $( ".forcontrib-checkbox" ).show();
+        $( ".forcontrib" ).show();
+        $( "#material-forcontrib" ).prop( "checked", true );
         if (this.id == 'modify-custom-material') {
-            debug('Modification d\'un matériaux '+$('#custom-material').val());
-            $( ".forcontrib-checkbox" ).hide();
-            $( ".forcontrib" ).hide();
-            $( "#material-forcontrib" ).prop( "checked", false );
-            //layer-custom-id SI 
-            // @TODO load data
+            if ($('#custom-material').val() != '')  {
+                debug('Modification d\'un matériaux '+$('#custom-material').val());
+                // Load DATA
+                debug(localSetting.material[$('#custom-material').val()]);
+                $('#material-libelle').val(localSetting.material[$('#custom-material').val()].libelle);
+                $('#material-generic').val(localSetting.material[$('#custom-material').val()].generic);
+                $('#material-cath_id').val(localSetting.material[$('#custom-material').val()].cath_id);
+                $('#material-lambda').val(localSetting.material[$('#custom-material').val()].spec.lambda);
+                $('#material-p').val(localSetting.material[$('#custom-material').val()].spec.p);
+                $('#material-c').val(localSetting.material[$('#custom-material').val()].spec.c);
+                $('#material-u').val(localSetting.material[$('#custom-material').val()].spec.u);
+                $('#material-h').val(localSetting.material[$('#custom-material').val()].spec.h);
+            } else {
+                alert('Sélectionner un matériaux dans la liste')
+                return false;
+            }
         } else {
             debug('Ajout d\'un materiau');
-            $( ".forcontrib-checkbox" ).show();
-            $( ".forcontrib" ).show();
-            $( "#material-forcontrib" ).prop( "checked", true );
-            // Ajout d'une ligne vide
+            // Pour être sûr de ne pas confondre modification et ajout
+            $('#custom-material').val("");
+            $('#custom-material').trigger('change'); 
+            // Mise à 0 du formulaire
+            $('#material-libelle').val('');
+            //$('#material-generic').val('');
+            //$('#material-cath_id').val('');
+            $('#material-lambda').val('');
+            $('#material-p').val('');
+            $('#material-c').val('');
+            $('#material-u').val('');
+            $('#material-h').val('');
         }
         // Aficher le popup
         dialog = $( "#dialog-custom-material" ).dialog({
@@ -283,6 +415,9 @@ $( document ).ready(function() {
             height: 500,
             modal: true,
             buttons: {
+                Cancel: function() {
+                    dialog.dialog( "close" );
+                },
                 "Valider": function() {
                     var returnValidCustomMaterial = validCustomMaterial();
                     if (returnValidCustomMaterial == true) {
@@ -290,11 +425,12 @@ $( document ).ready(function() {
                     } else {
                         alert(returnValidCustomMaterial);
                     }
-                },
-                Cancel: function() {
-                    dialog.dialog( "close" );
                 }
-              }
+              },
+            open: function() {
+                $('.ui-dialog-buttonpane').find('button:contains("Cancel")').addClass('btn btn-secondary');
+                $('.ui-dialog-buttonpane').find('button:contains("Valider")').addClass('btn btn-primary');
+            }
         });
     });
 

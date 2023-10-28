@@ -136,6 +136,26 @@ function getMateriauxData() {
         });
     }
 }
+/**
+ * Résumé : Complète le sélect des matériaux pour l'ajout/modification paroi
+ */
+function wallTypeSelect(wallId) {
+    //Ajouter les custom-wall dans "wall-type" 
+    $('.custom-wall-' + wallId).remove();
+    $.each(localSetting.wall, function(index, data) {
+        $('#wall-type-' + wallId + '-cath-custom').append('<option class="custom-wall-' + wallId + ' custom-wall" value="'+data.r+'">'+data.title+' (R='+data.r+')</option>'); 
+    });   
+}
+/**
+ * Résumé : Rafraichir le sélect des matériaux 
+ */
+function wallTypeAllSelect() {
+    debug('wallTypeAllSelect');
+    $.each($('tr.walls'), function(index, tr) {
+        var wallId = tr.id.split('-')[1];
+        wallTypeSelect(wallId);
+    });
+}
 
 /**
  * Résumé : Complète le sélect des matériaux pour l'ajout/modification paroi
@@ -146,14 +166,59 @@ function layerTypeSelect(layerId) {
     if ($('#layer-type-' + layerId + '-clean').length == 0) {
         $('#layer-type-' + layerId).append('<option class="type-clean" id="layer-type-' + layerId + '-clean" value="">-</option>');
     }
+    //  Maatériaux personalisé
+    if ($('#layer-type-' + layerId + '-cath-0').length == 0) {
+        $('#layer-type-' + layerId).append('<optgroup class="type-cath-0 new-layer" id="layer-type-' + layerId + '-cath-0" label="Vos matériaux"></optgroup>'); 
+    }
+    $.each(localSetting.material, function(index, data) {
+        if ($('#layer-type-' + layerId + '-cath-0-'+index).length == 0) {
+            $('#layer-type-' + layerId + '-cath-0').append('<option class="custom-layer" id="layer-type-' + layerId + '-cath-0-'+index+'" value="'+data.spec.lambda+'">'+data.libelle+'</option>'); 
+            debug(data.libelle);
+        }
+    });
+    /*$.each(localSetting.material, function(index, data) {
+        if ($('#layer-type-' + layerId + '-cath-0').length == 0) {
+            $('#').append('<option id="" value="'+data.spec.lambda+'">'+data.libelle+'</option>'); 
+        }
+    });*/
     //Remplir avec les autres : 
     $.each(apiMateriauxData, function(index, data) {
+        // Catégorie
         if ($('#layer-type-' + layerId + '-cath-'+data.cath_id).length == 0) {
             $('#layer-type-' + layerId).append('<optgroup class="type-cath-'+data.cath_id+'" id="layer-type-' + layerId + '-cath-'+data.cath_id+'" label="'+data.cath+'"></optgroup>'); 
         }
+        // Matériaux
         if ($('#layer-type-' + layerId + '-'+index).length == 0) {
-            $('#layer-type-' + layerId + '-cath-'+data.cath_id).append('<option class="type-'+index+'" id="layer-type-' + layerId + '-'+index+'" value="'+data.spec.lambda+'">'+data.libelle+'</option>'); 
+            $('#layer-type-' + layerId + '-cath-'+data.cath_id).append('<option class="type-'+index+' material-generic-'+data.generic+'" id="layer-type-' + layerId + '-'+index+'" value="'+data.spec.lambda+'">'+data.libelle+'</option>'); 
         }
+    });
+}
+
+
+/**
+ * Résumé : Complète le sélect des paroi personnalisé
+ */
+function customWallSelect() {
+    debug('customWallSelect');
+    $('#custom-wall').empty();
+    //Option vide
+    $('#custom-wall').append('<option class="type-clean" id="custom-wall-clean" value="">-</option>');
+    //Remplir avec les autres : 
+    $.each(localSetting.wall, function(index, data) {
+        $('#custom-wall').append('<option class="custom-wall" value="'+index+'">'+data.title+' (R='+data.r+')</option>'); 
+    });
+}
+/**
+ * Résumé : Complète le sélect des matériaux personnalisé
+ */
+function customMaterialSelect() {
+    debug('customMaterialSelect');
+    $('#custom-material').empty();
+    //Option vide
+    $('#custom-material').append('<option class="type-clean" id="custom-material-clean" value="">-</option>');
+    //Remplir avec les autres : 
+    $.each(localSetting.material, function(index, data) {
+        $('#custom-material').append('<option class="custom-material" value="'+index+'">'+data.libelle+'</option>'); 
     });
 }
 /**
@@ -191,15 +256,47 @@ function sendContact(from, subject, body) {
 }
 
 /**
- * Résumé : Enregistre le matériaux personnalisé
+ * Résumé : Enregistre le matériaux personnalisé (ajout ou modification)
+ */
+function validCustomWall() {
+    if ($('#layer-r-total').html() == 0) {
+        return "Le R global ne peut pas être à 0";
+    }
+    if ($('#wall-custom-title').val() == '') {
+        return "Renseigner au moins un titre";
+    }    
+    var newWall = {
+        title: $('#wall-custom-title').val(),
+        r: $('#layer-r-total').html(),
+        layer: [],
+    };
+    $.each($('tr.layers'), function(index, tr) {
+        var layerId = tr.id.split('-')[1];
+        var newLayerl = {
+            material: $('#layer-type-'+layerId+' option:selected').text(),
+            r: $('#layer-lambda-'+layerId).val(),
+            size: $('#layer-size-'+layerId).val(),
+        };
+        newWall.layer.push(newLayerl);        
+    });
+    // C'est un ajout
+    if ($('#custom-wall').val() == '') {
+        debug('Ajout d\'une paroi ');
+        localSetting.wall.push(newWall);
+    // Sinon c'est une modification
+    } else {
+        debug('Modification d\'une paroi ');
+        localSetting.wall[$('#custom-wall').val()] = newWall;
+    }
+    localStorage.setItem('setting', JSON.stringify(localSetting));
+    customWallSelect();
+    wallTypeAllSelect();
+    return true;
+}
+/**
+ * Résumé : Enregistre le matériaux personnalisé (ajout ou modification)
  */
 function validCustomMaterial() {
-    // @todo
-    //layer-custom-id SI pas 0 = enregistrement nouvel !
-    // Sinon modification existant !
-    //if ($('#material-forcontrib').prop('checked')) {
-
-    //}
     if ($('#material-libelle').val() == 0 || $('#material-lambda').val() == 0) {
         return "Il faut aus moins le libelle et le lambda du matériaux";
     }
@@ -220,30 +317,39 @@ function validCustomMaterial() {
             contrib: $('#material-src-contrib').val(),
         },
     };
-    localSetting.material.push(newmaterial);
+    // C'est un ajout
+    if ($('#custom-material').val() == '') {
+        localSetting.material.push(newmaterial);
+    // Sinon c'est une modification
+    } else {
+        localSetting.material[$('#custom-material').val()] = newmaterial;
+    }
     localStorage.setItem('setting', JSON.stringify(localSetting));
- 
-    var body = 'Contribution public : ' + $('#material-forcontrib').prop('checked') + '<br />'
-        + 'Libelle : ' + $('#material-libelle').val() + '<br />' 
-        + 'Generic : ' + $('#material-generic').val() + '<br />' 
-        + 'Cathégorie :  ' + $('#material-cath_id').val() + '<br />' 
-        + 'Spec : <br />' 
-        + ' - Lambda : ' + $('#material-lambda').val() + '<br />' 
-        + ' - p : ' + $('#material-p').val() + '<br />' 
-        + ' - c : ' + $('#material-c').val() + '<br />' 
-        + ' - u : ' + $('#material-u').val() + '<br />' 
-        + ' - h : ' + $('#material-h').val() + '<br />' 
-        + 'Source : <br />' 
-        + ' - src-name : ' + $('#material-src-name').val() + '<br />' 
-        + ' - src-link : ' + $('#material-src-link').val() + '<br />' 
-        + ' - src-contrib : ' + $('#material-src-contrib').val() + '<br />' 
-        + 'Commentaire : ' + $('#material-comment').val() + '<br />' 
-        + '<br />' 
-        + '"","' + $('#material-libelle').val() + '",'+$('#material-cath_id').val()+','+$('#material-generic').val()+','+$('#material-lambda').val()+','+$('#material-p').val()+','+$('#material-c').val()+','+$('#material-c').val()+','+$('#material-u').val()+','+$('#material-h').val()+','+$('#material-src-name').val()+','+$('#material-src-link').val()+','+$('#material-src-contrib').val();
-
-        debug(body);
-    sendContact('noreply@poeledemasse.org', 'Contribution matériaux', body);
-    return false;
+    customMaterialSelect();
+    // Send
+    if ($('#custom-material').val() != '') {
+    //if ($('#material-forcontrib').prop('checked')) {
+        var body = 'Contribution public : ' + $('#material-forcontrib').prop('checked') + '<br />'
+            + 'Libelle : ' + $('#material-libelle').val() + '<br />' 
+            + 'Generic : ' + $('#material-generic').val() + '<br />' 
+            + 'Cathégorie :  ' + $('#material-cath_id').val() + '<br />' 
+            + 'Spec : <br />' 
+            + ' - Lambda : ' + $('#material-lambda').val() + '<br />' 
+            + ' - p : ' + $('#material-p').val() + '<br />' 
+            + ' - c : ' + $('#material-c').val() + '<br />' 
+            + ' - u : ' + $('#material-u').val() + '<br />' 
+            + ' - h : ' + $('#material-h').val() + '<br />' 
+            + 'Source : <br />' 
+            + ' - src-name : ' + $('#material-src-name').val() + '<br />' 
+            + ' - src-link : ' + $('#material-src-link').val() + '<br />' 
+            + ' - src-contrib : ' + $('#material-src-contrib').val() + '<br />' 
+            + 'Commentaire : ' + $('#material-comment').val() + '<br />' 
+            + '<br />' 
+            + '"","' + $('#material-libelle').val() + '",'+$('#material-cath_id').val()+','+$('#material-generic').val()+','+$('#material-lambda').val()+','+$('#material-p').val()+','+$('#material-c').val()+','+$('#material-c').val()+','+$('#material-u').val()+','+$('#material-h').val()+','+$('#material-src-name').val()+','+$('#material-src-link').val()+','+$('#material-src-contrib').val();
+        sendContact('noreply@poeledemasse.org', 'Contribution matériaux', body);
+    //}
+    }
+    return true;
 }
 /**
  * Résumé : Action au changement de layer
@@ -308,19 +414,28 @@ function refreshDetailBuildingChange() {
             width: 450,
             modal: true,
             buttons: {
-                "Valider": function() {
-                    rsirse($('#rsi').val(), $('#rse').val());
-                },
                 Cancel: function() {
                     dialog.dialog( "close" );
+                },
+                "Valider": function() {
+                    rsirse($('#rsi').val(), $('#rse').val());
                 }
-              }
+              },
+            open: function() {
+                $('.ui-dialog-buttonpane').find('button:contains("Cancel")').addClass('btn btn-secondary');
+                $('.ui-dialog-buttonpane').find('button:contains("Valider")').addClass('btn btn-primary');
+            }
           });
     });
     $(".wall-type:not(.wall-type-bond)").addClass('wall-type-bond')
     .on( "change", function(e) {
         wallId = this.id.split('-')[2];
-        debug('pre wallTypeUperso : ' + wallId);
+        if (this.value == 'new') {
+            $( "#add-custom-wall").click();
+            this.value = '';
+        }  else {
+            debug('pre wallTypeUperso : ' + wallId);
+        }
         wallTypeUperso(wallId);
     });
     $( ".wall-check:not(.wall-check-bond)" ).addClass('wall-check-bond')
@@ -372,7 +487,7 @@ function detailBuildingAddWall(id = null) {
 
     $('#addWallButton').before(
         + '<tbody class="wall-sortable">'
-        + '<tr id="wall-' + wallId + '" class="wall-' + wallId + ' wall-check">'
+        + '<tr id="wall-' + wallId + '" class="wall-' + wallId + ' walls wall-check">'
             + '<td class="wall-check-' + wallId + '">'
                 + '<input class="debug" type="hidden" id="wall-check-' + wallId + '" name="wall-check" value="0" />'
                 + '<svg style="display: none;" id="wall-' + wallId + '-check-svg" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path class="bg-primary-subtle border border-primary-subtle " d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg>'
@@ -385,6 +500,9 @@ function detailBuildingAddWall(id = null) {
                 +'<div class="input-group">'
                 + '<select name="wall-type[]" id="wall-type-' + wallId + '" class="wall-type form-control hashchange">'
                     + '<option value="" selected="selected">-</option>'
+                    + '<optgroup class="type-cath-custom" id="wall-type-' + wallId + '-cath-custom" label="Vos parois">'
+                    + '<option value="new" data-i18n="wall-type-new-custom">Créer une paroi personnalisé</option>'
+                    + '</optgroup>'
                     + '<option value="u" data-i18n="wall-type-u-perso">Valeur U personnalisé</option>'
                     + '<optgroup label="RT2012 Toiture">'
                     + '<option value="5.2">Combles aménageables ou rampants < 60° (H1A, H1B, H1C)</option>'
@@ -476,6 +594,11 @@ function detailBuildingAddWall(id = null) {
         + '</tr>'
         + '</tbody>'
     );
+
+    // Ajouter les custom-wall dans "wall-type" 
+    wallTypeSelect(wallId);
+    
+
     $('#wall-type-' + wallId).select2();
     if (id == null) {
         detailBuildingAddWindows2Wall(wallId);
@@ -576,7 +699,7 @@ function addLayer(id = null) {
     }
 
     $('#addLayerButton').before(
-        '<tr id="layer-' + layerId +'" class="layer-'+layerId+' layer-check">'
+        '<tr id="layer-' + layerId +'" class="layers layer-'+layerId+' layer-check">'
             + '<td><svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M278.6 9.4c-12.5-12.5-32.8-12.5-45.3 0l-64 64c-9.2 9.2-11.9 22.9-6.9 34.9s16.6 19.8 29.6 19.8h32v96H128V192c0-12.9-7.8-24.6-19.8-29.6s-25.7-2.2-34.9 6.9l-64 64c-12.5 12.5-12.5 32.8 0 45.3l64 64c9.2 9.2 22.9 11.9 34.9 6.9s19.8-16.6 19.8-29.6V288h96v96H192c-12.9 0-24.6 7.8-29.6 19.8s-2.2 25.7 6.9 34.9l64 64c12.5 12.5 32.8 12.5 45.3 0l64-64c9.2-9.2 11.9-22.9 6.9-34.9s-16.6-19.8-29.6-19.8H288V288h96v32c0 12.9 7.8 24.6 19.8 29.6s25.7 2.2 34.9-6.9l64-64c12.5-12.5 12.5-32.8 0-45.3l-64-64c-9.2-9.2-22.9-11.9-34.9-6.9s-19.8 16.6-19.8 29.6v32H288V128h32c12.9 0 24.6-7.8 29.6-19.8s2.2-25.7-6.9-34.9l-64-64z"/></svg></td>'
             + '<td class="layer-check-' + layerId +'">'
                 + '<input class="debug" type="hidden" id="layer-check-' + layerId + '" name="layer-check" value="0" />'
@@ -643,7 +766,7 @@ function detailBuildingDeleteWall(wallId) {
  */
 function deleteLayer(layerId) {
     debug('Suppression de la couche '+layerId);
-    $('.layer-' + wallId).remove();
+    $('.layer-' + layerId).remove();
     refreshLayerDialogChange();
 }
 

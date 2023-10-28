@@ -5,6 +5,7 @@
 const defaultSettings = {
   "debug":                        false,
   "debugLoadMap":                 false,
+  "appShortName":                 "choisirsonpdm",
   "apiBaseTemperature":           "https://choisir.poeledemasse.org/api/baseTemperature.php",
   "apiMateriaux":                 "https://choisir.poeledemasse.org/api/materiaux/index.php",
   "apiContact":                   "https://choisir.poeledemasse.org/api/contact.php",
