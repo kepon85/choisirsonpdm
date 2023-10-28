@@ -726,7 +726,7 @@ function addLayer(id = null) {
                 + '</select>'
             + '</td>'
             + '<td class="text-center"><input type="number" class="form-control text-center layer-lambda" min="0" step="1" name="layer-lambda[]" id="layer-lambda-' + layerId +'" value="" disabled="disabled" /></td>'
-            + '<td class="text-center"><input type="number" class="form-control text-center layer-size" min="0" step="1" name="layer-size[]" id="layer-size-' + layerId +'" value="0" /></td>'
+            + '<td class="col-number text-center"><input type="number" class="form-control text-center layer-size" min="0" step="1" name="layer-size[]" id="layer-size-' + layerId +'" value="0" /></td>'
             + '<td class="text-center"><input type="number" class="form-control text-center layer-r" min="0" step="1" name="layer-r[]" id="layer-r-' + layerId +'" value="" disabled="disabled" /></td>'
             + '<td class="text-center">'
                 + '<button type="button" class="btn btn-danger delete-button layer" onclick="deleteLayer('+layerId+');">'

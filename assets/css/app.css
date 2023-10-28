@@ -95,7 +95,9 @@
 }
 
 /* Expert mode */
-
+.col-number {
+  width: 100px;
+}
 
 
 /* Loader : */
