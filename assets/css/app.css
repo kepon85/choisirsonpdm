@@ -16,9 +16,18 @@
     display: none;
 }
 
-#alert {
+#app-alert {
     display: none;
+    left: 0;
+    margin: auto; 
+    position: fixed;
+    right: 0;
+    text-align: center;
+    bottom: 1em;
+    width: 80%;
+    z-index: 999; 
 }
+
 .resp-sharing-button__link {
   display: none;
 }

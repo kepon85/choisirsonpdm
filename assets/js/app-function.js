@@ -9,6 +9,22 @@ function debug(msg) {
 }
 
 /**
+ * Résumé : Affiche une alert
+ * @param {string}           msg Description : Message à afficher 
+ * @param {string}           type Description: class à appliquer (alert-) warning par défaut
+ */
+function appAlert(msg, type = 'warning', time = 3) {
+    debug('appAlert('+msg+', '+type+')');
+    $('#app-alert').addClass('alert-'+type);
+    $('#app-alert').html(msg);
+    $('#app-alert').show();
+    setTimeout(() => {
+        $('#app-alert').hide();
+        $('#app-alert').removeClass('alert-'+type);
+    }, time*1000);
+}
+
+/**
  * Résumé : Listener pour le changement des class "hashchange"
  */
 /*function hashchangeListener() {
@@ -758,6 +774,7 @@ function detailBuildingDeleteWall(wallId) {
     debug('Suppression du mur '+wallId);
     $('.wall-' + wallId).remove();
     hashchangeAllAction();
+    appAlert('Supprimé !', "success");
     refreshDetailBuildingChange();
 }
 /**
@@ -767,6 +784,7 @@ function detailBuildingDeleteWall(wallId) {
 function deleteLayer(layerId) {
     debug('Suppression de la couche '+layerId);
     $('.layer-' + layerId).remove();
+    appAlert('Supprimé !', "success");
     refreshLayerDialogChange();
 }
 
@@ -855,8 +873,7 @@ function getBaseTemperature(){
             hashChange();
         })
         .fail(function( jqxhr, textStatus, error ) {
-            $("#alert").show();
-            $("#alert").html( "<span>Request Failed to get API base temperature : " + jqxhr.responseJSON.message + ". <b>Indicate there manually and contact the developer of this calculator</b></span>");
+            appAlert('<span>Request Failed to get API base temperature : " + jqxhr.responseJSON.message + ". <b>Indicate there manually and contact the developer of this calculator</b></span>', "danger", 30);
             debug("API return : " + error);
             $(".temp_base_input_group").show();
             $("#temp_base").prop('disabled', false);

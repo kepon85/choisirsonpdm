@@ -16,13 +16,12 @@ $( document ).ready(function() {
     // HASH URL (remplir les champs)
     ////////////////////////////////////
     
+    $("#app-alert").on( "click", function() {
+        $("#app-alert").hide();
+    });
 
     $('.form-select').select2();
 
-    // Cacher les alertes d'un clic au besoin
-    $("#alert").on( "click", function(e) {
-        $("#alert").hide();
-    });
 
     // Debug on
     if (settings.debug) {
@@ -251,10 +250,11 @@ $( document ).ready(function() {
             // Sauvegarde
             localStorage.setItem('setting', JSON.stringify(localSetting));
             // Refresh
+            appAlert('Supprimé !', "success");
             customWallSelect();
             wallTypeAllSelect();
         } else {
-            alert('Sélectionner une paroi dans la liste')
+            appAlert('Sélectionner une paroi dans la liste', 'warning')
             return false;
         }
     });
@@ -276,7 +276,7 @@ $( document ).ready(function() {
                     layerCheck(index);
                 });
             } else {
-                alert('Sélectionner une paroi dans la liste')
+                appAlert('Sélectionner une paroi dans la liste')
                 return false;
             }
         } else {
@@ -334,8 +334,9 @@ $( document ).ready(function() {
                     var returnValidCustomWall = validCustomWall();
                     if (returnValidCustomWall == true) {
                         dialog.dialog( "close" );
+                        appAlert('Ajouté !', "success");
                     } else {
-                        alert(returnValidCustomWall);
+                        appAlert(returnValidCustomWall);
                     }
                 }
               },
@@ -360,10 +361,11 @@ $( document ).ready(function() {
             localSetting.material.splice($('#custom-material').val(), 1)
             // Sauvegarde
             localStorage.setItem('setting', JSON.stringify(localSetting));
+            appAlert('Supprimé !', "success");
             // Refresh
             customMaterialSelect();
         } else {
-            alert('Sélectionner un matériaux dans la liste')
+            appAlert('Sélectionner un matériaux dans la liste')
             return false;
         }
     });
@@ -390,7 +392,7 @@ $( document ).ready(function() {
                 $('#material-u').val(localSetting.material[$('#custom-material').val()].spec.u);
                 $('#material-h').val(localSetting.material[$('#custom-material').val()].spec.h);
             } else {
-                alert('Sélectionner un matériaux dans la liste')
+                appAlert('Sélectionner un matériaux dans la liste', 'warning');
                 return false;
             }
         } else {
@@ -422,8 +424,9 @@ $( document ).ready(function() {
                     var returnValidCustomMaterial = validCustomMaterial();
                     if (returnValidCustomMaterial == true) {
                         dialog.dialog( "close" );
+                        appAlert('Ajouté !', "success");
                     } else {
-                        alert(returnValidCustomMaterial);
+                        appAlert(returnValidCustomMaterial, 'appAlert');
                     }
                 }
               },
@@ -441,7 +444,7 @@ $( document ).ready(function() {
     // Si on "submit" le formulaire
     $("#submit_button").on( "click", function(e) {
         if ($('#temp_base').val() == '') {
-            alert("Basal temperature not preset. Choose your location on the map.");
+            appAlert("Basal temperature not preset. Choose your location on the map.", "warning");
             return false;
         } else if($("form")[0].checkValidity()) {
             submitForm();
