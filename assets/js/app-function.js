@@ -425,18 +425,14 @@ function refreshDetailBuildingChange() {
         debug("Click open dialog rsirse for wall "+wallId);
         $( "#wall-id-for-rsirse" ).val(wallId);
         // Aficher le popup
+        var wWidth = $(window).width();
+        var dWidth = wWidth * 0.5;
+        var wHeight = $(window).height();
+        var dHeight = wHeight * 1;
         dialog = $( "#dialog-rsirse" ).dialog({
-            height: 450,
-            width: 450,
+            width: dWidth,
+            height: dHeight,
             modal: true,
-            buttons: {
-                Cancel: function() {
-                    dialog.dialog( "close" );
-                },
-                "Valider": function() {
-                    rsirse($('#rsi').val(), $('#rse').val());
-                }
-              },
             open: function() {
                 $('.ui-dialog-buttonpane').find('button:contains("Cancel")').addClass('btn btn-secondary');
                 $('.ui-dialog-buttonpane').find('button:contains("Valider")').addClass('btn btn-primary');

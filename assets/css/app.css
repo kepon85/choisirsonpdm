@@ -98,7 +98,22 @@
 .col-number {
   width: 100px;
 }
-
+#projectsvg  g[onclick^=rsirse] {
+  cursor: pointer;
+  outline-offset: 5px;
+}
+#projectsvg g:hover[onclick^=rsirse] {
+  outline: solid 3px red;
+}
+/*#projectsvg svg  { 
+  display: inline-block;
+  position: absolute; 
+  top: 0; 
+  left: 0; 
+}*/
+#dialog-rsirse {
+  display: none;
+}
 
 /* Loader : */
 
