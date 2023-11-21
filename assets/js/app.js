@@ -460,7 +460,7 @@ $( document ).ready(function() {
     ////////////////////////////
     $("#calcShowHide").on( "click", function(e) {
         $(".calcul_level"+$("#level").val()).toggle();
-        debug("toggle calcul")
+        debug("toggle calcul " + $("#level").val());
     });
     
     ////////////////////////////
@@ -580,7 +580,7 @@ $( document ).ready(function() {
     }
 
     // Tooltips (infobule)
-    $('[data-toggle="tooltip"]').tooltip();           
+    $('[data-toggle="tooltip"]').tooltip();
 
     // Loader a cacher quand tout est fait
     $('#loadData').hide();
