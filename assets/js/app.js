@@ -326,6 +326,11 @@ $( document ).ready(function() {
                 return !!$(e.target).closest('.ui-dialog, .ui-datepicker, .select2-drop').length;
             },
             buttons: {
+                "Signaler une erreur": function() {
+                    debug('Signaler une erreur');
+                    //dialog.dialog( "close" );
+                    $('.contact').click();
+                },
                 Cancel: function() {
                     dialog.dialog( "close" );
                 },
@@ -341,6 +346,7 @@ $( document ).ready(function() {
                 }
               },
             open: function() {
+                $('.ui-dialog-buttonpane').find('button:contains("Signaler une erreur")').addClass('btn btn-secondary');
                 $('.ui-dialog-buttonpane').find('button:contains("Cancel")').addClass('btn btn-secondary');
                 $('.ui-dialog-buttonpane').find('button:contains("Valider")').addClass('btn btn-primary');
             }
@@ -463,6 +469,37 @@ $( document ).ready(function() {
         debug("toggle calcul " + $("#level").val());
     });
     
+    ////////////////////////////
+    // Contact
+    ////////////////////////////
+    $( ".contact" ).on( "click", function() {
+        debug('Contact click');
+        dialog = $( "#dialog-contact" ).dialog({
+            overlay: { opacity: 0.1, background: "black" },
+            width: 600,
+            height: 450,
+            modal: true,
+            buttons: {
+                Cancel: function() {
+                    dialog.dialog( "close" );
+                },
+                "Envoyer": function() {
+                    var returnSendContact = sendContact($('#contact-from').val(), $('#contact-subject').val(), $('#contact-body').val());
+                    //if (returnSendContact == true) {
+                        dialog.dialog( "close" );
+                        //appAlert('Message envoyé !', "success");
+                    //} else {
+                        //appAlert("Error");
+                    //}
+                }
+            },
+            open: function() {
+                $('.ui-dialog-buttonpane').find('button:contains("Cancel")').addClass('btn btn-secondary');
+                $('.ui-dialog-buttonpane').find('button:contains("Envoyer")').addClass('btn btn-primary');
+            }
+        });
+    });
+
     ////////////////////////////
     // INCLUDE SRC JAVASCRIPT
     ////////////////////////////

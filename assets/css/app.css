@@ -36,8 +36,10 @@
   display: none;
 }
 
+#dialog-contact,
 #dialog-custom-material,
-#dialog-custom-wall {
+#dialog-custom-wall,
+#dialog-rsirse {
   display:none;
 }
 
@@ -111,9 +113,6 @@
   top: 0; 
   left: 0; 
 }*/
-#dialog-rsirse {
-  display: none;
-}
 
 /* Loader : */
 

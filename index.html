@@ -573,23 +573,6 @@
               <div id="thermal-study" class="row"></div>
             </div>
             <div class="calcul_level3">
-              bbbbbbbbbbbbbbbbbbbbbb
-              <!--<p data-i18n="[html]result-expert-explain">result-expert-explain</p>
-              <p data-i18n="[html]result-expert-formule">D = Pc + (V * Venti) * DT</p>
-              <ul>
-                <li data-i18n="[html]result-expert-formule-d">D (W): The thermal losses of the building</li>
-                <li data-i18n="[html]result-expert-formule-pc">Pc (W) : Perte par conduction</li>
-                <li data-i18n="[html]result-expert-formule-pa">Pa (W) : Perte aérolique</li>
-                <li data-i18n="[html]result-expert-formule-v">V (m<sup>3</sup>): The volume to be heated (area x height).</li>
-                <li data-i18n="[html]result-expert-formule-venti">Venti: The ventilation coefficient of your house (thermal resistance).</li>
-                <li data-i18n="[html]result-expert-formule-dt">DT (°C): temperature difference 'DT', between the interior of the house and the exterior, when it is cold (subtraction between the desired interior temperature and the temperature 'basic' of your region.</li>
-                <ul>
-                  <li data-i18n="[html]result-expert-formule-dt-more">The 'base' temperature is the temperature of the 5 coldest consecutive days of the year, averaged over the last X years. Here it is meteorological data retrieved by <a href='https://framagit.org/kepon/choisirsonpdm/-/tree/main/api'>API</a>.</li>
-                </ul>
-              </ul>
-              <p data-i18n="[html]result-expert-formule-your-case">In your case it makes us:</p>
-              <p>D = (<span class="res_ubat">?</span> * <span class="res_ws">?</span> + <span class="res_volume">?</span> * <span class="res_venti">?</span>) * (<span class="res_temp_indor">?</span> - <span class="res_temp_base">?</span>) = <span class="res_level2">?</span> </p>
-              -->
             </div>
             <div id="deperdition">
               <b><span data-i18n="[html]result-need-explain">Your heating need is</span> <span id='resDeperditionMax'></span> kW</b>
@@ -600,7 +583,20 @@
         <div class="row card result" id="suggestion">
           <h4 id="suggestionTitle" class="card-header" data-i18n="[html]suggestion-title">Suggestion</h4>
           <div class="card-body" id="suggestionContent"></div>
-
+        </div>
+        <div id="dialog-contact" title="Contact">
+          <div class="mb-3">
+            <label for="contact-from" class="form-label" data-i18n="[html]your-email">Email address</label>
+            <input type="email" class="form-control" id="contact-from" placeholder="name@example.com">
+          </div>
+          <div class="mb-3">
+            <label for="contact-from" class="form-label" data-i18n="[html]your-subject">Subject</label>
+            <input type="text" class="form-control" id="contact-subject">
+          </div>
+          <div class="mb-3">
+            <label for="contact-body" class="form-label" data-i18n="[html]your-message">Votre message</label>
+            <textarea class="form-control" id="contact-body" rows="5"></textarea>
+          </div>
         </div>
       </main>
       <footer class="my-5 pt-5 text-body-secondary text-center text-small">
@@ -680,6 +676,7 @@
             <li class="list-inline-item">Auteur <a href="https://david.mercereau.info/contact/">David Mercereau</a></li>
             <li class="list-inline-item"><a href="https://framagit.org/kepon/choisirsonpdm/" data-i18n="[html]app-source">Source Code</a></li>
             <li class="list-inline-item"><a href="https://crowdin.com/project/choisirsonpdm/invite/public?h=f6ec9d3599bc52c20509eda09559c76e1850204&show-join" data-i18n="[html]app-translate">Translate</a></li>
+            <li class="list-inline-item"><a class="contact" data-i18n="[html]app-contact">Contact / Signaler une erreur</a></li>
           </ul>
         </div>
       </footer>

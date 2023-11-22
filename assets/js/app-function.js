@@ -259,16 +259,7 @@ function materialCathSelect() {
  * @param {string}           body Description : Email body
  */
 function sendContact(from, subject, body) {
-    $.ajax({
-        url: settings.apiContact+'?from='+from+'&subject='+subject+'&body='+body,
-        async: true,
-        success: function(data) {
-            return data;
-        },
-        error: function(data) {
-            return data;
-        }
-    });
+    $.get( settings.apiContact+'?from='+from+'&subject='+subject+'&body='+body);
 }
 
 /**
@@ -854,16 +845,10 @@ function submitForm() {
         debug('Level 3');
         // Reset
         $("#thermal-study").html('');
-        /*$(".res_ubat").html($("#ubat_global").val());
-        $(".res_ws").html($("#wastagesurface").val());
-        $(".res_volume").html($("#livingvolume").val());
-        $(".res_venti").html($("#venti_global").val());
-        $(".res_temp_indor").html($("#temp_indor").val());
-        $(".res_temp_base").html($("#temp_base").val());
-        var resDeperditionMax = precise_round(($("#ubat_global").val() * $("#wastagesurface").val() + $("#livingvolume").val() * $("#venti_global").val()) * ($("#temp_indor").val() - $("#temp_base").val()), 2);
-        $(".res_level3").html(resDeperditionMax);*/
+        var depConductivite = 0;
         $("#result-title-building-title").html($("#building-title").val());
-        for (var wallId=0; wallId<$('#wall-id').val(); wallId++) {
+        // Récupération du formulaire..
+        for (var wallId=0; wallId<=$('#wall-id').val(); wallId++) {
             // WALL
             debug('Wall id ' + wallId);
             // Vérification si existant
@@ -935,6 +920,8 @@ function submitForm() {
                     // Perte total de la paroi (fenêtre + opaque)
                     perteTotal=parseFloat(windowsPerteTotal)+parseFloat(wallPerte);
                     $('.wall-'+wallId+'-and-window-loss-value').html(precise_round(perteTotal, 0));
+                    // Ajout des pertes totals aux 
+                    depConductivite=parseFloat(depConductivite)+parseFloat(perteTotal);
                     if (windows == '') {
                         debug('Window = undefined');
                         $('#wall-'+wallId+'-windows-parent').hide();
@@ -946,11 +933,21 @@ function submitForm() {
                 }
             }
         }
+        // Résultat
+        depAeraulique=precise_round($("#livingvolume").val() * $("#venti_global").val(),0);
+        var resDeperditionMax=parseFloat(depAeraulique)+parseFloat(depConductivite);
+        $("#thermal-study").append(
+            '<div class="col-sm-12"><div class="card"><div class="card-body">'
+            + '<h6><span data-i18n="[html]dep-conduction">Déperdition par conduction</span> : '+precise_round(depConductivite, 0)+'W</h6>' 
+            + '<h6><span data-i18n="[html]dep-nam" data-toggle="tooltip" title="Volume * VMC">Déperdition par aéraulique</span> : '+depAeraulique+'W</h6>' 
+            + '<h6><b><span data-i18n="[html]dep-total" data-toggle="tooltip" title="Somme des déperditions par conduction et aéraulique">Déperdition total</span> : '+precise_round(resDeperditionMax, 0)+'</b></h6>' 
+            + '</div></div></div>'
+        );
     }
-    /*$("#resDeperditionMax").html(precise_round(resDeperditionMax/1000, 2));
+    $("#resDeperditionMax").html(precise_round(resDeperditionMax/1000, 2));
     $("#resDeperdition").val(resDeperditionMax);
     debug("Besoin de chauffage : " + resDeperditionMax + "Wh");
-    suggestion();*/
+    suggestion();
     // Tooltip reset
     $('[data-toggle="tooltip"]').tooltip();
 }
