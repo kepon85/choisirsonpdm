@@ -281,7 +281,7 @@ function validCustomWall() {
         var layerId = tr.id.split('-')[1];
         var newLayerl = {
             material: $('#layer-type-'+layerId+' option:selected').text(),
-            r: $('#layer-lambda-'+layerId).val(),
+            lambda: $('#layer-lambda-'+layerId).val(),
             size: $('#layer-size-'+layerId).val(),
         };
         newWall.layer.push(newLayerl);        
@@ -865,7 +865,7 @@ function submitForm() {
                             + '<li><span data-i18n="[html]thead-wall-type">Type</span> : '+$('#wall-type-'+wallId+' option:selected').text()+' (R = '+$('#wall-r-'+wallId).val()+' °C.m²/W)'
                                 + '<ul id="wall-'+wallId+'-detail"></ul>'
                             + '</li>'
-                            + '<li><span data-i18n="[html]thead-wall-rsi">Rsi</span>/<span data-i18n="[html]thead-wall-rse">Rse</span> : '+$('#wall-rsi-'+wallId).val()+' /  '+$('#wall-rsi-'+wallId).val()+'</li>'
+                            + '<li><span data-i18n="[html]thead-wall-rsi">Rsi</span>/<span data-i18n="[html]thead-wall-rse">Rse</span> : '+$('#wall-rsi-'+wallId).val()+' /  '+$('#wall-rse-'+wallId).val()+'</li>'
                             + '<li><span data-i18n="[html]wall-width-height">Largeur, Hauteur de la paroi</span> : '+$('#wall-width-'+wallId).val()+', '+$('#wall-height-'+wallId).val()+'m</li>'
                             + '<li><span data-toggle="tooltip" title="R + Rsi + Rse"><span data-i18n="[html]wall-rt">R total</span> : '+rt+'</span>°C.m²/W</li>'
                             + '<li id="wall-'+wallId+'-windows-parent"><span data-i18n="[html]windows">Fenêtre(s)</span> <span data-toggle="tooltip" title="Différence entre la température intérieure et extérieure (dite de base) (°C) * Perte total des fenêtres (W/°C)"><span data-i18n="[html]window-loss">Déperdition</span>=<span id="wall-'+wallId+'-window-loss-value"></span>W</span> : <ul id="wall-'+wallId+'-windows"></ul></li>'
@@ -879,7 +879,7 @@ function submitForm() {
                     $.each(localSetting.wall, function(index, data) {
                         if (data.title == $('#wall-type-'+wallId+' option:selected').text())  {
                             $.each(data.layer, function(index, layer) {
-                                $("#wall-"+wallId+"-detail").append('<li>'+layer.material+' ('+layer.size+'cm, R='+layer.r+')</li>');    
+                                $("#wall-"+wallId+"-detail").append('<li>'+layer.material+' ('+layer.size+'cm, &lambda;='+layer.lambda+')</li>');    
                             });
                         }
                     });
@@ -938,9 +938,9 @@ function submitForm() {
         var resDeperditionMax=parseFloat(depAeraulique)+parseFloat(depConductivite);
         $("#thermal-study").append(
             '<div class="col-sm-12"><div class="card"><div class="card-body">'
-            + '<h6><span data-i18n="[html]dep-conduction">Déperdition par conduction</span> : '+precise_round(depConductivite, 0)+'W</h6>' 
-            + '<h6><span data-i18n="[html]dep-aeraulique" data-toggle="tooltip" title="Volume * VMC">Déperdition par aéraulique</span> : '+depAeraulique+'W</h6>' 
-            + '<h6><b><span data-i18n="[html]dep-total" data-toggle="tooltip" title="Somme des déperditions par conduction et aéraulique">Déperdition total</span> : '+precise_round(resDeperditionMax, 0)+'</b></h6>' 
+            + '<h6 data-toggle="tooltip" title="Somme des déperditions par conduction (paroi)"><span data-i18n="[html]dep-conduction">Déperdition par conduction</span> : '+precise_round(depConductivite, 0)+'W</h6>' 
+            + '<h6 data-toggle="tooltip" title="Volume * VMC"><span data-i18n="[html]dep-aeraulique">Déperdition par aéraulique</span> : '+depAeraulique+'W</h6>' 
+            + '<h6 data-toggle="tooltip" title="Somme des déperditions par conduction et aéraulique"><b><span data-i18n="[html]dep-total">Déperdition total</span> : '+precise_round(resDeperditionMax, 0)+'W</b></h6>' 
             + '</div></div></div>'
         );
     }
