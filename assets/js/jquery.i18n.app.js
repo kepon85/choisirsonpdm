@@ -13,9 +13,9 @@ jQuery(function($) {
     }
     //Chargement des fichiers de traduction
     $.i18n().load({
-        'en': '/i18n/en.json',
-        'fr': '/i18n/fr.json',
-        'es': '/i18n/es.json',
+        'en': './i18n/en.json',
+        'fr': './i18n/fr.json',
+        'es': './i18n/es.json',
     }).done(function() {
         
         // Switch language
