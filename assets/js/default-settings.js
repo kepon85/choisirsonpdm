@@ -5,7 +5,10 @@
 const defaultSettings = {
   "debug":                        false,
   "debugLoadMap":                 false,
+  "appShortName":                 "choisirsonpdm",
   "apiBaseTemperature":           "https://choisir.poeledemasse.org/api/baseTemperature.php",
+  "apiMateriaux":                 "https://choisir.poeledemasse.org/api/materiaux/index.php",
+  "apiContact":                   "https://choisir.poeledemasse.org/api/contact.php",
   "apiDebounceTtimeout":           1500,
   "defaultLanguage":              "fr",
   "form_default": {
@@ -31,6 +34,11 @@ const defaultSettings = {
     'vk': 'http://vk.com/share.php?title=__TITLE__&url=__URL__',
     'telegram': 'https://telegram.me/share/url?text=__TITLE__&url=__URL__',
   },
+  "localSettingDefault": {
+    "version": 1, 
+    "material": [],
+    "wall": []
+  },
   "pdmSuggestion": {
     'percentPowerSuper': 8,
     'percentPowerCool': 20,
@@ -52,33 +60,30 @@ const defaultSettings = {
       "comment": "",
     },
     {
-      // https://forum.poeledemasse.org/t/donnee-differents-modeles-4-6-8kw-qte-de-bois-nombre-de-flambee/2106/18
       "name": "[Oxa-libre] 2kW",
-      "dalyPower": [ 
+      "dalyPower": [
         { "fire": 1, "woodLoad": "6.4", "power": 1000, "use": "normal" },
-        { "fire": 2, "woodLoad": "6.4", "power": 2000, "use": "normal" },
+        { "fire": 2, "woodLoad": "6.4", "power": 2000, "use": "critical" },
       ],
       "weight": 2000,
       "link": "https://www.oxalis-asso.org/?page_id=3202",
       "comment": "",
     },
     {
-      // https://forum.poeledemasse.org/t/donnee-differents-modeles-4-6-8kw-qte-de-bois-nombre-de-flambee/2106/18
       "name": "[Oxa-libre] 3kW",
-      "dalyPower": [ 
+      "dalyPower": [
         { "fire": 1, "woodLoad": "8.35", "power": 1500, "use": "normal" },
-        { "fire": 2, "woodLoad": "8.35", "power": 3000, "use": "normal" },
+        { "fire": 2, "woodLoad": "8.35", "power": 3000, "use": "critical" },
       ],
       "weight": 2300,
       "link": "https://www.oxalis-asso.org/?page_id=3202",
       "comment": "Sans boîte à feu",
     },
     {
-      // https://forum.poeledemasse.org/t/donnee-differents-modeles-4-6-8kw-qte-de-bois-nombre-de-flambee/2106/18
       "name": "[Oxa-libre] 4kW",
-      "dalyPower": [ 
+      "dalyPower": [
         { "fire": 1, "woodLoad": "12.2", "power": 2000, "use": "normal" },
-        { "fire": 2, "woodLoad": "12.2", "power": 4000, "use": "normal" },
+        { "fire": 2, "woodLoad": "12.2", "power": 4000, "use": "critical" },
       ],
       "weight": 2650,
       "link": "https://www.oxalis-asso.org/?page_id=3202",
