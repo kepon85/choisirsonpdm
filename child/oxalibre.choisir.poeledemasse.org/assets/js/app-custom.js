@@ -25,6 +25,9 @@ $( document ).ready(function() {
     $(".livingvolume_manuel").hide();
     $("#livingspace").removeAttr("required");
     $("#livingheight").removeAttr("required");
+    $("#submit_button").attr('data-i18n', '');
+    $("#submit_button").html("Calculer le besoin de chauffage");
+    $('#suggestion').hide();
 });
 
 if (inIframe()) {
