@@ -35,12 +35,14 @@
           <div class="col-12">
             <img class="d-block mx-auto mb-4" src="./assets/img/logo.png" alt="">
             <div id="title"><h2 data-i18n="[html]app-title">Choose your mass stove</h2></div>
+            <!--
             <div class="alert  alert-warning role="alert" data-i18n="[html]app-in-dev">
               This software is not finished, it is under development...
-            </div>            
+            </div>    
+            -->        
             <p class="lead" data-i18n="[html]app-lead">Application that aims to help you choose the right mass stove for your home.</p>
 
-            <div id="alert" role="alert" class="alert alert-danger"></div>
+            <!--<div id="alert" role="alert" class="alert alert-danger"></div>-->
             <p class="disclamer"><b data-i18n="[html]alert-warning">Avertissement</b> : <span data-i18n="[html]app-disclamer">Les résultats sont donnés à titre indicatif, nous vous conseillons de vous rapprocher d'un <a href="https://www.afpma.pro/#carte-des-membres">artisan poêlier professionnel</a> pour une étude thermique personnalisé afin de vous orienter vers le poêle de masse qui vous conviendra le mieux. </span></p>
           </div>
         </div>
@@ -116,7 +118,7 @@
                 <div class="level1 level2 level3">
                   <label for="livingvolume" class="form-label" data-i18n="[html]form-livingvolume-label">Living volume</label>
                   <div class="input-group">
-                    <input type="number" class="form-control hashchange" min="0" max="9999999" step="1" name="livingvolume" id="livingvolume" value="" disabled="disabled" />
+                    <input type="number" class="form-control hashchange" min="0" max="9999999" step="1" name="livingvolume" id="livingvolume" value="" disabled="disabled" placeholder="Ex: 250" />
                     <span class="input-group-text">m<sup>3</sup></span>
                     <div class="form-check form-switch form-livingvolume_auto">
                       <input class="form-check-input hashchange" type="checkbox" role="switch" id="livingvolume_auto" name="livingvolume_auto" checked>

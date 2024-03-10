@@ -28,6 +28,7 @@ $( document ).ready(function() {
     $("#submit_button").attr('data-i18n', '');
     $("#submit_button").html("Calculer le besoin de chauffage");
     $('#suggestion').hide();
+    $('#result h4').hide();
 });
 
 if (inIframe()) {

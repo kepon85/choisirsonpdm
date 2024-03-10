@@ -3,7 +3,7 @@ const userSettings = {
   "debugLoadMap": false,
   "form_default": {
     "level":     2,
-    "temp_indor":                 18, 
+    "temp_indor":                 20, 
     "livingvolume_auto": false,
   },
   "pdmData": [

@@ -38,7 +38,7 @@ function submitForm() {
         $(".calcul_level"+$("#level").val()).show();
     }
     document.getElementById("result").scrollIntoView();
-    $("#submit_input").val(1);
+    $("#submit_input").val(1);    
     hashChange();
     // Méthode G, niveau 1
     if ($("#level").val() == 1) {
