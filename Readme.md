@@ -60,6 +60,9 @@ Exemple à plusieurs "super" suggestion : http://127.0.0.1:3000/index.html#level
 
 ## Changelog
 
+* v2.
+  * Carte de la température selon la norme NF P52-612/CN : https://www.boutique.afnor.org/fr-fr/norme/nf-p52612-cn/systemes-de-chauffage-dans-les-batiments-methode-de-calcul-des-deperditions/fa165533/36563
+
 * v1.1
   * [add] Mode "Expert" pour détailler paroi par paroi le U du bâtiment
     * Ajouter et enregistrer des parois personnalisé
@@ -99,3 +102,4 @@ Quelques projets open sources utilisé dans celui-ci :
 * La page d'Uzume pour la compréhension de la méthode G :https://www.uzume.fr/quelle-puissance-pour-mon-poele-de-masse 
 * Le calculateur Oxalis pour la compréhension de la méthode Ubat : https://www.oxalis-asso.org/?page_id=3206
 * Les retours de la communauté : https://forum.poeledemasse.org/tag/choisirpoeledemasseo
+* Zone de la carte des températures de bases par Jocelun Nourtier http://nourtier.net/JoceWanadoo/Bricolage/PAC/calcul_PAC.htm
