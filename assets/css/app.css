@@ -55,6 +55,14 @@
 #map {
     width: 100%; height: 300px;
 }
+
+#mapnf {
+  padding:0;
+  margin:0;
+}
+#mapnfarea area {
+  cursor: pointer; 
+}
 #opendata,
 #result,
 #suggestion {

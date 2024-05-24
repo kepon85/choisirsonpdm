@@ -61,9 +61,7 @@ Exemple à plusieurs "super" suggestion : http://127.0.0.1:3000/index.html#level
 ## Changelog
 
 * v2.
-  * Carte de la température selon la norme NF P52-612/CN : https://www.boutique.afnor.org/fr-fr/norme/nf-p52612-cn/systemes-de-chauffage-dans-les-batiments-methode-de-calcul-des-deperditions/fa165533/36563
-
-* v1.1
+  * [add] Carte de la température selon la norme NF P52-612/CN : https://www.boutique.afnor.org/fr-fr/norme/nf-p52612-cn/systemes-de-chauffage-dans-les-batiments-methode-de-calcul-des-deperditions/fa165533/36563
   * [add] Mode "Expert" pour détailler paroi par paroi le U du bâtiment
     * Ajouter et enregistrer des parois personnalisé
     * Ajouter et enregistrer des matériaux personnalisé 
