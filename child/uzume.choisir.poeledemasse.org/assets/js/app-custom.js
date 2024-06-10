@@ -6,8 +6,11 @@ function inIframe () {
     }
 }
 
+$('#nav-cartenf-tab').click();
+
 // carte auto ou manuel
 $("#nav-tab").hide();
+
 // traduction
 $(".locale-switcher").hide();
 
@@ -29,6 +32,7 @@ $("#form-home").removeAttr('data-i18n');
 
 $("#form-location").html("Entrez votre ville ");
 $("#form-location").removeAttr('data-i18n');
+
 
 if (inIframe()) {
     // En tête

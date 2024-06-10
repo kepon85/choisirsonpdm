@@ -20,7 +20,7 @@ $( document ).ready(function() {
         var temperatureBase = null;
         console.log("Zone : " + zone);
         console.log("Altitude : " + altitude);
-        if (zone != '' && altitude > 0 && altitude < 2000) {
+        if (zone != '' && altitude >= 0 && altitude <= 2000) {
             console.log("Détermination de la température de base possible");
             $.each(settings.temperatureBaseData[zone], function (zoneIndex, ZoneValue) {
             if (altitude >= ZoneValue['altitudeMin'] && altitude <= ZoneValue['altitudeMax']) {
@@ -553,7 +553,6 @@ $( document ).ready(function() {
         };
         document.body.appendChild(includeJavascript);
     });
-
 
     ////////////////////////
     // MAPBOX
