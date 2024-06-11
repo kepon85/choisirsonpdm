@@ -9,7 +9,7 @@ function inIframe () {
 $('#nav-cartenf-tab').click();
 
 // carte auto ou manuel
-$("#nav-tab").hide();
+//$("#nav-tab").hide();
 
 // traduction
 $(".locale-switcher").hide();

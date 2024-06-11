@@ -6,6 +6,8 @@ function inIframe () {
     }
 }
 
+$('#nav-cartenf-tab').click();
+
 // traduction
 $(".locale-switcher").hide();
 
