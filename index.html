@@ -10,7 +10,7 @@
     <link href="./assets/css/bootstrap.css" rel="stylesheet">
     <link href="./assets/css/jquery-ui.min.css" rel="stylesheet">    
     <link href="./assets/css/select2.min.css" rel="stylesheet">    
-    <link href="./assets/css/app.css" rel="stylesheet">    
+    <link href="./assets/css/app.css" rel="stylesheet">
     <!-- Load mapbox -->
     <link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet">
     <!-- Load the `mapbox-gl-geocoder` plugin. -->
@@ -19,7 +19,8 @@
     <link rel="icon" type="image/png" href="assets/img/favicon-192.png" sizes="192x192" />
     <link rel="apple-touch-icon" href="assets/img/favicon-180.png" sizes="180x180" />
   </head>
-  <body class="bg-secondary">
+  <!--<body class="bg-secondary">-->
+  <body class="">
     <div id="body-container" class="container">
       <div id="loadData">
         <div id="loadData_messages">
@@ -87,7 +88,7 @@
                   <p class="level1" data-i18n="[html]form-level-1-explain">The method used is the so-called 'G' method, explained in detail by <a href="https://www.uzume.fr/quelle-power-pour-mon-poele-de-masse" target="_blank">Uzume</a></p>
                   <p class="level2" data-i18n="[html]form-level-2-explain">The method used is the general "Ubat" method, it works if your house is evenly insulated. Otherwise you must switch to expert mode to detail each wall</p>
                   <p class="level3" data-i18n="[html]form-level-3-explain">The method used is the so-called "Ubat" method. It requires good thermal knowledge/understanding, but it is the most precise method that allows you to detail each wall of your house.</p>
-                  <p class="level3 alert alert-warning"><b>Attention : le mode expert est en "béta"</b></p>
+                  <p class="level3 alert alert-warning"><b>Attention : le mode expert est en "béta"/test/rodage...</b></p>
                   <div class="form-check form-switch small">
                     <input class="form-check-input hashchange" type="checkbox" role="switch" id="transparent" name="transparent">
                     <label class="form-check-label" for="transparent" data-i18n="[html]form-transparent">Enable transparent mode to better understand how it works</label>
@@ -603,12 +604,12 @@
                     <div class="ms-auto">
                       <div class="export-import input-group">
                         <label class="btn btn-secondary" for="setting-import">
-                          <input id="setting-import" type="file" class="d-none">
+                          <input id="setting-import" type="file" class="d-none" />
                           <span data-i18n="[html]setting-import-button">Importer</span>
-                        </label>          
-                        <div  id="setting-export" class="btn btn-secondary" data-i18n="[html]setting-export-button">
-                          Exporter
-                        </div>
+                        </label> 
+                        <label class="btn btn-secondary" id="setting-export">
+                          <span data-i18n="[html]setting-export-button">Exporter</span>
+                        </label>   
                       </div>
                     </div>
                   </div>

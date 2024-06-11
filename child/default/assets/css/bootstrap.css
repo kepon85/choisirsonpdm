@@ -11,7 +11,16 @@
  * Copyright 2011-2023 The Bootstrap Authors
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  */
+
+/*
+ Désactivé pour cause de... c'est mieux...
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap");
+*/
+
+/* 
+  A la fin, ajout à la mano du background-color, je m'en sort pas sinon... 
+*/
+
 :root,
 [data-bs-theme=light] {
   --bs-blue: #008cba;
@@ -12322,4 +12331,9 @@ label,
 .popover-header {
   border-top-left-radius: 0;
   border-top-right-radius: 0;
+}
+
+/* Ajout à la mano du background-color, je m'en sort pas sinon... */
+body {
+  background-color: #f8f9fa;
 }
