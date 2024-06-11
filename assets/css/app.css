@@ -20,20 +20,52 @@
     display: none;
 }
 
-#alert {
+#app-alert {
     display: none;
+    left: 0;
+    margin: auto; 
+    position: fixed;
+    right: 0;
+    text-align: center;
+    bottom: 1em;
+    width: 80%;
+    z-index: 999; 
 }
+
 .resp-sharing-button__link {
   display: none;
 }
 
+.debug {
+  display: none;
+}
+
+#dialog-contact,
+#dialog-custom-material,
+#dialog-custom-wall,
+#dialog-rsirse {
+  display:none;
+}
+
+/* Expert Mode */
+.wall-rsi-rse-popup {
+  cursor: pointer;
+}
 #temp_base_load {
-    width: 20px;
-    height: 20px;
-    display: none;
+  width: 20px;
+  height: 20px;
+  display: none;
 }
 #map {
     width: 100%; height: 300px;
+}
+
+#mapnf {
+  padding:0;
+  margin:0;
+}
+#mapnfarea area {
+  cursor: pointer; 
 }
 #opendata,
 #result,
@@ -64,7 +96,7 @@
   font-size: 80%;
 }
 .card {
-    padding: 10px;
+/*    padding: 10px;*/
     margin: 10px;
 }
 .input-group {
@@ -75,6 +107,24 @@
 .opendata-link {
   text-align: center;
 }
+
+/* Expert mode */
+.col-number {
+  width: 100px;
+}
+#projectsvg  g[onclick^=rsirse] {
+  cursor: pointer;
+  outline-offset: 5px;
+}
+#projectsvg g:hover[onclick^=rsirse] {
+  outline: solid 3px red;
+}
+/*#projectsvg svg  { 
+  display: inline-block;
+  position: absolute; 
+  top: 0; 
+  left: 0; 
+}*/
 
 /* Loader : */
 

@@ -7,6 +7,7 @@ En ligne : https://choisir.poeledemasse.org/
 * Les  "enfants" :
   * https://minimasse.choisir.poeledemasse.org/ qui suggère si le MiniMasse est pertinent pour vous ou non
   * https://afpma.choisir.poeledemasse.org/ qui orient vers un artisan poêlier proche de chez soit
+  * https://uzume.choisir.poeledemasse.org/ qu'Uzume inclus dans sa page : https://www.uzume.fr/quelle-puissance-pour-mon-poele-de-masse
 
 Ce petit calculateur développe 2 étape : 
 
@@ -20,9 +21,10 @@ Permet une évaluation des besoins de chauffage :
 - 2 « niveaux » :
   - « Débutant » utilise la méthode G
   - « Éclairé » utilise la méthode Ubat général
+  - « Expert » pour détailler paroi par paroi et déterminer un U précis sur votre habitation.
 - Plus de carte de la France par zone : La température « de base » est recherchée dans l’historique météorologique (par API) en fonction de sa localisation géographique. On peut choisir sur  combien d’année on va chercher l’historique : 5, 10, 15, 20 ans (par  défaut 10 ans parce que le climat change…)
   - La température ‹ de base › c’est la température des 5 jours  consécutifs les plus froids de l’année, moyenné sur les X dernières  années.
-- Transparence sur le calcul qui est fait pour Ubat/G, aussi pour la suggestion des PDM’s
+- Transparence sur le calcul qui est fait pour Ubat/G, aussi pour la suggestion des poêle de masse
 
 ## Suggestion
 
@@ -58,6 +60,12 @@ Exemple à plusieurs "super" suggestion : http://127.0.0.1:3000/index.html#level
 
 ## Changelog
 
+* v2.
+  * [add] Carte de la température selon la norme NF P52-612/CN : https://www.boutique.afnor.org/fr-fr/norme/nf-p52612-cn/systemes-de-chauffage-dans-les-batiments-methode-de-calcul-des-deperditions/fa165533/36563
+  * [add] Mode "Expert" pour détailler paroi par paroi le U du bâtiment
+    * Ajouter et enregistrer des parois personnalisé
+    * Ajouter et enregistrer des matériaux personnalisé 
+      * Contribution à la base de donnée commune possible à l'ajout
 * v1.0
   * 2 « niveaux » :
     - « Débutant » utilise la méthode G
@@ -72,12 +80,16 @@ Exemple à plusieurs "super" suggestion : http://127.0.0.1:3000/index.html#level
 
 Quelques projets open sources utilisé dans celui-ci :
 
+* Font Awesome
 * Bootstrap 5.3
+* Jquery
+* Jquery UI
+* Select 2
+* Jquery i18n pour la traduction
 * Mapbox : https://docs.mapbox.com/mapbox-gl-js/example/map-projection/
-* Thème build https://themestr.app https://huemint.com/bootstrap-basic/ ? 
-    * https://huemint.com/bootstrap-basic/#palette=e0eec5-ffffff-030303-fec568-9a5520-9466a9
+* Thème utilisé : https://bootswatch.com/yeti/
+  * sympa : https://bootswatch.com/litera/ https://bootswatch.com/lumen/
 * Theme enfant généré avec :
-    * https://pikock.github.io/bootstrap-magic/app/index.html#!/editor
     * https://bootstrap.build/app
 
 ## Auteurs/Contributeurs
@@ -89,3 +101,4 @@ Quelques projets open sources utilisé dans celui-ci :
 * La page d'Uzume pour la compréhension de la méthode G :https://www.uzume.fr/quelle-puissance-pour-mon-poele-de-masse 
 * Le calculateur Oxalis pour la compréhension de la méthode Ubat : https://www.oxalis-asso.org/?page_id=3206
 * Les retours de la communauté : https://forum.poeledemasse.org/tag/choisirpoeledemasseo
+* Zone de la carte des températures de bases par Jocelun Nourtier http://nourtier.net/JoceWanadoo/Bricolage/PAC/calcul_PAC.htm

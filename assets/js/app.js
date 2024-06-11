@@ -1,30 +1,6 @@
-function debug(msg) {
-    if (settings.debug) {
-        console.log(msg);
-    }
-}
+$( document ).ready(function() {
+    debug( "ready !" );
 
-// Juste pour "afficher" les données
-function openData() {
-    debug('Opendata print');
-    $('#opendata').show(); 
-    $.each(settings.pdmData, function() {
-        var pdmData = this;
-        $.each(this.dalyPower, function() {
-            $('#opendataTab > tbody:last-child').append(
-                '<tr>'
-                    +'<td>'+pdmData.name+'</td>'
-                    +'<td class="text-center">'+precise_round(this.power/1000,2)+'kW</td>'
-                    +'<td class="text-center">'+this.fire+'</td>'
-                    +'<td class="text-center">'+this.woodLoad+'kg</td>'
-                    +'<td class="text-center">'+this.use+'</td>'
-                    +'<td class="text-center">'+pdmData.weight+'kg</td>'
-                    +'<td class="text-center"><a href="'+pdmData.link+'">link</a></td>'
-                +'<tr>'
-            );
-        });
-    });
-}
 
 // Envoi du formulaire
 function submitForm() {
@@ -91,106 +67,39 @@ function hashChange() {
                 hashnew=hashnew+this.id+'=';
             }
         } else {
-            hashnew=hashnew+this.id+'='+this.value;
+            alert("La zone n'est pas déterminé ou l'altitude n'est pas comprise entre 0 et 2000m");
         }
-        if (hashchange_nb != (hashchange_len - 1)) {
-            hashnew=hashnew+"&";
-        }
-        hashchange_nb = hashchange_nb +1
-    });
-    window.location.hash = hashnew;
-}
-// https://www.freecodecamp.org/french/news/anti-rebond-comment-retarder-une-fonction-en-javascript/ 
-function debounce(func, timeout = 1000){
-    let timer;
-    return (...args) => {
-        $('#temp_base_load').show();
-        clearTimeout(timer);
-        timer = setTimeout(() => { func.apply(this, args); }, timeout);
-    };
-}
-function getBaseTemperature(){
-    if ($("#lat").val() != '' && $("#lng").val() != '') {
-        debug('GET API baseTemperature');
-        $.getJSON( settings.apiBaseTemperature+'?lat='+$("#lat").val()+'&lng='+$("#lng").val()+'&nbYearsArchive='+$("#temp_base_years_archive").val()) 
-        .done(function( json ) {
-            $("#temp_base").val(json.base);
-            hashChange();
-        })
-        .fail(function( jqxhr, textStatus, error ) {
-            $("#alert").show();
-            $("#alert").html( "<span>Request Failed to get API base temperature : " + jqxhr.responseJSON.message + ". <b>Indicate there manually and contact the developer of this calculator</b></span>");
-            debug("API return : " + error);
-            $(".temp_base_input_group").show();
-            $("#temp_base").prop('disabled', false);
-            $("#temp_base_auto").prop("checked", false);
-            $(".temp_base_auto").hide();
-        })
-        .always(function() {
-            $('#temp_base_load').hide();
-        });
-    } else {
-        debug('Pas de GET API baseTemperature, il manque la latitude ou la longitude')
-        $('#temp_base_load').hide();
+        $('#temp_base').val(temperatureBase);
     }
-}
-const processChangelngLat = debounce(() => getBaseTemperature(), settings.apiDebounceTtimeout);
 
-// Changement de niveau
-function changeLevel(level) {
-    if (level == 1) {
-        $(".level3").hide();
-        $(".level2").hide();
-        $(".level1").show();
-        $("input").removeAttr("required");
-        $(".level1required").attr("required", "true");
-    } else if (level == 2) {
-        $(".level3").hide();
-        $(".level1").hide();
-        $(".level2").show();
-        $("input").removeAttr("required");
-        $(".level2required").attr("required", "true");
-    } else if (level == 3) {
-        $(".level1").hide();
-        $(".level2").hide();
-        $(".level3").show();
-        $("input").removeAttr("required");
-        $(".level3required").attr("required", "true");
-    }
-    // required input change    
-}
+    // Init global var
+    apiMateriauxData=null;
 
-// Calcule du volume fonction de la surface/hauteur
-function calcVolume (){
-    $("#livingvolume").val($("#livingspace").val() * $("#livingheight").val());
-}
+    // Load localStorage setting
+    if (localStorage.getItem('setting') == null) {
+        localStorage.setItem('setting', JSON.stringify(settings.localSettingDefault));
+    } 
+    localSetting=JSON.parse(localStorage.getItem('setting'));
+    debug("Local setting : ");
+    debug(localSetting);
 
-function sharingButton() {
-    const title =  encodeURIComponent($("title").text());
-    const url = encodeURIComponent(document.location.href);
-
-    Object.entries(settings.sharingButton).forEach(entry => {
-        var [network, href] = entry;
-        // Remplacement des variables
-        href = href.replace('__TITLE__', title);
-        href = href.replace('__URL__', url);
-        // Attribution du href
-        $("#sharingButton, ." + network).attr('href', href);
-        $("#sharingButton, ." + network).css('display', 'inline-block');
-
-        debug('Add sharingButton for ' + network + ' = ' + href);
-    });
-}
-
-$( document ).ready(function() {
     ////////////////////////////////////
     // HASH URL (remplir les champs)
     ////////////////////////////////////
-    debug( "ready !" );
-
-    $("#alert").on( "click", function(e) {
-        $("#alert").hide();
+    
+    $("#app-alert").on( "click", function() {
+        $("#app-alert").hide();
     });
+
+    $('.form-select').select2();
+
+
+    // Debug on
+    if (settings.debug) {
+        debug("Show class debug")
+        $('.debug').show();
+    }
+
     ////////////////////////
     // Form comportement
     ////////////////////////
@@ -222,40 +131,83 @@ $( document ).ready(function() {
             $("#livingheight").removeAttr("required");
         }
     });
-
     $(".livingvolumecalc").on( "change", function(e) {
         calcVolume();
         $("#livingvolume_auto").prop('checked', true);
     });
-
-    
     $("#temp_base_years_archive").on( "change", function(e) {
         processChangelngLat();
     });
 
     // Default value
+    //-Par le hash de l'URL
     var hash = window.location.hash.substr(1);
+    let reWall = /^wall-(?<param>[a-z]+)-(?<wallId>[0-9]+)$/u;
+    let reWallWin = /^wall-(?<param>[a-z]+)-(?<wallId>[0-9]+)-window-(?<winId>[0-9]+)$/u;
     if (hash) {
         debug('hash : ' + hash);
         if (hash == 'opendata') {
             openData();
         } else {
+            //Parse hash, split et complete
             var result = hash.split('&').reduce(function (res, item) {
                 var parts = item.split('=');
                 res[parts[0]] = parts[1];
+                debug('Param du hash ' + parts[0]);
+                //
+                // WALL/WIN  PRE  traitement
+                //
+                // Détecter si c'est pour un mur : 
+                let wallRe = reWall.exec(parts[0]);
+                if (wallRe != null && typeof wallRe == 'object') {
+                    debug('C\'est pour un mur');
+                    debug(wallRe.groups.wallId);
+                    detailBuildingAddWall(wallRe.groups.wallId);
+                    if (wallRe.groups.param == "rsi" && parts[1] != '') {
+                        $('#wall-rsi-' + wallRe.groups.wallId + '-val').html(parts[1]);
+                    }
+                    if (wallRe.groups.param == "rse" && parts[1] != '') {
+                        $('#wall-rse-' + wallRe.groups.wallId + '-val').html(parts[1]);
+                    }
+                }
+                // Détecter si c'est pour une fenêtre : 
+                let winRe = reWallWin.exec(parts[0]);
+                if (winRe != null && typeof winRe == 'object') {
+                    debug('C\'est pour une fenêtre');
+                    debug(winRe.groups.winId);
+                    detailBuildingAddWindows2Wall(winRe.groups.wallId, winRe.groups.winId);
+                }
                 if ($("#"+parts[0]) !== undefined) {
-                    if ($("#"+parts[0])[0].type == "checkbox") {
+                    if ($("#"+parts[0])[0] !== undefined && $("#"+parts[0])[0].type == "checkbox") {
                         $("#"+parts[0]).prop("checked", parts[1]);
                     } else {
                         $("#"+parts[0]).val(parts[1]);
                     }
                 }
+                //
+                // WALL/WIN  POST  traitement
+                //
+                // Détecter si c'est pour un mur : 
+                if (wallRe != null && typeof wallRe == 'object') {
+                    if (wallRe.groups.param == "type") {
+                        wallTypeUperso(wallRe.groups.wallId);
+                    }
+                    wallCheck(wallRe.groups.wallId)
+                    refreshDetailBuildingChange();
+                }
+                // Détecter si c'est pour une fenêtre : 
+                if (winRe != null && typeof winRe == 'object') {
+                    winCheck(winRe.groups.wallId, winRe.groups.winId)
+                    refreshDetailBuildingChange();
+                }
                 return res;
             }, {});
             debug('result' + result);
         }
+        $('.wall-type').trigger('change');
+        $('.window-type').trigger('change');
     }
-    // Valeur par défaut du formulaire
+    //-Sinon par le setting
     Object.entries(settings.form_default).forEach(entry => {
         const [key, value] = entry;
         debug('Default value for ' + key + ' = ' + value);
@@ -269,6 +221,7 @@ $( document ).ready(function() {
             }
         }
     });
+
     // Init des boutton de partages
     sharingButton();
 
@@ -284,26 +237,291 @@ $( document ).ready(function() {
     
     // Si le formulaire change, on change le hash
     debug('Add listener hashchange');
-    $(".hashchange").on( "change", function(e) {
-        sharingButton(); // Update sharing button
-        $(".result").hide(); // Hide résult
-        $("#submit_input").val(0); // Remise à 0 du résultat
-        // SI c'est la latitude ou la longitude qui ont changé, on recherche la valeur dans l'API
-        if (this.name == 'lat' || this.name == 'lng') {
-            processChangelngLat();
-        }
-        hashChange();
-    });
+    hashchangeListener();
+
     
+
+    // Pour le reset du formulaire on retourne à la racine
     $("#reset").on( "click", function(e) {
         debug('Reset');
         location.href='/';
     });
     
-    // Si on click
+    ////////////////////////////
+    // Expert mode - formulaire
+    ////////////////////////////
+    
+    // Ajout de la première ligne si inexistante
+    detailBuildingAddWall();
+
+    // Draggable/sortable mode pour les lignes de fenêtres
+    $( ".window-table tbody" ).sortable({
+        update: function(event, ui) {
+            hashchangeAllAction();
+        }
+    });
+
+    ////////////////////////////
+    // Expert mode - Setting
+    ////////////////////////////
+
+    // Import/export 
+    // Export
+    $( "#setting-export" )
+    .on( "click", function() {
+        //$("#data").click(function() {
+        $("<a />", {
+            "download": settings.appShortName+"-settings.json",
+            "href" : "data:application/json," + encodeURIComponent(JSON.stringify(localSetting))
+          }).appendTo("body")
+          .click(function() {
+             $(this).remove()
+          })[0].click()
+    });
+    // import
+    function readTextFile(file, callback) {
+        var rawFile = new XMLHttpRequest();
+        rawFile.overrideMimeType("application/json");
+        rawFile.open("GET", file, true);
+        rawFile.onreadystatechange = function() {
+            if (rawFile.readyState === 4 && rawFile.status == "200") {
+                callback(rawFile.responseText);
+            }
+        }
+        rawFile.send(null);
+    }
+    $("#setting-import").on('change',function(e){
+        $('#loadData').show();
+        var file =  e. target. files[0];
+        var path = (window.URL || window.webkitURL).createObjectURL(file);
+        readTextFile(path, function(text){
+            var data = JSON.parse(text);
+            debug(data);
+            // import dans le localstorage
+            localStorage.setItem('setting', JSON.stringify(data));
+            // Reload page
+            location.reload();
+        });
+      });
+    
+    // Draggable/sortable mode pour le tableau de paroi
+    $( "#tabke-layer tbody" ).sortable();
+
+    // Compléter matériaux et paroi personnalisé (select)
+    customMaterialSelect();
+    customWallSelect();
+
+    // Delete materiaux
+    $( "#delete-custom-wall" )
+    .on( "click", function() {
+        if ($('#custom-wall').val() != '')  {
+            debug('Suppresion d\'une paroi '+$('#custom-wall').val());
+            // Delete DATA
+            localSetting.wall.splice($('#custom-wall').val(), 1)
+            // Sauvegarde
+            localStorage.setItem('setting', JSON.stringify(localSetting));
+            // Refresh
+            appAlert('Supprimé !', "success");
+            customWallSelect();
+            wallTypeAllSelect();
+        } else {
+            appAlert('Sélectionner une paroi dans la liste', 'warning')
+            return false;
+        }
+    });
+    // Dialog pour les custom-wall
+    $( "#add-custom-wall, #modify-custom-wall" )
+    .on( "click", function() {
+        getMateriauxData();
+        if (this.id == 'modify-custom-wall') {
+            if ($('#custom-wall').val() != '')  {
+                debug('Modification de la paroi '+$('#custom-wall').val());
+                // Load DATA
+                debug(localSetting.wall[$('#custom-wall').val()]);
+                $('#wall-custom-title').val(localSetting.wall[$('#custom-wall').val()].title);
+                $.each(localSetting.wall[$('#custom-wall').val()].layer, function(index, data) {
+                    addLayer(index);
+                    $('#layer-type-' + index).prepend('<option class="type-modify" id="layer-type-' + index + '-modify" value="'+data.lambda+'" selected="selected">'+data.material+'</option>');
+                    $('#layer-size-' + index).val(data.size);
+                    $('#layer-lambda-' + index).val(data.lambda);
+                    layerCheck(index);
+                });
+            } else {
+                appAlert('Sélectionner une paroi dans la liste')
+                return false;
+            }
+        } else {
+            debug('Ajout d\'une nouvelle paroi');
+            // Pour être sûr de ne pas confondre modification et ajout
+            $('#custom-wall').val("");
+            $('#custom-wall').trigger('change'); 
+            // Mise à 0 du formulaire
+            $('#wall-custom-title').val('');
+            $('#layer-id').val(0);
+            $('.layers').remove();
+            // Ajout d'une ligne vierge
+            addLayer();
+            layerCheck(1);
+        }
+        // Aficher le popup
+        var wWidth = $(window).width();
+        var dWidth = wWidth * 0.9;
+        var wHeight = $(window).height();
+        var dHeight = wHeight * 0.9;
+        dialog = $( "#dialog-custom-wall" ).dialog({
+            overlay: { opacity: 0.1, background: "black" },
+            width: dWidth,
+            height: dHeight,
+            modal: true,
+            open: function () {
+                // Pour le fonctionnement avec "select2"
+                if ($.ui && $.ui.dialog && !$.ui.dialog.prototype._allowInteractionRemapped && $(this).closest(".ui-dialog").length) {
+                    if ($.ui.dialog.prototype._allowInteraction) {
+                        $.ui.dialog.prototype._allowInteraction = function (e) {
+                            if ($(e.target).closest('.select2-drop').length) return true;
+        
+                            if (typeof ui_dialog_interaction!="undefined") {
+                                return ui_dialog_interaction.apply(this, arguments);
+                            } else {
+                                return true;
+                            }
+                        };
+                        $.ui.dialog.prototype._allowInteractionRemapped = true;
+                    }
+                    else {
+                        $.error("You must upgrade jQuery UI or else.");
+                    }
+                }
+            },
+            _allowInteraction: function (event) {
+                return !!$(e.target).closest('.ui-dialog, .ui-datepicker, .select2-drop').length;
+            },
+            buttons: {
+                "Signaler une erreur": function() {
+                    debug('Signaler une erreur');
+                    //dialog.dialog( "close" );
+                    $('.contact').click();
+                },
+                Cancel: function() {
+                    dialog.dialog( "close" );
+                },
+                "Valider": function() {
+                    //layer-custom-id SI pas 0 = enregistrement nouvel !
+                    var returnValidCustomWall = validCustomWall();
+                    if (returnValidCustomWall == true) {
+                        dialog.dialog( "close" );
+                        appAlert('Ajouté !', "success");
+                    } else {
+                        appAlert(returnValidCustomWall);
+                    }
+                }
+              },
+            open: function() {
+                $('.ui-dialog-buttonpane').find('button:contains("Signaler une erreur")').addClass('btn btn-secondary');
+                $('.ui-dialog-buttonpane').find('button:contains("Cancel")').addClass('btn btn-secondary');
+                $('.ui-dialog-buttonpane').find('button:contains("Valider")').addClass('btn btn-primary');
+            }
+
+        });
+    });
+    // Afficher/Masquer les éléments en cas de contribution matériaux
+    $( "#material-forcontrib" ).on( "click", function() {
+        $( ".forcontrib" ).toggle();
+    });
+
+    // Delete materiaux
+    $( "#delete-custom-material" )
+    .on( "click", function() {
+        if ($('#custom-material').val() != '')  {
+            debug('Suppresion d\'un matériaux '+$('#custom-material').val());
+            // Delete DATA
+            localSetting.material.splice($('#custom-material').val(), 1)
+            // Sauvegarde
+            localStorage.setItem('setting', JSON.stringify(localSetting));
+            appAlert('Supprimé !', "success");
+            // Refresh
+            customMaterialSelect();
+        } else {
+            appAlert('Sélectionner un matériaux dans la liste')
+            return false;
+        }
+    });
+    // Dialog pour les custom-material (ajout/modification)
+    $( "#add-custom-material, #modify-custom-material" )
+    .on( "click", function() {
+        getMateriauxData();
+        materialCathSelect();
+        // Proposer contribution
+        $( ".forcontrib-checkbox" ).show();
+        $( ".forcontrib" ).show();
+        $( "#material-forcontrib" ).prop( "checked", true );
+        if (this.id == 'modify-custom-material') {
+            if ($('#custom-material').val() != '')  {
+                debug('Modification d\'un matériaux '+$('#custom-material').val());
+                // Load DATA
+                debug(localSetting.material[$('#custom-material').val()]);
+                $('#material-libelle').val(localSetting.material[$('#custom-material').val()].libelle);
+                $('#material-generic').val(localSetting.material[$('#custom-material').val()].generic);
+                $('#material-cath_id').val(localSetting.material[$('#custom-material').val()].cath_id);
+                $('#material-lambda').val(localSetting.material[$('#custom-material').val()].spec.lambda);
+                $('#material-p').val(localSetting.material[$('#custom-material').val()].spec.p);
+                $('#material-c').val(localSetting.material[$('#custom-material').val()].spec.c);
+                $('#material-u').val(localSetting.material[$('#custom-material').val()].spec.u);
+                $('#material-h').val(localSetting.material[$('#custom-material').val()].spec.h);
+            } else {
+                appAlert('Sélectionner un matériaux dans la liste', 'warning');
+                return false;
+            }
+        } else {
+            debug('Ajout d\'un materiau');
+            // Pour être sûr de ne pas confondre modification et ajout
+            $('#custom-material').val("");
+            $('#custom-material').trigger('change'); 
+            // Mise à 0 du formulaire
+            $('#material-libelle').val('');
+            //$('#material-generic').val('');
+            //$('#material-cath_id').val('');
+            $('#material-lambda').val('');
+            $('#material-p').val('');
+            $('#material-c').val('');
+            $('#material-u').val('');
+            $('#material-h').val('');
+        }
+        // Aficher le popup
+        dialog = $( "#dialog-custom-material" ).dialog({
+            overlay: { opacity: 0.1, background: "black" },
+            width: 500,
+            height: 500,
+            modal: true,
+            buttons: {
+                Cancel: function() {
+                    dialog.dialog( "close" );
+                },
+                "Valider": function() {
+                    var returnValidCustomMaterial = validCustomMaterial();
+                    if (returnValidCustomMaterial == true) {
+                        dialog.dialog( "close" );
+                        appAlert('Ajouté !', "success");
+                    } else {
+                        appAlert(returnValidCustomMaterial, 'appAlert');
+                    }
+                }
+              },
+            open: function() {
+                $('.ui-dialog-buttonpane').find('button:contains("Cancel")').addClass('btn btn-secondary');
+                $('.ui-dialog-buttonpane').find('button:contains("Valider")').addClass('btn btn-primary');
+            }
+        });
+    });
+
+    ////////////////////////////
+    // Contrôle
+    ////////////////////////////
+
+    // Si on "submit" le formulaire
     $("#submit_button").on( "click", function(e) {
         if ($('#temp_base').val() == '') {
-            alert("Basal temperature not preset. Choose your location on the map.");
+            appAlert("Basal temperature not preset. Choose your location on the map.", "warning");
             return false;
         } else if($("form")[0].checkValidity()) {
             submitForm();
@@ -313,12 +531,45 @@ $( document ).ready(function() {
             debug("HTML5 : invalid form");
         }
     });
+
+    ////////////////////////////
+    // Résultat
+    ////////////////////////////
     $("#calcShowHide").on( "click", function(e) {
         $(".calcul_level"+$("#level").val()).toggle();
-        debug("toggle calcul")
+        debug("toggle calcul " + $("#level").val());
     });
     
-
+    ////////////////////////////
+    // Contact
+    ////////////////////////////
+    $( ".contact" ).on( "click", function() {
+        debug('Contact click');
+        dialog = $( "#dialog-contact" ).dialog({
+            overlay: { opacity: 0.1, background: "black" },
+            width: 600,
+            height: 450,
+            modal: true,
+            buttons: {
+                Cancel: function() {
+                    dialog.dialog( "close" );
+                },
+                "Envoyer": function() {
+                    var returnSendContact = sendContact($('#contact-from').val(), $('#contact-subject').val(), $('#contact-body').val());
+                    //if (returnSendContact == true) {
+                        dialog.dialog( "close" );
+                        //appAlert('Message envoyé !', "success");
+                    //} else {
+                        //appAlert("Error");
+                    //}
+                }
+            },
+            open: function() {
+                $('.ui-dialog-buttonpane').find('button:contains("Cancel")').addClass('btn btn-secondary');
+                $('.ui-dialog-buttonpane').find('button:contains("Envoyer")').addClass('btn btn-primary');
+            }
+        });
+    });
 
     ////////////////////////////
     // INCLUDE SRC JAVASCRIPT
@@ -337,7 +588,6 @@ $( document ).ready(function() {
         };
         document.body.appendChild(includeJavascript);
     });
-
 
     ////////////////////////
     // MAPBOX
@@ -436,8 +686,9 @@ $( document ).ready(function() {
         $('#map').text("Disable by settings.debugLoadMap");
     }
 
-    $('#loadData').hide();
-
     // Tooltips (infobule)
-    $('[data-toggle="tooltip"]').tooltip()
+    $('[data-toggle="tooltip"]').tooltip();
+
+    // Loader a cacher quand tout est fait
+    $('#loadData').hide();
 });

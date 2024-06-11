@@ -1,4 +1,10 @@
+
+// Langue par défaut : FR 
+// J'ai pas réussi à changer l'option ici donc j'ai fais ça en mode bourin, dans jquery.i18n.js...
+//      fallbackLocale : "fr",
+
 jQuery(function($) {
+
     var do_translate = function() {
         $('html').i18n();
         // switch active flag
@@ -7,10 +13,11 @@ jQuery(function($) {
     }
     //Chargement des fichiers de traduction
     $.i18n().load({
-        'en': '/i18n/en.json',
-        'fr': '/i18n/fr.json',
-        'es': '/i18n/es.json',
+        'en': './i18n/en.json',
+        'fr': './i18n/fr.json',
+        'es': './i18n/es.json',
     }).done(function() {
+        
         // Switch language
         $('.locale-switcher').on('click', 'a', function(e) {
             e.preventDefault();
