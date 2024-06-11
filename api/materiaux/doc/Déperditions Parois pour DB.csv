@@ -1,0 +1,55 @@
+cath,cath_id,matériau,masse volumique ρ (kg/m3),conductivité thermique λ (W/m.K),capacité thermique massique Cp (kJ/kg.°C),résistance diffusion de la vapeur d’eau μ (-),déphasage (h – pour 20cm),"Lien
+Sources",Lien
+Couverture,1,Ardoise,2750,2,,,,,
+Enduits – Revêtements,2,Chaux,800,"0,12",,,,,
+Enduits – Revêtements,2,Chaux-chanvre,400,"0,12",,,,,
+Enduits – Revêtements,2,Pisé,1900,"1,1",,,,,
+Enduits – Revêtements,2,Plâtre,"715,38","0,325",,1,,Placo,
+Enduits – Revêtements,2,Sable,1800,,,6,,,
+Enduits – Revêtements,2,Terre argileuse,1500,"1,1",,10,,,
+Enduits – Revêtements,2,Torchis,750,"0,2",,,,,
+Fluide,3,Air,"1,205","0,0257",1005,1,,,
+Fluide,3,Eau (à 20°C),998,"0,5977","4181,8",1,,,
+Fondations,4,Galets 20/40,1700,,,,,,
+Fondations,4,Misapor,140,"0,08",,10000,,,
+Fondations,4,Pouzzolane,1050,"0,15",,,,,
+Humidité,5,Pare-pluie - fibre de bois,270,"0,048",,,,,
+Humidité,5,Pare-vapeur,40,"0,034",,,,,
+Isolants d'origine animale ou végétales,6,Chanvre,35,"0,04",,"1,5",7,,
+Isolants d'origine animale ou végétales,6,Chènevotte,100,"0,048",,"1,5","8,5",Parc Eco Habitat,http://www.urbia.fr/wp-content/uploads/2014/08/comparatif.isolation.pdf
+Isolants d'origine animale ou végétales,6,Laine de bois souple,45,"0,038",,"1,5",7,Parc Eco Habitat,http://www.urbia.fr/wp-content/uploads/2014/08/comparatif.isolation.pdf
+Isolants d'origine animale ou végétales,6,Laine de bois rigide,160,"0,045",,4,15,Parc Eco Habitat,http://www.urbia.fr/wp-content/uploads/2014/08/comparatif.isolation.pdf
+Isolants d'origine animale ou végétales,6,Laine de lin,25,"0,037",,"1,5",6,Parc Eco Habitat,http://www.urbia.fr/wp-content/uploads/2014/08/comparatif.isolation.pdf
+Isolants d'origine animale ou végétales,6,Laine de mouton,20,"0,037",,"1,5",5,Parc Eco Habitat,http://www.urbia.fr/wp-content/uploads/2014/08/comparatif.isolation.pdf
+Isolants d'origine animale ou végétales,6,Liège expansé,240,"0,043",,10,13,Parc Eco Habitat,http://www.urbia.fr/wp-content/uploads/2014/08/comparatif.isolation.pdf
+Isolants d'origine animale ou végétales,6,Liège expansé (vrac),65,"0,042",,2,9,Parc Eco Habitat,http://www.urbia.fr/wp-content/uploads/2014/08/comparatif.isolation.pdf
+Isolants d'origine animale ou végétales,6,Paille – Botte,80,"0,052",,1,8,Parc Eco Habitat,http://www.urbia.fr/wp-content/uploads/2014/08/comparatif.isolation.pdf
+Isolants d'origine animale ou végétales,6,Paille – Vrac,40,"0,7",,1,6,,
+Isolants d'origine animale ou végétales,6,Plume,30,"0,05",,2,5,Parc Eco Habitat,http://www.urbia.fr/wp-content/uploads/2014/08/comparatif.isolation.pdf
+Isolants d'origine animale ou végétales,6,Roseau,200,"0,06",,"2,5",8,Parc Eco Habitat,http://www.urbia.fr/wp-content/uploads/2014/08/comparatif.isolation.pdf
+Isolants issus du recyclage,7,Métisse,25,"0,039",,"2,5",5,Parc Eco Habitat,http://www.urbia.fr/wp-content/uploads/2014/08/comparatif.isolation.pdf
+Isolants issus du recyclage,7,Ouate de cellulose soufflée,30,"0,041",,"1,5",10,Parc Eco Habitat,http://www.urbia.fr/wp-content/uploads/2014/08/comparatif.isolation.pdf
+Isolants issus du recyclage,7,Ouate de cellulose panneaux,45,"0,039",,2,12,Parc Eco Habitat,http://www.urbia.fr/wp-content/uploads/2014/08/comparatif.isolation.pdf
+Isolants minéraux,8,Laine de roche,15,"0,044",,1,6,Parc Eco Habitat,http://www.urbia.fr/wp-content/uploads/2014/08/comparatif.isolation.pdf
+Isolants minéraux,8,Laine de verre,10,"0,042",,1,4,Parc Eco Habitat,http://www.urbia.fr/wp-content/uploads/2014/08/comparatif.isolation.pdf
+Isolants minéraux,8,Mousse minérale,115,"0,045",,3,7,Parc Eco Habitat,http://www.urbia.fr/wp-content/uploads/2014/08/comparatif.isolation.pdf
+Isolants minéraux,8,Perlite expansée,70,"0,045",,3,6,Parc Eco Habitat,http://www.urbia.fr/wp-content/uploads/2014/08/comparatif.isolation.pdf
+Isolants minéraux,8,Vermiculite expansée,100,"0,08",,"3,5",6,Parc Eco Habitat,http://www.urbia.fr/wp-content/uploads/2014/08/comparatif.isolation.pdf
+Isolants minéraux,8,Verre cellulaire,100,"0,06",,10000,7,Parc Eco Habitat,http://www.urbia.fr/wp-content/uploads/2014/08/comparatif.isolation.pdf
+Isolants synthétiques,9,PSE Polystyrène expansé,20,"0,038",,20,4,Parc Eco Habitat,http://www.urbia.fr/wp-content/uploads/2014/08/comparatif.isolation.pdf
+Isolants synthétiques,9,PSX Polystyrène extrudé,30,"0,035",,80,6,Parc Eco Habitat,http://www.urbia.fr/wp-content/uploads/2014/08/comparatif.isolation.pdf
+Isolants synthétiques,9,Polyuréthane,30,"0,03",,30,6,Parc Eco Habitat,http://www.urbia.fr/wp-content/uploads/2014/08/comparatif.isolation.pdf
+Menuiserie,10,Verre,2530,"1,2",,,,,
+Structure,12,Acacia (Robinier),770,,,,,,
+Structure,11,Béton,2200,"1,75",,,,,
+Structure,12,Châtaigner,620,"0,17",,,,,
+Structure,12,Chêne,750,"0,17",,,,,
+Structure,12,Douglas,540,"0,12",,,,,
+Structure,12,Epicéa,510,,,,,,
+Structure,12,Frêne,720,"0,04",,,,,
+Structure,12,Hêtre,680,,,,,,
+Structure,12,Mélèze,600,"0,13",,,,,
+Structure,12,Noyer,700,,,,,,
+Structure,12,"Pin (maritime, sylvestre)",600,"0,12",,,,,
+Structure,12,Red Cedar (Thuya),370,,,,,,
+Structure,12,Sapin,450,,,,,,

@@ -3,6 +3,6 @@ stats
 robots.txt
 /settings.js
 .vscode
-api/vendor/
-api/composer*
-api/contact.php
+api/materiaux/config.php
+api/materiaux/cache
+dev

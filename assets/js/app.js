@@ -2,34 +2,69 @@ $( document ).ready(function() {
     debug( "ready !" );
 
 
-    $( "#altitude" ).on( "change", function() {
-        var zone = $('#zone').val();
-        if (zone != '') {
-            temperatureBaseDetermine();
-        }
-    } );
-    $( "#mapnfarea area" ).on( "click", function() {
-        console.log("zone:"+$(this).data("zone"));
-        console.log("dept:"+$(this).data("dept"));
-        $('#zone').val($(this).data("zone"));
-        temperatureBaseDetermine();
-    } );
-    function temperatureBaseDetermine() {
-        var zone = $('#zone').val();
-        var altitude = $('#altitude').val();
-        var temperatureBase = null;
-        console.log("Zone : " + zone);
-        console.log("Altitude : " + altitude);
-        if (zone != '' && altitude >= 0 && altitude <= 2000) {
-            console.log("Détermination de la température de base possible");
-            $.each(settings.temperatureBaseData[zone], function (zoneIndex, ZoneValue) {
-            if (altitude >= ZoneValue['altitudeMin'] && altitude <= ZoneValue['altitudeMax']) {
-                temperatureBase = ZoneValue['temperature'];
-                console.log("Température déterminé : " + temperatureBase);
-            }
-            });
-            if (temperatureBase == null) {
-            alert("Aucune donnée n'existe pour cette zone avec cette altitude");
+// Envoi du formulaire
+function submitForm() {
+    debug('Soumission du formulaire');
+    //var error
+    // Vérification pour calcul
+    // Faire apparaître les résultats
+    $(".result").show();
+    // En mode transparent on affiche le calcul direct
+    if ($("#transparent").prop("checked")) {
+        $(".calcul_level"+$("#level").val()).show();
+    }
+    document.getElementById("result").scrollIntoView();
+    $("#submit_input").val(1);    
+    hashChange();
+    // Méthode G, niveau 1
+    if ($("#level").val() == 1) {
+        // Pour la méthode de calcul
+        debug('Level 1');
+        $(".res_temp_indor").html($("#temp_indor").val());
+        $(".res_temp_base").html($("#temp_base").val());
+        $(".res_volume").html($("#livingvolume").val());
+        $(".res_g").html($("#g").val());
+        var resDeperditionMax = precise_round(( $("#temp_indor").val() - $("#temp_base").val() ) * $("#livingvolume").val() * $("#g").val(), 2);
+        $(".res_level1").html(resDeperditionMax);
+    } else if ($("#level").val() == 2) {
+        // Pour la méthode de calcul
+        debug('Level 2');
+        $(".res_ubat").html($("#ubat_global").val());
+        $(".res_ws").html($("#wastagesurface").val());
+        $(".res_volume").html($("#livingvolume").val());
+        $(".res_venti").html($("#venti_global").val());
+        $(".res_temp_indor").html($("#temp_indor").val());
+        $(".res_temp_base").html($("#temp_base").val());
+        var resDeperditionMax = precise_round(($("#ubat_global").val() * $("#wastagesurface").val() + $("#livingvolume").val() * $("#venti_global").val()) * ($("#temp_indor").val() - $("#temp_base").val()), 2);
+        $(".res_level2").html(resDeperditionMax);
+    }
+    $("#resDeperditionMax").html(precise_round(resDeperditionMax/1000, 2));
+    $("#resDeperdition").val(resDeperditionMax);
+    debug("Besoin de chauffage : " + resDeperditionMax + "Wh");
+    suggestion();
+}
+
+// https://www.w3resource.com/javascript-exercises/javascript-math-exercise-14.php
+function precise_round(n, r) {
+    let int = Math.floor(n).toString()
+    if (typeof n !== 'number' || typeof r !== 'number') return 'Not a Number'
+    if (int[0] == '-' || int[0] == '+') int = int.slice(int[1], int.length)
+    return n.toPrecision(int.length + r)
+}
+// Changer l'URL (hash) en fonction de la classe "hashchange"
+function hashChange() {
+    var hashnew = '';
+    var hashchange_len = $('.hashchange').length;
+    var hashchange_nb = 0
+    $(".hashchange").each(function() {
+        //debug(this.id);
+        //this.type
+        //debug(this);
+        if (this.type == "checkbox") { 
+            if (this.checked == true) {
+                hashnew=hashnew+this.id+'='+this.checked;
+            } else {
+                hashnew=hashnew+this.id+'=';
             }
         } else {
             alert("La zone n'est pas déterminé ou l'altitude n'est pas comprise entre 0 et 2000m");

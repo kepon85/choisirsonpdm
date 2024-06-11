@@ -9,6 +9,10 @@
   opacity: 0.4;
 }
 
+.form-label {
+  margin-top: 3px;
+  margin-bottom: 1px;
+}
 
 .calcul_level1,
 .calcul_level2,

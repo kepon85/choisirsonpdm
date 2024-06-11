@@ -25,7 +25,7 @@ function suggestion() {
                 +'<tbody>'
                 +'</tbody>'
             +'</table>'
-            +'<div class="opendata-link"><a href="https://choisir.poeledemasse.org/'+window.location.hash+'">Refaire ce calcul avec d’autres poêles de masse open-source</a></div>'
+            +'<div class="opendata-link"><a href="https://choisir.poeledemasse.org/'+window.location.hash+'" target="_blank">Refaire ce calcul avec d’autres poêles de masse open-source</a></div>'
         +'</div>');
         var id=0;
         var pdmSuggestions = new Array();
@@ -118,7 +118,7 @@ function suggestion() {
         // Aucun
         } else {
             $("#suggestionContent").prepend('<div class="alert  alert-warning" role="alert">' 
-            + '<span>Aucun poêle de masse Uzume ne correspond à votre besoin. Nous vous conseillons de <a href="https://choisir.poeledemasse.org/'+window.location.hash+'">refaire ce calcul avec d’autres poêles de masse open-source</a></span>'
+            + '<span>Aucun poêle de masse Uzume ne correspond à votre besoin. Nous vous conseillons de <a href="https://choisir.poeledemasse.org/'+window.location.hash+'" target="_blank">refaire ce calcul avec d’autres poêles de masse open-source</a></span>'
             + '</div>');
         }
 

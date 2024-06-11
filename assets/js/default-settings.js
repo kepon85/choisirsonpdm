@@ -167,79 +167,31 @@ const defaultSettings = {
       "link": "https://agir.lowtech.fr/minimasse/",
       "comment": "",
     },
-/*
     {
-      // https://forum.poeledemasse.org/t/donnee-differents-modeles-4-6-8kw-qte-de-bois-nombre-de-flambee/2106/18
-      "name": "[Oxa-libre] 4kW sans BAF",
-      "dalyPower": [ 
-        { "fire": 1, "woodLoad": "10.2", "power": 1450, "use": "normal" },
-        { "fire": 2, "woodLoad": "10.2", "power": 2900, "use": "normal" },
-        { "fire": 3, "woodLoad": "10.2", "power": 4360, "use": "critical" },
+      "name": "[Oxa-libre] 2kW",
+      "dalyPower": [
+        { "fire": 1, "woodLoad": "6.4", "power": 1000, "use": "normal" },
+        { "fire": 2, "woodLoad": "6.4", "power": 2000, "use": "critical" },
       ],
       "weight": 2000,
-      "link": "https://www.oxalis-asso.org/?page_id=3202",
-      "comment": "Avec boîte à feu",
-    },
-*/
-    {
-      // https://forum.poeledemasse.org/t/donnee-differents-modeles-4-6-8kw-qte-de-bois-nombre-de-flambee/2106/18
-      "name": "[Oxa-libre] 4kW avec BAF",
-      "dalyPower": [ 
-        { "fire": 1, "woodLoad": "6.4", "power": 900, "use": "normal" },
-        { "fire": 2, "woodLoad": "6.4", "power": 1810, "use": "normal" },
-        { "fire": 3, "woodLoad": "6.4", "power": 2710, "use": "critical" },
-      ],
-      "weight": 2000,
-      "link": "https://www.oxalis-asso.org/?page_id=3202",
-      "comment": "Avec boîte à feu",
-    },
-/*
-    {
-      // https://forum.poeledemasse.org/t/donnee-differents-modeles-4-6-8kw-qte-de-bois-nombre-de-flambee/2106/18
-      "name": "[Oxa-libre] 6kW sans BAF",
-      "dalyPower": [ 
-        { "fire": 1, "woodLoad": "14.4", "power": 2000, "use": "normal" },
-        { "fire": 2, "woodLoad": "14.4", "power": 4000, "use": "normal" },
-        { "fire": 3, "woodLoad": "14.4", "power": 6100, "use": "critical" },
-      ],
-      "weight": 2300,
-      "link": "https://www.oxalis-asso.org/?page_id=3202",
-      "comment": "Sans boîte à feu",
-    },
-*/
-    {
-      // https://forum.poeledemasse.org/t/donnee-differents-modeles-4-6-8kw-qte-de-bois-nombre-de-flambee/2106/18
-      "name": "[Oxa-libre] 6kW avec BAF",
-      "dalyPower": [ 
-        { "fire": 1, "woodLoad": "8.35", "power": 1180, "use": "normal" },
-        { "fire": 2, "woodLoad": "8.35", "power": 2370, "use": "normal" },
-        { "fire": 3, "woodLoad": "8.35", "power": 3550, "use": "critical" },
-      ],
-      "weight": 2300,
-      "link": "https://www.oxalis-asso.org/?page_id=3202",
-      "comment": "Sans boîte à feu",
-    },
-/*
-    {
-      // https://forum.poeledemasse.org/t/donnee-differents-modeles-4-6-8kw-qte-de-bois-nombre-de-flambee/2106/18
-      "name": "[Oxa-libre] 8kW sans BAF",
-      "dalyPower": [ 
-        { "fire": 1, "woodLoad": "20", "power": 2850, "use": "normal" },
-        { "fire": 2, "woodLoad": "20", "power": 5700, "use": "normal" },
-        { "fire": 3, "woodLoad": "20", "power": 8500, "use": "critical" },
-      ],
-      "weight": 2650,
       "link": "https://www.oxalis-asso.org/?page_id=3202",
       "comment": "",
     },
-*/
     {
-      // https://forum.poeledemasse.org/t/donnee-differents-modeles-4-6-8kw-qte-de-bois-nombre-de-flambee/2106/18
-      "name": "[Oxa-libre] 8kW avec BAF",
-      "dalyPower": [ 
-        { "fire": 1, "woodLoad": "12.2", "power": 1720, "use": "normal" },
-        { "fire": 2, "woodLoad": "12.2", "power": 3440, "use": "normal" },
-        { "fire": 3, "woodLoad": "12.2", "power": 5200, "use": "critical" },
+      "name": "[Oxa-libre] 3kW",
+      "dalyPower": [
+        { "fire": 1, "woodLoad": "8.35", "power": 1500, "use": "normal" },
+        { "fire": 2, "woodLoad": "8.35", "power": 3000, "use": "critical" },
+      ],
+      "weight": 2300,
+      "link": "https://www.oxalis-asso.org/?page_id=3202",
+      "comment": "Sans boîte à feu",
+    },
+    {
+      "name": "[Oxa-libre] 4kW",
+      "dalyPower": [
+        { "fire": 1, "woodLoad": "12.2", "power": 2000, "use": "normal" },
+        { "fire": 2, "woodLoad": "12.2", "power": 4000, "use": "critical" },
       ],
       "weight": 2650,
       "link": "https://www.oxalis-asso.org/?page_id=3202",
@@ -250,7 +202,7 @@ const defaultSettings = {
       "name": "[Uzume] Mini Batchblock",
       "dalyPower": [ 
         { "fire": 1, "woodLoad": 12, "power": 1600, "use": "normal" },
-        { "fire": 2, "woodLoad": 12, "power": 3300, "use": "normal" },
+        { "fire": 2, "woodLoad": 12, "power": 3300, "use": "critical" },
         { "fire": 3, "woodLoad": 12, "power": 4900, "use": "critical" }
       ],
       "weight": 1200,
@@ -262,7 +214,7 @@ const defaultSettings = {
       "name": "[Uzume] Cuisinière Batchblock ",
       "dalyPower": [ 
         { "fire": 1, "woodLoad": 12, "power": 1600, "use": "normal" },
-        { "fire": 2, "woodLoad": 12, "power": 3300, "use": "normal" },
+        { "fire": 2, "woodLoad": 12, "power": 3300, "use": "critical" },
         { "fire": 3, "woodLoad": 12, "power": 4900, "use": "critical" }
       ],
       "weight": 1200,
@@ -274,23 +226,11 @@ const defaultSettings = {
       "name": "[Uzume] Medi Batchblock",
       "dalyPower": [ 
         { "fire": 1, "woodLoad": 18, "power": 2500, "use": "normal" },
-        { "fire": 2, "woodLoad": 18, "power": 5000, "use": "normal" },
+        { "fire": 2, "woodLoad": 18, "power": 5000, "use": "critical" },
         { "fire": 3, "woodLoad": 18, "power": 7500, "use": "critical" }
       ],
       "weight": 1550,
       "link": "https://www.uzume.fr/plans-poeles-de-masse/Medi-Batchblock",
-      "comment": "",
-    },
-    {
-      // https://www.uzume.fr/quelle-puissance-pour-mon-poele-de-masse
-      "name": "[Uzume] Maxi Batchblock avec banc",
-      "dalyPower": [ 
-        { "fire": 1, "woodLoad": 28, "power": 3900, "use": "normal" },
-        { "fire": 2, "woodLoad": 28, "power": 7700, "use": "normal" },
-        { "fire": 3, "woodLoad": 28, "power": 11600, "use": "critical" }
-      ],
-      "weight": 2000,
-      "link": "https://www.uzume.fr/plans-poeles-de-masse/Maxi-Batchblock",
       "comment": "",
     }
   ],

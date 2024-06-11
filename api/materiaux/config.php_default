@@ -1,0 +1,16 @@
+<?php
+
+$config['mysql']['hostname']='localhost';
+$config['mysql']['username']='choisirpdm';
+$config['mysql']['password']='****';
+$config['mysql']['db']='materiaux';
+
+$config['get']['langregex']='/^[a-z]{2}$/';
+$config['get']['srcregex']='/^(acermi|ParcEcoHabitat)$/';
+$config['get']['cathregex']='/^[\'\pL\pN\s_-]+$/';
+$config['get']['searchregex']='/^[\'\pL\pN\s_-]+$/';
+
+$config['cache']['directory']='cache';
+$config['cache']['expire']=10800;
+
+?>
