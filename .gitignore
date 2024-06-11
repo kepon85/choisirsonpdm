@@ -6,3 +6,6 @@ robots.txt
 api/materiaux/config.php
 api/materiaux/cache
 dev
+api/vendor/
+api/composer*
+api/contact.php

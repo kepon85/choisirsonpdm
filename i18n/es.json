@@ -58,7 +58,7 @@
 	"form-venti_global-0-08": "0,08 ventilaciones mecánica controlada de doble flujo",
 	"form-venti_global-0-2-no": "0,2 ventilaciones mecánica no controlada",
 	"form-location": "Su ubicación",
-	"form-location_manual-tab": "Manual",
+	"form-location_latlong": "",
 	"form-location_map-tab": "Mapa",
 	"form-location_map_nf-tab": "Map France",
 	"form-altitude-label": "",

@@ -59,7 +59,7 @@
 	"form-venti_global-0-08": "0.08 dual-flow controlled mechanical ventilation",
 	"form-venti_global-0-2-no": "0.2 no controlled mechanical ventilation",
 	"form-location": "Your location",
-	"form-location_manual-tab": "Manuel",
+	"form-location_latlong": "",
 	"form-location_map-tab": "Map",
 	"form-location_map_nf-tab": "Map France",
 	"form-altitude-label": "Building altitude",
