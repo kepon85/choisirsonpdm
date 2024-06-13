@@ -168,6 +168,10 @@ $( document ).ready(function() {
                 return res;
             }, {});
             debug('result' + result);
+            // Switch tab map (si nav-tab-record renseigné)
+            if ($('#nav-tab-record').val() != '') {
+                $('#'+$('#nav-tab-record').val()).tab('show');
+            }
         }
         $('.wall-type').trigger('change');
         $('.window-type').trigger('change');
@@ -211,7 +215,13 @@ $( document ).ready(function() {
         debug('Reset');
         location.href='/';
     });
-    
+
+    // Enregistrement du click sur une tab pour la carte
+    $("#nav-tab").on("click", function (e) {
+        $('#nav-tab-record').val($(".nav-link.active").attr('id'));
+        hashchangeAllAction();
+    });
+
     ////////////////////////////
     // Expert mode - formulaire
     ////////////////////////////
