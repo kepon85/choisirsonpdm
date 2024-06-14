@@ -324,6 +324,8 @@ $( document ).ready(function() {
                 // Load DATA
                 debug(localSetting.wall[$('#custom-wall').val()]);
                 $('#wall-custom-title').val(localSetting.wall[$('#custom-wall').val()].title);
+                // Reset du formulaire
+                $('.layers').remove();
                 $.each(localSetting.wall[$('#custom-wall').val()].layer, function(index, data) {
                     addLayer(index);
                     $('#layer-type-' + index).prepend('<option class="type-modify" id="layer-type-' + index + '-modify" value="'+data.lambda+'" selected="selected">'+data.material+'</option>');
@@ -331,6 +333,7 @@ $( document ).ready(function() {
                     $('#layer-lambda-' + index).val(data.lambda);
                     layerCheck(index);
                 });
+                
             } else {
                 appAlert('Sélectionner une paroi dans la liste')
                 return false;
