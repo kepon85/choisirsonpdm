@@ -40,9 +40,9 @@
   display: none;
 }
 
+#dialog-custom-wall, 
 #dialog-contact,
 #dialog-custom-material,
-#dialog-custom-wall,
 #dialog-rsirse {
   display:none;
 }
