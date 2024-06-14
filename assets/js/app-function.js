@@ -1093,3 +1093,59 @@ function sharingButton() {
         //debug('Add sharingButton for ' + network + ' = ' + href);
     });
 }
+
+/* 
+* Changement sur la température de base (mode auto/manuel)
+*/ 
+function tempBaseChangeMode() {
+    if ($("#temp_base_auto").prop("checked")) {
+        $("#temp_base").prop('disabled', true);
+        $(".temp_base_auto").show();
+        processChangelngLat();
+    } else {
+        $("#temp_base").prop('disabled', false);
+        $(".temp_base_auto").hide();
+    }
+}
+
+function livingVolumeChangeMode() {
+    if ($("#livingvolume_auto").prop("checked")) {
+        $("#livingvolume").prop('disabled', true);
+        $(".livingvolume_auto").show();
+        $(".livingvolume_manuel").show();
+        $("#livingspace").attr("required", "true");
+        $("#livingheight").attr("required", "true");
+    } else {
+        $("#livingvolume").prop('disabled', false);
+        $(".livingvolume_auto").hide();
+        $(".livingvolume_manuel").hide();
+        $("#livingspace").removeAttr("required");
+        $("#livingheight").removeAttr("required");
+    }
+}
+
+/*
+*   Carte NF des températures de bases
+*/
+function temperatureBaseNFDetermine() {
+    var zone = $('#zone').val();
+    var altitude = $('#altitude').val();
+    var temperatureBase = null;
+    console.log("Zone : " + zone);
+    console.log("Altitude : " + altitude);
+    if (zone != '' && altitude >= 0 && altitude <= 2000) {
+        console.log("Détermination de la température de base possible");
+        $.each(settings.temperatureBaseData[zone], function (zoneIndex, ZoneValue) {
+        if (altitude >= ZoneValue['altitudeMin'] && altitude <= ZoneValue['altitudeMax']) {
+            temperatureBase = ZoneValue['temperature'];
+            console.log("Température déterminé : " + temperatureBase);
+        }
+        });
+        if (temperatureBase == null) {
+        alert("Aucune donnée n'existe pour cette zone avec cette altitude");
+        }
+    } else {
+        alert("La zone n'est pas déterminé ou l'altitude n'est pas comprise entre 0 et 2000m");
+    }
+    $('#temp_base').val(temperatureBase);
+}

@@ -1,42 +1,6 @@
 $( document ).ready(function() {
     debug( "ready !" );
-
-    $( "#altitude" ).on( "change", function() {
-        var zone = $('#zone').val();
-        if (zone != '') {
-            temperatureBaseDetermine();
-        }
-    } );
-    $( "#mapnfarea area" ).on( "click", function() {
-        console.log("zone:"+$(this).data("zone"));
-        console.log("dept:"+$(this).data("dept"));
-        $('#zone').val($(this).data("zone"));
-        temperatureBaseDetermine();
-    } );
-    function temperatureBaseDetermine() {
-        var zone = $('#zone').val();
-        var altitude = $('#altitude').val();
-        var temperatureBase = null;
-        console.log("Zone : " + zone);
-        console.log("Altitude : " + altitude);
-        if (zone != '' && altitude >= 0 && altitude <= 2000) {
-            console.log("Détermination de la température de base possible");
-            $.each(settings.temperatureBaseData[zone], function (zoneIndex, ZoneValue) {
-            if (altitude >= ZoneValue['altitudeMin'] && altitude <= ZoneValue['altitudeMax']) {
-                temperatureBase = ZoneValue['temperature'];
-                console.log("Température déterminé : " + temperatureBase);
-            }
-            });
-            if (temperatureBase == null) {
-            alert("Aucune donnée n'existe pour cette zone avec cette altitude");
-            }
-        } else {
-            alert("La zone n'est pas déterminé ou l'altitude n'est pas comprise entre 0 et 2000m");
-        }
-        $('#temp_base').val(temperatureBase);
-    }
-
-
+    
     // Init global var
     apiMateriauxData=null;
 
@@ -82,29 +46,10 @@ $( document ).ready(function() {
         changeLevel($("#level").val());
     });
     $("#temp_base_auto").on( "change", function(e) {
-        if ($("#temp_base_auto").prop("checked")) {
-            $("#temp_base").prop('disabled', true);
-            $(".temp_base_auto").show();
-            processChangelngLat();
-        } else {
-            $("#temp_base").prop('disabled', false);
-            $(".temp_base_auto").hide();
-        }
+        tempBaseChangeMode();
     });
     $("#livingvolume_auto").on( "change", function(e) {
-        if ($("#livingvolume_auto").prop("checked")) {
-            $("#livingvolume").prop('disabled', true);
-            $(".livingvolume_auto").show();
-            $(".livingvolume_manuel").show();
-            $("#livingspace").attr("required", "true");
-            $("#livingheight").attr("required", "true");
-        } else {
-            $("#livingvolume").prop('disabled', false);
-            $(".livingvolume_auto").hide();
-            $(".livingvolume_manuel").hide();
-            $("#livingspace").removeAttr("required");
-            $("#livingheight").removeAttr("required");
-        }
+        livingVolumeChangeMode();
     });
     $(".livingvolumecalc").on( "change", function(e) {
         calcVolume();
@@ -178,10 +123,6 @@ $( document ).ready(function() {
                 return res;
             }, {});
             debug('result' + result);
-            // Switch tab map (si nav-tab-record renseigné)
-            if ($('#nav-tab-record').val() != '') {
-                $('#'+$('#nav-tab-record').val()).tab('show');
-            }
         }
         $('.wall-type').trigger('change');
         $('.window-type').trigger('change');
@@ -213,6 +154,14 @@ $( document ).ready(function() {
     
     // Switch level
     changeLevel($("#level").val());
+    // Gestion de l'affichage
+    // Switch tab map (si nav-tab-record renseigné)
+    if ($('#nav-tab-record').val() != '') {
+        $('#'+$('#nav-tab-record').val()).tab('show');
+    }
+    // Mode auto/manuel
+    tempBaseChangeMode();
+    livingVolumeChangeMode();
     
     // Si le formulaire change, on change le hash
     debug('Add listener hashchange');
@@ -576,6 +525,20 @@ $( document ).ready(function() {
         };
         document.body.appendChild(includeJavascript);
     });
+
+    // Map NF
+    $( "#altitude" ).on( "change", function() {
+        var zone = $('#zone').val();
+        if (zone != '') {
+            temperatureBaseNFDetermine();
+        }
+    } );
+    $( "#mapnfarea area" ).on( "click", function() {
+        console.log("zone:"+$(this).data("zone"));
+        console.log("dept:"+$(this).data("dept"));
+        $('#zone').val($(this).data("zone"));
+        temperatureBaseNFDetermine();
+    } );
 
     ////////////////////////
     // MAPBOX
