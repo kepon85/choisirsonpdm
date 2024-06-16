@@ -159,6 +159,8 @@ $( document ).ready(function() {
         }
         $('.wall-type').trigger('change');
         $('.window-type').trigger('change');
+        $('.form-select').trigger('change.select2');
+        $('#ubat_global').trigger('change.select2');
     }
     //-Sinon par le setting
     Object.entries(settings.form_default).forEach(entry => {
