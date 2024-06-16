@@ -107,6 +107,18 @@ $( document ).ready(function() {
                 var parts = item.split('=');
                 res[parts[0]] = parts[1];
                 debug('Param du hash ' + parts[0]);
+                // Si c'est un Ubat_global perssonalisé il y a un traitement spécifique
+                if (parts[0] == "ubat_global") {
+                    // Set the value, creating a new option if necessary
+                    if ($('#ubat_global').find("option[value='" + parts[1] + "']").length) {
+                        $('#ubat_global').val(parts[1]).trigger('change');
+                    } else { 
+                        // Create a DOM Option and pre-select by default
+                        var newOption = new Option(parts[1], parts[1], true, true);
+                        // Append it to the select
+                        $('#ubat_global').append(newOption).trigger('change');
+                    } 
+                }
                 //
                 // WALL/WIN  PRE  traitement
                 //

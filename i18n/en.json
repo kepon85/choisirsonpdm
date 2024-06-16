@@ -51,6 +51,7 @@
 	"form-ubat_global-0-95": "0.95: For houses built between 1990 and 2000",
 	"form-ubat_global-1-15": "1.15: For houses built between 1983 and 1989",
 	"form-ubat_global-1-8": "1.8: Uninsulated house (walls, attic) and single-glazed joinery",
+	"form-ubat_global-help": "",
 	"form-wastagesurface-label": "Total thermal loss area",
 	"form-wastagesurface-help": "This concerns all wall, roof, floor surfaces",
 	"form-venti_global-label": "Ventilation (thermal resistance)",
