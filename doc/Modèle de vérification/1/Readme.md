@@ -1,0 +1,55 @@
+# Modèle de vérification N°1
+
+Cas d'étude pour vérification du mode avancé de https://choisir.poeledemasse.org 
+
+Il s'agit d'une maison "cube" de 6m x 6m, avec une pente de toit de 30°, une baie plein Sud et une fenêtre à l'Ouest (détaillé ci-après).
+
+* Volume de l'habitat : 86,4m3
+* Localisation :  Rennes
+
+## Sol / planché
+
+* Type : Dalle en contact avec la terre
+* Surface : 36m2 (6m x 6m)
+* Isolation : isolé avec 30cm de Misapor (λ 0.08 soit R=4,4
+
+## Murs
+
+* Tous les murs sont isolés avec : 35cm de paille compressé (λ 0.052) soit R=6,7
+
+### Sud
+
+* Surface : 19,6m2
+* Fenêtre : 4,6m2 (2m x 2m30) en double vitrage Uw=1,7
+
+### Nord
+
+* Surface : 19,6m2
+* Fenêtre : Aucune
+
+### Est
+
+* Surface : 14,4m2
+* Fenêtre : Aucune
+
+### Ouest
+
+* Surface : 14,4m2
+* Fenêtre : 1m2 (1m x 1m) en double vitrage Uw=1,7
+
+## Toiture
+
+* Surface : 2x20,9m2 soit 41,8m2
+* Isolation : isolé avec 30cm de Ouate de cellulose soufflé  (λ 0.041) soit R=7,3
+
+## Vues
+
+* 3D Sketchup : [Modele_verif_1_3D.skb](Modele_verif_1_3D.skb)
+
+* 2D JPEG : 
+  * [Modele_verif_1_Est-Sud.png](Modele_verif_1_Est-Sud.png)
+  * [Modele_verif_1_Ouest-Nord.png](Modele_verif_1_Ouest-Nord.png)
+
+![](Modele_verif_1_Est-Sud.png)
+
+![](Modele_verif_1_Ouest-Nord.png)
