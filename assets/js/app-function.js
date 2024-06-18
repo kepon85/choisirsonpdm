@@ -1004,6 +1004,7 @@ function changeLevel(level) {
         $(".level3").show();
         $("input").removeAttr("required");
         $(".level3required").attr("required", "true");
+        $("#livingvolume_auto").click();
     }
     // required input change    
 }
