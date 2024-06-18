@@ -6,12 +6,14 @@ Il s'agit d'une maison "cube" de 6m x 6m, avec une pente de toit de 30°, une ba
 
 * Volume de l'habitat : 86,4m3
 * Localisation :  Rennes
+* Température de consigne souhaité : 19°C
+* Ventilation mécanique contrôlé double flux
 
 ## Sol / planché
 
 * Type : Dalle en contact avec la terre
 * Surface : 36m2 (6m x 6m)
-* Isolation : isolé avec 30cm de Misapor (λ 0.08 soit R=4,4
+* Isolation : isolé avec 30cm de Misapor (λ 0.08 soit R=3.8
 
 ## Murs
 
