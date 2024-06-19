@@ -14,6 +14,34 @@
   margin-bottom: 1px;
 }
 
+#bug-report-button {
+  border: 3px solid;
+  border-color: var(--bs-warning-border-subtle);
+  border-radius: 20%;
+  background-color: var(--bs-body-bg);
+  position: fixed;   
+  bottom: 0;
+  left: 0;
+  margin: 30px;
+  padding: 5px;
+  z-index: 100;
+  cursor: pointer;
+  font-size: small;
+}
+#bug-report-button svg {
+  width: 30px;
+  fill: var(--bs-warning-border-subtle);
+}
+#bug-report-disclamer  {
+  cursor: pointer;
+  font-size: small;
+}
+#bug-report-disclamer svg {
+  width: 15px;
+  fill: var(---bs-primary-text-emphasise);
+  vertical-align: -.125em;
+}
+
 #app-alert,
 .calcul_level1,
 .calcul_level2,

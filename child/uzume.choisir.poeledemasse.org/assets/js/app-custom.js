@@ -14,6 +14,8 @@ $('#nav-cartenf-tab').click();
 // traduction
 $(".locale-switcher").hide();
 
+$("#bug-report-button").hide();
+
 // carte, niveau de choix
 $(".card.levelchose").hide();
 

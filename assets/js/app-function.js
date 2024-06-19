@@ -261,9 +261,9 @@ function materialCathSelect() {
 function sendContact(from, subject, body) {
     $.ajaxSetup({async: false});
     $.get( settings.apiContact+'?from='+from+'&subject='+subject+'&body='+body, function(data) {
-        return data.return;
+        return true;
     })
-    .fail(function() {
+    .fail(function(data) {
         return false;
     });
 }
