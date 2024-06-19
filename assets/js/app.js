@@ -146,7 +146,7 @@ $( document ).ready(function() {
                     if ($("#"+parts[0])[0] !== undefined && $("#"+parts[0])[0].type == "checkbox") {
                         $("#"+parts[0]).prop("checked", parts[1]);
                     } else {
-                        $("#"+parts[0]).val(parts[1]);
+                        $("#"+parts[0]).val(decodeURI(parts[1]));
                     }
                 }
                 //

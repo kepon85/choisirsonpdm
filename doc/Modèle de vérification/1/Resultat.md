@@ -66,3 +66,21 @@ URL des résultats : https://choisir.poeledemasse.org/#level=3&transparent=&livi
 - Surface opaque : 14m2
 - Déperdition des surfaces opaques : 44W
 - Déperdition total : 44W
+
+## ubakus.de
+
+https://www.ubakus.de/fr/berechnung/waermebedarf/
+
+Comparatif : 
+
+* Avec Ubakus : 0.93 kW
+* Avec choisirsonpdm : 0.783 kW
+
+Aménagement pour ce test :
+
+* -12 température de Rennes (pas de possibilité de modifier sur ubakus)
+* Pas de VMC (pas trouvé comment faire double flux)
+
+Donc l'équivalent c'est plus : https://choisir.poeledemasse.org/#level=3&transparent=&livingspace=0.1&livingheight=0.1&livingvolume=86&livingvolume_auto=&wastagesurface=3&temp_indor=19&g=0.3&ubat_global=0.4&venti_global=0.2&nav-tab-record=&altitude=100&zone=a&lat=48.110949&lng=-1.66182&temp_base=-12&temp_base_auto=&temp_base_years_archive=10&building-title=Mod%C3%A8le%20de%20v%C3%A9rification%201&wall-id=9&wall-name-1=Sol&wall-type-1=3.80&wall-rsi-1=0.13&wall-rse-1=0&wall-width-1=6&wall-height-1=6&wall-r-1=3.80&wall-name-5=Sud&wall-type-5=6.70&wall-rsi-5=0.13&wall-rse-5=0.04&wall-width-5=6&wall-height-5=2.4&wall-r-5=6.70&wall-name-5-window-1=Baie%20vitr%C3%A9&wall-type-5-window-1=1.7&wall-width-5-window-1=200&wall-height-5-window-1=230&wall-name-6=Mur%20Ouest&wall-type-6=6.70&wall-rsi-6=0.13&wall-rse-6=0.04&wall-width-6=6&wall-height-6=2.4&wall-r-6=6.70&wall-name-7=Est&wall-type-7=6.70&wall-rsi-7=0.13&wall-rse-7=0.04&wall-width-7=6&wall-height-7=2.4&wall-r-7=6.70&wall-name-7-window-1=Petite%20fen%C3%AAtre&wall-type-7-window-1=1.7&wall-width-7-window-1=1&wall-height-7-window-1=1&wall-name-8=Nord&wall-type-8=6.70&wall-rsi-8=0.13&wall-rse-8=0.04&wall-width-8=6&wall-height-8=2.4&wall-r-8=6.70&wall-custom-title=Mod%C3%A8le%20de%20v%C3%A9rification%201%20-%20toit&submit_input=0
+
+![](Resultat.assets/ubakus-1bis.png)

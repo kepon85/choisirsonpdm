@@ -986,25 +986,31 @@ const processChangelngLat = debounce(() => getBaseTemperature(), settings.apiDeb
  * Résumé : Changement de niveau 
  */
 function changeLevel(level) {
+    debug('Change level');
     if (level == 1) {
         $(".level3").hide();
         $(".level2").hide();
         $(".level1").show();
         $("input").removeAttr("required");
         $(".level1required").attr("required", "true");
+        $("#livingvolume_auto").prop('checked', true);
+        livingVolumeChangeMode();
     } else if (level == 2) {
         $(".level3").hide();
         $(".level1").hide();
         $(".level2").show();
         $("input").removeAttr("required");
         $(".level2required").attr("required", "true");
+        $("#livingvolume_auto").prop('checked', true);
+        livingVolumeChangeMode();
     } else if (level == 3) {
         $(".level1").hide();
         $(".level2").hide();
         $(".level3").show();
         $("input").removeAttr("required");
         $(".level3required").attr("required", "true");
-        $("#livingvolume_auto").click();
+        $("#livingvolume_auto").prop('checked', false);
+        livingVolumeChangeMode();
     }
     // required input change    
 }
