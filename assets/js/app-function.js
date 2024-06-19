@@ -954,6 +954,7 @@ function submitForm() {
     $("#resDeperdition").val(resDeperditionMax);
     debug("Besoin de chauffage : " + resDeperditionMax + "Wh");
     suggestion();
+    help();
     // Tooltip reset
     $('[data-toggle="tooltip"]').tooltip();
 }
@@ -1190,4 +1191,16 @@ function contactShow() {
             $('.ui-dialog-buttonpane').find('button:contains("Envoyer")').addClass('btn btn-primary');
         }
     });
+}
+
+// Help card
+function help() {
+    debug("Help ?");
+    var userLang = navigator.language || navigator.userLanguage;
+    debug('Help : detect locale user : '+userLang.split('-')[0]);
+    if(userLang.split('-')[0] == 'fr' || localStorage.getItem('i18n') == 'fr') {
+        debug("Help show");
+        $('#help').show();
+        // Modification
+    }
 }

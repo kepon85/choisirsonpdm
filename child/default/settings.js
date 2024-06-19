@@ -1,6 +1,7 @@
 const userSettings = {
   "debug": true,
   "debugLoadMap": true,
+/*
   "form_default": {
     "level":     3,
     "temp_base_years_archive":     10,
@@ -19,6 +20,7 @@ const userSettings = {
 
 
   },
+*/
 //  "includeJavascript" : {
 //    "piwik2" : "include/piwik2.js",
 //    "log-table" : "https://omailgw.retzo.net/js/log-table.js",

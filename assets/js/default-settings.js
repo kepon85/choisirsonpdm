@@ -234,7 +234,13 @@ const defaultSettings = {
       "comment": "",
     }
   ],
-
+  // https://meta.discourse.org/t/create-a-link-to-start-a-new-topic-with-pre-filled-information/28074
+  "help": {
+    'url': "https://forum.poeledemasse.org/new-topic",
+    'title': "topic title",
+    'category' : "general/dimensionnement",
+    'body': 'Bonjour, \n Je vous partage ici le résultat de mon [dimensionnement a cette adresse](___URL___ )'
+  },
   "includeJavascript" : {},
 }
 

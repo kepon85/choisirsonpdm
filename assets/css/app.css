@@ -32,6 +32,15 @@
   width: 30px;
   fill: var(--bs-warning-border-subtle);
 }
+
+#help-new-topic {
+  vertical-align: middle
+}
+#help-new-topic  svg {
+  width: 15px;
+  fill: var(--bs-primary-text-emphasis);
+}
+
 #bug-report-disclamer  {
   cursor: pointer;
   font-size: small;
@@ -98,6 +107,7 @@
 }
 #opendata,
 #result,
+#help,
 #suggestion {
     display: none;
 }
