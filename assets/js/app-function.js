@@ -259,7 +259,13 @@ function materialCathSelect() {
  * @param {string}           body Description : Email body
  */
 function sendContact(from, subject, body) {
-    $.get( settings.apiContact+'?from='+from+'&subject='+subject+'&body='+body);
+    $.ajaxSetup({async: false});
+    $.get( settings.apiContact+'?from='+from+'&subject='+subject+'&body='+body, function(data) {
+        return data.return;
+    })
+    .fail(function() {
+        return false;
+    });
 }
 
 /**
@@ -1155,4 +1161,33 @@ function temperatureBaseNFDetermine() {
         alert("La zone n'est pas déterminé ou l'altitude n'est pas comprise entre 0 et 2000m");
     }
     $('#temp_base').val(temperatureBase);
+}
+
+// Formulaire de contact
+function contactShow() {
+    dialog = $( "#dialog-contact" ).dialog({
+        overlay: { opacity: 0.1, background: "black" },
+        width: 600,
+        height: 450,
+        modal: true,
+        buttons: {
+            Cancel: function() {
+                dialog.dialog( "close" );
+            },
+            "Envoyer": function() {
+                var returnSendContact = sendContact($('#contact-from').val(), $('#contact-subject').val(), $('#contact-body').val());
+                debug("Retour contact : "+returnSendContact)
+                if (returnSendContact == true) {
+                    dialog.dialog( "close" );
+                    appAlert('Message envoyé !', "success");
+                } else {
+                    appAlert("Error");
+                }
+            }
+        },
+        open: function() {
+            $('.ui-dialog-buttonpane').find('button:contains("Cancel")').addClass('btn btn-secondary');
+            $('.ui-dialog-buttonpane').find('button:contains("Envoyer")').addClass('btn btn-primary');
+        }
+    });
 }
