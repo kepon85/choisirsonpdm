@@ -1193,14 +1193,24 @@ function contactShow() {
     });
 }
 
-// Help card
+// Help card juste pour les français... le forum est francophone...
 function help() {
     debug("Help ?");
     var userLang = navigator.language || navigator.userLanguage;
     debug('Help : detect locale user : '+userLang.split('-')[0]);
     if(userLang.split('-')[0] == 'fr' || localStorage.getItem('i18n') == 'fr') {
         debug("Help show");
+        // Préparatin du lien
+        var body_avec_url = encodeURI(settings.help.body);
+        var body_avec_url = settings.help.body.replace("___URL___", window.location);
+        var body_avec_url = body_avec_url.replace(/=/g, "%3D");
+        var body_avec_url = body_avec_url.replace(/#/g, "%23");
+        var body_avec_url = body_avec_url.replace(/&/g, "%26");
+        var helpUrl = encodeURI(settings.help.url) + '?category=' + settings.help.category + '&title=' + settings.help.title + '&body=' + body_avec_url;
+        debug(helpUrl);
+        // Ajout 
+        $('#help-new-topic').attr("href", helpUrl);
         $('#help').show();
-        // Modification
     }
+    
 }
