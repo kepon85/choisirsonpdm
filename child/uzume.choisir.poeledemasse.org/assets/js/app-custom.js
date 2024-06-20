@@ -15,6 +15,7 @@ $('#nav-cartenf-tab').click();
 $(".locale-switcher").hide();
 
 $("#bug-report-button").hide();
+$("#bug-report-disclamer").hide();
 
 // carte, niveau de choix
 $(".card.levelchose").hide();
@@ -44,5 +45,5 @@ if (inIframe()) {
     // Full page https://getbootstrap.com/docs/5.0/layout/containers/
     $('#body-container').removeClass('container');
     $('#body-container').addClass(' container-fluid');
-
+    $('#help').hide();
 }

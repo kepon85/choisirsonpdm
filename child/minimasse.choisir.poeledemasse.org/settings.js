@@ -1,6 +1,12 @@
 const userSettings = {
   "debug": true,
   "debugLoadMap": true,
+  "help": {
+    'url': "https://forum.poeledemasse.org/new-topic",
+    'title': "Partage de mon dimensionnement",
+    'category' : "agir-lowtech",
+    'body': 'Bonjour, \n Je vous partage ici le résultat de mon [dimensionnement a cette adresse](___URL___ )'
+  },
   "form_default": {
     "level":     2,
     "ubat_global":                 0.4,

@@ -6,6 +6,12 @@ const userSettings = {
     "temp_indor":                 20, 
     "livingvolume_auto": false,
   },
+  "help": {
+    'url': "https://forum.poeledemasse.org/new-topic",
+    'title': "Partage de mon dimensionnement",
+    'category' : "oxa-libre/etude",
+    'body': 'Bonjour, \n Je vous partage ici le résultat de mon [dimensionnement a cette adresse](___URL___ )'
+  },
   "pdmData": [
     {
       "name": "[Oxa-libre] 2kW",

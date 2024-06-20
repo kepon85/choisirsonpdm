@@ -8,6 +8,12 @@ const userSettings = {
     "temp_indor":                 19, 
     "temp_base_auto":             true,
   },
+  "help": {
+    'url': "https://forum.poeledemasse.org/new-topic",
+    'title': "Partage de mon dimensionnement",
+    'category' : "uzume",
+    'body': 'Bonjour, \n Je vous partage ici le résultat de mon [dimensionnement a cette adresse](___URL___ )'
+  },
   "pdmData": [
     {
       // https://www.uzume.fr/quelle-puissance-pour-mon-poele-de-masse
