@@ -79,8 +79,7 @@ function wallCheck(wallId) {
         $('#wall-type-' + wallId).val() == ''
         || $('#wall-rsi-' + wallId).val() == ''
         || $('#wall-rse-' + wallId).val() == ''
-        || $('#wall-height-' + wallId).val() == 0 ||  $('#wall-height-' + wallId).val() == ''
-        || $('#wall-width-' + wallId).val() == 0 || $('#wall-width-' + wallId).val() == ''
+        || $('#wall-surface-' + wallId).val() == 0 ||  $('#wall-surface-' + wallId).val() == ''
         || $('#wall-r-' + wallId).val() == 0 || $('#wall-r-' + wallId).val() == ''
         ) {
         $('.wall-check-' + wallId).addClass('bg-warning-subtle');
@@ -100,8 +99,7 @@ function wallCheck(wallId) {
 function winCheck(wallId, winId) {
     if (
         $('#wall-type-' + wallId + '-window-'+ winId).val() == ''
-        || $('#wall-height-' + wallId + '-window-'+ winId).val() == 0 ||  $('#wall-height-' + wallId + '-window-'+ winId).val() == ''
-        || $('#wall-width-' + wallId + '-window-'+ winId).val() == 0 || $('#wall-height-' + wallId + '-window-'+ winId).val() == ''
+        || $('#wall-surface-' + wallId + '-window-'+ winId).val() == 0 ||  $('#wall-surface-' + wallId + '-window-'+ winId).val() == ''
         ) {
         debug("window Ko");
         $('.window-check-' + wallId + '-' +winId).removeClass('bg-success-subtle');
@@ -565,8 +563,7 @@ function detailBuildingAddWall(id = null) {
                     + '<svg  id="wall-rse-' + wallId + '-chose" class="wall-rse-chose" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M160 64c0-8.8 7.2-16 16-16s16 7.2 16 16V200c0 10.3 6.6 19.5 16.4 22.8s20.6-.1 26.8-8.3c3-3.9 7.6-6.4 12.8-6.4c8.8 0 16 7.2 16 16c0 10.3 6.6 19.5 16.4 22.8s20.6-.1 26.8-8.3c3-3.9 7.6-6.4 12.8-6.4c7.8 0 14.3 5.6 15.7 13c1.6 8.2 7.3 15.1 15.1 18s16.7 1.6 23.3-3.6c2.7-2.1 6.1-3.4 9.9-3.4c8.8 0 16 7.2 16 16l0 16V392c0 39.8-32.2 72-72 72H272 212.3h-.9c-37.4 0-72.4-18.7-93.2-49.9L50.7 312.9c-4.9-7.4-2.9-17.3 4.4-22.2s17.3-2.9 22.2 4.4L116 353.2c5.9 8.8 16.8 12.7 26.9 9.7s17-12.4 17-23V320 64zM176 0c-35.3 0-64 28.7-64 64V261.7C91.2 238 55.5 232.8 28.5 250.7C-.9 270.4-8.9 310.1 10.8 339.5L78.3 440.8c29.7 44.5 79.6 71.2 133.1 71.2h.9H272h56c66.3 0 120-53.7 120-120V288l0-16c0-35.3-28.7-64-64-64c-4.5 0-8.8 .5-13 1.3c-11.7-15.4-30.2-25.3-51-25.3c-6.9 0-13.5 1.1-19.7 3.1C288.7 170.7 269.6 160 248 160c-2.7 0-5.4 .2-8 .5V64c0-35.3-28.7-64-64-64zm48 304c0-8.8-7.2-16-16-16s-16 7.2-16 16v96c0 8.8 7.2 16 16 16s16-7.2 16-16V304zm48-16c-8.8 0-16 7.2-16 16v96c0 8.8 7.2 16 16 16s16-7.2 16-16V304c0-8.8-7.2-16-16-16zm80 16c0-8.8-7.2-16-16-16s-16 7.2-16 16v96c0 8.8 7.2 16 16 16s16-7.2 16-16V304z"/></svg>'
                 +'</span>'
             + '</td>'
-            + '<td class="text-center"><input type="number" class="form-control hashchange text-center" min="0" step="0.1" name="wall-width[]" id="wall-width-' + wallId + '" value="0" /></td>'
-            + '<td class="text-center"><input type="number" class="form-control hashchange text-center" min="0" step="0.1" name="wall-height[]" id="wall-height-' + wallId + '" value="0" /></td>'
+            + '<td class="text-center"><input type="number" class="form-control hashchange text-center" min="0" step="0.1" name="wall-surface[]" id="wall-surface-' + wallId + '" value="0" /></td>'
             + '<td class="text-center"><input type="number" class="form-control hashchange text-center"  min="0" step="0.1"  name="wall-r[]" id="wall-r-' + wallId + '" value="0" disabled="disabled" /></td>'
             + '<td class="text-center">'
                 + '<button type="button" class="btn btn-danger delete-button window" onclick="detailBuildingDeleteWall('+wallId+');">'
@@ -583,8 +580,7 @@ function detailBuildingAddWall(id = null) {
                         + '<th> </th>'
                         + '<th colspan="2" data-i18n="[html]thead-window">Vitre</th>'
                         + '<th data-i18n="[html]thead-window-type">Type</th>'
-                        + '<th class="text-center" data-i18n="[html]thead-window-width">Largeur de la vitre (cm)</th>'
-                        + '<th class="text-center" data-i18n="[html]thead-window-height">Hauteur de la vitre (cm)</th>'
+                        + '<th class="text-center" data-i18n="[html]thead-window-surface">Surface (cm2)</th>'
                         + '<th class="text-center"><svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M170.5 51.6L151.5 80h145l-19-28.4c-1.5-2.2-4-3.6-6.7-3.6H177.1c-2.7 0-5.2 1.3-6.7 3.6zm147-26.6L354.2 80H368h48 8c13.3 0 24 10.7 24 24s-10.7 24-24 24h-8V432c0 44.2-35.8 80-80 80H112c-44.2 0-80-35.8-80-80V128H24c-13.3 0-24-10.7-24-24S10.7 80 24 80h8H80 93.8l36.7-55.1C140.9 9.4 158.4 0 177.1 0h93.7c18.7 0 36.2 9.4 46.6 24.9zM80 128V432c0 17.7 14.3 32 32 32H336c17.7 0 32-14.3 32-32V128H80zm80 64V400c0 8.8-7.2 16-16 16s-16-7.2-16-16V192c0-8.8 7.2-16 16-16s16 7.2 16 16zm80 0V400c0 8.8-7.2 16-16 16s-16-7.2-16-16V192c0-8.8 7.2-16 16-16s16 7.2 16 16zm80 0V400c0 8.8-7.2 16-16 16s-16-7.2-16-16V192c0-8.8 7.2-16 16-16s16 7.2 16 16z"/></svg></th>'
                     + '</tr>'
                 + '</thead>'
@@ -665,8 +661,7 @@ function detailBuildingAddWindows2Wall(wallId, id = null) {
                     + '<option value="0.65">Triple vitrage, Uw=0.65</option>'
                 + '</select>'
             + '</td>'
-            + '<td class="text-center"><input type="number" class="form-control hashchange text-center" min="0" step="0.1" name="window-width[]" id="wall-width-' + wallId + '-window-'+ winId +'" value="0" /></td>'
-            + '<td class="text-center"><input type="number" class="form-control hashchange text-center" min="0" step="0.1" name="window-height[]" id="wall-height-' + wallId + '-window-'+ winId +'" value="0" /></td>'
+            + '<td class="text-center"><input type="number" class="form-control hashchange text-center" min="0" step="0.1" name="window-surface[]" id="wall-surface-' + wallId + '-window-'+ winId +'" value="0" /></td>'
             + '<td class="text-center">'
                 + '<button type="button" class="btn btn-danger delete-button window" onclick="detailBuildingDeleteWindows2Wall('+wallId+', '+winId+');">'
                     + '<svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M170.5 51.6L151.5 80h145l-19-28.4c-1.5-2.2-4-3.6-6.7-3.6H177.1c-2.7 0-5.2 1.3-6.7 3.6zm147-26.6L354.2 80H368h48 8c13.3 0 24 10.7 24 24s-10.7 24-24 24h-8V432c0 44.2-35.8 80-80 80H112c-44.2 0-80-35.8-80-80V128H24c-13.3 0-24-10.7-24-24S10.7 80 24 80h8H80 93.8l36.7-55.1C140.9 9.4 158.4 0 177.1 0h93.7c18.7 0 36.2 9.4 46.6 24.9zM80 128V432c0 17.7 14.3 32 32 32H336c17.7 0 32-14.3 32-32V128H80zm80 64V400c0 8.8-7.2 16-16 16s-16-7.2-16-16V192c0-8.8 7.2-16 16-16s16 7.2 16 16zm80 0V400c0 8.8-7.2 16-16 16s-16-7.2-16-16V192c0-8.8 7.2-16 16-16s16 7.2 16 16zm80 0V400c0 8.8-7.2 16-16 16s-16-7.2-16-16V192c0-8.8 7.2-16 16-16s16 7.2 16 16z"/></svg>'
@@ -872,7 +867,7 @@ function submitForm() {
                                 + '<ul id="wall-'+wallId+'-detail"></ul>'
                             + '</li>'
                             + '<li><span data-i18n="[html]thead-wall-rsi">Rsi</span>/<span data-i18n="[html]thead-wall-rse">Rse</span> : '+$('#wall-rsi-'+wallId).val()+' /  '+$('#wall-rse-'+wallId).val()+'</li>'
-                            + '<li><span data-i18n="[html]wall-width-height">Largeur, Hauteur de la paroi</span> : '+$('#wall-width-'+wallId).val()+', '+$('#wall-height-'+wallId).val()+'m</li>'
+                            + '<li><span data-i18n="[html]wall-surface">Surface paroi</span> : '+$('#wall-surface-'+wallId).val()+'m2</li>'
                             + '<li><span data-toggle="tooltip" title="R + Rsi + Rse"><span data-i18n="[html]wall-rt">R total</span> : '+rt+'</span>°C.m²/W</li>'
                             + '<li id="wall-'+wallId+'-windows-parent"><span data-i18n="[html]windows">Fenêtre(s)</span> <span data-toggle="tooltip" title="Différence entre la température intérieure et extérieure (dite de base) (°C) * Perte total des fenêtres (W/°C)"><span data-i18n="[html]window-loss">Déperdition</span>=<span id="wall-'+wallId+'-window-loss-value"></span>W</span> : <ul id="wall-'+wallId+'-windows"></ul></li>'
                             + '<li><span data-toggle="tooltip" title="Surface de la paroi - la surface vitrée"><span data-i18n="[html]opaque-surface">Surface opaque</span> : <span id="wall-'+wallId+'-window-opaque-surface-value"></span>m<sup>2</sup></span></li>'
@@ -900,7 +895,7 @@ function submitForm() {
                             debug('Window check : ' + $('#wall-check-' + wallId+'-'+winId).val());
                             // Vérifier si le check est  fait/bon
                             if ($('#wall-check-' + wallId+'-'+winId).val() == 1)  {
-                                surface=precise_round((parseFloat($('#wall-width-' + wallId + '-window-'+ winId).val())*parseFloat($('#wall-height-' + wallId + '-window-'+ winId).val()))/100/100, 2);
+                                surface=(parseFloat($('#wall-surface-' + wallId + '-window-'+ winId).val()));
                                 windowsSurfaceTotal=parseFloat(windowsSurfaceTotal)+parseFloat(surface);
                                 perte=precise_round($('#wall-type-' + wallId + '-window-'+ winId).val()*surface, 2);
                                 windowsPerteTotalPerDegre=parseFloat(windowsPerteTotalPerDegre)+parseFloat(perte);
@@ -916,8 +911,8 @@ function submitForm() {
                     debug('Windows perte (W) total : '+windowsPerteTotal);
                     $('#wall-'+wallId+'-window-loss-value').html(precise_round(windowsPerteTotal, 0));
                     // Surface opaque
-                    surfaceOpaque=(parseFloat($('#wall-width-'+wallId).val())*parseFloat($('#wall-height-'+wallId).val()))-parseFloat(windowsSurfaceTotal);
-                    $('#wall-'+wallId+'-window-opaque-surface-value').html(precise_round(surfaceOpaque, 0));
+                    surfaceOpaque=parseFloat($('#wall-surface-'+wallId).val())-parseFloat(windowsSurfaceTotal);
+                    $('#wall-'+wallId+'-window-opaque-surface-value').html(precise_round(surfaceOpaque, 2));
                     debug("Surface opaque : "+surfaceOpaque);
                     debug('Surface vitré total : '+windowsSurfaceTotal);
                     //Perte surface opaque
