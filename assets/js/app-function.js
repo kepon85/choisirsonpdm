@@ -899,7 +899,7 @@ function submitForm() {
                                 windowsSurfaceTotal=parseFloat(windowsSurfaceTotal)+parseFloat(surface);
                                 perte=precise_round($('#wall-type-' + wallId + '-window-'+ winId).val()*surface, 2);
                                 windowsPerteTotalPerDegre=parseFloat(windowsPerteTotalPerDegre)+parseFloat(perte);
-                                windows = windows + '<li>'+$('#wall-name-' + wallId + '-window-'+ winId).val()+' '+$('#wall-name-' + wallId + '-window-'+ winId+' option:selected').text()+' Uw='+$('#wall-type-' + wallId + '-window-'+ winId).val()+', '+surface+'m<sup>2</sup>, <span data-toggle="tooltip" title="Surface * Uw">Perte='+perte+'W/°C</span></li>'; 
+                                windows = windows + '<li>'+$('#wall-name-' + wallId + '-window-'+ winId).val()+' '+$('#wall-name-' + wallId + '-window-'+ winId+' option:selected').text()+' Uw='+$('#wall-type-' + wallId + '-window-'+ winId).val()+', Surface='+surface+'m<sup>2</sup>, <span data-toggle="tooltip" title="Surface * Uw">Perte='+perte+'W/°C</span></li>'; 
                                 debug('Window id ' + winId);
                             }
                         }
