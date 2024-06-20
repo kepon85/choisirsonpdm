@@ -67,6 +67,17 @@ URL des résultats : https://choisir.poeledemasse.org/#level=3&transparent=&livi
 - Déperdition des surfaces opaques : 44W
 - Déperdition total : 44W
 
+## Feuille resultat-damien-DEPERDITION.ods
+
+Comparatif : 
+
+* Avec [feuille](resultat-damien-DEPERDITION.ods) : 0.743 kW
+* Avec choisirsonpdm : 0.529 kW
+
+Aménagement pour ce test :
+
+* J'ai corrigé dans la feuille la température extérieur pour -2.13 pour coller avec mon test
+
 ## ubakus.de
 
 https://www.ubakus.de/fr/berechnung/waermebedarf/

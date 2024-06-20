@@ -6,6 +6,7 @@ Il s'agit d'une maison "cube" de 6m x 6m, avec une pente de toit de 30°, une ba
 
 * Volume de l'habitat : 86,4m3
 * Localisation :  Rennes
+* Température extérieur de base : -2.13
 * Température de consigne souhaité : 19°C
 * Ventilation mécanique contrôlé double flux
 
