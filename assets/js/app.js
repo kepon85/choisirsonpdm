@@ -504,33 +504,31 @@ $( document ).ready(function() {
     // Si on "submit" le formulaire
     $("#submit_button").on( "click", function(e) {
         debug("Click submit");
-        //debug($("#form-choisirsonpdm").validationMessage);
-    /*form = $("#form-choisirsonpdm");
-    debug($("#form-choisirsonpdm"));
-    field = Array.from( $("#form-choisirsonpdm").elements);
-    field.forEach(i => { 
-            debug(i);
-            if (i.checkValidity()) {      // field is valid - remove class
-            i.parentElement.classList.remove('invalid');    
-        }   else {      // field is invalid - add class
-            i.parentElement.classList.add('invalid');    
-        }  });  */
-        /*if (!form.checkValidity()) {    // form is invalid - cancel submit
-          e.preventDefault();
-          e.stopImmediatePropagation();  
-        }*/
-    
-        
         if ($('#temp_base').val() == '') {
-            appAlert("Basal temperature not preset. Choose your location on the map.", "warning");
+            appAlert("Basal temperature not preset. Choose your location on the map.", "danger");
             return false;
         } else if($("form")[0].checkValidity()) {
             submitForm();
-            // Fix bug submit 2 fois...
             return false;
         } else {
-            submitForm();
-            debug("HTML5 : invalid form");
+            error=0;
+            // Pour afficher les erreurs HTML5 dans le appAlert (plus jolie)
+            $('.level'+$("#level").val()+'required').each(function(){
+                if (! this.checkValidity()) {
+                    appAlert($('label[for="'+this.id+'"]')[0].innerText + ' : ' + this.validationMessage, 'danger');
+                    error++;
+                } 
+            })
+            // Et si elle n'ont pas été trouvé dans ce qui est requis (exemple lettre dans longitude qui est masqué)
+            if (error == 0) {
+                $('.form-control').each(function(){
+                    if (! this.checkValidity()) {
+                        appAlert($('label[for="'+this.id+'"]')[0].innerText + ' : ' + this.validationMessage, 'danger');
+                        error++;
+                    } 
+                })
+            }
+            debug("HTML5 : invalid form. Error : " + error);
         }
     });
 

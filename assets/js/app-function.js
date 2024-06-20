@@ -11,7 +11,7 @@ function debug(msg) {
 /**
  * Résumé : Affiche une alert
  * @param {string}           msg Description : Message à afficher 
- * @param {string}           type Description: class à appliquer (alert-) warning par défaut
+ * @param {string}           type Description: class à appliquer (alert-) warning par défaut (sinon : danger, success)
  */
 function appAlert(msg, type = 'warning', time = 3) {
     debug('appAlert('+msg+', '+type+')');
