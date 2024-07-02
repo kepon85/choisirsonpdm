@@ -122,7 +122,7 @@ if (!is_file($cache_file) || filemtime($cache_file)+$config['cache']['expire'] <
         $req->execute($param);
         $materiaux = $req->fetchAll();
         foreach ($materiaux as $materiau) {
-            $dataChild = new stdClass();
+            $dataChild = (object)[];
             $dataChild->{'id'}=$materiau['id'];
             if ($materiau['trad_libelle'] != null)  {
                 $dataChild->{'libelle'}=$materiau['trad_libelle'];
@@ -136,6 +136,7 @@ if (!is_file($cache_file) || filemtime($cache_file)+$config['cache']['expire'] <
             } else {
                 $dataChild->{'cath'}=$materiau['cath_libelle'];
             }
+            $dataChild->{'spec'}= (object)[];
             if ((isset($_GET['spec']) && $_GET['spec'] == 'lambda') || empty($_GET['spec'])) {
                 $dataChild->{'spec'}->{'lambda'}=cleanToNull($materiau['lambda']);
             }
@@ -151,6 +152,7 @@ if (!is_file($cache_file) || filemtime($cache_file)+$config['cache']['expire'] <
             if ((isset($_GET['spec']) && $_GET['spec'] == 'h') || empty($_GET['spec'])) {
                 $dataChild->{'spec'}->{'h'}=cleanToNull($materiau['h']);
             }
+            $dataChild->{'src'}= (object)[];
             $dataChild->{'src'}->{'name'}=cleanToNull($materiau['source_libelle']);
             $dataChild->{'src'}->{'link'}=cleanToNull($materiau['source_link']);
             $dataChild->{'src'}->{'contrib'}=cleanToNull($materiau['contrib']);
