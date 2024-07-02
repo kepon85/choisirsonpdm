@@ -123,6 +123,7 @@ if (!is_file($cache_file) || filemtime($cache_file)+$config['cache']['expire'] <
         $materiaux = $req->fetchAll();
         foreach ($materiaux as $materiau) {
             $dataChild = new stdClass();
+            $dataChild->{'id'}=$materiau['id'];
             if ($materiau['trad_libelle'] != null)  {
                 $dataChild->{'libelle'}=$materiau['trad_libelle'];
             } else {
