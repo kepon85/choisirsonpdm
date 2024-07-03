@@ -99,14 +99,20 @@ $( document ).ready(function() {
 
     // Default value
     //-Par le hash de l'URL
-    var hash = window.location.hash.substr(1);
+    var hash = window.location.hash.slice(1);
+    var submit_input=0;
     let reWall = /^wall-(?<param>[a-z]+)-(?<wallId>[0-9]+)$/u;
     let reWallWin = /^wall-(?<param>[a-z]+)-(?<wallId>[0-9]+)-window-(?<winId>[0-9]+)$/u;
+    let reInputSumbit = new RegExp("submit_input=1");
     if (hash) {
         debug('hash : ' + hash);
         if (hash == 'opendata') {
             openData();
         } else {
+            // Si on a un submit dans le hash on le mémorise pour la suite
+            if (reInputSumbit.test(hash)) {
+                submit_input=1;
+            }
             //Parse hash pour si un localWall est passé en paramètre il faut l'ajouter préalablement au remplissage du formulaire
             var result = hash.split('&').reduce(function (res, item) {
                 var parts = item.split('=');
@@ -212,15 +218,14 @@ $( document ).ready(function() {
         }
     });
 
+    if (submit_input == 1) {
+        debug("submit_input == 1 !");
+        $("#submit_input").val(1);
+        submitForm();
+    }
+
     // Init des boutton de partages
     sharingButton();
-
-    // Si on a appliqué toutes les valeurs du Hash + celle par défaut on voit s'il faut "poster" le formulaire :
-    if (hash) {
-        if ($("#submit_input").val() == 1) {
-            submitForm();
-        }
-    }
     
     // Switch level
     changeLevel($("#level").val());
