@@ -1290,8 +1290,13 @@ function getOptionValue(value) {
 * Retour la idu d'un champs "option" qui est concaténéavec le hashSum 
 */
 function getOptionIdu(value) {
-    var valueSplit = value.split('_');
-    return valueSplit[0];
+    debug(value);
+    if (value !== undefined && value !== null) {
+        var valueSplit = value.split('_');
+        return valueSplit[0];
+    } else {
+        return '';
+    }
 }
 
 /**
