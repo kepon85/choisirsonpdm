@@ -60,7 +60,10 @@ Exemple à plusieurs "super" suggestion : http://127.0.0.1:3000/index.html#level
 
 ## Changelog
 
-* v2.0 (current)
+* v2.1 (current)
+  * [add] MD5 pour rendre unique les matériaux et les parois personnalisés (pour permettre un meilleur partage des URL/résultats)
+    * Rupture de compatibilité pour la collection de matériaux personnalisés ainsi que de paroi
+* v2.0
   * [add] Carte de la température selon la norme NF P52-612/CN : https://www.boutique.afnor.org/fr-fr/norme/nf-p52612-cn/systemes-de-chauffage-dans-les-batiments-methode-de-calcul-des-deperditions/fa165533/36563
   * [add] Mode Eclairé : Ubat personnalisable (si étude thermique existante)
   * [add] Mode "Expert" pour détailler paroi par paroi le U du bâtiment

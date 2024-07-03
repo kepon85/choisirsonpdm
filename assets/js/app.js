@@ -7,10 +7,15 @@ $( document ).ready(function() {
     // Load localStorage setting
     if (localStorage.getItem('setting') == null) {
         localStorage.setItem('setting', JSON.stringify(settings.localSettingDefault));
-    } 
+    }
     localSetting=JSON.parse(localStorage.getItem('setting'));
+    // Rupture de compatibilité localSetting 1
+    if (localSetting.version == 1) {
+        localStorage.setItem('setting', JSON.stringify(settings.localSettingDefault));
+    }
     debug("Local setting : ");
     debug(localSetting);
+    
 
     ////////////////////////////////////
     // HASH URL (remplir les champs)
@@ -102,7 +107,25 @@ $( document ).ready(function() {
         if (hash == 'opendata') {
             openData();
         } else {
-            //Parse hash, split et complete
+            //Parse hash pour si un localWall est passé en paramètre il faut l'ajouter préalablement au remplissage du formulaire
+            var result = hash.split('&').reduce(function (res, item) {
+                var parts = item.split('=');
+                res[parts[0]] = parts[1];
+                var re = new RegExp("^localWall-[0-9]+$");
+                if (re.test(parts[0])) {
+                    debug('Param localWall du hash ' + parts[0]);
+                    var localWall = JSON.parse(decodeURIComponent(parts[1]));
+                    debug(localWall);
+                    // La paroi n'existe pas en local, on l'a crée
+                    if ((isLocalWallId(localWall.idu)) === false) {
+                        debug("N'existe pas, on l'a crée !");
+                        localSetting.wall.push(localWall);
+                        localStorage.setItem('setting', JSON.stringify(localSetting));
+                    }
+                }
+                return res;
+            }, {});
+            //Parse hash pour le reste, split et complete
             var result = hash.split('&').reduce(function (res, item) {
                 var parts = item.split('=');
                 res[parts[0]] = parts[1];
@@ -324,7 +347,7 @@ $( document ).ready(function() {
                 $('.layers').remove();
                 $.each(localSetting.wall[$('#custom-wall').val()].layer, function(index, data) {
                     addLayer(index);
-                    $('#layer-type-' + index).prepend('<option class="type-modify" id="layer-type-' + index + '-modify" value="'+data.lambda+'" selected="selected">'+data.material+'</option>');
+                    $('#layer-type-' + index).prepend('<option class="type-modify" id="layer-type-' + index + '-modify" value="'+genOptionValue(data.idu, data.lambda)+'" selected="selected">'+data.material+'</option>');
                     $('#layer-size-' + index).val(data.size);
                     $('#layer-lambda-' + index).val(data.lambda);
                     layerCheck(index);

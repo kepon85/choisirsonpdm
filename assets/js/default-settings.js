@@ -35,7 +35,7 @@ const defaultSettings = {
     'telegram': 'https://telegram.me/share/url?text=__TITLE__&url=__URL__',
   },
   "localSettingDefault": {
-    "version": 1, 
+    "version": 2, 
     "material": [],
     "wall": []
   },

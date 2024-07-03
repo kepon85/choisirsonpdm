@@ -120,12 +120,12 @@ function winCheck(wallId, winId) {
  * @param {integer}           wallId Description : Id du mur
  */
 function wallTypeUperso(wallId){
-    debug('wallTypeUperso');
+    debug('wallTypeUperso : '+wallId);
     if ($("#wall-type-"+wallId).val() == 'u') {
         $("#wall-r-" + wallId).val(0);
         $("#wall-r-" + wallId).prop('disabled', false);
     } else {
-        $("#wall-r-" + wallId).val($("#wall-type-" + wallId).val());
+        $("#wall-r-" + wallId).val(getOptionValue($("#wall-type-" + wallId).val()));
         $("#wall-r-" + wallId).prop('disabled', true);
     }
     hashchangeAllAction();
@@ -154,12 +154,18 @@ function getMateriauxData() {
  * Résumé : Complète le sélect des matériaux pour l'ajout/modification paroi
  */
 function wallTypeSelect(wallId) {
+    debug("wallTypeSelect "+wallId);
     //Ajouter les custom-wall dans "wall-type" 
     $('.custom-wall-' + wallId).remove();
     $.each(localSetting.wall, function(index, data) {
-        $('#wall-type-' + wallId + '-cath-custom').append('<option class="custom-wall-' + wallId + ' custom-wall" value="'+data.r+'">'+data.title+'</option>'); 
-    });   
+        $('#wall-type-' + wallId + '-cath-custom').append('<option class="custom-wall-' + wallId + ' custom-wall" value="'+genOptionValue(data.idu, data.r)+'">'+data.title+'</option>'); 
+    });  
+    //$('#wall-type-' + wallId).trigger('change');
 }
+
+
+
+
 /**
  * Résumé : Rafraichir le sélect des matériaux 
  */
@@ -175,7 +181,7 @@ function wallTypeAllSelect() {
  * Résumé : Complète le sélect des matériaux pour l'ajout/modification paroi
  */
 function layerTypeSelect(layerId) {
-    debug('layerTypeSelect');
+    debug('layerTypeSelect' + layerId);
     //Option vide
     if ($('#layer-type-' + layerId + '-clean').length == 0) {
         $('#layer-type-' + layerId).append('<option class="type-clean" id="layer-type-' + layerId + '-clean" value="">-</option>');
@@ -186,7 +192,7 @@ function layerTypeSelect(layerId) {
     }
     $.each(localSetting.material, function(index, data) {
         if ($('#layer-type-' + layerId + '-cath-0-'+index).length == 0) {
-            $('#layer-type-' + layerId + '-cath-0').append('<option class="custom-layer" id="layer-type-' + layerId + '-cath-0-'+index+'" value="'+data.spec.lambda+'">'+data.libelle+'</option>'); 
+            $('#layer-type-' + layerId + '-cath-0').append('<option class="custom-layer" id="layer-type-' + layerId + '-cath-0-'+index+'" value="'+genOptionValue(data.idu, data.spec.lambda)+'">'+data.libelle+'</option>'); 
             debug(data.libelle);
         }
     });
@@ -203,7 +209,7 @@ function layerTypeSelect(layerId) {
         }
         // Matériaux
         if ($('#layer-type-' + layerId + '-'+index).length == 0) {
-            $('#layer-type-' + layerId + '-cath-'+data.cath_id).append('<option class="type-'+index+' material-generic-'+data.generic+'" id="layer-type-' + layerId + '-'+index+'" value="'+data.spec.lambda+'">'+data.libelle+'</option>'); 
+            $('#layer-type-' + layerId + '-cath-'+data.cath_id).append('<option class="type-'+index+' material-generic-'+data.generic+'" id="layer-type-' + layerId + '-'+index+'" value="'+genOptionValue(data.id, data.spec.lambda)+'">'+data.libelle+'</option>'); 
         }
     });
 }
@@ -284,6 +290,7 @@ function validCustomWall() {
     $.each($('tr.layers'), function(index, tr) {
         var layerId = tr.id.split('-')[1];
         var newLayerl = {
+            idu: $('#layer-idu-'+layerId).val(),
             material: $('#layer-type-'+layerId+' option:selected').text(),
             lambda: $('#layer-lambda-'+layerId).val(),
             size: $('#layer-size-'+layerId).val(),
@@ -293,11 +300,32 @@ function validCustomWall() {
     // C'est un ajout
     if ($('#custom-wall').val() == '') {
         debug('Ajout d\'une paroi ');
+        newWall.idu = genId();
         localSetting.wall.push(newWall);
     // Sinon c'est une modification
     } else {
         debug('Modification d\'une paroi ');
+        const idu = localSetting.wall[$('#custom-wall').val()].idu
+        newWall.idu = idu;
         localSetting.wall[$('#custom-wall').val()] = newWall;
+        // Mise à jour des wall (paroi) du bâtiment si modification d'une paroi personnalisé
+        $('.wall-type').each(function() {
+            if (getOptionIdu($( this ).val()) == idu) {
+                const id = this.id.split('-')[2];
+                var data = {
+                    id: genOptionValue(idu, newWall.r),
+                    text: $('#wall-custom-title').val()+' (update)'
+                };
+                // On créer la nouvelle seulement si nessécaire
+                if (! $( this ).find("option[value='" + data.id + "']").length) {
+                    var newOption = new Option(data.text, data.id, false, false);
+                    $(this).prepend(newOption).trigger('change');
+                    //$( '#wall-type-'+id+' .type-cath-custom' ).append(newOption).trigger('change');
+                }
+                // Positionner sur la nouvel valeur
+                $( this ).val(data.id).trigger('change');
+            }
+        });
     }
     localStorage.setItem('setting', JSON.stringify(localSetting));
     customWallSelect();
@@ -330,9 +358,11 @@ function validCustomMaterial() {
     };
     // C'est un ajout
     if ($('#custom-material').val() == '') {
+        newmaterial.idu = genId();
         localSetting.material.push(newmaterial);
     // Sinon c'est une modification
     } else {
+        newmaterial.idu = localSetting.material[$('#custom-material').val()].idu;
         localSetting.material[$('#custom-material').val()] = newmaterial;
     }
     localStorage.setItem('setting', JSON.stringify(localSetting));
@@ -367,10 +397,14 @@ function validCustomMaterial() {
  */
 function layerCheck(layerId) {
     debug('layerCheck '+layerId);
+    const lambda = getOptionValue($('#layer-type-'+layerId).val());
+    const idu = getOptionIdu($('#layer-type-'+layerId).val());
+    // Ajout idu
+    $('#layer-idu-'+layerId).val(idu);
     // Ajout du Lambda
-    $('#layer-lambda-'+layerId).val($('#layer-type-'+layerId).val());
+    $('#layer-lambda-'+layerId).val(lambda);
     // Calcul du R
-    $('#layer-r-'+layerId).val(precise_round($('#layer-size-'+layerId).val()/100/$('#layer-type-'+layerId).val(),1));
+    $('#layer-r-'+layerId).val(precise_round($('#layer-size-'+layerId).val()/100/lambda,1));
     // Calcul Total size
     var layerSizeTotal = 0;
     $('.layer-size').each(function() {
@@ -464,8 +498,6 @@ function refreshDetailBuildingChange() {
     // Listener hash
     hashchangeListener();
 
-    
-
     // Traduction
     $('html').i18n();
 }
@@ -512,41 +544,41 @@ function detailBuildingAddWall(id = null) {
                     + '</optgroup>'
                     + '<option value="u" data-i18n="wall-type-u-perso">Valeur U personnalisée</option>'
                     + '<optgroup label="RT2012 Toiture">'
-                    + '<option value="5.2">Combles aménageables ou rampants < 60° (H1A, H1B, H1C)</option>'
-                    + '<option value="4.5">Combles aménageables ou rampants < 60° (H2A, H2B, H2C, H2D H3>800m)</option>'
-                    + '<option value="4">Combles aménageables ou rampants < 60° (H3<800m)</option>'
-                    + '<option value="4">Combles perdus</option>'
-                    + '<option value="4.5">Toitures-terrasses (H1A, H1B, H1C)</option>'
-                    + '<option value="4.3">Toitures-terrasses (H2A, H2B, H2C, H2D H3>800m)</option>'
-                    + '<option value="4">Toitures-terrasses (H3<800m)</option>'
+                    + '<option value="rt2012toit1_5.2">Combles aménageables ou rampants < 60° (H1A, H1B, H1C)</option>'
+                    + '<option value="rt2012toit2_4.5">Combles aménageables ou rampants < 60° (H2A, H2B, H2C, H2D H3>800m)</option>'
+                    + '<option value="rt2012toit3_4">Combles aménageables ou rampants < 60° (H3<800m)</option>'
+                    + '<option value="rt2012toit4_4">Combles perdus</option>'
+                    + '<option value="rt2012toit5_4.5">Toitures-terrasses (H1A, H1B, H1C)</option>'
+                    + '<option value="rt2012toit6_4.3">Toitures-terrasses (H2A, H2B, H2C, H2D H3>800m)</option>'
+                    + '<option value="rt2012toit7_4">Toitures-terrasses (H3<800m)</option>'
                     + '</optgroup>'
                     + '<optgroup label="RT2012 Mur">'
-                    + '<option value="3.2">Murs et rampants > 60° (H1A, H1B, H1C)</option>'
-                    + '<option value="3.2">Murs et rampants > 60° (H2A, H2B, H2C, H2D H3>800m)</option>'
-                    + '<option value="2.2">Murs et rampants > 60° (H3<800m)</option>'
-                    + '<option value="3.5">Murs sur volume non chauffé</option>'
+                    + '<option value="rt2012mur1_3.2">Murs et rampants > 60° (H1A, H1B, H1C)</option>'
+                    + '<option value="rt2012mur2_3.2">Murs et rampants > 60° (H2A, H2B, H2C, H2D H3>800m)</option>'
+                    + '<option value="rt2012mur3_2.2">Murs et rampants > 60° (H3<800m)</option>'
+                    + '<option value="rt2012mur4_3.5">Murs sur volume non chauffé</option>'
                     + '</optgroup>'
                     + '<optgroup label="RT2012 Planchers">'
-                    + '<option value="3">Planchers bas donnant sur parking collectif, sur extérieur, vide sanitaire ou volume non chauffé  (H1A, H1B, H1C)</option>'
-                    + '<option value="3">Planchers bas donnant sur parking collectif, sur extérieur, vide sanitaire ou volume non chauffé  (H2A, H2B, H2C, H2D H3>800m)</option>'
-                    + '<option value="2.1">Planchers bas donnant sur parking collectif, sur extérieur, vide sanitaire ou volume non chauffé  (H3<800m)</option>'
+                    + '<option value="rt2012planc1_3">Planchers bas donnant sur parking collectif, sur extérieur, vide sanitaire ou volume non chauffé  (H1A, H1B, H1C)</option>'
+                    + '<option value="rt2012planc2_3">Planchers bas donnant sur parking collectif, sur extérieur, vide sanitaire ou volume non chauffé  (H2A, H2B, H2C, H2D H3>800m)</option>'
+                    + '<option value="rt2012planc3_2.1">Planchers bas donnant sur parking collectif, sur extérieur, vide sanitaire ou volume non chauffé  (H3<800m)</option>'
                     + '</optgroup>'
                     + '<optgroup label="RE2020 Mur">'
-                    + '<option value="2.9">Mur en contact avec l’extérieur (H1A, H1B, H1C)</option>'
-                    + '<option value="2.9">Mur en contact avec l’extérieur (H2A, H2B, H2C, H2D H3>800m)</option>'
-                    + '<option value="2.2">Mur en contact avec l’extérieur (H3<800m)</option>'
-                    + '<option value="2">Murs sur volume non chauffé</option>'
+                    + '<option value="rt2012mur1_2.9">Mur en contact avec l’extérieur (H1A, H1B, H1C)</option>'
+                    + '<option value="rt2012mur2_2.9">Mur en contact avec l’extérieur (H2A, H2B, H2C, H2D H3>800m)</option>'
+                    + '<option value="rt2012mur3_2.2">Mur en contact avec l’extérieur (H3<800m)</option>'
+                    + '<option value="rt2012mur4_2">Murs sur volume non chauffé</option>'
                     + '</optgroup>'
                     + '<optgroup label="RE2020 Toiture">'
-                    + '<option value="4.4">Combles aménagés (isolation dans le rampant sous toiture) (H1A, H1B, H1C)</option>'
-                    + '<option value="4,3">Combles aménagés (isolation dans le rampant sous toiture) (H2A, H2B, H2C, H2D H3>800m)</option>'
-                    + '<option value="4">Combles aménagés (isolation dans le rampant sous toiture) (H3<800m)</option>'
-                    + '<option value="4.8">Combles perdus (isolation sur le plancher des combles)</option>'
+                    + '<option value="rt2020toit1_4.4">Combles aménagés (isolation dans le rampant sous toiture) (H1A, H1B, H1C)</option>'
+                    + '<option value="rt2020toit2_4.3">Combles aménagés (isolation dans le rampant sous toiture) (H2A, H2B, H2C, H2D H3>800m)</option>'
+                    + '<option value="rt2020toit3_4">Combles aménagés (isolation dans le rampant sous toiture) (H3<800m)</option>'
+                    + '<option value="rt2020toit4_4.8">Combles perdus (isolation sur le plancher des combles)</option>'
                     + '</optgroup>'
                     + '<optgroup label="RE2020 Planchers">'
-                    + '<option value="2.7">Planchers bas donnant sur l’extérieur ou sur un local non chauffé (H1A, H1B, H1C)</option>'
-                    + '<option value="2.7">Planchers bas donnant sur l’extérieur ou sur un local non chauffé (H2A, H2B, H2C, H2D H3>800m)</option>'
-                    + '<option value="2.1">Planchers bas donnant sur l’extérieur ou sur un local non chauffé (H3<800m)</option>'
+                    + '<option value="rt2012planc1_2.7">Planchers bas donnant sur l’extérieur ou sur un local non chauffé (H1A, H1B, H1C)</option>'
+                    + '<option value="rt2012planc2_2.7">Planchers bas donnant sur l’extérieur ou sur un local non chauffé (H2A, H2B, H2C, H2D H3>800m)</option>'
+                    + '<option value="rt2012planc3_2.1">Planchers bas donnant sur l’extérieur ou sur un local non chauffé (H3<800m)</option>'
                     + '</optgroup>'
                 + '</select>'
                 +'</div>'
@@ -606,7 +638,7 @@ function detailBuildingAddWall(id = null) {
 
     $('#wall-type-' + wallId).select2();
     if (id == null) {
-        detailBuildingAddWindows2Wall(wallId);
+        //detailBuildingAddWindows2Wall(wallId);
         $("#wall-id").val(wallId);
     } else {
         if ($("#wall-id").val() < wallId) {
@@ -710,6 +742,7 @@ function addLayer(id = null) {
                 + '<svg style="display: none;" id="layer-' + layerId +'-check-svg" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path class="bg-primary-subtle border border-primary-subtle " d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg>'
             + '</td>'            
             + '<td>'
+                + '<input type="hidden" class="layer-idu" name="layer-idu[]" id="layer-idu-' + layerId +'" value="" size="1" />'
                 + '<select name="layer-type[]" id="layer-type-' + layerId + '" class="form-control layer-type" style="width: 100%">'
                 + '</select>'
             + '</td>'
@@ -1048,6 +1081,7 @@ function hashChange() {
     var hashnew = '';
     var hashchange_len = $('.hashchange').length;
     var hashchange_nb = 0
+    // Le formulaire
     $(".hashchange").each(function() {
         //debug(this.id);
         //this.type
@@ -1064,6 +1098,14 @@ function hashChange() {
             hashnew=hashnew+"&";
         }
         hashchange_nb = hashchange_nb +1
+    });
+    // Si on est en niveua 3 et qu'il y a des parroi personnalisé on les ajoutes dans le hash
+    $('.wall-type').each(function() {
+        var localWallId = isLocalWallId(getOptionIdu($(this).val()));
+        if (localWallId !== false) {
+            debug("Paroi perso détecté, à mettre dans le hash !");
+            hashnew=hashnew+'&localWall-'+localWallId+'='+encodeURIComponent(JSON.stringify(localSetting.wall[localWallId])); 
+        }
     });
     window.location.hash = hashnew;
 }
@@ -1208,4 +1250,64 @@ function help() {
         $('#help').show();
     }
     
+}
+
+// Créer un HashSum de contrôle
+/*
+function hashSum(src) {
+    if (typeof src === 'object') {
+        return CryptoJS.MD5(JSON.stringify(src));
+    } else {
+        return CryptoJS.MD5(src);
+    }   
+}
+*/
+
+// Créer un ID uniq
+function genId() {
+    const min = 1000000000;
+    const max = 9999999999;
+    return min + Math.floor(Math.random() * (max - min));
+}
+
+/*
+* Générer la value d'un champs "option"
+*/
+function genOptionValue(id, value) {
+    return id + "_" + value;
+}
+/*
+* Retour la value d'un champs "option" qui est concaténéavec le hashSum 
+*/
+function getOptionValue(value) {
+    debug(value);
+    if (value !== undefined && value !== null) {
+        var valueSplit = value.split('_');
+        return valueSplit[1];
+    } else {
+        return '';
+    }
+}
+/*
+* Retour la idu d'un champs "option" qui est concaténéavec le hashSum 
+*/
+function getOptionIdu(value) {
+    var valueSplit = value.split('_');
+    return valueSplit[0];
+}
+
+/**
+ * Résumé : Détermine si cet ID est un ID contenu dans le localSetting/Storage local
+ * @param {integer}           idSearch Description : Id à rechercher
+ */
+function isLocalWallId(idSearch) {
+    debug('isLocalWallId '+idSearch);
+    var retour = false;
+    $.each(localSetting.wall, function(index, data) {
+        if (data.idu == idSearch) {
+            debug('isLocalWallId Troué ! '+idSearch);
+            retour = index;
+        }
+    });  
+    return retour;
 }
