@@ -256,7 +256,12 @@ $( document ).ready(function() {
     ////////////////////////////
     
     // Ajout de la première ligne si inexistante
-    detailBuildingAddWall();
+    
+    if ($('#tabke-level3-detail-building > tbody > tr').length <= 1) {
+        debug("ici");
+        detailBuildingAddWall();
+    }
+    //
 
     // Draggable/sortable mode pour les lignes de fenêtres
     $( ".window-table tbody" ).sortable({
