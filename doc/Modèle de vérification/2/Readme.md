@@ -25,27 +25,30 @@ Il s'agit d'une maison "longue" de 40m x 6m, avec une pente de toit de 30°, une
 
 ### Sud
 
-* Surface : 37,5m2
+* Surface total : 37,5m2
+* Surface opaque : 0m2
 * Fenêtre : 37,5 m2 en double vitrage Uw=1,7
 
 ### Nord
 
-* Surface : 37,5m2
+* Surface total : 37,5m2
 * Fenêtre : Aucune
 
 ### Ouest
 
-* Surface : 215,4m2
+* Surface total : 215,4m2
 * Fenêtre : Aucune
 
 ### Est
 
-* Surface : 215,4m2 
+* Surface total : 215,4m2 
+* Surface opaque : 107,7m2
 * Fenêtre : 107,7m2 en double vitrage Uw=1,7
 
 ## Toiture
 
-* Surface : 2x138,6m2 soit 277,2m2
+* Surface total : 2x138,6m2 soit 277,2m2
+* Surface opaque : 255m2
 * Fenêtre : 22,2m2 en double vitrage Uw=1,7
 * Isolation : Non isolé, seulement des ardoises de 4mm  (λ 2) soit R=0.002
 

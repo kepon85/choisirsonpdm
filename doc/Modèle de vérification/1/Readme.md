@@ -22,22 +22,24 @@ Il s'agit d'une maison "cube" de 6m x 6m, avec une pente de toit de 30°, une ba
 
 ### Sud
 
-* Surface : 19,6m2
+* Surface total : 19,6m2
+* Surface opaque : 15m2
 * Fenêtre : 4,6m2 (2m x 2m30) en double vitrage Uw=1,7
 
 ### Nord
 
-* Surface : 19,6m2
+* Surface total : 19,6m2
 * Fenêtre : Aucune
 
 ### Est
 
-* Surface : 14,4m2
+* Surface total : 14,4m2
 * Fenêtre : Aucune
 
 ### Ouest
 
-* Surface : 14,4m2
+* Surface total : 14,4m2
+* Surface opaque : 13m2
 * Fenêtre : 1m2 (1m x 1m) en double vitrage Uw=1,7
 
 ## Toiture
