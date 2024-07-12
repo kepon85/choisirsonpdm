@@ -1238,9 +1238,14 @@ function help() {
         // Préparatin du lien
         var body_avec_url = encodeURI(settings.help.body);
         var body_avec_url = settings.help.body.replace("___URL___", window.location);
+        //Bug avec :// ça supprime un slash... certainement bug avec Discors
+        var body_avec_url = body_avec_url.replace(":","%3A");
+        var body_avec_url = body_avec_url.replace(/\//g,"%2F");
         var body_avec_url = body_avec_url.replace(/=/g, "%3D");
         var body_avec_url = body_avec_url.replace(/#/g, "%23");
         var body_avec_url = body_avec_url.replace(/&/g, "%26");
+        var body_avec_url = body_avec_url.replace(/%20/g, "%2520");
+        
         var helpUrl = encodeURI(settings.help.url) + '?category=' + settings.help.category + '&title=' + settings.help.title + '&body=' + body_avec_url;
         debug(helpUrl);
         // Ajout 
