@@ -1,6 +1,4 @@
 const userSettings = {
-  "debug": true,
-  "debugLoadMap": false,
   "form_default": {
     "level":     1,
     "g":                           0.3,

@@ -1,6 +1,4 @@
 const userSettings = {
-  "debug": true,
-  "debugLoadMap": false,
   "form_default": {
     "level":     2,
     "temp_indor":                 20, 

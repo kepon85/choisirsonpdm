@@ -1,6 +1,4 @@
 const userSettings = {
-  "debug": true,
-  "debugLoadMap": true,
   "help": {
     'url': "https://forum.poeledemasse.org/new-topic",
     'title': "Partage de mon dimensionnement",
