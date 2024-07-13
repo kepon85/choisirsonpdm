@@ -1,5 +1,12 @@
 # Résultat étude de vérification Modèle 2
 
+## Résumé / différnces
+
+Entre choisirsonpdm et 
+
+* La feuille de calcul de Damien : ?
+* Ubakus : -4%
+
 ## choisir.poeledemasse.org
 
 URL des résultats : 
