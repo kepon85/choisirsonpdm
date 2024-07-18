@@ -1115,6 +1115,7 @@ function hashChange() {
  * @param {integer}           timeout Description : Temps de timeout
  */
 function debounce(func, timeout = 1000){
+    debug("debounce");
     let timer;
     return (...args) => {
         $('#temp_base_load').show();
@@ -1147,11 +1148,14 @@ function sharingButton() {
 * Changement sur la température de base (mode auto/manuel)
 */ 
 function tempBaseChangeMode() {
+    debug("tempBaseChangeMode");
     if ($("#temp_base_auto").prop("checked")) {
         $("#temp_base").prop('disabled', true);
         $(".temp_base_auto").show();
         processChangelngLat();
     } else {
+        $( "#lng" ).val('');
+        $( "#lat" ).val('');
         $("#temp_base").prop('disabled', false);
         $(".temp_base_auto").hide();
     }
