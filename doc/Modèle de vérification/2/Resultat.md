@@ -1,10 +1,10 @@
 # Résultat étude de vérification Modèle 2
 
-## Résumé / différnces
+## Résumé / différences
 
 Entre choisirsonpdm et 
 
-* La feuille de calcul de Damien : ?
+* La feuille de calcul de Damien : +0,007%
 * Ubakus : -2,75%
 
 ## choisir.poeledemasse.org
@@ -88,6 +88,10 @@ URL des résultats :
 - Surface opaque : 255.00m2
 - Déperdition des surfaces opaques : 31731W
 - Déperdition total : 32398W
+
+## Feuille Damien
+
+* Déperdition 37514W : [resultat-damien-DEPERDITION.ods](resultat-damien-DEPERDITION.ods) (déperdition par renouvellement d'air non considéré ici)
 
 ## ubakus.de
 
