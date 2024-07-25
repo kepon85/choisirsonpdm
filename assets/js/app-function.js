@@ -263,12 +263,13 @@ function materialCathSelect() {
  * @param {string}           body Description : Email body
  */
 function sendContact(from, subject, body) {
-    $.ajaxSetup({async: false});
-    $.get( settings.apiContact+'?from='+from+'&subject='+subject+'&body='+body, function(data) {
-        return true;
-    })
-    .fail(function(data) {
-        return false;
+    debug('sendContact');
+    return $.ajax({
+        url: settings.apiContact+'?from='+from+'&subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body),
+        type: 'GET',
+        async: false,
+        cache: false,
+        timeout: 30000
     });
 }
 
@@ -1152,7 +1153,10 @@ function tempBaseChangeMode() {
     if ($("#temp_base_auto").prop("checked")) {
         $("#temp_base").prop('disabled', true);
         $(".temp_base_auto").show();
-        processChangelngLat();
+        // Seulement si on est sur la tab 
+        if ($("#nav-tab-record").val() == 'nav-carte-tab') {
+            processChangelngLat();
+        }
     } else {
         $( "#lng" ).val('');
         $( "#lat" ).val('');
@@ -1215,14 +1219,19 @@ function contactShow() {
                 dialog.dialog( "close" );
             },
             "Envoyer": function() {
-                var returnSendContact = sendContact($('#contact-from').val(), $('#contact-subject').val(), $('#contact-body').val());
+                localStorage.setItem(returnSendContact, null);
+                sendContact($('#contact-from').val(), $('#contact-subject').val(), $('#contact-body').val() + "\n\n" + document.location.href).done(function(data){
+                    localStorage.setItem(returnSendContact,  data.return);
+                });
+                var returnSendContact = localStorage.getItem(returnSendContact);
                 debug("Retour contact : "+returnSendContact)
-                if (returnSendContact == true) {
+                if (returnSendContact == "true") {
                     dialog.dialog( "close" );
                     appAlert('Message envoyé !', "success");
                 } else {
                     appAlert("Error");
                 }
+                localStorage.removeItem(returnSendContact);
             }
         },
         open: function() {
