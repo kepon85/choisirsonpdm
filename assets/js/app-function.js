@@ -991,7 +991,7 @@ function submitForm() {
  * Résumé : Récupère la température de base par API en fonction de la latitude et la longitude
  */
 function getBaseTemperature(){
-    if ($("#lat").val() != '' && $("#lng").val() != '') {
+    if ($("#temp_base_auto").prop("checked") && $("#nav-tab-record").val() == 'nav-carte-tab' && $("#lat").val() != '' && $("#lng").val() != '') {
         debug('GET API baseTemperature');
         $.getJSON( settings.apiBaseTemperature+'?lat='+$("#lat").val()+'&lng='+$("#lng").val()+'&nbYearsArchive='+$("#temp_base_years_archive").val()) 
         .done(function( json ) {
@@ -1193,18 +1193,19 @@ function temperatureBaseNFDetermine() {
     if (zone != '' && altitude >= 0 && altitude <= 2000) {
         console.log("Détermination de la température de base possible");
         $.each(settings.temperatureBaseData[zone], function (zoneIndex, ZoneValue) {
-        if (altitude >= ZoneValue['altitudeMin'] && altitude <= ZoneValue['altitudeMax']) {
-            temperatureBase = ZoneValue['temperature'];
-            console.log("Température déterminé : " + temperatureBase);
-        }
+            if (altitude >= ZoneValue['altitudeMin'] && altitude <= ZoneValue['altitudeMax']) {
+                temperatureBase = ZoneValue['temperature'];
+                console.log("Température déterminé : " + temperatureBase);
+            }
         });
         if (temperatureBase == null) {
-        alert("Aucune donnée n'existe pour cette zone avec cette altitude");
+            alert("Aucune donnée n'existe pour cette zone avec cette altitude");
         }
     } else {
         alert("La zone n'est pas déterminé ou l'altitude n'est pas comprise entre 0 et 2000m");
     }
     $('#temp_base').val(temperatureBase);
+    hashchangeAllAction($('#temp_base'));
 }
 
 // Formulaire de contact
