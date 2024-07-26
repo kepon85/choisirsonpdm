@@ -991,6 +991,13 @@ function submitForm() {
  * Résumé : Récupère la température de base par API en fonction de la latitude et la longitude
  */
 function getBaseTemperature(){
+    debug('getBaseTemperature');
+    /*
+    debug($("#temp_base_auto").prop("checked"));
+    debug($("#nav-tab-record").val());
+    debug($("#lat").val());
+    debug($("#lng").val());
+    */
     if ($("#temp_base_auto").prop("checked") && $("#nav-tab-record").val() == 'nav-carte-tab' && $("#lat").val() != '' && $("#lng").val() != '') {
         debug('GET API baseTemperature');
         $.getJSON( settings.apiBaseTemperature+'?lat='+$("#lat").val()+'&lng='+$("#lng").val()+'&nbYearsArchive='+$("#temp_base_years_archive").val()) 

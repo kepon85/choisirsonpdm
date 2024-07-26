@@ -5,6 +5,7 @@ const userSettings = {
     "temp_base_years_archive":     10,
     "temp_indor":                 19, 
     "temp_base_auto":             true,
+    "nav-tab-record":             "nav-cartenf-tab",
   },
   "help": {
     'url': "https://forum.poeledemasse.org/new-topic",

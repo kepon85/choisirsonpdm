@@ -9,13 +9,12 @@ const userSettings = {
     "livingvolume":                 92,
     "livingspace":                  40,
     "livingheight":               2.3,
-      "wastagesurface":           200,
+    "wastagesurface":           200,
     "temp_indor":                 18, 
     "temp_base_auto":             true,
-  "temp_base":                    1,
-  "transparent":                  true,
-
-
+    "temp_base":                    1,
+    "transparent":                  true,
+    "nav-tab-record":             "nav-cartenf-tab",
   },
 //  "includeJavascript" : {
 //    "piwik2" : "include/piwik2.js",
