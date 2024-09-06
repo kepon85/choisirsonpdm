@@ -891,6 +891,12 @@ function submitForm() {
                 if ($('#wall-check-'+wallId).val() == 1)  {
                     debug('Ajout dans le résultat)');
                     rt=precise_round(parseFloat($('#wall-r-'+wallId).val())+parseFloat($('#wall-rsi-'+wallId).val())+parseFloat($('#wall-rse-'+wallId).val()), 2);
+                    var commentTempUse='';
+                    var titleTempUse='Différence entre la température intérieure et extérieure (dite de base) (°C) / ( R total de la surface opaque (W/°C) / Surface opaque (m2) )';
+                    if ($('#wall-rse-'+wallId).val() == 0) {
+                        commentTempUse='<ul><li data-i18n="[html]wall-ground">Contact avec le sol...</li></ul>';
+                        titleTempUse='Différence entre la température intérieure et la température du sol (°C) / ( R total de la surface opaque (W/°C) / Surface opaque (m2) )';
+                    }
                     $("#thermal-study").append(
                         '<div class="col-sm-6"><div class="card"><div class="card-body">'
                         + '<h6><span data-i18n="[html]thead-wall-name">Paroi</span> : '+$('#wall-name-'+wallId).val()+' (<span class="wall-'+wallId+'-and-window-loss-value"></span>W)</h6>' 
@@ -899,11 +905,12 @@ function submitForm() {
                                 + '<ul id="wall-'+wallId+'-detail"></ul>'
                             + '</li>'
                             + '<li><span data-i18n="[html]thead-wall-rsi">Rsi</span>/<span data-i18n="[html]thead-wall-rse">Rse</span> : '+$('#wall-rsi-'+wallId).val()+' /  '+$('#wall-rse-'+wallId).val()+'</li>'
+                            + commentTempUse
                             + '<li><span data-i18n="[html]wall-surface">Surface paroi</span> : '+$('#wall-surface-'+wallId).val()+'m2</li>'
                             + '<li><span data-toggle="tooltip" title="R + Rsi + Rse"><span data-i18n="[html]wall-rt">R total</span> : '+rt+'</span>°C.m²/W</li>'
                             + '<li id="wall-'+wallId+'-windows-parent"><span data-i18n="[html]windows">Fenêtre(s)</span> <span data-toggle="tooltip" title="Différence entre la température intérieure et extérieure (dite de base) (°C) * Perte total des fenêtres (W/°C)"><span data-i18n="[html]window-loss">Déperdition</span>=<span id="wall-'+wallId+'-window-loss-value"></span>W</span> : <ul id="wall-'+wallId+'-windows"></ul></li>'
                             + '<li><span data-toggle="tooltip" title="Surface de la paroi - la surface vitrée"><span data-i18n="[html]opaque-surface">Surface opaque</span> : <span id="wall-'+wallId+'-window-opaque-surface-value"></span>m<sup>2</sup></span></li>'
-                            + '<li><span data-toggle="tooltip" title="Différence entre la température intérieure et extérieure (dite de base) (°C) / ( R total de la surface opaque (W/°C) / Surface opaque (m2) )"><span data-i18n="[html]wall-loss">Déperdition des surfaces opaques</span> : <span id="wall-'+wallId+'-loss-value"></span>W</span></li>'
+                            + '<li><span data-toggle="tooltip" title="'+titleTempUse+'"><span data-i18n="[html]wall-loss">Déperdition des surfaces opaques</span> : <span id="wall-'+wallId+'-loss-value"></span>W</span></li>'
                             + '<li><span data-toggle="tooltip" title="Déperdition des surfaces opaque + surfaces vitrées"><span data-i18n="[html]wall-and-window-loss">Déperdition total</span> : <span class="wall-'+wallId+'-and-window-loss-value"></span>W</span></li>'
                         + '</ul>'
                         + '</div></div></div>'
@@ -948,7 +955,12 @@ function submitForm() {
                     debug("Surface opaque : "+surfaceOpaque);
                     debug('Surface vitré total : '+windowsSurfaceTotal);
                     //Perte surface opaque
-                    wallPerte=($("#temp_indor").val()-$("#temp_base").val())/(rt/surfaceOpaque);
+                    // Si le RSE donne vers le sol (=0), on considère la température du sol et non de l'air
+                    if ($('#wall-rse-'+wallId).val() == 0) {
+                        wallPerte=($("#temp_indor").val()-$("#temp_ground").val())/(rt/surfaceOpaque);
+                    } else {
+                        wallPerte=($("#temp_indor").val()-$("#temp_base").val())/(rt/surfaceOpaque);
+                    }
                     $('#wall-'+wallId+'-loss-value').html(precise_round(wallPerte, 0));
                     // Perte total de la paroi (fenêtre + opaque)
                     perteTotal=parseFloat(windowsPerteTotal)+parseFloat(wallPerte);

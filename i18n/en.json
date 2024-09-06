@@ -79,6 +79,7 @@
 	"form-lng-label": "Longitude",
 	"form-temp_base-label": "Base critical temperature",
 	"form-temp_base_years_archive-label": "Year of archive for base temperature",
+	"form-temp_ground-label": "Ground temperature",
 	"form-reset-button": "Reset",
 	"form-submit-button": "Choose my masonry heater",
 	"result-title": "Your maximum heating requirement",

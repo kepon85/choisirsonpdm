@@ -19,6 +19,7 @@ const defaultSettings = {
     "venti_global":                0.14,
     "g":                           0.3,
     "livingvolume_auto" :           true,
+    "temp_ground":                 11,
   },
   'sharingButton': {
     'facebook': 'https://facebook.com/sharer/sharer.php?u=__URL__',
