@@ -386,7 +386,9 @@ function validCustomMaterial() {
             + ' - src-contrib : ' + $('#material-src-contrib').val() + '<br />' 
             + 'Commentaire : ' + $('#material-comment').val() + '<br />' 
             + '<br />' 
-            + '"","' + $('#material-libelle').val() + '",'+$('#material-cath_id').val()+','+$('#material-generic').val()+','+$('#material-lambda').val()+','+$('#material-p').val()+','+$('#material-c').val()+','+$('#material-c').val()+','+$('#material-u').val()+','+$('#material-h').val()+','+$('#material-src-name').val()+','+$('#material-src-link').val()+','+$('#material-src-contrib').val();
+            + 'INSERT INTO `materiaux` (`id`, `status`, `libelle`, `cath_id`, `generique`, `lambda`, `p`, `c`, `u`, `h`, `source_libelle`, `source_link`, `contrib`, `lastupdate`) VALUES (NULL, "5", "'+ $('#material-libelle').val() + '","'+$('#material-cath_id').val()+'","'+$('#material-generic').val()+'","'+$('#material-lambda').val()+'","'+$('#material-p').val()+'","'+$('#material-c').val()+'","'+$('#material-u').val()+'","'+$('#material-h').val()+'","'+$('#material-src-name').val()+'","'+$('#material-src-link').val()+'","'+$('#material-src-contrib').val()+'", current_timestamp());'
+            + '<br />' 
+            + 'https://phpmyadmin.retzo.net/index.php?route=/sql&db=choisirpdm&table=materiaux';
         sendContact('noreply@poeledemasse.org', 'Contribution matériaux', body);
     }
     return true;
