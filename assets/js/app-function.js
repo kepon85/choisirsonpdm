@@ -369,8 +369,7 @@ function validCustomMaterial() {
     localStorage.setItem('setting', JSON.stringify(localSetting));
     customMaterialSelect();
     // Send
-    if ($('#custom-material').val() != '') {
-    //if ($('#material-forcontrib').prop('checked')) {
+    if ($('#material-forcontrib').prop('checked')) {
         var body = 'Contribution public : ' + $('#material-forcontrib').prop('checked') + '<br />'
             + 'Libelle : ' + $('#material-libelle').val() + '<br />' 
             + 'Generic : ' + $('#material-generic').val() + '<br />' 
@@ -389,7 +388,6 @@ function validCustomMaterial() {
             + '<br />' 
             + '"","' + $('#material-libelle').val() + '",'+$('#material-cath_id').val()+','+$('#material-generic').val()+','+$('#material-lambda').val()+','+$('#material-p').val()+','+$('#material-c').val()+','+$('#material-c').val()+','+$('#material-u').val()+','+$('#material-h').val()+','+$('#material-src-name').val()+','+$('#material-src-link').val()+','+$('#material-src-contrib').val();
         sendContact('noreply@poeledemasse.org', 'Contribution matériaux', body);
-    //}
     }
     return true;
 }

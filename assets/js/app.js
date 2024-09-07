@@ -520,7 +520,7 @@ $( document ).ready(function() {
                         dialog.dialog( "close" );
                         appAlert('Ajouté !', "success");
                     } else {
-                        appAlert(returnValidCustomMaterial, 'appAlert');
+                        appAlert(returnValidCustomMaterial, 'danger', 30);
                     }
                 }
               },
