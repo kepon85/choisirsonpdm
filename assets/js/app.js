@@ -582,6 +582,14 @@ $( document ).ready(function() {
     });
 
     ////////////////////////////
+    // Pint 
+    ////////////////////////////
+    $( ".topdf" ).on( "click", function() {
+        debug('Pdf click');
+        generatePDF($(this).data("topdf-id"), $(this).data("topdf-file")) ;
+    });
+
+    ////////////////////////////
     // INCLUDE SRC JAVASCRIPT
     ////////////////////////////
     Object.entries(settings.includeJavascript).forEach(entry => {
@@ -715,4 +723,6 @@ $( document ).ready(function() {
 
     // Loader a cacher quand tout est fait
     $('#loadData').hide();
+
+    
 });

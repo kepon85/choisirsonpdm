@@ -14,6 +14,13 @@
   margin-bottom: 1px;
 }
 
+.topdf  svg {
+  width: 30px;
+  float: right;
+  cursor: pointer;
+  fill: var(--bs-primary);
+}
+
 #bug-report-button {
   border: 3px solid;
   border-color: var(--bs-warning-border-subtle);
@@ -570,3 +577,16 @@ background-color: #FF6600
 .resp-sharing-button--telegram:hover {
   background-color: #4B97D1;}
 
+
+
+@media print {
+  .locale-switcher, .contact {
+    display: none;
+  }
+  footer{
+    display: none;
+  }
+  header {
+    display: none;
+  }
+}

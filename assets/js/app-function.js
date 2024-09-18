@@ -1352,3 +1352,23 @@ function isLocalWallId(idSearch) {
     });  
     return retour;
 }
+
+/**
+ * Résumé : Généer des PDF avec PDF Make  selon un ID
+ */
+function generatePDF(id, file) {
+    appAlert("Export PDF...", "success", 5)
+    html2canvas($('#'+id)[0], {
+        onrendered: function (canvas) {
+            var data = canvas.toDataURL();
+            var docDefinition = {
+                content: [{
+                    image: data,
+                    width: 500
+                }]
+            };
+            pdfMake.createPdf(docDefinition).download(file+".pdf");
+            appAlert("... Export PDF ok !", "success", 2)
+        }
+    });
+}
