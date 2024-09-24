@@ -1171,14 +1171,17 @@ function tempBaseChangeMode() {
     debug("tempBaseChangeMode");
     if ($("#temp_base_auto").prop("checked")) {
         $("#temp_base").prop('disabled', true);
+        //$( "#temp_base" ).val('');
         $(".temp_base_auto").show();
         // Seulement si on est sur la tab 
-        if ($("#nav-tab-record").val() == 'nav-carte-tab') {
-            processChangelngLat();
+        if ($("#nav-tab-record").val() == 'nav-carte-tab' ) {
+            if ($("#lat").val() != '' && $("#lng").val() != '') {
+                processChangelngLat();
+            }
         }
     } else {
-        $( "#lng" ).val('');
-        $( "#lat" ).val('');
+        //$( "#lng" ).val('');
+        //$( "#lat" ).val('');
         $("#temp_base").prop('disabled', false);
         $(".temp_base_auto").hide();
     }

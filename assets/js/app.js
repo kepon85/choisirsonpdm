@@ -253,6 +253,14 @@ $( document ).ready(function() {
     // Enregistrement du click sur une tab pour la carte
     $("#nav-tab").on("click", function (e) {
         $('#nav-tab-record').val($(".nav-link.active").attr('id'));
+        // Changement de tab/carte, on met la température de base à 0
+        $( "#temp_base" ).val('');
+        if ($(".nav-link.active").attr('id') == 'nav-carte-tab' &&
+             $("#lat").val() != '' && 
+             $("#lng").val() != '') {        
+                // Si c'est la carte auto et qu'une latitude/longitude est renseigné alors on récupère la température de base
+                processChangelngLat();
+        }
         hashchangeAllAction();
     });
 
