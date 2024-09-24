@@ -39,6 +39,12 @@
   width: 30px;
   fill: var(--bs-warning-border-subtle);
 }
+@media (max-width: 900px) {
+  #bug-report-button {
+    display: none;
+  }
+}
+
 
 #help-new-topic {
   vertical-align: middle
