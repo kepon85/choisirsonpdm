@@ -44,6 +44,138 @@ const defaultSettings = {
     'percentPowerSuper': 8,
     'percentPowerCool': 20,
   },
+  "wallType": [
+    {
+      "text": "RT2012 Toiture",
+      "children": [
+        {
+          "id": "rt2012toit1_5.2",
+          "text": "Combles aménageables ou rampants < 60° (H1A, H1B, H1C)"
+        },
+        {
+          "id": "rt2012toit2_4.5",
+          "text": "Combles aménageables ou rampants < 60° (H2A, H2B, H2C, H2D H3>800m)"
+        },
+        {
+          "id": "rt2012toit3_4",
+          "text": "Combles aménageables ou rampants < 60° (H3<800m)"
+        },
+        {
+          "id": "rt2012toit4_4",
+          "text": "Combles perdus"
+        },
+        {
+          "id": "rt2012toit5_4.5",
+          "text": "Toitures-terrasses (H1A, H1B, H1C)"
+        },
+        {
+          "id": "rt2012toit6_4.3",
+          "text": "Toitures-terrasses (H2A, H2B, H2C, H2D H3>800m)"
+        },
+        {
+          "id": "rt2012toit7_4",
+          "text": "Toitures-terrasses (H3<800m)"
+        }
+      ]
+    },
+    {
+      "text": "RT2012 Mur",
+      "children": [
+        {
+          "id": "rt2012mur1_3.2",
+          "text": "Murs et rampants > 60° (H1A, H1B, H1C)"
+        },
+        {
+          "id": "rt2012mur2_3.2",
+          "text": "Murs et rampants > 60° (H2A, H2B, H2C, H2D H3>800m)"
+        },
+        {
+          "id": "rt2012mur3_2.2",
+          "text": "Murs et rampants > 60° (H3<800m)"
+        },
+        {
+          "id": "rt2012mur4_3.5",
+          "text": "Murs sur volume non chauffé"
+        }
+      ]
+    },
+    {
+      "text": "RT2012 Planchers",
+        "children": [
+          {
+            "id": "rt2012planc1_3",
+            "text": "Planchers bas donnant sur parking collectif, sur extérieur, vide sanitaire ou volume non chauffé  (H1A, H1B, H1C)"
+          },
+          {
+            "id": "rt2012planc2_3",
+            "text": "Planchers bas donnant sur parking collectif, sur extérieur, vide sanitaire ou volume non chauffé  (H2A, H2B, H2C, H2D H3>800m)"
+          },
+          {
+            "id": "rt2012planc3_2.1",
+            "text": "Planchers bas donnant sur parking collectif, sur extérieur, vide sanitaire ou volume non chauffé  (H3<800m)"
+          }
+      ]
+    },
+    {
+      "text": "RE2020 Mur",
+        "children": [
+          {
+            "id": "rt2012mur1_2.9",
+            "text": "Mur en contact avec l’extérieur (H1A, H1B, H1C)"
+          },
+          {
+            "id": "rt2012mur2_2.9",
+            "text": "Mur en contact avec l’extérieur (H2A, H2B, H2C, H2D H3>800m)"
+          },
+          {
+            "id": "rt2012mur3_2.2",
+            "text": "Mur en contact avec l’extérieur (H3<800m)"
+          },
+          {
+            "id": "rt2012mur4_2",
+            "text": "Murs sur volume non chauffé"
+          }
+      ]
+    },
+    {
+      "text": "RE2020 Toiture",
+        "children": [
+          {
+            "id": "rt2020toit1_4.4",
+            "text": "Combles aménagés (isolation dans le rampant sous toiture) (H1A, H1B, H1C)"
+          },
+          {
+            "id": "rt2020toit2_4.3",
+            "text": "Combles aménagés (isolation dans le rampant sous toiture) (H2A, H2B, H2C, H2D H3>800m)"
+          },
+          {
+            "id": "rt2020toit3_4",
+            "text": "Combles aménagés (isolation dans le rampant sous toiture) (H3<800m)"
+          },
+          {
+            "id": "rt2020toit4_4.8",
+            "text": "Combles perdus (isolation sur le plancher des combles)"
+          }
+      ]
+    },
+    {
+      "text": "RE2020 Planchers",
+        "children": [
+          {
+            "id": "rt2012planc1_2.7",
+            "text": "Planchers bas donnant sur l’extérieur ou sur un local non chauffé (H1A, H1B, H1C)"
+          },
+          {
+            "id": "rt2012planc2_2.7",
+            "text": "Planchers bas donnant sur l’extérieur ou sur un local non chauffé (H2A, H2B, H2C, H2D H3>800m)"
+          },
+          {
+            "id": "rt2012planc3_2.1",
+            "text": "Planchers bas donnant sur l’extérieur ou sur un local non chauffé (H3<800m)"
+          }
+      ]
+    }
+  ],
   // NF P52-612/CN décembre 2010
   "temperatureBaseData": {
     "a": [

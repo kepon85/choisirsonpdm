@@ -436,6 +436,15 @@ $( document ).ready(function() {
                     if (returnValidCustomWall == true) {
                         dialog.dialog( "close" );
                         appAlert('Ajouté !', "success");
+                        // Si on est passé par une paroi (le select) et non un bouton, on la sélectionne après sa création
+                        if ($( "#add-custom-wall-in-type-select").val() != '') {
+                            debug($( "#wall-type-" + $( "#add-custom-wall-in-type-select").val()).val());
+                            var textToFind = $('#wall-custom-title').val();
+                            debug('Option find : '+textToFind);
+                            selectOptionByText("wall-type-" + $( "#add-custom-wall-in-type-select").val(), textToFind);
+                            $( "#wall-type-" + $( "#add-custom-wall-in-type-select").val()).trigger('change');
+                            $( "#add-custom-wall-in-type-select").val('');
+                        }
                     } else {
                         appAlert(returnValidCustomWall);
                     }

@@ -9,6 +9,28 @@ function debug(msg) {
 }
 
 /**
+ * Résumé : Sélection une option par son text
+ * @param {string}           selectId ID du select
+ * @param {string}           optionText Option à sélectionné
+ */
+function selectOptionByText(selectId, optionText) {
+    // Utiliser jQuery pour sélectionner l'élément <select> par son ID
+    var $select = $('#' + selectId);
+    
+    // Trouver l'option en fonction du texte
+    var $option = $select.find('option').filter(function() {
+        return $(this).text() === optionText;
+    });
+    
+    // Si l'option est trouvée, la sélectionner
+    if ($option.length > 0) {
+        $select.val($option.val());
+    } else {
+        console.log("Option non trouvée : " + optionText);
+    }
+}
+
+/**
  * Résumé : Affiche une alert
  * @param {string}           msg Description : Message à afficher 
  * @param {string}           type Description: class à appliquer (alert-) warning par défaut (sinon : danger, success)
@@ -151,29 +173,53 @@ function getMateriauxData() {
     }
 }
 /**
- * Résumé : Complète le sélect des matériaux pour l'ajout/modification paroi
+ * Résumé : Complète le sélect des matériaux pour les paroi personnalisés paroi 
  */
 function wallTypeSelect(wallId) {
     debug("wallTypeSelect "+wallId);
     //Ajouter les custom-wall dans "wall-type" 
-    $('.custom-wall-' + wallId).remove();
+    $('#wall-type-'+wallId).empty();
+    var fullOptions = [
+        {
+            "id": "",
+            "text": "-"
+        } 
+    ] ;
+    var customWall = [ { "id": "new", "text": 'Créer une paroi personnalisée' } ] ;
     $.each(localSetting.wall, function(index, data) {
-        $('#wall-type-' + wallId + '-cath-custom').append('<option class="custom-wall-' + wallId + ' custom-wall" value="'+genOptionValue(data.idu, data.r)+'">'+data.title+'</option>'); 
-    });  
-    //$('#wall-type-' + wallId).trigger('change');
+        customWall = customWall.concat([ { "id": genOptionValue(data.idu, data.r), "text": data.title } ] )
+    });
+    const customWallWithCat = [ 
+        {
+            "text": "Vos parois",
+            "children":  customWall
+        },
+        {
+            "id": "u",
+            "text": "Valeur U personnalisée"
+        }
+    ];
+    fullOptions = fullOptions.concat(customWallWithCat);
+    fullOptions = fullOptions.concat(settings.wallType);
+    $('#wall-type-'+wallId).select2({
+        data : fullOptions
+    });
+    $('#wall-type-' + wallId).trigger('change');
 }
 
-
-
-
 /**
- * Résumé : Rafraichir le sélect des matériaux 
+ * Résumé : Rafraichir toutes les paroi personnalisés
  */
 function wallTypeAllSelect() {
     debug('wallTypeAllSelect');
     $.each($('tr.walls'), function(index, tr) {
         var wallId = tr.id.split('-')[1];
+        var valBeforClean = $('#wall-type-'+wallId).val();
         wallTypeSelect(wallId);
+        if ($('#wall-type-'+wallId).val() != valBeforClean) {
+            $('#wall-type-'+wallId).val(valBeforClean);
+        }
+        $('#wall-type-' + wallId).trigger('change');
     });
 }
 
@@ -472,7 +518,9 @@ function refreshDetailBuildingChange() {
     $(".wall-type:not(.wall-type-bond)").addClass('wall-type-bond')
     .on( "change", function(e) {
         wallId = this.id.split('-')[2];
+        // On peut ici, indiquer que c'est un nouveau
         if (this.value == 'new') {
+            $( "#add-custom-wall-in-type-select").val(wallId);
             $( "#add-custom-wall").click();
             this.value = '';
         }  else {
@@ -538,48 +586,6 @@ function detailBuildingAddWall(id = null) {
             + '</td>'
             + '<td>'
                 + '<select name="wall-type[]" id="wall-type-' + wallId + '" style="width: 100%;" class="wall-type form-select form-control hashchange">'
-                    + '<option value="" selected="selected">-</option>'
-                    + '<optgroup class="type-cath-custom" id="wall-type-' + wallId + '-cath-custom" label="Vos parois">'
-                    + '<option value="new" data-i18n="wall-type-new-custom">Créer une paroi personnalisée</option>'
-                    + '</optgroup>'
-                    + '<option value="u" data-i18n="wall-type-u-perso">Valeur U personnalisée</option>'
-                    + '<optgroup label="RT2012 Toiture">'
-                    + '<option value="rt2012toit1_5.2">Combles aménageables ou rampants < 60° (H1A, H1B, H1C)</option>'
-                    + '<option value="rt2012toit2_4.5">Combles aménageables ou rampants < 60° (H2A, H2B, H2C, H2D H3>800m)</option>'
-                    + '<option value="rt2012toit3_4">Combles aménageables ou rampants < 60° (H3<800m)</option>'
-                    + '<option value="rt2012toit4_4">Combles perdus</option>'
-                    + '<option value="rt2012toit5_4.5">Toitures-terrasses (H1A, H1B, H1C)</option>'
-                    + '<option value="rt2012toit6_4.3">Toitures-terrasses (H2A, H2B, H2C, H2D H3>800m)</option>'
-                    + '<option value="rt2012toit7_4">Toitures-terrasses (H3<800m)</option>'
-                    + '</optgroup>'
-                    + '<optgroup label="RT2012 Mur">'
-                    + '<option value="rt2012mur1_3.2">Murs et rampants > 60° (H1A, H1B, H1C)</option>'
-                    + '<option value="rt2012mur2_3.2">Murs et rampants > 60° (H2A, H2B, H2C, H2D H3>800m)</option>'
-                    + '<option value="rt2012mur3_2.2">Murs et rampants > 60° (H3<800m)</option>'
-                    + '<option value="rt2012mur4_3.5">Murs sur volume non chauffé</option>'
-                    + '</optgroup>'
-                    + '<optgroup label="RT2012 Planchers">'
-                    + '<option value="rt2012planc1_3">Planchers bas donnant sur parking collectif, sur extérieur, vide sanitaire ou volume non chauffé  (H1A, H1B, H1C)</option>'
-                    + '<option value="rt2012planc2_3">Planchers bas donnant sur parking collectif, sur extérieur, vide sanitaire ou volume non chauffé  (H2A, H2B, H2C, H2D H3>800m)</option>'
-                    + '<option value="rt2012planc3_2.1">Planchers bas donnant sur parking collectif, sur extérieur, vide sanitaire ou volume non chauffé  (H3<800m)</option>'
-                    + '</optgroup>'
-                    + '<optgroup label="RE2020 Mur">'
-                    + '<option value="rt2012mur1_2.9">Mur en contact avec l’extérieur (H1A, H1B, H1C)</option>'
-                    + '<option value="rt2012mur2_2.9">Mur en contact avec l’extérieur (H2A, H2B, H2C, H2D H3>800m)</option>'
-                    + '<option value="rt2012mur3_2.2">Mur en contact avec l’extérieur (H3<800m)</option>'
-                    + '<option value="rt2012mur4_2">Murs sur volume non chauffé</option>'
-                    + '</optgroup>'
-                    + '<optgroup label="RE2020 Toiture">'
-                    + '<option value="rt2020toit1_4.4">Combles aménagés (isolation dans le rampant sous toiture) (H1A, H1B, H1C)</option>'
-                    + '<option value="rt2020toit2_4.3">Combles aménagés (isolation dans le rampant sous toiture) (H2A, H2B, H2C, H2D H3>800m)</option>'
-                    + '<option value="rt2020toit3_4">Combles aménagés (isolation dans le rampant sous toiture) (H3<800m)</option>'
-                    + '<option value="rt2020toit4_4.8">Combles perdus (isolation sur le plancher des combles)</option>'
-                    + '</optgroup>'
-                    + '<optgroup label="RE2020 Planchers">'
-                    + '<option value="rt2012planc1_2.7">Planchers bas donnant sur l’extérieur ou sur un local non chauffé (H1A, H1B, H1C)</option>'
-                    + '<option value="rt2012planc2_2.7">Planchers bas donnant sur l’extérieur ou sur un local non chauffé (H2A, H2B, H2C, H2D H3>800m)</option>'
-                    + '<option value="rt2012planc3_2.1">Planchers bas donnant sur l’extérieur ou sur un local non chauffé (H3<800m)</option>'
-                    + '</optgroup>'
                 + '</select>'
             + '</td>'
             + '<td class="wall-rsi-rse-popup text-center">'
