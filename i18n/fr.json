@@ -164,6 +164,7 @@
 	"material-src-link-label": "Lien vers la source",
 	"material-src-contrib-label": "Votre nom/pseudo et e-mail de contributeur",
 	"material-comment-label": "Commentaire",
+	"show-more": "Voir plus...",
 	"dep-conduction": "Déperdition par conduction",
 	"dep-aeraulique": "Déperdition par aéraulique",
 	"dep-total": "Déperdition total",

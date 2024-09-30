@@ -283,6 +283,12 @@ $( document ).ready(function() {
         }
     });
 
+    // Afficher plus de détail sur les champs de matériaux (contribution)
+    $("#materialMore").on( "click", function(e) {
+        $('#materialMoreDiv').show();
+        $('#materialMore').hide();
+    });
+
     ////////////////////////////
     // Expert mode - Setting
     ////////////////////////////
