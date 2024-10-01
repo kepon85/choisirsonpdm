@@ -6,7 +6,7 @@
 
 $config['cache_dir']='../../tmp';
 $config['cache_timelife']=432000; # 5 jours
-$config['paramDefault']['nbYearsArchive']=10;
+$config['paramDefault']['nbYearsArchive']=20;
 $config['paramDefault']['temperature_unit']='celsius';
 $config['api_url']='https://archive-api.open-meteo.com/v1/archive';
 $config['contiguousDay']=5;
@@ -61,8 +61,9 @@ if (isset($_GET['nbYearsArchive'])) {
 } else {
     $nbYearsArchive=$config['paramDefault']['nbYearsArchive'];
 }
-// Sécurité sur la quantité de données traités
-if ($nbYearsArchive < 1 || $nbYearsArchive > 20) {
+// Sécurité sur la quantité de données traités 
+// Les données remontes jusqu'en 1985 
+if ($nbYearsArchive < 1 || $nbYearsArchive > 41) {
     $nbYearsArchive=$config['paramDefault']['nbYearsArchive'];
 }
 if (isset($_GET['temperature_unit'])) {

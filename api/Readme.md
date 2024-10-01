@@ -16,7 +16,7 @@ Identique à l'API source : https://open-meteo.com/en/docs/historical-weather-ap
 | ---------------- | ------- | -------- | ------------------- | ------------------------------------------------------------ |
 | lat              | Float   | Oui      | 47.22               | Localisation géographique                                    |
 | lng              | Float   | Oui      | -1.55               | Localisation géographique                                    |
-| nbYearsArchive   | Float   | Non      | 10                  | Nombre d'année d'analyse météo entre 1-20                    |
+| nbYearsArchive   | Float   | Non      | 20                  | Nombre d'année d'analyse météo entre 1-40                    |
 | temperature_unit | String  | Non      | celsius\|fahrenheit | (par défaut celsius)                                         |
 | verbose          | Booléen | Non      | true                | Pour avoir du détail dans les valeurs                        |
 | debug            | Booléen | Non      | true                | Pour lire le debug (change de format de retour de Json à TXT) |
