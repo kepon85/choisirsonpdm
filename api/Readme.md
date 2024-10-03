@@ -1,14 +1,14 @@
-# API Température de base
+# API Température de base / DJU
+
+## Condition
+
+Identique à l'API source des infos : https://open-meteo.com/en/docs/historical-weather-api (Usage non commercial)
+
+## API Température de base
 
 La température "de base" est une donnée d'entrée pour la méthode G & ubat
 
 C'est la température des 5 jours consécutif les plus froid de l'année, moyenné sur les X année (X étant souhaité paramétrable)
-
-## Utilisation
-
-### Condition
-
-Identique à l'API source : https://open-meteo.com/en/docs/historical-weather-api (Usage non commercial)
 
 ### GET : baseTemperature.php
 
@@ -59,11 +59,71 @@ Cette requête permet de déterminer la température de base sur les 3 dernière
 }
 ```
 
-## Démonstration
+Démonstration
 
 L'API est accessible :  https://choisir.poeledemasse.org/api/baseTemperature.php
 
 * Exemple de données https://choisir.poeledemasse.org/api/baseTemperature.php?lat=47.22&lng=-1.55&nbYearsArchive=3
+
+## API DJU
+
+Le DJU ou Degré Jour Unifié) est utilisé pour estimer (entre autre) pour estimer la consommation du foyer.
+
+Ici seul la méthode "Météo" (méthode simplifiée) (différentes méthode de calcul : https://dju.cloud-grdf.fr/latest/assets/methode-calcul.pdf)
+
+### GET : dju.php
+
+| Paramètre        | Format  | Requis ? | Exemple             | Description                                                  |
+| ---------------- | ------- | -------- | ------------------- | ------------------------------------------------------------ |
+| lat              | Float   | Oui      | 47.22               | Localisation géographique                                    |
+| lng              | Float   | Oui      | -1.55               | Localisation géographique                                    |
+| nbYearsArchive   | Float   | Non      | 20                  | Nombre d'année d'analyse météo entre 1-40                    |
+| temperature_unit | String  | Non      | celsius\|fahrenheit | (par défaut celsius)                                         |
+| s                | Float   | Non      | 18                  | Température de référence de l'habitat                        |
+| verbose          | Booléen | Non      | true                | Pour avoir du détail dans les valeurs                        |
+| debug            | Booléen | Non      | true                | Pour lire le debug (change de format de retour de Json à TXT) |
+
+Exemple : dju.php?lat=47.22&lng=-1.55&nbYearsArchive=2
+
+Cette requête permet de déterminer la température de base sur les 3 dernières années, elle retournes : 
+
+```json
+{
+    "latitude": 47.205624,
+    "longitude": 1.6150081,
+    "generationtime_ms": 6.821990013122559,
+    "utc_offset_seconds": 7200,
+    "timezone": "Europe\/Paris",
+    "timezone_abbreviation": "CEST",
+    "elevation": 111,
+    "daily_units": {
+        "time": "iso8601",
+        "temperature_2m_mean": "\u00b0C"
+    },
+    "monthly": {
+        "2022-01": 445,
+        "2022-02": 316,
+        "2022-03": 273,
+[...]
+        "2023-08": 16,
+        "2023-09": 17,
+        "2023-10": 102,
+        "2023-11": 258,
+        "2023-12": 326
+    },
+    "yearly": {
+        "2022": 2074,
+        "2023": 2068
+    },
+    "yearly_average": 2071
+}
+```
+
+Démonstration
+
+L'API est accessible :  https://choisir.poeledemasse.org/api/dju.php
+
+* Exemple de données https://choisir.poeledemasse.org/api/dju.php?lat=47.22&lng=-1.55&nbYearsArchive=2
 
 ## Source des données
 
