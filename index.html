@@ -179,7 +179,6 @@
                     </select>
                   </div>
                   
-
                   <div class="level2">
                     <label for="ubat_global" class="form-label" data-i18n="[html]form-ubat_global-label">Coefficient d'isolation estimé</label>
                     <select id="ubat_global" class="form-control hashchange">
@@ -205,6 +204,7 @@
                       <option value="0.08" data-i18n="[html]form-venti_global-0-08">0.08 ventilation mécanique contrôlée double flux</option>
                     </select>
                   </div>
+                  
                   <!--
                   <div class="level2 level3">
                     <label for="nbfire" class="form-label" data-i18n="[html]form-nbfire-label">Number of fires max per day</label>
@@ -408,11 +408,15 @@
                     </div>
                     <div class="md-3 level3 temp_base_years_archive">
                       <label for="temp_base_years_archive" class="form-label" data-i18n="[html]form-temp_base_years_archive-label">Année de d'archive pour la temperature de base</label>
-                      <input type="number" class="form-control hashchange" min="1" max="20" step="1" name="temp_base_years_archive" id="temp_base_years_archive" value="" />
+                      <input type="number" class="form-control hashchange" min="1" max="40" step="1" name="temp_base_years_archive" id="temp_base_years_archive" value="" />
                     </div>
                     <div class="md-3 level3 temp_ground_input_group">
                       <label for="temp_ground" class="form-label"><span data-i18n="[html]form-temp_ground-label">Température du sol </span> : </label>
                       <input type="number" class="form-control hashchange" min="-40" max="30" step="1" name="temp_ground" id="temp_ground" value=""  />
+                    </div>
+                    <div class="md-3 level3 dju_years_archive">
+                      <label for="dju_years_archive" class="form-label" data-i18n="[html]form-dju_years_archive-label">Année de d'archive pour le DJU</label>
+                      <input type="number" class="form-control hashchange" min="1" max="40" step="1" name="dju_years_archive" id="dju_years_archive" value="" />
                     </div>
                   </div>
                 </div>
@@ -725,7 +729,6 @@
             <span data-i18n="[html]result-title">Result</span>
           </h4>
           <div class="card-body">
-            <p><span id="calcShowHide" class="btn btn-light btn-sm" data-i18n="[html]result-show_more">See, understand the process, the calculation</span></p>
             <div class="calcul_level1">
               <p data-i18n="[html]result-g-explain">According to the 'G' method, we are looking here for the loss of your habitat in the most unfavorable sequence of days (base temperature) of the winter (taking into account your geographical location) in order to deduce your need for heating. The formula is as follows: </p>
               <p data-i18n="[html]result-g-formule">D = DT * V * G</p>
@@ -767,6 +770,29 @@
             <div id="deperdition">
               <b><span data-i18n="[html]result-need-explain">Your heating need is</span> <span id='resDeperditionMax'></span> kW</b>
               <input type="hidden" name="resDeperdition" id="resDeperdition" />
+            </div>
+            <p><span id="calcShowHide" class="btn btn-light btn-sm" data-i18n="[html]result-show_more">See, understand the process, the calculation</span></p>
+            <div id="conso">
+              <div class="calcul_conso">
+                <p data-i18n="[html]result-dju-explain">Les DJU (degré jour unifié) permettent de déterminer la consommation théorique d'un bâtiment à l'aide de la formule suivante :</p>
+                <p data-i18n="[html]result-dju-formule">C = (24 * D * DJU * i) / (DT x η x PCI)</p>
+                <ul>
+                  <li data-i18n="[html]result-dju-formule-c">C : Consommation en tonne de bois</li>
+                  <li data-i18n="[html]result-dju-formule-24">24 : Nombre d'heures chauffées par jour</li>
+                  <li data-i18n="[html]result-ubat-formule-d">D (W): The thermal losses of the building</li>
+                  <li data-i18n="[html]result-dju-formule-dju">DJU : le degré de jour unifié selon votre lieu géographique (<a href="https://framagit.org/kepon/choisirsonpdm/-/tree/main/api#api-dju">obtenu par API</a>)</li>
+                  <li data-i18n="[html]result-dju-formule-i">i : coefficient d’intermittence (0.8 pour le chauffage au bois).</li>
+                  <li data-i18n="[html]result-ubat-formule-dt">DT (°C): temperature difference 'DT', between the interior of the house and the exterior, when it is cold (subtraction between the desired interior temperature and the temperature 'basic' of your region.</li>
+                  <li data-i18n="[html]result-dju-formule-η">η : rendement global de la production sur l'année (génération, distribution, émission, régulation) (0.75 pour un poêle de masse)</li>
+                  <li data-i18n="[html]result-dju-formule-pci">PCI (kWh/t) : Pouvoir Calorifique Inférieur (pour le bois bûches 4 080 kWh/t)</li>
+                </ul>
+                <p data-i18n="[html]result-ubat-formule-your-case">In your case it makes us:</p>
+                <p>C = (24 * <span class="res_d">?</span> * <span class="res_dju">?</span> * 0.8) / ( (<span class="res_temp_indor">?</span> - <span class="res_temp_base">?</span>) * 0.75 * 4080) = <span class="res_c">?</span> </p>
+              </div>
+              <div class="calcul_conso_result">
+                <span data-i18n="[html]result-conso-explain-1">Votre consommation annuelle de bois serai estimé à </span> <span class='res_c'>?</span> <span data-i18n="[html]result-conso-explain-2">T de bois  (soit environ </span> <span class='res_stere_hardwoods'>?</span> <span data-i18n="[html]result-conso-explain-3">stère(s) de bois feuillus)</span>
+              </div>
+              <p><span id="calcConsoShowHide" class="btn btn-light btn-sm" data-i18n="[html]result-show_more">See, understand the process, the calculation</span></p>
             </div>
           </div>
         </div>

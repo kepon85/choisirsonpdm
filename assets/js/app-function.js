@@ -998,12 +998,48 @@ function submitForm() {
     $("#resDeperditionMax").html(precise_round(resDeperditionMax/1000, 2));
     $("#resDeperdition").val(resDeperditionMax);
     debug("Besoin de chauffage : " + resDeperditionMax + "Wh");
+    conso();
     suggestion();
     help();
     // Tooltip reset
     $('[data-toggle="tooltip"]').tooltip();
 }
 
+
+/**
+ * Résumé : Détermine la consommation
+ */
+function conso() {
+    $("#conso").hide();
+    debug("[conso] Conso calcul");
+    debug('[conso] GET API DJU');
+    $.getJSON( settings.apiDju+'?lat='+precise_round(parseFloat($("#lat").val()), 4)+'&lng='+precise_round(parseFloat($("#lng").val()), 4)+'&nbYearsArchive='+$("#dju_years_archive").val()) 
+    .done(function( json ) {
+        debug(json);
+        var dju = json.yearly_average;
+        $('.res_dju').html(dju);
+        debug("[conso] dju = "+dju);
+        var resDeperdition = precise_round(parseFloat($("#resDeperdition").val())/1000, 2);
+        $('.res_d').html(resDeperdition);
+        debug("[conso] resDeperdition = "+resDeperdition);
+        $('.res_temp_indor').html($("#temp_indor").val());
+        $('.res_temp_base').html($("#temp_base").val());
+        var deltaT = parseFloat($("#temp_indor").val()) - parseFloat($("#temp_base").val());
+        debug("[conso] deltaT = "+deltaT);
+        var c = (24 * resDeperdition * dju * settings.dju.i) / (deltaT*settings.dju.η*settings.dju.pci.wood);
+        debug("[conso] c = "+c);
+        $('.res_c').html(precise_round(c,2));
+        var c_stere = precise_round(c*1000/settings.dju.stere.hardwoods,0);
+        debug("[conso] c en stèr e= "+c_stere);
+        $('.res_stere_hardwoods').html(c_stere);
+        $("#conso").show();
+    })
+    .fail(function( jqxhr, textStatus, error ) {
+        appAlert('<span>Request Failed to get API DJU " + jqxhr.responseJSON.message + ". </span>', "danger", 3);
+        debug("[conso] API return : " + error);
+    });
+
+}
 
 /**
  * Résumé : Récupère la température de base par API en fonction de la latitude et la longitude

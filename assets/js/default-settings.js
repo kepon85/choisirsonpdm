@@ -7,14 +7,26 @@ const defaultSettings = {
   "debugLoadMap":                 false,
   "appShortName":                 "choisirsonpdm",
   "apiBaseTemperature":           "https://choisir.poeledemasse.org/api/baseTemperature.php",
+  "apiDju":                       "https://choisir.poeledemasse.org/api/dju.php",
   "apiMateriaux":                 "https://choisir.poeledemasse.org/api/materiaux/index.php",
   "apiContact":                   "https://choisir.poeledemasse.org/api/contact.php",
   "apiDebounceTtimeout":           1500,
   "defaultLanguage":              "fr",
+  "dju": {           // https://blog.elyotherm.fr/2015/08/dju-degre-jour-unifies-base-18.html
+    "η":      0.75,    // https://forum.afpma.pro/t/logiciel-choisir-son-pdm-pour-sa-maison/763/29?u=david.mercereau
+    "i":      0.8,   // https://forum.afpma.pro/t/logiciel-choisir-son-pdm-pour-sa-maison/763/29?u=david.mercereau
+    "pci": {
+      "wood": 4080
+    },
+    "stere": {
+      "hardwoods": 420, // kg/stere
+    },
+  },
   "form_default": {
     "temp_indor":                 19, 
     "level":     1,
     "temp_base_years_archive":     20,
+    "dju_years_archive":           20,
     "ubat_global":                 0.4,
     "venti_global":                0.14,
     "g":                           0.3,

@@ -67,7 +67,8 @@
 #app-alert,
 .calcul_level1,
 .calcul_level2,
-.calcul_level3 {
+.calcul_level3,
+.calcul_conso {
     display: none;
 }
 

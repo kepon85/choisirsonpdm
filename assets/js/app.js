@@ -595,6 +595,10 @@ $( document ).ready(function() {
         $(".calcul_level"+$("#level").val()).toggle();
         debug("toggle calcul " + $("#level").val());
     });
+    $("#calcConsoShowHide").on( "click", function(e) {
+        $(".calcul_conso").toggle();
+        debug("toggle calcul conso");
+    });
     
     ////////////////////////////
     // Contact
