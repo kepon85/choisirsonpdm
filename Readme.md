@@ -62,10 +62,12 @@ Exemple à plusieurs "super" suggestion : http://127.0.0.1:3000/index.html#level
 
 * Futur : 
   * https://framagit.org/kepon/choisirsonpdm/-/issues/23
-* Master (current)
-  * [add] Considération de la température du sol : https://framagit.org/kepon/choisirsonpdm/-/issues/24
+* 2.2 (current)
+  * [bug/add] Considération de la température du sol : https://framagit.org/kepon/choisirsonpdm/-/issues/24
   * [add] Génération PDF et amélioration de l'impression : https://framagit.org/kepon/choisirsonpdm/-/issues/25
-* v2.1 (current)
+  * [add] Estimation consommation bois https://framagit.org/kepon/choisirsonpdm/-/issues/27
+  * [bug] Création paroi perso, pas d'apparition dans la liste  https://framagit.org/kepon/choisirsonpdm/-/issues/26
+* v2.1 
   * [add] MD5 pour rendre unique les matériaux et les parois personnalisés (pour permettre un meilleur partage des URL/résultats)
     * Rupture de compatibilité pour la collection de matériaux personnalisés ainsi que de paroi
 * v2.0
