@@ -108,8 +108,9 @@ Quelques projets open sources utilisé dans celui-ci :
 * Auteurs : Mercereau David
 * Soutien technique sur la partie Thermique : Damien Sgorlon
 * Traduction ES edufas http://www.estufasdeinercia.wordpress.com/
+* Relecture de la partie Française Cyril CREVON https://www.poele-redon.fr/ 
 * Relecture traduction EN Stefan P
 * La page d'Uzume pour la compréhension de la méthode G :https://www.uzume.fr/quelle-puissance-pour-mon-poele-de-masse 
-* Le calculateur Oxalis pour la compréhension de la méthode Ubat : https://www.oxalis-asso.org/?page_id=3206
+* Le calculateur Oxalis pour la compréhension de la méthode Ubat : https://www.poeleoxalibre.org/calcul-dimensionnement/
 * Les retours de la communauté : https://forum.poeledemasse.org/tag/choisirpoeledemasseo
 * Zone de la carte des températures de bases par Jocelun Nourtier http://nourtier.net/JoceWanadoo/Bricolage/PAC/calcul_PAC.htm
