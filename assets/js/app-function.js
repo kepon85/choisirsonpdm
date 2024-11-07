@@ -858,6 +858,7 @@ function submitForm() {
     document.getElementById("result").scrollIntoView();
     $("#submit_input").val(1);
     hashChange();
+    $(".calculs").hide();
     // Méthode G, niveau 1
     if ($("#level").val() == 1) {
         // Pour la méthode de calcul

@@ -108,7 +108,7 @@ Quelques projets open sources utilisé dans celui-ci :
 * Auteurs : Mercereau David
 * Soutien technique sur la partie Thermique : Damien Sgorlon
 * Traduction ES edufas http://www.estufasdeinercia.wordpress.com/
-* Relecture de la partie Française Cyril CREVON https://www.poele-redon.fr/ 
+* Relecture de la partie Française & testeur fou : Cyril CREVON https://www.poele-redon.fr/ 
 * Relecture traduction EN Stefan P
 * La page d'Uzume pour la compréhension de la méthode G :https://www.uzume.fr/quelle-puissance-pour-mon-poele-de-masse 
 * Le calculateur Oxalis pour la compréhension de la méthode Ubat : https://www.poeleoxalibre.org/calcul-dimensionnement/

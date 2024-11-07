@@ -557,6 +557,12 @@ $( document ).ready(function() {
     ////////////////////////////
     // Contrôle
     ////////////////////////////
+
+    // Remplace la "," par un point dans les champs number
+    $('input[type="number"]').on( "focusout", function() {
+        $(this).val($(this).val().replace(/,/, '\.'));
+    });
+
     // Si on "submit" le formulaire
     $("#submit_button").on( "click", function(e) {
         debug("Click submit");
