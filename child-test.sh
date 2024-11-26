@@ -17,7 +17,7 @@ if [ "$1" == "" ]; then
     echo "Configuration par default"
     child="default"
 else 
-    child="$1.choisir.poeledemasse.org"
+    child="$1"
 fi 
 
 if ! [ -d "$pwd/child/$child" ] ; then

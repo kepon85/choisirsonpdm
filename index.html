@@ -36,7 +36,7 @@
         <!-- Titre -->
         <div class="header row text-center mt-4">
           <div class="col-12">
-            <img class="d-block mx-auto mb-4" src="./assets/img/logo.png" alt="">
+            <img class="d-block mx-auto mb-4 logo" id="logo" src="./assets/img/logo.png" alt="">
             <div id="title"><h2 data-i18n="[html]app-title">Choose your mass stove</h2></div>
             <!--
             <div class="alert  alert-warning role="alert" data-i18n="[html]app-in-dev">
@@ -110,7 +110,7 @@
                 </div>
               </div>
               
-              <div class="card">
+              <div class="card form-building">
                 <h4 class="card-header" id="form-building" data-i18n="[html]form-building">Le bâtiment</h4>
                 <div class="card-body">
                   <!-- Surface habitable -->
@@ -223,7 +223,7 @@
             <div class="col-md-6">
 
               <!-- Map pour temperature de base -->
-              <div class="card">
+              <div class="card form-location">
                 <h4 class="card-header" id="form-location" data-i18n="[html]form-location">Localisation du bâtiment</h4>
                 <div class="card-body">
                   <div class="temp_base_auto">
@@ -426,7 +426,7 @@
 
           <div class="row level3">
             <div class="col-md-12">
-              <div class="card">
+              <div class="card level3-settings">
                 <div  class="card-header">
                   <div class="d-flex justify-content-between ">
                     <div class="p-2"><h4 id="title-setting"> <span data-i18n="[html]title-setting">Vos paramètres</span></h4></div>
@@ -508,7 +508,7 @@
           
           <div class="row level3">
             <div class="col-md-12">
-              <div class="card">
+              <div class="card form-detail-building">
 
                 <div id="dialog-rsirse" title="Rsi / Rse">
                   <!--
@@ -706,7 +706,7 @@
 
 
 
-          <div class="row p-3">
+          <div class="row p-3 btns">
             <div class="col-md-3">
               <button class="w-100 btn btn-secondary btn-lg" id="reset" type="button" data-i18n="[html]form-reset-button">Reset</button>
             </div>
