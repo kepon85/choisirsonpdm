@@ -29,12 +29,14 @@ echo "RewriteEngine on" > $htaccess
 
 for fichier in ${fichiers[@]}
 do
-    echo "Pour $fichier"
+    echo -n "Pour $fichier : "
     rm $pwd/$fichier
     #cp $pwd/child/$child/$fichier $pwd/$fichier
     if [ -f "$pwd/child/$child/$fichier" ] ; then
+        echo "Child Use !"
         ln $pwd/child/$child/$fichier $pwd/$fichier
     else 
+        echo "Default Use !"
         ln $pwd/child/default/$fichier $pwd/$fichier
     fi
     echo "RewriteCond %{DOCUMENT_ROOT}/child/%{HTTP_HOST}/$fichier -f" >> $htaccess
