@@ -132,19 +132,19 @@ const defaultSettings = {
       "text": "RE2020 Mur",
         "children": [
           {
-            "id": "rt2012mur1_2.9",
+            "id": "re2020mur1_2.9",
             "text": "Mur en contact avec l’extérieur (H1A, H1B, H1C)"
           },
           {
-            "id": "rt2012mur2_2.9",
+            "id": "re2020mur2_2.9",
             "text": "Mur en contact avec l’extérieur (H2A, H2B, H2C, H2D H3>800m)"
           },
           {
-            "id": "rt2012mur3_2.2",
+            "id": "re2020mur3_2.2",
             "text": "Mur en contact avec l’extérieur (H3<800m)"
           },
           {
-            "id": "rt2012mur4_2",
+            "id": "re2020mur4_2",
             "text": "Murs sur volume non chauffé"
           }
       ]
@@ -153,19 +153,19 @@ const defaultSettings = {
       "text": "RE2020 Toiture",
         "children": [
           {
-            "id": "rt2020toit1_4.4",
+            "id": "re2020toit1_4.4",
             "text": "Combles aménagés (isolation dans le rampant sous toiture) (H1A, H1B, H1C)"
           },
           {
-            "id": "rt2020toit2_4.3",
+            "id": "re2020toit2_4.3",
             "text": "Combles aménagés (isolation dans le rampant sous toiture) (H2A, H2B, H2C, H2D H3>800m)"
           },
           {
-            "id": "rt2020toit3_4",
+            "id": "re2020toit3_4",
             "text": "Combles aménagés (isolation dans le rampant sous toiture) (H3<800m)"
           },
           {
-            "id": "rt2020toit4_4.8",
+            "id": "re2020toit4_4.8",
             "text": "Combles perdus (isolation sur le plancher des combles)"
           }
       ]
@@ -174,15 +174,15 @@ const defaultSettings = {
       "text": "RE2020 Planchers",
         "children": [
           {
-            "id": "rt2012planc1_2.7",
+            "id": "re2020planc1_2.7",
             "text": "Planchers bas donnant sur l’extérieur ou sur un local non chauffé (H1A, H1B, H1C)"
           },
           {
-            "id": "rt2012planc2_2.7",
+            "id": "re2020planc2_2.7",
             "text": "Planchers bas donnant sur l’extérieur ou sur un local non chauffé (H2A, H2B, H2C, H2D H3>800m)"
           },
           {
-            "id": "rt2012planc3_2.1",
+            "id": "re2020planc3_2.1",
             "text": "Planchers bas donnant sur l’extérieur ou sur un local non chauffé (H3<800m)"
           }
       ]
