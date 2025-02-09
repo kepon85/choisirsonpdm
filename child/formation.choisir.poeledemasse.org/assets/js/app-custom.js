@@ -5,6 +5,10 @@ $( document ).ready(function() {
     $('#help').hide();
 
     $('#result .card-body').after('<div class="m-3 d-flex justify-content-center"><button class="envoiFormateur contact btn btn-info">Envoyer ce résultat au formateur</button></div>');
+    $( ".contact" ).on( "click", function() {
+        debug('Contact (custom) click');
+        contactShow();
+    });
     
     $('#bug-report-disclamer').hide();
 

@@ -2,6 +2,7 @@ const userSettings = {
     "debug": false,
     "debugLoadMap": false,
     "form_default": {
-    "level":     3,
-  },
+      "temp_ground":                 11,
+      "level":     3,
+    },
 }
