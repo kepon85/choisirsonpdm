@@ -1,0 +1,98 @@
+<html>
+<head>
+    <title>Ponts Thermiques</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .container { display: flex; flex-direction: column; align-items: center; }
+        .selectors { margin-bottom: 20px; }
+        svg { border: 1px solid black; }
+        .label { font-size: 14px; font-weight: bold; }
+        .arrow { fill: none; stroke: orange; stroke-width: 2; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="selectors">
+            <label for="mur">Mur :</label>
+            <select id="mur">
+                <option value="Non Isolé">Non Isolé</option>
+                <option value="ITI">ITI</option>
+                <option value="ITE">ITE</option>
+                <option value="ITR">ITR</option>
+                <option value="ITE+ITI">ITE+ITI</option>
+                <option value="ITI+ITR">ITI+ITR</option>
+                <option value="ITE+ITR">ITE+ITR</option>
+            </select>
+        </div>
+        <svg width="200" height="220">
+            <!-- Labels for inside and outside -->
+            <text x="20" y="20" class="label">Extérieur</text>
+            <text x="120" y="20" class="label">Intérieur</text>
+            
+            <!-- Mur principal -->
+            <rect x="80" y="40" width="40" height="150" fill="gray" stroke="black" stroke-width="1"/>
+            
+            <!-- Plancher -->
+            <rect x="95" y="105" width="100" height="30" fill="gray" stroke="black" stroke-width="1"/>
+
+            <!-- Flèche de transfert thermique -->
+            <path id="heat-arrow" d="M 140 90 Q 100 150 50 80" class="arrow"/>
+            <path id="heat2-arrow" d="M 140 145 Q 100 100 50 155" class="arrow"/>
+            
+            <text x="60" y="100" class="label" transform="rotate(90,100,100)">Mur</text>
+            <text x="100" y="125" class="label">Plancher inter.</text>
+            
+            <!-- Isolation ITI/ITE (initialement invisibles) -->
+            <rect id="iti-mur" x="118" y="40" width="3" height="65" fill="red" visibility="hidden"/>
+            <rect id="iti-mur2" x="118" y="136" width="3" height="55" fill="red" visibility="hidden"/>
+            <rect id="ite-mur" x="78" y="40" width="3" height="150" fill="blue" visibility="hidden"/>
+            <rect id="itr" x="118" y="103" width="40" height="3" fill="green" visibility="hidden"/>
+            <rect id="itr2" x="118" y="135" width="40" height="3" fill="green" visibility="hidden"/>
+            
+            <rect id="iti-plancher" x="120" y="127" width="75" height="3" fill="red" visibility="hidden"/>
+            <rect id="ite-plancher" x="120" y="160" width="75" height="3" fill="blue" visibility="hidden"/>
+
+            <text x="120" y="20" class="label">Vue en coupe</text>
+        </svg>
+        <div>
+            <label for="k-value">Valeur K :</label>
+            <input type="text" id="k-value" readonly>
+        </div>
+    </div>
+    
+    <script>
+        const kValues = {
+            "Non Isolé": 0.86,
+            "ITI": 0.92,
+            "ITE": 0.13,
+            "ITR": 0.24,
+            "ITE+ITI": 0.13,
+            "ITI+ITR": 0.24,
+            "ITE+ITR": 0.1
+        };
+        
+        function updateIsolation() {
+            $("rect[id^='iti'], rect[id^='ite'], rect[id^='itr']").attr("visibility", "hidden");
+            
+            let mur = $("#mur").val();
+            
+            if (mur.includes("ITI")) {
+                $("#iti-mur").attr("visibility", "visible");
+                $("#iti-mur2").attr("visibility", "visible");
+            }
+            if (mur.includes("ITE")) $("#ite-mur").attr("visibility", "visible");
+            if (mur.includes("ITR")) {
+                $("#itr").attr("visibility", "visible");
+                $("#itr2").attr("visibility", "visible");
+            }
+            
+            let k = kValues[mur] !== undefined ? kValues[mur] : "-";
+            $("#k-value").val(k);
+        }
+        
+        $("#mur").change(updateIsolation);
+        $(document).ready(updateIsolation);
+    </script>
+</body>
+</html>

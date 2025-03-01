@@ -1,0 +1,100 @@
+<html>
+<head>
+    <title>Ponts Thermiques</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .container { display: flex; flex-direction: column; align-items: center; }
+        .selectors { margin-bottom: 20px; }
+        svg { border: 1px solid black; }
+        .label { font-size: 14px; font-weight: bold; }
+        .arrow { fill: none; stroke: orange; stroke-width: 2; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="selectors">
+            <label for="plancher">Plancher :</label>
+            <select id="plancher">
+                <option value="Non Isolé">Non Isolé</option>
+                <option value="ITI">ITI</option>
+                <option value="ITE">ITE</option>
+                <option value="ITE+ITI">ITE+ITI</option>
+            </select>
+            <label for="mur">Mur :</label>
+            <select id="mur">
+                <option value="Non Isolé">Non Isolé</option>
+                <option value="ITI">ITI</option>
+                <option value="ITE">ITE</option>
+                <option value="ITR">ITR</option>
+                <option value="ITE+ITI">ITE+ITI</option>
+                <option value="ITI+ITR">ITI+ITR</option>
+                <option value="ITE+ITR">ITE+ITR</option>
+            </select>
+        </div>
+        <svg width="200" height="200">
+            <!-- Labels for inside and outside -->
+            <text x="20" y="20" class="label">Extérieur</text>
+            <text x="120" y="20" class="label">Intérieur</text>
+
+            <!-- Mur principal -->
+            <rect x="80" y="40" width="40" height="150" fill="gray" stroke="black" stroke-width="1"/>
+            
+            <!-- Plancher -->
+            <rect x="95" y="130" width="100" height="30" fill="gray" stroke="black" stroke-width="1"/>
+
+            <!-- Flèche de transfert thermique -->
+            <path id="heat-arrow" d="M 140 120 Q 100 180 50 100" class="arrow"/>
+            
+            <text x="75" y="100" class="label" transform="rotate(90,100,100)">Mur</text>
+            <text x="100" y="150" class="label">Plancher bas</text>
+            
+            <!-- Isolation ITI/ITE (initialement invisibles) -->
+            <rect id="iti-mur" x="118" y="40" width="3" height="90" fill="red" visibility="hidden"/>
+            <rect id="ite-mur" x="78" y="40" width="3" height="150" fill="blue" visibility="hidden"/>
+            <rect id="itr" x="118" y="127" width="40" height="3" fill="green" visibility="hidden"/>
+            
+            <rect id="iti-plancher" x="120" y="127" width="75" height="3" fill="red" visibility="hidden"/>
+            <rect id="ite-plancher" x="120" y="160" width="75" height="3" fill="blue" visibility="hidden"/>
+            
+            
+        </svg>
+        <div>
+            <label for="k-value">Valeur K :</label>
+            <input type="text" id="k-value" readonly>
+        </div>
+    </div>
+    
+    <script>
+        const kValues = {
+            "Non Isolé": { "Non Isolé": 0.39, "ITI": 0.47, "ITE": 0.80, "ITE+ITI": 0.47 },
+            "ITI": { "Non Isolé": 0.31, "ITI": 0.08, "ITE": 0.71, "ITE+ITI": 0.08 },
+            "ITE": { "Non Isolé": 0.49, "ITI": 0.48, "ITE": 0.64, "ITE+ITI": 0.48 },
+            "ITR": { "Non Isolé": 0.35, "ITI": 0.01, "ITE": 0.45, "ITE+ITI": 0.1 },
+            "ITE+ITI": { "Non Isolé": 0.31, "ITI": 0.08, "ITE": 0.45, "ITE+ITI": 0.08 },
+            "ITI+ITR": { "Non Isolé": 0.31, "ITI": 0.08, "ITE": 0.45, "ITE+ITI": 0.08 },
+            "ITE+ITR": { "Non Isolé": 0.35, "ITI": 0.01, "ITE": 0.45, "ITE+ITI": 0.1 }
+        };
+        
+        function updateIsolation() {
+            $("rect[id^='iti'], rect[id^='ite'], #itr").attr("visibility", "hidden");
+            
+            let plancher = $("#plancher").val();
+            let mur = $("#mur").val();
+            
+            if (plancher.includes("ITI")) $("#iti-plancher").attr("visibility", "visible");
+            if (plancher.includes("ITE")) $("#ite-plancher").attr("visibility", "visible");
+            
+            if (mur.includes("ITI")) $("#iti-mur").attr("visibility", "visible");
+            if (mur.includes("ITE")) $("#ite-mur").attr("visibility", "visible");
+            if (mur.includes("ITR")) $("#itr").attr("visibility", "visible");
+            
+            let k = kValues[mur] && kValues[mur][plancher] ? kValues[mur][plancher] : "-";
+            $("#k-value").val(k);
+        }
+        
+        $("#plancher, #mur").change(updateIsolation);
+        $(document).ready(updateIsolation);
+    </script>
+</body>
+</html>
