@@ -1,3 +1,4 @@
+Header set X-Frame-Options "ALLOW-FROM *"
 RewriteEngine on
 RewriteCond %{DOCUMENT_ROOT}/child/%{HTTP_HOST}/assets/js/app-suggestion.js -f
 RewriteRule ^assets/js/app-suggestion.js$ child/%{HTTP_HOST}/assets/js/app-suggestion.js [NC,QSA]

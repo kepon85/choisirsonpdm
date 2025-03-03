@@ -25,7 +25,8 @@ if ! [ -d "$pwd/child/$child" ] ; then
     exit 1
 fi
 
-echo "RewriteEngine on" > $htaccess
+echo 'Header set X-Frame-Options "ALLOW-FROM *"' > $htaccess
+echo "RewriteEngine on" >> $htaccess
 
 for fichier in ${fichiers[@]}
 do
