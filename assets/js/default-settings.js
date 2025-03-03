@@ -188,6 +188,110 @@ const defaultSettings = {
       ]
     }
   ],
+  "winType": [
+    {
+      "text": "Fenêtres",
+      "children": [
+        {
+          "id": "5.7",
+          "text": "Simple Vitrage, Uw=5.7"
+        },
+        {
+          "id": "2.8",
+          "text": "Vitrage isolant jusqu'en 1990, Uw=2.8"
+        },
+        {
+          "id": "1.7",
+          "text": "Double Vitrage, Uw=1.7"
+        },
+        {
+          "id": "1.5",
+          "text": "Double Vitrage, Uw=1.5"
+        },
+        {
+          "id": "1.3",
+          "text": "Double Vitrage, Uw=1.3 (RT2012 Minimum)"
+        },
+        {
+          "id": "1.2",
+          "text": "Double Vitrage, Uw=1.2"
+        },
+        {
+          "id": "1.1",
+          "text": "(Double) Triple Vitrage, Uw=1.1"
+        },
+        {
+          "id": "1.0",
+          "text": "Triple Vitrage, Uw=1.0"
+        },
+        {
+          "id": "0.9",
+          "text": "Triple Vitrage, Uw=0.9"
+        },
+        {
+          "id": "0.85",
+          "text": "Triple Vitrage, Uw=0.85"
+        },
+        {
+          "id": "0.8",
+          "text": "Triple Vitrage, Uw=0.8 (RE2020 Minimum)"
+        },
+        {
+          "id": "0.75",
+          "text": "Triple Vitrage, Uw=0.75"
+        },
+        {
+          "id": "0.7",
+          "text": "Triple Vitrage, Uw=0.7"
+        },
+        {
+          "id": "0.65",
+          "text": "Triple Vitrage, Uw=0.65"
+        }
+      ]
+    },
+    {
+      "text": "Portes",
+      "children": [
+        {
+          "id": "3.5",
+          "text": "[Bois|PVC] Porte opaque pleine, Uporte=3.5"
+        },
+        {
+          "id": "4",
+          "text": "[Bois|PVC] Porte avec moins de 30% de vitrage simple, Uporte=4"
+        },
+        {
+          "id": "4.5",
+          "text": "[Bois|PVC] Porte avec 30-60% de vitrage simple, Uporte=4.5"
+        },
+        {
+          "id": "3.3",
+          "text": "[Bois|PVC] Porte avec double vitrage, Uporte=3.3"
+        },
+        {
+          "id": "5.8",
+          "text": "[Métal] Porte opaque pleine ou vitrage simple, Uporte=5.8"
+        },
+        {
+          "id": "5.5",
+          "text": "[Métal] Porte avec moins de 30% de double vitrage, Uporte=5.5"
+        },
+        {
+          "id": "4.8",
+          "text": "[Métal] Porte avec 30-60% de double vitrage, Uporte=4.8"
+        },
+        {
+          "id": "2",
+          "text": "[Toute menuiserie] Porte opaque pleine isolée, Uporte=2"
+        },
+        {
+          "id": "1.5",
+          "text": "[Toute menuiserie] Porte précédée d’un SAS, Uporte=1.5"
+        }
+      ]
+    }
+  ],
   // NF P52-612/CN décembre 2010
   "temperatureBaseData": {
     "a": [

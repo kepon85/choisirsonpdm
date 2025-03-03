@@ -63,6 +63,8 @@ Exemple à plusieurs "super" suggestion : http://127.0.0.1:3000/index.html#level
 
 * Futur : 
   * https://framagit.org/kepon/choisirsonpdm/-/issues/23
+* 2.3 (en cours)
+  * [add] Considération des portes https://framagit.org/kepon/choisirsonpdm/-/issues/33
 * 2.2 (current)
   * [bug/add] Considération de la température du sol : https://framagit.org/kepon/choisirsonpdm/-/issues/24
   * [add] Génération PDF et amélioration de l'impression : https://framagit.org/kepon/choisirsonpdm/-/issues/25

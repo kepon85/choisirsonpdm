@@ -104,12 +104,12 @@ function wallCheck(wallId) {
         || $('#wall-surface-' + wallId).val() == 0 ||  $('#wall-surface-' + wallId).val() == ''
         || $('#wall-r-' + wallId).val() == 0 || $('#wall-r-' + wallId).val() == ''
         ) {
-        $('.wall-check-' + wallId).addClass('bg-warning-subtle');
+        $('.wall-check-' + wallId).addClass('bg-danger-subtle');
         $('.wall-check-' + wallId).removeClass('bg-success-subtle');
         $('#wall-' + wallId + '-check-svg').hide();
         $('#wall-check-' + wallId).val(0);
     } else {
-        $('.wall-check-' + wallId).removeClass('bg-warning-subtle');
+        $('.wall-check-' + wallId).removeClass('bg-danger-subtle');
         $('.wall-check-' + wallId).addClass('bg-success-subtle');
         $('#wall-' + wallId + '-check-svg').show();
         $('#wall-check-' + wallId).val(1);
@@ -125,13 +125,13 @@ function winCheck(wallId, winId) {
         ) {
         debug("window Ko");
         $('.window-check-' + wallId + '-' +winId).removeClass('bg-success-subtle');
-        $('.window-check-' + wallId+'-'+winId).addClass('bg-warning-subtle');
+        $('.window-check-' + wallId+'-'+winId).addClass('bg-danger-subtle');
         $('#wall-' + wallId + '-window-'+ winId +'-check-svg').hide();
         $('#wall-check-' + wallId+'-'+winId).val(0);
     } else {
         debug("window Ok");
         $('.window-check-' + wallId+'-'+winId).addClass('bg-success-subtle');
-        $('.window-check-' + wallId+'-'+winId).removeClass('bg-warning-subtle');
+        $('.window-check-' + wallId+'-'+winId).removeClass('bg-danger-subtle');
         $('#wall-' + wallId + '-window-'+ winId +'-check-svg').show();
         $('#wall-check-' + wallId+'-'+winId).val(1);
     }
@@ -663,7 +663,7 @@ function detailBuildingAddWindows2Wall(wallId, id = null) {
     if (id != null) {
         winId=id;
     }
-    debug('Add une fenêtre ('+winId+') sur la paroi ' + wallId);
+    debug('Add  ('+winId+') sur la paroi ' + wallId);
 
     // Check if existe...
     if ($("#wall-" + wallId + "-window-"+ winId).length != 0) {
@@ -680,22 +680,8 @@ function detailBuildingAddWindows2Wall(wallId, id = null) {
             + '</td>'
             + '<td colspan="2"><input type="text" class="form-control hashchange" name="window-name[]" id="wall-name-' + wallId + '-window-'+ winId +'" value=""  placeholder="Ex: Fenêtre cuisine" /></td>'
             + '<td>'
-                + '<select name="window-type[]" id="wall-type-' + wallId + '-window-'+ winId +'" class="form-control hashchange window-type">'
+                + '<select name="window-type[]" id="wall-type-' + wallId + '-window-'+ winId +'" style="width: 100%;" class="form-control hashchange window-type">'
                     + '<option value="" selected="selected">-</option>'
-                    + '<option value="5.8">Simple vitrage, Uw=5.8</option>'
-                    + '<option value="2.8">Vitrage isolant jusqu\'en 1990, Uw=2.8</option>'
-                    + '<option value="1.7">Double vitrage, Uw=1.7</option>'
-                    + '<option value="1.5">Double vitrage, Uw=1.5</option>'
-                    + '<option value="1.3">Double vitrage, Uw=1.3 (RT2012 Minimum)</option>'
-                    + '<option value="1.2">Double vitrage, Uw=1.2</option>'
-                    + '<option value="1.1">(Double) triple vitrage, Uw=1.1</option>'
-                    + '<option value="1.0">Triple vitrage, Uw=1.0</option>'
-                    + '<option value="0.9">Triple vitrage, Uw=0.9</option>'
-                    + '<option value="0.85">Triple vitrage, Uw=0.85</option>'
-                    + '<option value="0.8">Triple vitrage, Uw=0.8 (RE2020 Minimum)</option>'
-                    + '<option value="0.75">Triple vitrage, Uw=0.75</option>'
-                    + '<option value="0.7">Triple vitrage, Uw=0.7</option>'
-                    + '<option value="0.65">Triple vitrage, Uw=0.65</option>'
                 + '</select>'
             + '</td>'
             + '<td class="text-center"><input type="number" class="form-control hashchange text-center" min="0" step="0.1" name="window-surface[]" id="wall-surface-' + wallId + '-window-'+ winId +'" value="0" /></td>'
@@ -706,7 +692,10 @@ function detailBuildingAddWindows2Wall(wallId, id = null) {
             + '</td>'
         + '</tr>'
     );
-    $('#wall-type-' + wallId + '-window-'+ winId).select2();
+    $('#wall-type-' + wallId + '-window-'+ winId).select2({
+        data : settings.winType
+    });
+    $('#wall-type-' + wallId + '-window-'+ winId).trigger('change');
     if (id == null) {
         $("#wall-"+wallId+"-window-id").val(winId);
     } else {
