@@ -36,7 +36,6 @@ $("#form-home").removeAttr('data-i18n');
 $("#form-location").html("Entrez votre ville ");
 $("#form-location").removeAttr('data-i18n');
 
-
 if (inIframe()) {
     // En tête
     $(".header").hide();
@@ -45,5 +44,10 @@ if (inIframe()) {
     // Full page https://getbootstrap.com/docs/5.0/layout/containers/
     $('#body-container').removeClass('container');
     $('#body-container').addClass(' container-fluid');
-    $('#help').hide();
 }
+
+$(document).ready(function() {
+    setTimeout(function() {
+        $('#help').hide();
+    }, 100);
+});

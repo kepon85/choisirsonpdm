@@ -8,6 +8,7 @@ En ligne : https://choisir.poeledemasse.org/
   * https://minimasse.choisir.poeledemasse.org/ qui suggère si le MiniMasse est pertinent pour vous ou non
   * https://afpma.choisir.poeledemasse.org/ qui orient vers un artisan poêlier proche de chez soit
   * https://uzume.choisir.poeledemasse.org/ qu'Uzume inclus dans sa page : https://www.uzume.fr/quelle-puissance-pour-mon-poele-de-masse
+  * https://etude.poeledemasse.org/ & https://dimensionner.poeledemasse.org Orienté "pro", pour le partage d'étude des en direction de leur client
   * https://temperature-de-base.zici.fr/ n'affiches que l'API de température de base, pour "faire montrer"
 
 Ce petit calculateur développe 2 étape : 

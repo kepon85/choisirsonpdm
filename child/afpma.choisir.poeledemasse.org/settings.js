@@ -1,7 +1,7 @@
 const userSettings = {
   "form_default": {
     "level":     1,
-    "temp_base_years_archive":     10,
+    "temp_base_years_archive":     20,
     "ubat_global":                 0.3,
     "venti_global":                0.14,
     "g":                           0.3,
@@ -12,7 +12,6 @@ const userSettings = {
     "wastagesurface":           200,
     "temp_indor":                 18, 
     "temp_base_auto":             true,
-    "temp_base":                    1,
     "transparent":                  true,
     "nav-tab-record":             "nav-cartenf-tab",
   },
