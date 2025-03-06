@@ -148,7 +148,6 @@ function winCheck(wallId, winId) {
 function wallTypeUperso(wallId){
     debug('wallTypeUperso : '+wallId);
     if ($("#wall-type-"+wallId).val() == 'u') {
-        $("#wall-r-" + wallId).val(0);
         $("#wall-r-" + wallId).prop('disabled', false);
     } else {
         $("#wall-r-" + wallId).val(getOptionValue($("#wall-type-" + wallId).val()));
@@ -200,7 +199,7 @@ function wallTypeSelect(wallId) {
         },
         {
             "id": "u",
-            "text": "Valeur U personnalisée"
+            "text": "Valeur R personnalisée"
         }
     ];
     fullOptions = fullOptions.concat(customWallWithCat);

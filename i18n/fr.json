@@ -143,7 +143,6 @@
 	"modify-custom-material-button": "Modifier un matériau personnalisé",
 	"delete-custom-material-button": "Supprimer un matériau personnalisé",
 	"wall-type-new-custom": "Créer une paroi personnalisée",
-	"wall-type-u-perso": "Valeur U personnalisée",
 	"rsi-rse-explain": "Ce schéma vous permet de déterminer la résistance thermique superficielle d'échange de la paroi. Cliquer sur la flèche correspondante à votre paroi.",
 	"result-title-thermal-study": "Étude thermique",
 	"window-loss": "Déperdition",
