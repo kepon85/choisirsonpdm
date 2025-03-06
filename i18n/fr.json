@@ -122,6 +122,7 @@
 	"thead-wall-type": "Type",
 	"thead-wall-rsi": "Rsi",
 	"thead-wall-rse": "Rse",
+	"thead-wall-bridge": "Pont thermique",
 	"thead-wall-surface": "Surface (m2)",
 	"wall-surface": "Surface",	
 	"thead-wall-r": "Résistance de la paroi (°C.m²/W)",
