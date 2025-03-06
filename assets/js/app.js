@@ -25,8 +25,6 @@ $( document ).ready(function() {
         $("#app-alert").hide();
     });
 
-
-
     $('.form-select').select2();
 
     // ********** Personnaliser Ubat_global (level2) en + des valeurs choisis
@@ -260,6 +258,12 @@ $( document ).ready(function() {
         debug('Reset');
         location.href='/';
     });
+
+    $("#tinyUrlBtn").on( "click", function(e) {
+        debug('tinyUrlBtn');
+        handleTinyUrl();
+    });
+    
 
     // Enregistrement du click sur une tab pour la carte
     $("#nav-tab").on("click", function (e) {

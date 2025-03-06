@@ -1,3 +1,14 @@
+/*
+ * Global 
+ */
+// Tiny URL
+let shortLink = true;
+if (settings.apiLink == undefined || settings.apiLink == '') {
+    debug('[link] short link disable');
+    shortLink = false;
+    $('#tinyUrlBtn').hide();
+}
+
 /**
  * Résumé : Affiche le debug en console
  * @param {string}           msg Description : Message à afficher dans le debug
@@ -1096,9 +1107,11 @@ function submitForm() {
     conso();
     suggestion();
     help();
-    genTinyUrl(document.location.href);
     // Tooltip reset
     $('[data-toggle="tooltip"]').tooltip();
+    if (shortLink == true) {
+        genTinyUrl(document.location.href);
+    }
 }
 
 
@@ -1263,6 +1276,10 @@ function hashChange() {
             hashnew=hashnew+'&localWall-'+localWallId+'='+encodeURIComponent(JSON.stringify(localSetting.wall[localWallId])); 
         }
     });
+    const url = new URL(window.location.href);
+    url.searchParams.delete('s');
+    const newUrl = url.origin + url.pathname + url.search; // Reconstruit l'URL sans 's'
+    window.history.replaceState({}, '', newUrl);
     window.location.hash = hashnew;
 }
 
@@ -1520,29 +1537,71 @@ function generatePDF(id, file) {
 /* 
  * URL short
  */
-function genTinyUrl(url, name = ''){
-    debug("genTinyUrl");
-    if (name == '') {
-        data = { url: url } ;
+function isTinyUrl() {
+    debug("isTinyUrl");
+    const searchParams = window.location.search;
+    const regex = /[?&]s=([a-zA-Z0-9_]+)/;
+    const match = searchParams.match(regex);
+    if (match) {
+        console.log("[link] Tiny URL trouvé ");
+        return match[1];
     } else {
-        date = { url: url, name: name } ;
+        console.log("[link] Tiny URL non trouvé");
+        return false;
     }
-    $.post( settings.apiLink, data)
-    .done(function( json ) {
-        debug(json);
-        alert(json.link);
-        let newUrl = window.location.pathname + "?s=" + json.link;
-        history.replaceState(null, "", newUrl); // Modifie l'URL sans recharger
-        sharingButton();
-        if ($("#submit_input").val() != 0) {
-            help();
+}
+async function handleTinyUrl() {
+    if (shortLink == true) {
+        debug('[link] handleTinyUrl');
+        if (isTinyUrl() ) {
+            navigator.clipboard.writeText(window.location.href);
+            appAlert("Lien copier dans le press papier (copier/coller)", "success", 3);
+        } else {
+            let button = $('#tinyUrlBtn');
+            let icon = $('#icon-link');
+            // Changer l'icône pour un sablier
+            icon.html('<path d="M6 2h12v2H6V2zm1 4h10v2h-1v3l-2 2v3h-4v-3l-2-2V8H7V6zm3 4 2 2 2-2V8h-4v2zm8 8H6v2h12v-2z" fill="currentColor" ></path>');
+            button.prop('disabled', true);
+            let newUrl = await genTinyUrl(window.location.href);
+            if (newUrl) {
+                debug("[link] URL à copier en press papier" + newUrl);
+                await navigator.clipboard.writeText(newUrl);
+                icon.html('<path d="M3.9 12c0-2.2 1.8-4 4-4h3V6H7.9c-3.3 0-6 2.7-6 6s2.7 6 6 6h3v-2h-3c-2.2 0-4-1.8-4-4zM9 13h6v-2H9v2zm8-7h-3v2h3c2.2 0 4 1.8 4 4s-1.8 4-4 4h-3v2h3c3.3 0 6-2.7 6-6s-2.7-6-6-6z" fill="currentColor" ></path>');
+                appAlert("Lien copier dans le press papier (copier/coller)", "success", 3);
+            } else {
+                appAlert("Erreur lors de la génération du lien", "danger", 3);
+                shortLink = false;
+                $('#tinyUrlBtn').hide();
+            }
+            button.prop('disabled', false);
         }
-        return newUrl;
-    })
-    .fail(function( jqxhr, textStatus, error ) {
-        appAlert('<span>Request Failed to get API LINK ' + jqxhr.responseJSON.message + '. </span>', "danger", 3);
-        debug("[link] API return : " + error);
-    });
+    } else {
+        debug("Short link is disabled");
+    }
+}
+
+async function genTinyUrl(url, name = '') {
+    debug("genTinyUrl");
+    if (shortLink == true) {
+        let data = name ? { url: url, name: name } : { url: url };
+        try {
+            let response = await $.post(settings.apiLink, data);
+            debug(response);
+            let newUrl = window.location.origin + window.location.pathname + "?s=" + response.link;
+            history.replaceState(null, "", newUrl);
+            sharingButton();
+            if ($("#submit_input").val() != 0) {
+                help();
+            }
+            return newUrl;
+        } catch (error) {
+            appAlert('<span>Request Failed to get API LINK ' + error.responseJSON.message + '. </span>', "danger", 3);
+            debug("[link] API return : " + error.responseJSON.message);
+            return null;
+        }
+    } else {
+        debug("Short link is disabled");
+    }
 }
 
 
