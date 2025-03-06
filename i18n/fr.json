@@ -147,6 +147,8 @@
 	"rsi-rse-explain": "Ce schéma vous permet de déterminer la résistance thermique superficielle d'échange de la paroi. Cliquer sur la flèche correspondante à votre paroi.",
 	"result-title-thermal-study": "Étude thermique",
 	"window-loss": "Déperdition",
+	"bridge-loss": "Déperdition",
+	"bridges": "Pont(s) thermique(s)",
 	"windows": "Ouverture(s)",
 	"opaque-surface": "Surface opaque",
 	"wall-rt": "R total",

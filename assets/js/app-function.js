@@ -129,12 +129,14 @@ function winCheck(wallId, winId) {
         $('.window-check-' + wallId + '-' +winId).removeClass('bg-success-subtle');
         $('.window-check-' + wallId+'-'+winId).addClass('bg-danger-subtle');
         $('#wall-' + wallId + '-window-'+ winId +'-check-svg').hide();
+        $('#wall-' + wallId + '-window-'+ winId +'-nocheck-svg').show();
         $('#wall-check-' + wallId+'-'+winId).val(0);
     } else {
         debug("window Ok");
         $('.window-check-' + wallId+'-'+winId).addClass('bg-success-subtle');
         $('.window-check-' + wallId+'-'+winId).removeClass('bg-danger-subtle');
         $('#wall-' + wallId + '-window-'+ winId +'-check-svg').show();
+        $('#wall-' + wallId + '-window-'+ winId +'-nocheck-svg').hide();
         $('#wall-check-' + wallId+'-'+winId).val(1);
     }
 }
@@ -734,9 +736,10 @@ function detailBuildingAddWindows2Wall(wallId, id = null) {
     $('#addWindow2Wall-' + wallId + '-button').before(
         '<tr id="wall-' + wallId + '-window-'+ winId +'" class="window-'+winId+' window-check">'
             + '<td>&rarr;</td>'
-            + '<td class="window-check-' + wallId + '-'+ winId +'">'
+            + '<td class="align-middle text-center window-check-' + wallId + '-'+ winId +'">'
                 + '<input class="debug" type="hidden" id="wall-check-' + wallId + '-'+ winId + '" name="wall-check" value="0" />'
-                + '<svg style="display: none;" id="wall-' + wallId + '-window-'+ winId +'-check-svg" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path class="bg-primary-subtle border border-primary-subtle " d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg>'
+                + '<svg style="display: none;" id="wall-' + wallId + '-window-'+ winId +'-check-svg" xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path class="bg-primary-subtle border border-primary-subtle " d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg>'
+                + '<svg data-toggle="tooltip" title="Il manque des informations pour cette fenêtre" style="display: none;" id="wall-' + wallId + '-window-'+ winId +'-nocheck-svg"  xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 448 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path class="bg-danger-subtle border-danger-subtle" d="M256 32c14.2 0 27.3 7.5 34.5 19.8l216 368c7.3 12.4 7.3 27.7 .2 40.1S486.3 480 472 480L40 480c-14.3 0-27.6-7.7-34.7-20.1s-7-27.8 .2-40.1l216-368C228.7 39.5 241.8 32 256 32zm0 128c-13.3 0-24 10.7-24 24l0 112c0 13.3 10.7 24 24 24s24-10.7 24-24l0-112c0-13.3-10.7-24-24-24zm32 224a32 32 0 1 0 -64 0 32 32 0 1 0 64 0z"/></svg>'
             + '</td>'
             + '<td colspan="2"><input type="text" class="form-control hashchange" name="window-name[]" id="wall-name-' + wallId + '-window-'+ winId +'" value=""  placeholder="Ex: Fenêtre cuisine" /></td>'
             + '<td>'
@@ -965,6 +968,7 @@ function submitForm() {
                             + '<li><span data-i18n="[html]wall-surface">Surface paroi</span> : '+$('#wall-surface-'+wallId).val()+'m2</li>'
                             + '<li><span data-toggle="tooltip" title="R + Rsi + Rse"><span data-i18n="[html]wall-rt">R total</span> : '+rt+'</span>°C.m²/W</li>'
                             + '<li id="wall-'+wallId+'-windows-parent"><span data-i18n="[html]windows">Fenêtre(s)</span> <span data-toggle="tooltip" title="Différence entre la température intérieure et extérieure (dite de base) (°C) * Perte total des fenêtres (W/°C)"><span data-i18n="[html]window-loss">Déperdition</span>=<span id="wall-'+wallId+'-window-loss-value"></span>W</span> : <ul id="wall-'+wallId+'-windows"></ul></li>'
+                            + '<li id="wall-'+wallId+'-bridge-parent"><span data-i18n="[html]bridges">Pont(s) thermique(s)</span> <span data-toggle="tooltip" title="Différence entre la température intérieure et extérieure (dite de base) (°C) * Perte total des ponts thermiques (W/°C)"><span data-i18n="[html]bridge-loss">Déperdition</span>=<span id="wall-'+wallId+'-bridge-loss-value"></span>W</span> : <ul id="wall-'+wallId+'-bridges"></ul></li>'
                             + '<li><span data-toggle="tooltip" title="Surface de la paroi - la surface vitrée"><span data-i18n="[html]opaque-surface">Surface opaque</span> : <span id="wall-'+wallId+'-window-opaque-surface-value"></span>m<sup>2</sup></span></li>'
                             + '<li><span data-toggle="tooltip" title="'+titleTempUse+'"><span data-i18n="[html]wall-loss">Déperdition des surfaces opaques</span> : <span id="wall-'+wallId+'-loss-value"></span>W</span></li>'
                             + '<li><span data-toggle="tooltip" title="Déperdition des surfaces opaque + surfaces vitrées"><span data-i18n="[html]wall-and-window-loss">Déperdition total</span> : <span class="wall-'+wallId+'-and-window-loss-value"></span>W</span></li>'
@@ -1018,8 +1022,51 @@ function submitForm() {
                         wallPerte=($("#temp_indor").val()-$("#temp_base").val())/(rt/surfaceOpaque);
                     }
                     $('#wall-'+wallId+'-loss-value').html(precise_round(wallPerte, 0));
-                    // Perte total de la paroi (fenêtre + opaque)
-                    perteTotal=parseFloat(windowsPerteTotal)+parseFloat(wallPerte);
+                    // Pont thermique
+                    let wallBridge = $("#wall-bridge-" + wallId).val();
+                    if (wallBridge) {
+                        try {
+                            bridges = JSON.parse(wallBridge);
+                        } catch (e) {
+                            console.error("Erreur lors du parsing JSON :", e);
+                            bridges = []; // En cas d'erreur de parsing, définir comme un tableau vide
+                        }
+                    } else {
+                        bridges = []; // Si la valeur est vide, définir comme un tableau vide
+                    }
+                    let bridgePt = 0;
+                    let bridgesPrint = '';
+                    if (bridges.length != 0) {
+                        bridges.forEach(item => {
+                            // Afficher le type de chaque élément
+                            let typePrint;
+                            if (item.type == "floor_lower_wall") {
+                                typePrint = "Plancher bas / mur";
+                            } else if (item.type == "floor_inter_wall") {
+                                typePrint = "Plancher intermédiaire / mur";
+                            } else if (item.type == "floor_upper_wall") {
+                                typePrint = "Plancher haut / mur";
+                            } else if (item.type == "partition_wall") {
+                                typePrint = "Refend / mur";
+                            } else {
+                                typePrint = "Aucun";
+                            }
+                            bridgesPrint = bridgesPrint + `<li>${item.name} ${typePrint} longueur=${item.length}m<sup>2</sup>, <span data-toggle="tooltip" title="Surface * Uw">Perte=${item.pt}W/°C</span></li>`; 
+                            // Ajouter la valeur de pt à la somme totale
+                            bridgePt += parseFloat(item.pt);
+                        });
+                        if (bridgePt != 0) {
+                            $('#wall-'+wallId+'-bridges').append(bridgesPrint);
+                        }
+                    } else {
+                        $('#wall-'+wallId+'-bridge-parent').hide();
+                    }
+
+                    debug('Pont thermique : '+bridgePt);
+                    bridgePerte=bridgePt*($("#temp_indor").val()-$("#temp_base").val());
+                    $('#wall-'+wallId+'-bridge-loss-value').html(bridgePerte);
+                    // Perte total de la paroi (fenêtre + opaque + pont thermique)
+                    perteTotal=parseFloat(windowsPerteTotal)+parseFloat(wallPerte)+parseFloat(bridgePerte);
                     $('.wall-'+wallId+'-and-window-loss-value').html(precise_round(perteTotal, 0));
                     // Ajout des pertes totals aux 
                     depConductivite=parseFloat(depConductivite)+parseFloat(perteTotal);
@@ -1029,7 +1076,6 @@ function submitForm() {
                     } else {
                         debug('Window = défini !');
                         $('#wall-'+wallId+'-windows').append(windows);
-                        
                     }
                 }
             }
@@ -1636,7 +1682,7 @@ function addBridgeForm(index, data = { name: "", type: "", length: "0" }) {
                 <label for="pt">Perte thermique :</label>
                 <div class="input-group">
                     <input type="number" class="form-control bridgePt" placeholder="Calculé automatiquement" step="0.1" id="bridgePt_${index}" data-index="${index}" value="${data.pt}" readonly>
-                    <span class="input-group-text">W/K</span>
+                    <span class="input-group-text">W/°C</span>
                 </div>
             </div>
         </div>
