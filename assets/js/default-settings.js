@@ -292,6 +292,115 @@ const defaultSettings = {
       ]
     }
   ],
+  // Pont thermique https://www.rt-batiment.fr/fileadmin/documents/RT2012/RT2012-BBC-Exe/RT2012-BBC-Exe-Annexe-thermique-2013-09-30.pdf
+  "pontThermique": {
+    "floor_lower_wall": {
+      "no": {
+        "no": 0.39,
+        "ITI": 0.47,
+        "ITE": 0.8,
+        "ITI+ITE": 0.47
+      },
+      "ITI": {
+        "no": 0.31,
+        "ITI": 0.08,
+        "ITE": 0.71,
+        "ITI+ITE": 0.08
+      },
+      "ITE": {
+        "no": 0.49,
+        "ITI": 0.48,
+        "ITE": 0.64,
+        "ITI+ITE": 0.48
+      },
+      "ITR": {
+        "no": 0.35,
+        "ITI": 0.01,
+        "ITE": 0.45,
+        "ITI+ITE": 0.1
+      },
+      "ITI+ITE": {
+        "no": 0.31,
+        "ITI": 0.08,
+        "ITE": 0.45,
+        "ITI+ITE": 0.08
+      },
+      "ITI+ITR": {
+        "no": 0.31,
+        "ITI": 0.08,
+        "ITE": 0.45,
+        "ITI+ITE": 0.08
+      },
+      "ITE+ITR": {
+        "no": 0.35,
+        "ITI": 0.01,
+        "ITE": 0.45,
+        "ITI+ITE": 0.1
+      }
+    },
+    "floor_inter_wall": {
+      "no": 0.86,
+      "ITI": 0.92,
+      "ITE": 0.13,
+      "ITR": 0.24,
+      "ITI+ITE": 0.13,
+      "ITI+ITR": 0.24,
+      "ITE+ITR": 0.1
+    },
+    "floor_high_wall": {
+      "no": {
+        "no": 0.3,
+        "ITI": 0.83,
+        "ITE": 0.4,
+        "ITI+ITE": 0.4
+      },
+      "ITI": {
+        "no": 0.27,
+        "ITI": 0.07,
+        "ITE": 0.75,
+        "ITI+ITE": 0.07
+      },
+      "ITE": {
+        "no": 0.55,
+        "ITI": 0.76,
+        "ITE": 0.58,
+        "ITI+ITE": 0.58
+      },
+      "ITR": {
+        "no": 0.4,
+        "ITI": 0.3,
+        "ITE": 0.48,
+        "ITI+ITE": 0.3
+      },
+      "ITI+ITE": {
+        "no": 0.27,
+        "ITI": 0.07,
+        "ITE": 0.58,
+        "ITI+ITE": 0.07
+      },
+      "ITI+ITR": {
+        "no": 0.27,
+        "ITI": 0.07,
+        "ITE": 0.48,
+        "ITI+ITE": 0.07
+      },
+      "ITE+ITR": {
+        "no": 0.4,
+        "ITI": 0.3,
+        "ITE": 0.48,
+        "ITI+ITE": 0.3
+      }
+    },
+    "partition_wall": {
+      "no": 0.73,
+      "ITI": 0.82,
+      "ITE": 0.13,
+      "ITR": 0.2,
+      "ITI+ITE": 0.13,
+      "ITI+ITR": 0.2,
+      "ITE+ITR": 0.13
+    }
+  },
   // NF P52-612/CN décembre 2010
   "temperatureBaseData": {
     "a": [

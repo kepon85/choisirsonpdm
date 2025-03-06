@@ -163,6 +163,17 @@ $( document ).ready(function() {
                     if (wallRe.groups.param == "rse" && parts[1] != '') {
                         $('#wall-rse-' + wallRe.groups.wallId + '-val').html(parts[1]);
                     }
+                    if (wallRe.groups.param == "bridge" && parts[1] != '') {
+                        bridges = parts[1]
+                        try {
+                            bridges = JSON.parse(decodeURIComponent(parts[1]));
+                        } catch (e) {
+                            console.error("Erreur lors du parsing JSON :", e);
+                            bridges = []; // En cas d'erreur de parsing, définir comme un tableau vide
+                        }
+                        let totalPt = bridges.reduce((sum, item) => sum + parseFloat(item.pt), 0);
+                        $('#wall-bridge-' + wallRe.groups.wallId + '-val').html(totalPt);
+                    }
                 }
                 // Détecter si c'est pour une fenêtre : 
                 let winRe = reWallWin.exec(parts[0]);
@@ -338,6 +349,65 @@ $( document ).ready(function() {
     // Compléter matériaux et paroi personnalisé (select)
     customMaterialSelect();
     customWallSelect();
+
+    // Dialog / popup pont  thermique
+    $("#bridgeForms").on("change", ".bridgeType", function() {
+        debug('Changement de type de pont thermique');
+        bridgeFormChamge();
+        bridgeUpdateSvg();
+        bridgeCalc();
+    });
+    $("#bridgeForms").on("change", ".typeInsulation", function() {
+        bridgeUpdateSvg();
+        bridgeCalc();
+    });
+    $("#bridgeForms").on("change", ".bridgeLength", function() {
+        bridgeCalc();
+    });
+    $("#addBridge").click(() => {
+        let index = bridges.length;
+        let newBridge = { name: "", type: "", length: "0", wallInsulation: "no", floorInsulation: "no", k: "", pt: 0 };
+        bridges.push(newBridge);
+        addBridgeForm(index, newBridge);
+        showBridgeForm(index);
+        bridgeFormChamge();
+        bridgeUpdateSvg();
+        bridgeCalc();
+    });
+    $("#prevBridge").click(() => {
+        if (currentIndex > 0) showBridgeForm(currentIndex - 1);
+        bridgeFormChamge();
+        bridgeUpdateSvg();
+    });
+    $("#nextBridge").click(() => {
+        if (currentIndex < bridges.length - 1) showBridgeForm(currentIndex + 1);
+        bridgeFormChamge();
+        bridgeUpdateSvg();
+    });
+    $("#finishBridge").click(() => {
+        $(".bridgeForm").each((index, form) => {
+            let name = $(form).find(".bridgeName").val();
+            let type = $(form).find(".bridgeType").val();
+            let length = $(form).find(".bridgeLength").val();
+            let wallInsulation = $(form).find(".wallInsulation").val();
+            let floorInsulation = $(form).find(".floorInsulation").val();
+            let k = $(form).find(".bridgeK").val();
+            let pt = $(form).find(".bridgePt").val();
+            bridges[index] = { name, type, length, wallInsulation, floorInsulation, k, pt };
+        });
+        let jsonData = JSON.stringify(bridges);
+        debug(jsonData);
+        //$("#debug").val(jsonData+'\n\n'+encodeURIComponent(jsonData));
+        wallId=$('#wall-id-for-bridge').val();
+        // Ecrire ça dans l'input du tableau
+        $("#wall-bridge-"+wallId).val(jsonData);
+        let totalPt = bridges.reduce((sum, item) => sum + parseFloat(item.pt), 0);
+        $('#wall-bridge-' + wallId + '-val').html(totalPt);
+        $( "#dialog-bridge" ).dialog( "close" );
+        hashchangeAllAction();
+        wallCheck(wallId);
+    });
+    
 
     // Delete materiaux
     $( "#delete-custom-wall" )

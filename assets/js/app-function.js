@@ -515,6 +515,40 @@ function refreshDetailBuildingChange() {
             }
           });
     });
+    // Gestion bridge popup
+    $( ".wall-bridge-popup:not(.wall-bridge-popup-bond)" ).addClass('wall-bridge-popup-bond')
+    .on( "click", function() {
+        wallId = $(this).find('input')[0].id.split('-')[2];
+        debug("Click open dialog bridge for wall "+wallId);
+        $( "#wall-id-for-bridge" ).val(wallId);
+        // Initialisation avec les données de l'URL
+        let wallValue = $("#wall-bridge-" + wallId).val();
+        if (wallValue) {
+            try {
+                bridges = JSON.parse(wallValue);
+            } catch (e) {
+                console.error("Erreur lors du parsing JSON :", e);
+                bridges = []; // En cas d'erreur de parsing, définir comme un tableau vide
+            }
+        } else {
+            bridges = []; // Si la valeur est vide, définir comme un tableau vide
+        }
+        if (bridges.length === 0) {
+            bridges.push({ name: "", type: "", length: "0" });
+        }
+        bridges.forEach((bridge, index) => addBridgeForm(index, bridge));
+        showBridgeForm(0);
+        // Aficher le popup
+        var wWidth = $(window).width();
+        var dWidth = wWidth * 0.7;
+        var wHeight = $(window).height();
+        var dHeight = wHeight * 1;
+        dialog = $( "#dialog-bridge" ).dialog({
+            width: dWidth,
+            height: dHeight,
+            modal: true
+        });
+    });
     $(".wall-type:not(.wall-type-bond)").addClass('wall-type-bond')
     .on( "change", function(e) {
         wallId = this.id.split('-')[2];
@@ -598,6 +632,12 @@ function detailBuildingAddWall(id = null) {
                 + '<input type="hidden" class="form-control hashchange" name="wall-rse[]" id="wall-rse-' + wallId + '" />'
                 + '<span id="wall-rse-' + wallId + '-val" class="wall-rse-val">'
                     + '<svg  id="wall-rse-' + wallId + '-chose" class="wall-rse-chose" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M160 64c0-8.8 7.2-16 16-16s16 7.2 16 16V200c0 10.3 6.6 19.5 16.4 22.8s20.6-.1 26.8-8.3c3-3.9 7.6-6.4 12.8-6.4c8.8 0 16 7.2 16 16c0 10.3 6.6 19.5 16.4 22.8s20.6-.1 26.8-8.3c3-3.9 7.6-6.4 12.8-6.4c7.8 0 14.3 5.6 15.7 13c1.6 8.2 7.3 15.1 15.1 18s16.7 1.6 23.3-3.6c2.7-2.1 6.1-3.4 9.9-3.4c8.8 0 16 7.2 16 16l0 16V392c0 39.8-32.2 72-72 72H272 212.3h-.9c-37.4 0-72.4-18.7-93.2-49.9L50.7 312.9c-4.9-7.4-2.9-17.3 4.4-22.2s17.3-2.9 22.2 4.4L116 353.2c5.9 8.8 16.8 12.7 26.9 9.7s17-12.4 17-23V320 64zM176 0c-35.3 0-64 28.7-64 64V261.7C91.2 238 55.5 232.8 28.5 250.7C-.9 270.4-8.9 310.1 10.8 339.5L78.3 440.8c29.7 44.5 79.6 71.2 133.1 71.2h.9H272h56c66.3 0 120-53.7 120-120V288l0-16c0-35.3-28.7-64-64-64c-4.5 0-8.8 .5-13 1.3c-11.7-15.4-30.2-25.3-51-25.3c-6.9 0-13.5 1.1-19.7 3.1C288.7 170.7 269.6 160 248 160c-2.7 0-5.4 .2-8 .5V64c0-35.3-28.7-64-64-64zm48 304c0-8.8-7.2-16-16-16s-16 7.2-16 16v96c0 8.8 7.2 16 16 16s16-7.2 16-16V304zm48-16c-8.8 0-16 7.2-16 16v96c0 8.8 7.2 16 16 16s16-7.2 16-16V304c0-8.8-7.2-16-16-16zm80 16c0-8.8-7.2-16-16-16s-16 7.2-16 16v96c0 8.8 7.2 16 16 16s16-7.2 16-16V304z"/></svg>'
+                +'</span>'
+            + '</td>'
+            + '<td class="wall-bridge-popup text-center">'
+                + '<input type="text" class="form-control hashchange " name="wall-bridge[]" id="wall-bridge-' + wallId + '" />'
+                + '<span id="wall-bridge-' + wallId + '-val" class="wall-bridge-val">'
+                    + '<svg  id="wall-bridge-' + wallId + '-chose" class="wall-bridge-chose" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M160 64c0-8.8 7.2-16 16-16s16 7.2 16 16V200c0 10.3 6.6 19.5 16.4 22.8s20.6-.1 26.8-8.3c3-3.9 7.6-6.4 12.8-6.4c8.8 0 16 7.2 16 16c0 10.3 6.6 19.5 16.4 22.8s20.6-.1 26.8-8.3c3-3.9 7.6-6.4 12.8-6.4c7.8 0 14.3 5.6 15.7 13c1.6 8.2 7.3 15.1 15.1 18s16.7 1.6 23.3-3.6c2.7-2.1 6.1-3.4 9.9-3.4c8.8 0 16 7.2 16 16l0 16V392c0 39.8-32.2 72-72 72H272 212.3h-.9c-37.4 0-72.4-18.7-93.2-49.9L50.7 312.9c-4.9-7.4-2.9-17.3 4.4-22.2s17.3-2.9 22.2 4.4L116 353.2c5.9 8.8 16.8 12.7 26.9 9.7s17-12.4 17-23V320 64zM176 0c-35.3 0-64 28.7-64 64V261.7C91.2 238 55.5 232.8 28.5 250.7C-.9 270.4-8.9 310.1 10.8 339.5L78.3 440.8c29.7 44.5 79.6 71.2 133.1 71.2h.9H272h56c66.3 0 120-53.7 120-120V288l0-16c0-35.3-28.7-64-64-64c-4.5 0-8.8 .5-13 1.3c-11.7-15.4-30.2-25.3-51-25.3c-6.9 0-13.5 1.1-19.7 3.1C288.7 170.7 269.6 160 248 160c-2.7 0-5.4 .2-8 .5V64c0-35.3-28.7-64-64-64zm48 304c0-8.8-7.2-16-16-16s-16 7.2-16 16v96c0 8.8 7.2 16 16 16s16-7.2 16-16V304zm48-16c-8.8 0-16 7.2-16 16v96c0 8.8 7.2 16 16 16s16-7.2 16-16V304c0-8.8-7.2-16-16-16zm80 16c0-8.8-7.2-16-16-16s-16 7.2-16 16v96c0 8.8 7.2 16 16 16s16-7.2 16-16V304z"/></svg>'
                 +'</span>'
             + '</td>'
             + '<td class="text-center"><input type="number" class="form-control hashchange text-center" min="0" step="0.1" name="wall-surface[]" id="wall-surface-' + wallId + '" value="0" /></td>'
@@ -1406,4 +1446,254 @@ function generatePDF(id, file) {
             appAlert("... Export PDF ok !", "success", 2)
         }
     });
+}
+
+
+/* 
+ * ========================= Pont thermique
+ */
+let bridges = [];
+let currentIndex = 0;
+function updateBridgeCounter() {
+    $("#bridgeCounter").text(`Pont thermique ${currentIndex + 1}/${bridges.length}`);
+    $("#prevBridge").prop("disabled", currentIndex === 0);
+    $("#nextBridge").prop("disabled", currentIndex >= bridges.length - 1);
+}
+function showBridgeForm(index) {
+    $(".bridgeForm").addClass("hidden");
+    $(`#bridge_${index}`).removeClass("hidden");
+    currentIndex = index;
+    updateBridgeCounter();
+}
+function addBridgeForm(index, data = { name: "", type: "", length: "0" }) {
+    $("#bridgeForms").append(`
+    <div id="bridge_${index}" class="bridgeForm">
+        <div class="row">
+            <p>Ce mur accueil-il un plancher/dalle ou un mur de refend ? Si oui il est susceptible de provoquer un pont thermique.
+            A noter que les ponts thermiques sont négligées au niveau des liaisons avec des parois en structure bois.</p>
+        </div>
+        <div class="row">
+            <div class="col">
+                <label for="bridgeName_${index}">Nommer le pont thermique : :</label>
+                <input type="text" class="form-control bridgeName"  id="bridgeName_${index}" placeholder="Pont thermique plancher Nord" data-index="${index}" value="${data.name}">
+            </div>
+            <div class="col-sm">    
+                <label for="bridgeType_${index}">Type de pont thermique : :</label>
+                <select class="form-select bridgeType" data-index="${index}"  style="width: 100%;" id="bridgeType_${index}">
+                    <option value="" ${data.type === "" ? "selected" : ""}>Aucun</option>
+                    <option value="floor_lower_wall" ${data.type === "floor_lower_wall" ? "selected" : ""}>Plancher bas / mur</option>
+                    <option value="floor_inter_wall" ${data.type === "floor_inter_wall" ? "selected" : ""}>Plancher intermédiaire / mur</option>
+                    <option value="floor_high_wall" ${data.type === "floor_high_wall" ? "selected" : ""}>Plancher haut / mur</option>
+                    <option value="partition_wall" ${data.type === "partition_wall" ? "selected" : ""}>Refend / mur</option>
+                </select>
+            </div>
+            <div class="col-sm form_hide form_floor_lower_wall form_floor_inter_wall form_floor_high_wall form_partition_wall">
+                <label for="bridgeLength_${index}" class="form_hide form_floor_lower_wall form_floor_high_wall form_floor_inter_wall">Longueur de contact entre le plancher le mur : </label>
+                <label for="bridgeLength_${index}" class="form_hide form_partition_wall">Longueur du contact entre le mur de refend le mur extérieur : </label>
+                <div class="input-group has-validation">
+                    <input type="number" class="form-control bridgeLength" step="0.1" id="bridgeLength_${index}" placeholder="Longueur Ex: 12.5" data-index="${index}" value="${data.length}">
+                    <span class="input-group-text">m</span>
+                </div>
+                <div class="form-text form_hide form_partition_wall">Souvent la longueur du mur</div>
+                <div class="form-text form_hide form_floor_lower_wall form_floor_high_wall form_floor_inter_wall">Souvent la hauteur du mur</div>
+            </div>
+            
+        </div>
+        <div class="row form_hide form_floor_lower_wall form_floor_inter_wall form_floor_high_wall form_partition_wall">
+            <div class="col-sm">
+                <label for="bridgeWallInsulation_${index}">Méthode d'isolation du mur : :</label>
+                <select class="form-select form-control typeInsulation wallInsulation" data-index="${index}"  style="width: 100%;" id="bridgeWallInsulation_${index}">
+                    <option value="no" ${data.wallInsulation === "no" ? "selected" : ""}>Non Isolé</option>
+                    <option value="ITI" ${data.wallInsulation === "ITI" ? "selected" : ""}>ITI : Isolation par l'intérieur</option>
+                    <option value="ITE" ${data.wallInsulation === "ITE" ? "selected" : ""}>ITE : Isolation par l'extérieur</option>
+                    <option value="ITR" ${data.wallInsulation === "ITR" ? "selected" : ""}>ITR : Isolation répartie (la structure est isolante)</option>
+                    <option value="ITI+ITE" ${data.wallInsulation === "ITI+ITE" ? "selected" : ""}>ITI+ITE</option>
+                    <option value="ITI+ITR" ${data.wallInsulation === "ITI+ITR" ? "selected" : ""}>ITI+ITR</option>
+                    <option value="ITE+ITR" ${data.wallInsulation === "ITE+ITR" ? "selected" : ""}>ITE+ITR</option>
+                </select>
+            </div>
+            <div class="col-sm form_hide form_floor_lower_wall form_floor_high_wall">
+                <label for="bridgeFloorInsulation_${index}">Méthode d'isolation du plancher : :</label>
+                <select class="form-select form-control typeInsulation floorInsulation form_hide form_floor_lower_wall form_floor_high_wall" style="width: 100%;"  data-index="${index}"   id="bridgeFloorInsulation_${index}">
+                    <option value="no" ${data.floorInsulation === "no" ? "selected" : ""}>Non Isolé</option>
+                    <option value="ITI" ${data.floorInsulation === "ITI" ? "selected" : ""}>ITI : Isolation par l'intérieur</option>
+                    <option value="ITE" ${data.floorInsulation === "ITE" ? "selected" : ""}>ITE : Isolation par l'extérieur</option>
+                    <option value="ITI+ITE" ${data.floorInsulation === "ITI+ITE" ? "selected" : ""}>ITI+ITE</option>
+                </select>
+            </div>
+        </div>
+        <div class="row form_hide form_floor_lower_wall form_floor_inter_wall form_floor_high_wall form_partition_wall">
+            <div class="col-sm text-center">
+            <figure id="svg">
+                <svg width="200" height="230">
+                    <defs>
+                        <style>
+                            .arrow { stroke: #fd7e14; stroke-width: 3; stroke-dasharray: 5,5; fill: none; }
+                            .wall { fill: #6c757d; stroke: #343a40; stroke-width: 2; }
+                            .insulation { fill: url(#hachures_${index}); opacity: 0.6; }
+                            text { font-family: Arial, sans-serif; font-size: 12px; fill: #212529; }
+                        </style>
+                    </defs>
+
+                    <!-- Labels for inside and outside -->
+                    <text x="50" y="20" transform="rotate(-90,100,100)">Extérieur</text>
+                    <text class="type_floor_inter_wall type_floor_lower_wall type_partition_wall" x="110" y="170" transform="rotate(-90,100,100)">Intérieur</text>
+                    <text class="type_floor_inter_wall type_floor_high_wall type_partition_wall" x="10" y="170" transform="rotate(-90,100,100)">Intérieur</text> 
+                    <defs>
+                        <pattern id="hachures_${index}" x="0" y="0" width="10" height="10" patternUnits="userSpaceOnUse">
+                            <line x1="0" y1="10" x2="10" y2="0" stroke="red" stroke-width="2" stroke-opacity="0.5" />
+                        </pattern>
+                        <pattern id="concrete_${index}" patternUnits="userSpaceOnUse" width="10" height="10">
+                            <rect width="10" height="10" fill="gray"/>
+                            <path d="M 0 0 L 10 10" stroke="darkgray" stroke-width="0.5"/>
+                            <path d="M 10 0 L 0 10" stroke="darkgray" stroke-width="0.5"/>
+                        </pattern>
+                    </defs>
+                    <!-- Mur principal -->
+                    <rect x="80" y="30" width="40" height="160" fill="url(#concrete_${index})" stroke="black" stroke-width="1" />
+                    <!-- Mur principal isolant -->
+                    <rect class="walltype_itr" x="80" y="30" width="40" height="160" fill="url(#hachures_${index})" stroke="none" stroke-width="0" />
+                    <rect class="walltype_iti" x="118" y="30" width="4" height="160" fill="red" visibility="hidden"/>
+                    <rect class="walltype_ite" x="78" y="30" width="4" height="160" fill="red" visibility="hidden"/>
+                    <!-- Mur principal text -->
+                    <text class="type_floor_inter_wall type_floor_lower_wall" x="120" y="107" transform="rotate(-90,100,100)">Mur</text>
+                    <text class="type_floor_high_wall" x="50" y="107" transform="rotate(-90,100,100)">Mur</text>
+
+                    <!-- Plancher inter / mur refend -->
+                    <rect class="type_floor_inter_wall type_partition_wall " x="95" y="105" width="100" height="30" fill="url(#concrete_${index})" stroke="black" stroke-width="1"/>
+                    <!-- Flèche de transfert thermique -->
+                    <path class="type_floor_inter_wall type_partition_wall arrow" d="M 140 90 Q 100 150 50 80" />
+                    <line class="type_floor_inter_wall type_partition_wall arrow" x1="50" y1="80" x2="70" y2="90" stroke="black" stroke-width="2"/>
+                    <line class="type_floor_inter_wall type_partition_wall arrow" x1="50" y1="80" x2="55" y2="105" stroke="black" stroke-width="2"/>
+                    <path class="type_floor_inter_wall type_partition_wall arrow" d="M 140 145 Q 100 100 50 155" />
+                    <line class="type_floor_inter_wall type_partition_wall arrow" x1="50" y1="155" x2="55" y2="125" stroke="black" stroke-width="2"/>
+                    <line class="type_floor_inter_wall type_partition_wall arrow" x1="50" y1="155" x2="75" y2="150" stroke="black" stroke-width="2"/>
+                    <!-- Légende planché -->
+                    <text class="type_floor_inter_wall" x="100" y="125" >Plancher inter.</text>
+                    <!-- Légende mur refend -->
+                    <text class="type_partition_wall" x="110" y="125" >Mur refend</text>
+
+                    <!-- Plancher bas -->
+                    <rect class="type_floor_lower_wall" x="95" y="130" width="100" height="30" fill="url(#concrete_${index})" stroke="black" stroke-width="1"/>
+                    <!-- Plancher bas isolent  -->
+                    <rect class="floortype__floor_lower_wall__iti" x="120" y="128" width="75" height="4" fill="red" />
+                    <rect class="floortype__floor_lower_wall__ite" x="120" y="158" width="75" height="4" fill="red" />
+                    <!-- Flèche de transfert thermique -->
+                    <path class="type_floor_lower_wall arrow" id="heat-arrow" d="M 140 120 Q 100 180 50 100" />
+                    <line class="type_floor_lower_wall arrow" x1="50" y1="100" x2="75" y2="110" stroke="black" stroke-width="2"/>
+                    <line class="type_floor_lower_wall arrow" x1="50" y1="100" x2="55" y2="130" stroke="black" stroke-width="2"/>
+                    <!-- Légende planché  -->
+                    <text class="type_floor_lower_wall" x="100" y="150" >Plancher bas</text>
+                
+                    <!-- Plancher haut -->
+                    <rect class="type_floor_high_wall" x="95" y="50" width="100" height="30" fill="url(#concrete_${index})" stroke="black" stroke-width="1"/>
+                    <!-- Plancher haut isolent  -->
+                    <rect class="floortype__floor_high_wall__iti" x="120" y="48" width="75" height="4" fill="red" />
+                    <rect class="floortype__floor_high_wall__ite" x="120" y="78" width="75" height="4" fill="red" />
+                    <!-- Flèche de transfert thermique -->
+                    <path class="type_floor_high_wall arrow" d="M 140 95 Q 100 40 50 95" />
+                    <line class="type_floor_high_wall arrow" x1="50" y1="95" x2="55" y2="70" stroke="black" stroke-width="2"/>
+                    <line class="type_floor_high_wall arrow" x1="50" y1="95" x2="75" y2="90" stroke="black" stroke-width="2"/>
+                    <!-- Légende planché  -->
+                    <text class="type_floor_high_wall" x="100" y="70" >Plancher haut</text>
+                    <rect id="iti-plancher" x="120" y="127" width="75" height="3" fill="red" visibility="hidden"/>
+                    <rect id="ite-plancher" x="120" y="160" width="75" height="3" fill="red" visibility="hidden"/>
+                    <text class="type_floor_inter_wall type_floor_lower_wall type_floor_high_wall" x="50" y="210">Vue en coupe</text>
+                    <text class="type_partition_wall" x="50" y="210">Vue du dessus</text>
+                </svg>
+            </figure>
+            </div>
+        </div>
+        <div class="row form_hide form_floor_lower_wall form_floor_inter_wall form_floor_high_wall form_partition_wall">
+            <div class="col-sm">
+                <label for="k">Valeur k :</label>
+                <div class="input-group">
+                    <input type="number" class="form-control bridgeK" placeholder="Calculé automatiquement" step="0.1" id="bridgeK_${index}" data-index="${index}" value="${data.k}" readonly>
+                    <span class="input-group-text">W/m.K</span>
+                </div>
+            </div>
+            <div class="col-sm">
+                <label for="pt">Perte thermique :</label>
+                <div class="input-group">
+                    <input type="number" class="form-control bridgePt" placeholder="Calculé automatiquement" step="0.1" id="bridgePt_${index}" data-index="${index}" value="${data.pt}" readonly>
+                    <span class="input-group-text">W/K</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    `);
+}
+/**
+ * Résumé : Pont thermique, adapte le formulaire
+ * Description : Modifie le formulaire en fonction du type de pont thermique
+ */
+ function bridgeFormChamge() {
+    let typeBridge = $("#bridge_"+currentIndex+" .bridgeType").val();
+    debug("typeBridge : " + typeBridge)
+    if (typeBridge != '') {
+        $("#bridge_"+currentIndex+" .form_hide").hide();
+        $("#bridge_"+currentIndex+" .form_"+typeBridge).show();
+    }else{
+        $("#bridge_"+currentIndex+" .form_hide").hide();
+    }
+}
+/**
+ * Résumé : Pont thermique, Mise à jour du SVG 
+ * Description : Mise à jour de l'illustration SVG en fonction des paramètres du formulaire de pont thermique
+ */
+function bridgeUpdateSvg() {
+    debug("Update SVG")
+    // Cacher les éléments
+    $("#bridge_"+currentIndex+" [class^='type'], [class^='walltype'], [class^='floortype']").attr("visibility", "hidden");
+    
+    let typeBridge = $("#bridge_"+currentIndex+" .bridgeType").val();
+
+    // Afficher les éléments du type en cours
+    $("#bridge_"+currentIndex+" .type_"+typeBridge).attr("visibility", "visible");
+    
+    let wallInsulation = $("#bridge_"+currentIndex+" .wallInsulation").val();
+    if (wallInsulation.includes("ITI")) {
+        $("#bridge_"+currentIndex+" .walltype_iti").attr("visibility", "visible");
+    }
+    if (wallInsulation.includes("ITE")) {
+        $("#bridge_"+currentIndex+" .walltype_ite").attr("visibility", "visible");
+    }
+    if (wallInsulation.includes("ITR")) {
+        $("#bridge_"+currentIndex+" .walltype_itr").attr("visibility", "visible");
+    }
+
+    let floorInsulation = $("#bridge_"+currentIndex+" .floorInsulation").val();
+    if (floorInsulation.includes("ITI")) {
+        $("#bridge_"+currentIndex+" .floortype__"+typeBridge+"__iti").attr("visibility", "visible");
+    }
+    if (floorInsulation.includes("ITE")) {
+        $("#bridge_"+currentIndex+" .floortype__"+typeBridge+"__ite").attr("visibility", "visible");
+    }
+}
+function bridgeCalc() {
+    debug('bridgeCalc');
+    let typeBridge = $("#bridge_"+currentIndex+" .bridgeType").val();
+    let wallInsulation = $("#bridge_"+currentIndex+" .wallInsulation").val();
+    let floorInsulation = $("#bridge_"+currentIndex+" .floorInsulation").val();
+    debug('Type bridge : '+typeBridge);
+    let k = "";
+    if (typeBridge == "floor_inter_wall") {
+        k = settings.pontThermique.floor_inter_wall[wallInsulation] !== undefined ? settings.pontThermique.floor_inter_wall[wallInsulation] : "-";
+    } else if (typeBridge == "floor_lower_wall") {
+        k = settings.pontThermique.floor_lower_wall[wallInsulation] && settings.pontThermique.floor_lower_wall[wallInsulation][floorInsulation] ? settings.pontThermique.floor_lower_wall[wallInsulation][floorInsulation] : "-";
+    } else if (typeBridge == "floor_high_wall") {
+        k = settings.pontThermique.floor_high_wall[wallInsulation] && settings.pontThermique.floor_high_wall[wallInsulation][floorInsulation] ? settings.pontThermique.floor_high_wall[wallInsulation][floorInsulation] : "-";
+    } else if (typeBridge == "partition_wall") {
+        k = settings.pontThermique.partition_wall[wallInsulation] !== undefined ? settings.pontThermique.partition_wall[wallInsulation] : "-";
+    } 
+    $("#bridge_"+currentIndex+" .bridgeK").val(k);
+    // Calcul PT
+    bridgeLength = $("#bridge_"+currentIndex+" .bridgeLength").val();
+    if ((k != '' || k != '-') && (bridgeLength != '' || bridgeLength != '0')) {
+        let pt = bridgeLength * k * 0.5;
+        debug("PT: "+pt);
+        $("#bridge_"+currentIndex+" .bridgePt").val(precise_round(pt, 1));
+    } else {
+        $("#bridge_"+currentIndex+" .bridgePt").val(0);
+    }
 }

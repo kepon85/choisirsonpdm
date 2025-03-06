@@ -95,12 +95,24 @@
 #dialog-custom-wall, 
 #dialog-contact,
 #dialog-custom-material,
-#dialog-rsirse {
+#dialog-rsirse,
+#dialog-bridgeeeeeeeeeeeeee {
   display:none;
 }
 
+#dialog-bridge {
+  font-family: Arial, sans-serif; 
+}
+#dialog-bridge .container { 
+  display: flex; flex-direction: column; align-items: center; 
+}
+#dialog-bridge .hidden { 
+  display: none; 
+}
+
 /* Expert Mode */
-.wall-rsi-rse-popup {
+.wall-rsi-rse-popup,
+.wall-bridge-popup {
   cursor: pointer;
 }
 #temp_base_load {
