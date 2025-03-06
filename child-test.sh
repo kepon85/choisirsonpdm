@@ -26,6 +26,8 @@ if ! [ -d "$pwd/child/$child" ] ; then
 fi
 
 echo 'Header set X-Frame-Options "ALLOW-FROM *"' > $htaccess
+echo "RewriteCond %{QUERY_STRING} ^s=([^&]+)$" >> $htaccess
+echo "RewriteRule ^$ /api/link.php?link=%1 [L,R=301]" >> $htaccess
 echo "RewriteEngine on" >> $htaccess
 
 for fichier in ${fichiers[@]}
