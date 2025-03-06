@@ -1063,7 +1063,7 @@ function submitForm() {
 
                     debug('Pont thermique : '+bridgePt);
                     bridgePerte=bridgePt*($("#temp_indor").val()-$("#temp_base").val());
-                    $('#wall-'+wallId+'-bridge-loss-value').html(bridgePerte);
+                    $('#wall-'+wallId+'-bridge-loss-value').html(precise_round(bridgePerte, 0));
                     // Perte total de la paroi (fenêtre + opaque + pont thermique)
                     perteTotal=parseFloat(windowsPerteTotal)+parseFloat(wallPerte)+parseFloat(bridgePerte);
                     $('.wall-'+wallId+'-and-window-loss-value').html(precise_round(perteTotal, 0));
