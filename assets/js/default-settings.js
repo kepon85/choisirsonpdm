@@ -10,6 +10,7 @@ const defaultSettings = {
   "apiDju":                       "https://choisir.poeledemasse.org/api/dju.php",
   "apiMateriaux":                 "https://choisir.poeledemasse.org/api/materiaux/index.php",
   "apiContact":                   "https://choisir.poeledemasse.org/api/contact.php",
+  "apiLink":                      "https://choisir.poeledemasse.org/api/link.php",
   "apiDebounceTtimeout":           1500,
   "defaultLanguage":              "fr",
   "dju": {           // https://blog.elyotherm.fr/2015/08/dju-degre-jour-unifies-base-18.html
@@ -600,7 +601,7 @@ const defaultSettings = {
     'url': "https://forum.poeledemasse.org/new-topic",
     'title': "Partage de mon dimensionnement",
     'category' : "general/dimensionnement",
-    'body': 'Bonjour, \n Je vous partage ici le résultat de mon [dimensionnement a cette adresse](___URL___ )'
+    'body': 'Bonjour, \n Je vous partage ici le résultat de mon dimensionnement : ___URL___ '
   },
   "includeJavascript" : {},
 }

@@ -729,10 +729,17 @@
             <div class="col-md-3">
               <button class="w-100 btn btn-secondary btn-lg contact"  type="button" data-i18n="[html]bug-report">Signaler un bug</button>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-5">
               <input type="hidden" id="submit_input" class="hashchange" value="0" />
               <!--<input id="submit_input" class="hashchange" value="0" />-->
               <button class="w-100 btn btn-primary btn-lg level1 level2 level3" id="submit_button" type="submit" data-i18n="[html]form-submit-button">Choose my mass stove</button>
+            </div>
+            <div class="col-md-1">
+              <button id="tinyUrlBtn" class="btn btn-primary" onclick="handleTinyUrl()">
+                <svg id="icon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="white">
+                    <path d="M3.9 12c0-2.2 1.8-4 4-4h3V6H7.9c-3.3 0-6 2.7-6 6s2.7 6 6 6h3v-2h-3c-2.2 0-4-1.8-4-4zM9 13h6v-2H9v2zm8-7h-3v2h3c2.2 0 4 1.8 4 4s-1.8 4-4 4h-3v2h3c3.3 0 6-2.7 6-6s-2.7-6-6-6z"></path>
+                </svg>
+              </button>
             </div>
           </div>
         </form>

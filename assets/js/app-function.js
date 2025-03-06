@@ -1096,6 +1096,7 @@ function submitForm() {
     conso();
     suggestion();
     help();
+    genTinyUrl(document.location.href);
     // Tooltip reset
     $('[data-toggle="tooltip"]').tooltip();
 }
@@ -1130,7 +1131,7 @@ function conso() {
         $("#conso").show();
     })
     .fail(function( jqxhr, textStatus, error ) {
-        appAlert('<span>Request Failed to get API DJU " + jqxhr.responseJSON.message + ". </span>', "danger", 3);
+        appAlert('<span>Request Failed to get API DJU ' + jqxhr.responseJSON.message + '. </span>', "danger", 3);
         debug("[conso] API return : " + error);
     });
 
@@ -1284,9 +1285,11 @@ function debounce(func, timeout = 1000){
 /**
  * Résumé : Modifie les href des boutons de partages
  */
-function sharingButton() {
+function sharingButton(url = '') {
     const title =  encodeURIComponent($("title").text());
-    const url = encodeURIComponent(document.location.href);
+    if (url == '') {
+        url = encodeURIComponent(document.location.href);
+    }
 
     Object.entries(settings.sharingButton).forEach(entry => {
         var [network, href] = entry;
@@ -1413,6 +1416,7 @@ function help() {
         var body_avec_url = settings.help.body.replace("___URL___", window.location);
         //Bug avec :// ça supprime un slash... certainement bug avec Discors
         var body_avec_url = body_avec_url.replace(":","%3A");
+        var body_avec_url = body_avec_url.replace("?","%3F");
         var body_avec_url = body_avec_url.replace(/\//g,"%2F");
         var body_avec_url = body_avec_url.replace(/=/g, "%3D");
         var body_avec_url = body_avec_url.replace(/#/g, "%23");
@@ -1512,6 +1516,35 @@ function generatePDF(id, file) {
         }
     });
 }
+
+/* 
+ * URL short
+ */
+function genTinyUrl(url, name = ''){
+    debug("genTinyUrl");
+    if (name == '') {
+        data = { url: url } ;
+    } else {
+        date = { url: url, name: name } ;
+    }
+    $.post( settings.apiLink, data)
+    .done(function( json ) {
+        debug(json);
+        alert(json.link);
+        let newUrl = window.location.pathname + "?s=" + json.link;
+        history.replaceState(null, "", newUrl); // Modifie l'URL sans recharger
+        sharingButton();
+        if ($("#submit_input").val() != 0) {
+            help();
+        }
+        return newUrl;
+    })
+    .fail(function( jqxhr, textStatus, error ) {
+        appAlert('<span>Request Failed to get API LINK ' + jqxhr.responseJSON.message + '. </span>', "danger", 3);
+        debug("[link] API return : " + error);
+    });
+}
+
 
 
 /* 
