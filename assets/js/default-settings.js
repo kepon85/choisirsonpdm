@@ -601,7 +601,7 @@ const defaultSettings = {
     'url': "https://forum.poeledemasse.org/new-topic",
     'title': "Partage de mon dimensionnement",
     'category' : "general/dimensionnement",
-    'body': 'Bonjour, \n Je vous partage ici le résultat de mon dimensionnement : ___URL___ '
+    'body': 'Bonjour, \n Je vous partage ici le résultat de mon [dimensionnement a cette adresse](___URL___ )'  
   },
   "includeJavascript" : {},
 }

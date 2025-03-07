@@ -4,6 +4,13 @@
 # Config
 ####################################
 
+$config['mysql']['hostname']='localhost';
+$config['mysql']['username']='choisirpdm';
+$config['mysql']['password']='xxxxxxxxxxx';
+$config['mysql']['db']='choisirpdm';
+
+//$config['link']['debug'] = true;
+
 $config['cache_dir']='../../tmp';
 $config['cache_timelife']=432000; # 5 jours
 $config['paramDefault']['nbYearsArchive']=20;
@@ -28,5 +35,6 @@ $config['curl_opt_httpheader'] = [
 // DJU
 $config['paramDefault']['s']=18;
 
+$config['link']['purgeday'] = 30; // ou le nombre de jours souhaité
 
 ?>

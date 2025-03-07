@@ -1559,15 +1559,24 @@ async function handleTinyUrl() {
         } else {
             let button = $('#tinyUrlBtn');
             let icon = $('#icon-link');
+            // Copier un message temporaire immédiatement
+            navigator.clipboard.writeText("Génération du lien...");
+            $('#icon-link path').addClass('text-info');
             // Changer l'icône pour un sablier
-            icon.html('<path d="M6 2h12v2H6V2zm1 4h10v2h-1v3l-2 2v3h-4v-3l-2-2V8H7V6zm3 4 2 2 2-2V8h-4v2zm8 8H6v2h12v-2z" fill="currentColor" ></path>');
             button.prop('disabled', true);
+            
             let newUrl = await genTinyUrl(window.location.href);
+            
             if (newUrl) {
                 debug("[link] URL à copier en press papier" + newUrl);
-                await navigator.clipboard.writeText(newUrl);
-                icon.html('<path d="M3.9 12c0-2.2 1.8-4 4-4h3V6H7.9c-3.3 0-6 2.7-6 6s2.7 6 6 6h3v-2h-3c-2.2 0-4-1.8-4-4zM9 13h6v-2H9v2zm8-7h-3v2h3c2.2 0 4 1.8 4 4s-1.8 4-4 4h-3v2h3c3.3 0 6-2.7 6-6s-2.7-6-6-6z" fill="currentColor" ></path>');
-                appAlert("Lien copier dans le press papier (copier/coller)", "success", 3);
+                navigator.clipboard.writeText(newUrl).then(() => {                    
+                    $('#icon-link path').removeClass('text-info');
+                    $('#icon-link path').addClass('text-success');
+                    appAlert("Lien copié dans le presse-papier", "success", 3);
+                    setTimeout(() => $('#icon-link path').removeClass('text-success'), 4000);
+                }).catch(err => {
+                    appAlert("Erreur de copie dans le presse-papier", "danger", 3);
+                });
             } else {
                 appAlert("Erreur lors de la génération du lien", "danger", 3);
                 shortLink = false;
