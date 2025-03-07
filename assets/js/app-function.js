@@ -41,6 +41,16 @@ function selectOptionByText(selectId, optionText) {
     }
 }
 
+/* Résumé : Génère une text propore, sans caractère spécial */
+function sanitizeUrlString(input) {
+    return input
+        .normalize("NFD") // Décompose les accents
+        .replace(/[\u0300-\u036f]/g, "") // Supprime les accents
+        .replace(/\s+/g, "-") // Remplace les espaces par des tirets
+        .replace(/[^a-zA-Z0-9_-]/g, "") // Supprime tout sauf lettres, chiffres, _ et -
+        .replace(/-+/g, "-"); // Évite les tirets consécutifs
+}
+
 /**
  * Résumé : Affiche une alert
  * @param {string}           msg Description : Message à afficher 
@@ -1592,6 +1602,11 @@ async function handleTinyUrl() {
 async function genTinyUrl(url, name = '') {
     debug("genTinyUrl");
     if (shortLink == true) {
+        // Si on est en niveau 3 et que le nom du building est renseigné
+        if ($('#level').val() == 3 &&
+            $('#building-title').val() != '') {
+            name = sanitizeUrlString($('#building-title').val());
+        }
         let data = name ? { url: url, name: name } : { url: url };
         try {
             let response = await $.post(settings.apiLink, data);
