@@ -64,11 +64,16 @@ Exemple à plusieurs "super" suggestion : http://127.0.0.1:3000/index.html#level
 
 * Futur : 
   * https://framagit.org/kepon/choisirsonpdm/-/issues/23
-* 2.3 (en cours)
-  * [add] Considération des portes https://framagit.org/kepon/choisirsonpdm/-/issues/33
+* 2.3 (current)
+  * [add] Tiny URL (url courte) https://framagit.org/kepon/choisirsonpdm/-/issues/23
   * [add] Considération des ponts thermiques selon la 3CL https://framagit.org/kepon/choisirsonpdm/-/issues/32
     * Démo : https://framagit.org/kepon/choisirsonpdm/-/raw/main/doc/demo-pontThermique.gif
-* 2.2 (current)
+  * [add]  Considération des portes https://framagit.org/kepon/choisirsonpdm/-/issues/33
+  * [add] Ajout etude.poeledemasse.org & dimensionner.poeledemasse.org pour les pro...
+  * [bug] DJU, estimation bois avec carte NF
+  * [bug] R personnalisé : https://framagit.org/kepon/choisirsonpdm/-/commit/d46872efb3766181383673162dd4ec030991c2e8
+  * [bug] iframe intégration problème : https://framagit.org/kepon/choisirsonpdm/-/commit/b245bf593b0ab785de48ff95d3901d19cef1b563
+* 2.2
   * [bug/add] Considération de la température du sol : https://framagit.org/kepon/choisirsonpdm/-/issues/24
   * [add] Génération PDF et amélioration de l'impression : https://framagit.org/kepon/choisirsonpdm/-/issues/25
   * [add] Estimation consommation bois https://framagit.org/kepon/choisirsonpdm/-/issues/27
