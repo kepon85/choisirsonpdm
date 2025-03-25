@@ -530,8 +530,8 @@ const defaultSettings = {
       "name": "[Oxa-libre] S",
       "dalyPower": [
         { "fire": 1, "woodLoad": "6.4", "power": 1000, "use": "normal" },
-        { "fire": 2, "woodLoad": "6.4", "power": 2000, "use": "normal" },
-        { "fire": 2, "woodLoad": "9,6", "power": 3000, "use": "critical" },
+        { "fire": 2, "woodLoad": "6.4", "power": 2000, "use": "critical" },
+        { "fire": 3, "woodLoad": "6,4", "power": 3000, "use": "critical" },
       ],
       "weight": 2000,
       "link": "https://www.poeleoxalibre.org/les-plans/",
@@ -541,8 +541,8 @@ const defaultSettings = {
       "name": "[Oxa-libre] M",
       "dalyPower": [
         { "fire": 1, "woodLoad": "8.35", "power": 1500, "use": "normal" },
-        { "fire": 2, "woodLoad": "8.35", "power": 3000, "use": "normal" },
-        { "fire": 2, "woodLoad": "12.5", "power": 4500, "use": "critical" },
+        { "fire": 2, "woodLoad": "8.35", "power": 3000, "use": "critical" },
+        { "fire": 3, "woodLoad": "8.35", "power": 4500, "use": "critical" },
       ],
       "weight": 2300,
       "link": "https://www.poeleoxalibre.org/les-plans/",
@@ -552,8 +552,8 @@ const defaultSettings = {
       "name": "[Oxa-libre] L",
       "dalyPower": [
         { "fire": 1, "woodLoad": "12.2", "power": 2000, "use": "normal" },
-        { "fire": 2, "woodLoad": "12.2", "power": 4000, "use": "normal" },
-        { "fire": 2, "woodLoad": "18.3", "power": 6000, "use": "critical" },
+        { "fire": 2, "woodLoad": "12.2", "power": 4000, "use": "critical" },
+        { "fire": 3, "woodLoad": "12.2", "power": 6000, "use": "critical" },
       ],
       "weight": 2650,
       "link": "https://www.poeleoxalibre.org/les-plans/",
