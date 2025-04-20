@@ -25,6 +25,8 @@ jQuery(function($) {
             localStorage.setItem('i18n', $(this).data('locale'));
             $.i18n().locale = $(this).data('locale');
             do_translate();
+            // Bug traduction select2 https://framagit.org/kepon/choisirsonpdm/-/issues/37
+            initSelect2();
         });
         var userLang = navigator.language || navigator.userLanguage;
         // Détection paramètre utilisateur
@@ -43,5 +45,11 @@ jQuery(function($) {
             $.i18n().locale = settings.defaultLanguage
         }
         do_translate();
+        initSelect2();
+        // Bug traduction select2 https://framagit.org/kepon/choisirsonpdm/-/issues/37
+        /*$('select').each(function () {
+            var $select = $(this);
+            $select.select2();
+        });*/
     });
 });

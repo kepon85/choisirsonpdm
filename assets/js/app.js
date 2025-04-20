@@ -25,49 +25,7 @@ $( document ).ready(function() {
         $("#app-alert").hide();
     });
 
-    $('.form-select').select2();
-
-    // ********** Personnaliser Ubat_global (level2) en + des valeurs choisis
-    // Populate an array of initial options.
-    var options = $("#ubat_global option").map(function(){
-        return this.value.toLowerCase();
-    }).get();
-    var recentlySelected = '';
-    // Create select2
-    $("#ubat_global").select2({
-        tags: true,
-        templateResult: formatTag
-    });
-    // formatTag to conditionally applies formatting
-    function formatTag(filteredOption) {
-        if (recentlySelected.toLowerCase() === filteredOption.text.toLowerCase()) {
-            return filteredOption.text;
-        }
-        if (options.indexOf(filteredOption.text.toLowerCase()) === -1) {
-            // Typed text wasn't an original option, prepend with '+' sign.
-            if (filteredOption.text !== 'Searching…') {
-            recentlySelected = filteredOption.text;
-            }
-            return '+ ' + filteredOption.text; 
-        }
-        return filteredOption.text;
-    };
-    $("#ubat_global").on( "change", function(e) {
-        var re = new RegExp("^[0-9]\\.[0-9]+$");
-        if (! re.test($("#ubat_global").val())) {
-            $('#ubat_global option:eq(0)').prop('selected',true).trigger('change.select2');
-            appAlert('Coefficient d\'isolation estimé (Ubat) invalid.', "danger");
-        }
-    });
-
-    // Bug pour que la recherche du select2 fonctionne dans "dialog" : https://github.com/select2/select2/issues/1246#issuecomment-71710835
-    if ($.ui && $.ui.dialog && $.ui.dialog.prototype._allowInteraction) {
-        var ui_dialog_interaction = $.ui.dialog.prototype._allowInteraction;
-        $.ui.dialog.prototype._allowInteraction = function(e) {
-            if ($(e.target).closest('.select2-dropdown').length) return true;
-            return ui_dialog_interaction.apply(this, arguments);
-        };
-    }
+    initSelect2();
 
     // Debug on
     if (settings.debug) {

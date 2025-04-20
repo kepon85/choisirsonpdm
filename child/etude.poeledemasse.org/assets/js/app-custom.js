@@ -6,25 +6,31 @@ function inIframe () {
     }
 }
 
+$('[data-i18n="[html]app-title"]')
+    .attr('data-i18n', '[html]app-title___etude')  
+    .i18n();
 
-$('#title').html("<h2>Dimensionner un poêle de masse</h2>");
-$(".lead").removeAttr('data-i18n');
-$('.lead').html("Etude pour l'installation d'un poêle de masse");
+$('[data-i18n="[html]app-lead"]')
+    .attr('data-i18n', '[html]app-lead___etude')  
+    .i18n();
 
-$("#submit_button").removeAttr('data-i18n');
-$('#submit_button').text("Lancer l'étude");
+$('[data-i18n="[html]form-submit-button"]')
+    .attr('data-i18n', '[html]form-submit-button___etude')  
+    .i18n();
 
-$('label[for="level"]').removeAttr('data-i18n');
-$('label[for="level"]').text('Méthode utilisé : ');
-
-$('#level option[value="1"]').removeAttr('data-i18n');
-$('#level option[value="1"]').text('G');
-$('#level option[value="2"]').removeAttr('data-i18n');
-$('#level option[value="2"]').text('Ubat');
-$('#level option[value="3"]').removeAttr('data-i18n');
-$('#level option[value="3"]').text('Paroi par paroi');
-
-$('#nav-cartenf-tab').click();
+    
+$('[data-i18n="[html]form-level-label"]')
+    .attr('data-i18n', '[html]form-level-label___etude')  
+    .i18n();
+$('[data-i18n="[html]form-level-1"]')
+    .attr('data-i18n', '[html]form-level-1___etude')  
+    .i18n();
+$('[data-i18n="[html]form-level-2"]')
+    .attr('data-i18n', '[html]form-level-2___etude')  
+    .i18n();
+$('[data-i18n="[html]form-level-3"]')
+    .attr('data-i18n', '[html]form-level-3___etude')  
+    .i18n();
 
 $(".disclamer").hide();
 
@@ -33,7 +39,6 @@ $(document).ready(function() {
         $('#help').hide();
     }, 100);
 });
-
 
 if (inIframe()) {
     // En tête
