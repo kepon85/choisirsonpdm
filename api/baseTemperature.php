@@ -33,6 +33,47 @@ if (empty($_GET['lat']) || empty($_GET['lng'])) {
 } 
 $latitude=$_GET['lat'];
 $longitude=$_GET['lng'];
+
+// Gestion du cache
+if (isset($_GET['cache'])) {
+    $useCache = filter_var($_GET['cache'], FILTER_VALIDATE_BOOLEAN);
+} else {
+    $useCache = $config['paramDefault']['cache'];
+}
+$cacheTimelife = $useCache ? $config['cache_timelife'] : 0;
+
+// Ajout du paramètre mode
+if (isset($_GET['mode'])) {
+    $mode = $_GET['mode'];
+    if ($mode !== 'contiguousDay' && $mode !== 'uncontiguousDay') {
+        $mode = $config['paramDefault']['mode'];
+    }
+} else {
+    $mode = $config['paramDefault']['mode'];
+}
+
+// Gestion du nombre de jours
+if (isset($_GET['nbDays'])) {
+    $nbDays = intval($_GET['nbDays']);
+    if ($nbDays < 1 || $nbDays > 30) {  // Limite arbitraire de 30 jours
+        $nbDays = $config['paramDefault']['nbDays'];
+    }
+} else {
+    $nbDays = $config['paramDefault']['nbDays'];
+}
+
+// Gestion de l'année de fin
+if (isset($_GET['endYearArchive'])) {
+    $endYearArchive = intval($_GET['endYearArchive']);
+    $currentYear = intval(date('Y'));
+    // Vérification que l'année est valide (entre 1985 et l'année courante)
+    if ($endYearArchive < 1985 || $endYearArchive > $currentYear) {
+        $endYearArchive = $config['paramDefault']['endYearArchive'];
+    }
+} else {
+    $endYearArchive = $config['paramDefault']['endYearArchive'];
+}
+
 if (isset($_GET['nbYearsArchive'])) {
     $nbYearsArchive=$_GET['nbYearsArchive'];
 } else {
@@ -61,10 +102,10 @@ $dataFileName=$latitude.'_'.$longitude.'_'.$nbYearsArchive.'_'.$temperature_unit
 $dataFilePath=$config['cache_dir'].'/'.$dataFileName;
 debug('path file : '.$dataFilePath);
 
-if (!is_file($dataFilePath) || filemtime($dataFilePath)+$config['cache_timelife'] < time()) {
+if (!is_file($dataFilePath) || filemtime($dataFilePath)+$cacheTimelife < time()) {
     debug('Cache expir or not exist, download...');
-    $end_date=date('Y', strtotime(' - 1 years')).'-12-31';
-    $start_date=date('Y', strtotime(' - '.($nbYearsArchive+1).' years')).'-01-01';
+    $end_date = $endYearArchive . '-12-31';
+    $start_date = ($endYearArchive - $nbYearsArchive) . '-01-01';
     debug('Date : start_date='.$start_date.'&end_date='.$end_date);
     $curl = curl_init();
     $curl_url = $config['api_url'].'?latitude='.$latitude.'&longitude='.$longitude.'&start_date='.$start_date.'&end_date='.$end_date.'&daily=temperature_2m_min&timezone=auto&temperature_unit='.$temperature_unit;
@@ -113,9 +154,15 @@ foreach ($data_decode->daily->time as $key => $date) {
         $n = 0;
         $yearNow = $date_explode[0];
     }
-    $byYear[$yearNow]['record']['temperatire_min_contiguous']=99;
-    $byYear[$yearNow]['record']['temperatire_min_contiguous_nb_day']=$config['contiguousDay'];
-    $byYear[$yearNow]['record']['temperatire_min_contiguous_days'] = 'Error';
+    if ($mode === 'contiguousDay') {
+        $byYear[$yearNow]['record']['temperature_min']=99;
+        $byYear[$yearNow]['record']['temperature_min_nb_day']=$nbDays;
+        $byYear[$yearNow]['record']['temperature_min_days'] = 'Error';
+    } else {
+        $byYear[$yearNow]['record']['temperature_min']=99;
+        $byYear[$yearNow]['record']['temperature_min_nb_day']=$nbDays;
+        $byYear[$yearNow]['record']['temperature_min_days'] = 'Error';
+    }
     $byYear[$yearNow]['time'][$n] = $date;
     $byYear[$yearNow]['temperature_min'][$n] = $data_decode->daily->temperature_2m_min[$key];
     $n++;
@@ -124,38 +171,62 @@ foreach ($data_decode->daily->time as $key => $date) {
 # Addition par tranche de x jours et recherche du record de l'année
 foreach ($byYear as $year => $data) {
     debug("Year : $year");
-    //var_dump($data['temperature_min']);
     $countTemperature=count($data['temperature_min']);
-    debug("Count temperature  : ".$countTemperature);
-    $breakEndYear=false;
-    for ($i = 0; $i <= $countTemperature; $i++) {
-        $recordAddition=0;
-        $recordId='';
-        for ($contiguousDay = 0; $contiguousDay < $config['contiguousDay']; $contiguousDay++) {
-            # Quand ça dépasse décembre, on retourne sur janvier
-            if (($i+$contiguousDay) > $countTemperature) {
-                $breakEndYear=true;
-            } else {
-                $recordAddition=$recordAddition + $data['temperature_min'][$i+$contiguousDay];
-                $recordId = $recordId.'|'.($i+$contiguousDay);
-            }            
-        }
-        if ($breakEndYear == true) {
-            continue;
-        }
-        $recordMoy=$recordAddition/$config['contiguousDay'];
-        debug('ID : '.$recordId .', Addition : '. $recordAddition .", Moyenne : ".$recordMoy);
-        if ($recordMoy <= $byYear[$year]['record']['temperatire_min_contiguous']) {
-            $byYear[$year]['record']['temperatire_min_contiguous'] = $recordMoy;
-            $byYear[$year]['record']['temperatire_min_contiguous_days']= '';
-            $recordIdExplode = explode("|", $recordId);
-            foreach($recordIdExplode as $dayId) {
-                $byYear[$year]['record']['temperatire_min_contiguous_days'].=" ".$data['time'][$dayId];
+    debug("Count temperature : ".$countTemperature);
+    
+    if ($mode === 'contiguousDay') {
+        // Calcul pour les jours contigus
+        $breakEndYear=false;
+        for ($i = 0; $i <= $countTemperature - $nbDays; $i++) {
+            $recordAddition=0;
+            $recordId='';
+            for ($contiguousDay = 0; $contiguousDay < $nbDays; $contiguousDay++) {
+                $currentIndex = $i + $contiguousDay;
+                if ($currentIndex >= $countTemperature) {
+                    $breakEndYear=true;
+                    break;
+                }
+                $recordAddition += $data['temperature_min'][$currentIndex];
+                $recordId .= '|' . $currentIndex;
             }
-            debug('Nouveau record : ID : '.$recordId .', Addition : '. $recordAddition .", Moyenne : ".$recordMoy." Days  : ".$byYear[$year]['record']['temperatire_min_contiguous_days']);
+            if ($breakEndYear == true) {
+                continue;
+            }
+            $recordMoy=$recordAddition/$nbDays;
+            debug('ID : '.$recordId .', Addition : '. $recordAddition .", Moyenne : ".$recordMoy);
+            if ($recordMoy <= $byYear[$year]['record']['temperature_min']) {
+                $byYear[$year]['record']['temperature_min'] = $recordMoy;
+                $byYear[$year]['record']['temperature_min_days']= '';
+                $recordIdExplode = explode("|", trim($recordId, '|'));
+                foreach($recordIdExplode as $dayId) {
+                    if ($dayId !== '' && isset($data['time'][$dayId])) {
+                        $byYear[$year]['record']['temperature_min_days'].=" ".$data['time'][$dayId];
+                    }
+                }
+            }
+        }
+    } else {
+        // Calcul pour les jours non contigus
+        $tempArray = $data['temperature_min'];
+        asort($tempArray);
+        $selectedDays = array_slice($tempArray, 0, $nbDays, true);
+        
+        // Calcul de la moyenne des X jours les plus froids
+        $uncontiguousSum = array_sum($selectedDays);
+        $uncontiguousMean = $uncontiguousSum / $nbDays;
+        $byYear[$year]['record']['temperature_min'] = $uncontiguousMean;
+        
+        // Enregistrement des dates correspondantes
+        $byYear[$year]['record']['temperature_min_days'] = '';
+        foreach(array_keys($selectedDays) as $dayIndex) {
+            if (isset($data['time'][$dayIndex])) {
+                $byYear[$year]['record']['temperature_min_days'] .= " " . $data['time'][$dayIndex];
+            }
         }
     }
-    debug("Reccord pour l'année ".$year." : ".$byYear[$year]['record']['temperatire_min_contiguous']." qui a eu lieu le : ".$byYear[$year]['record']['temperatire_min_contiguous_days']);
+    
+    debug("Record pour l'année ".$year." : ".$byYear[$year]['record']['temperature_min']." qui a eu lieu le : ".$byYear[$year]['record']['temperature_min_days']);
+    
     if (empty($_GET['verbose'])) {
         unset($byYear[$year]['time']);
         unset($byYear[$year]['temperature_min']);
@@ -163,14 +234,19 @@ foreach ($byYear as $year => $data) {
 }
 
 # Moyenne des années
-$reccordAddition=0;
+$recordAddition=0;
 debug(count($byYear));
 foreach ($byYear as $year => $data) {
-    $reccordAddition=$reccordAddition+$byYear[$year]['record']['temperatire_min_contiguous'];
+    $recordAddition += $byYear[$year]['record']['temperature_min'];
 }
-debug("Température reccord additionné : ".$reccordAddition);
-debug("Temperature de base ".round($reccordAddition/count($byYear), 2));
-$byYear['base']=round($reccordAddition/count($byYear), 2);
+debug("Température record additionnée : ".$recordAddition);
+debug("Temperature de base ".round($recordAddition/count($byYear), 2));
+
+$byYear['base'] = round($recordAddition/count($byYear), 2);
+$byYear['mode'] = $mode;
+$byYear['cache_used'] = $useCache;
+$byYear['nb_days'] = $nbDays;
+$byYear['end_year'] = $endYearArchive;  // Ajout de l'année de fin dans la réponse
 
 debug('Json return : ');
 echo json_encode($byYear);
