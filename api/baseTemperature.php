@@ -182,6 +182,10 @@ foreach ($byYear as $year => $data) {
             $recordId='';
             for ($contiguousDay = 0; $contiguousDay < $nbDays; $contiguousDay++) {
                 $currentIndex = $i + $contiguousDay;
+                if (!isset($data['temperature_min'][$currentIndex])) {
+                    $breakEndYear=true;
+                    break;
+                }
                 if ($currentIndex >= $countTemperature) {
                     $breakEndYear=true;
                     break;
@@ -220,7 +224,9 @@ foreach ($byYear as $year => $data) {
         $byYear[$year]['record']['temperature_min_days'] = '';
         foreach(array_keys($selectedDays) as $dayIndex) {
             if (isset($data['time'][$dayIndex])) {
-                $byYear[$year]['record']['temperature_min_days'] .= " " . $data['time'][$dayIndex];
+                if ($dayIndex !== '' && isset($data['time'][$dayIndex])) {
+                    $byYear[$year]['record']['temperature_min_days'] .= " " . $data['time'][$dayIndex];
+                }
             }
         }
     }
