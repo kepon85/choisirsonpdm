@@ -47,7 +47,7 @@ $(".temp_base_input_group .form-switch").hide();
 // Avertissement
 //$(".disclamer").hide();
 
-
+$("#temp_base_param_plus").click();
 
 
 });
