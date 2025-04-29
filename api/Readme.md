@@ -12,16 +12,26 @@ C'est la température des 5 jours consécutif les plus froid de l'année, moyenn
 
 ### GET : baseTemperature.php
 
-| Paramètre        | Format  | Requis ? | Exemple             | Description                                                  |
-| ---------------- | ------- | -------- | ------------------- | ------------------------------------------------------------ |
-| lat              | Float   | Oui      | 47.22               | Localisation géographique                                    |
-| lng              | Float   | Oui      | -1.55               | Localisation géographique                                    |
-| nbYearsArchive   | Float   | Non      | 20                  | Nombre d'année d'analyse météo entre 1-40                    |
-| temperature_unit | String  | Non      | celsius\|fahrenheit | (par défaut celsius)                                         |
-| verbose          | Booléen | Non      | true                | Pour avoir du détail dans les valeurs                        |
-| debug            | Booléen | Non      | true                | Pour lire le debug (change de format de retour de Json à TXT) |
+| Paramètre        | Format  | Requis ? | Exemple                        | Description                                                  |
+| ---------------- | ------- | -------- | ------------------------------ | ------------------------------------------------------------ |
+| lat              | Float   | Oui      | 47.22                          | Localisation géographique                                    |
+| lng              | Float   | Oui      | -1.55                          | Localisation géographique                                    |
+| nbYearsArchive   | Float   | Non      | 20                             | Nombre d'année d'analyse météo entre 1-40                    |
+| endYearArchive   | Float   | Non      | 2017                           | Dernière année pour les données météo (par défaut l'année courante-1) |
+| nbDays           | Float   | Non      | 5                              | Nombre de jour utilisé pour le calcul de la moyenne (5 par défaut) |
+| mode             | String  | Non      | contiguousDay\|uncontiguousDay | Nombre de jour consécutif ou non consécutif (utilisé pour la moyenne) par défaut "contiguousDay" |
+| temperature_unit | String  | Non      | celsius\|fahrenheit            | (par défaut celsius)                                         |
+| verbose          | Booléen | Non      | true                           | Pour avoir du détail dans les valeurs                        |
+| debug            | Booléen | Non      | true                           | Pour lire le debug (change de format de retour de Json à TXT) |
 
-Exemple : baseTemperature.php?lat=47.22&lng=-1.55&nbYearsArchive=3
+**Exemple** : 
+
+* baseTemperature.php?lat=47.22&lng=-1.55&nbYearsArchive=30&mode=uncontiguousDay&nbDays=5
+  * Affiche la moyenne des 5 jours les plus froids non consécutif moyenné sur 30 ans
+* baseTemperature.php?lat=47.22&lng=-1.55&nbYearsArchive=20&mode=contiguousDay&nbDays=3&endYearArchive=2017
+  * Affiche la moyenne des 3 jours consécutif les plus froids moyenné sur 20 ans (avec pour dernière année 2017)
+
+**Exemple** : baseTemperature.php?lat=47.22&lng=-1.55&nbYearsArchive=3
 
 Cette requête permet de déterminer la température de base sur les 3 dernières années, elle retournes : 
 
