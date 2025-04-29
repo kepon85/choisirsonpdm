@@ -1205,7 +1205,7 @@ function getBaseTemperature(){
             hashChange();
         })
         .fail(function( jqxhr, textStatus, error ) {
-            appAlert('<span>Request Failed to get API base temperature : " + jqxhr.responseJSON.message + ". <b>Indicate there manually and contact the developer of this calculator</b></span>', "danger", 30);
+            appAlert('<span>Request Failed to get API base temperature : ' + jqxhr.responseJSON.message + '. <b>Indicate there manually and contact the developer of this calculator</b></span>', "danger", 30);
             debug("API return : " + error);
             $(".temp_base_input_group").show();
             $("#temp_base").prop('disabled', false);
