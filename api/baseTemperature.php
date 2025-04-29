@@ -66,8 +66,8 @@ if (isset($_GET['nbDays'])) {
 if (isset($_GET['endYearArchive'])) {
     $endYearArchive = intval($_GET['endYearArchive']);
     $currentYear = intval(date('Y'));
-    // Vérification que l'année est valide (entre 1985 et l'année courante)
-    if ($endYearArchive < 1985 || $endYearArchive > $currentYear) {
+    // Vérification que l'année est valide (entre 1940 et l'année courante)
+    if ($endYearArchive < 1940 || $endYearArchive > $currentYear) {
         $endYearArchive = $config['paramDefault']['endYearArchive'];
     }
 } else {
@@ -97,7 +97,7 @@ if (isset($_GET['temperature_unit'])) {
 ####################################
 
 # Nom du fichier
-$dataFileName=$latitude.'_'.$longitude.'_'.$nbYearsArchive.'_'.$temperature_unit.'.json';
+$dataFileName=$latitude.'_'.$longitude.'_'.$mode.'__'.$nbDays.'_'.$nbYearsArchive.'_'.$endYearArchive.'_'.$temperature_unit.'.json';
 # Chemin du fichier
 $dataFilePath=$config['cache_dir'].'/'.$dataFileName;
 debug('path file : '.$dataFilePath);
@@ -114,7 +114,13 @@ if (!is_file($dataFilePath) || filemtime($dataFilePath)+$cacheTimelife < time())
     debug('debug API : '.$debug_api_url);
     $curlopt = [
         CURLOPT_URL => $curl_url,
+        CURLOPT_MAXREDIRS => 5,
+        CURLOPT_TIMEOUT => 50,
+        CURLOPT_CONNECTTIMEOUT => 50,
         CURLOPT_HTTPHEADER => $config['curl_opt_httpheader'],
+        //CURLOPT_PROXY			=> "127.0.0.1",
+		//CURLOPT_PROXYPORT		=> "12345",
+		//CURLOPT_PROXYTYPE		=> CURLPROXY_SOCKS5,
     ];
     curl_setopt_array($curl, $config['curl_opt'] + $curlopt);
     $data = curl_exec($curl);
