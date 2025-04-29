@@ -2,7 +2,10 @@ const userSettings = {
   "form_default": {
     "level":     1,
     "g":                           0.3,
-    "temp_base_years_archive":     10,
+    "temp_base_nb_years_archive":  10,
+    "temp_base_end_years_archive": '',
+    "temp_base_nb_days":           5,
+    "temp_base_mode":             'contiguousDay',
     "temp_indor":                 19, 
     "temp_base_auto":             true,
     "nav-tab-record":             "nav-cartenf-tab",

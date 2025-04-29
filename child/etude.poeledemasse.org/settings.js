@@ -6,7 +6,10 @@ const userSettings = {
     "temp_base_auto":           true,
     "nav-tab-record":           "nav-cartenf-tab",
     "temp_ground":                 11,
-    "temp_base_years_archive":     20,
+    "temp_base_nb_years_archive":  20,
+    "temp_base_end_years_archive": '',
+    "temp_base_nb_days":           5,
+    "temp_base_mode":             'contiguousDay',
     "dju_years_archive":           20,
   },
 }

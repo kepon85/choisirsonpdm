@@ -5,8 +5,8 @@ $(document).ready(function() {
     $('.col-md-6').first().removeClass('col-md-6').addClass('col-md-3');
 
     // Retirer les hashchanges
-    const excludedIds = ['temp_base_years_archive', 'temp_base', 'nav-tab-record'];
-    
+    const excludedIds = ['temp_base_nb_years_archive', 'temp_base_end_years_archive', 'temp_base_nb_days', 'temp_base_mode', 'temp_base', 'nav-tab-record'];
+
     // Parcourir tous les éléments ayant la classe "hashchange"
     $('.hashchange').each(function () {
         const element = $(this);

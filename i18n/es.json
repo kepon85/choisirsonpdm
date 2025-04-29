@@ -77,7 +77,7 @@
 	"form-lat-label": "Latitud",
 	"form-lng-label": "Longitud",
 	"form-temp_base-label": "Temperatura Base",
-	"form-temp_base_years_archive-label": "Año de archivo de la temperatura básica",
+	"form-temp_base_nb_years_archive-label": "Año de archivo de la temperatura básica",
 	"form-reset-button": "Reiniciar",
 	"form-submit-button": "Elegir mi estufa de masa",
 	"result-title": "Necesidad de calefacción desfavorable",

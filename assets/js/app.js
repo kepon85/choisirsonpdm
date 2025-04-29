@@ -42,6 +42,11 @@ $( document ).ready(function() {
     $("#temp_base_auto").on( "change", function(e) {
         tempBaseChangeMode();
     });
+    $(".temp_base_param_plus").hide();
+    $("#temp_base_param_plus").on( "click", function(e) {
+        $("#temp_base_param_plus").hide();
+        $(".temp_base_param_plus").show();
+    });
     $("#livingvolume_auto").on( "change", function(e) {
         livingVolumeChangeMode();
     });
@@ -49,7 +54,7 @@ $( document ).ready(function() {
         calcVolume();
         $("#livingvolume_auto").prop('checked', true);
     });
-    $("#temp_base_years_archive").on( "change", function(e) {
+    $(".temp_base_change").on( "change", function(e) {
         processChangelngLat();
     });
 

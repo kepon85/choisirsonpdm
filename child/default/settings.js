@@ -1,10 +1,13 @@
 const userSettings = {
   "debug": true,
-  "debugLoadMap": true,
+  "debugLoadMap": false,
 /*
   "form_default": {
     "level":     3,
-    "temp_base_years_archive":     10,
+    "temp_base_nb_years_archive":  20,
+    "temp_base_end_years_archive": '',
+    "temp_base_nb_days":           5,
+    "temp_base_mode":             'contiguousDay',
     "ubat_global":                 0.3,
     "venti_global":                0.14,
     "g":                           0.3,

@@ -25,7 +25,7 @@ $(".form-livingvolume_auto").hide();
 
 // Avertissement
 $(".disclamer").hide();
-$(".temp_base_years_archive").hide();
+$(".temp_base_change").hide();
 
 $("#result h4").hide();
 $("p #calcShowHide").hide();

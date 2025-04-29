@@ -1175,7 +1175,31 @@ function getBaseTemperature(){
     */
     if ($("#temp_base_auto").prop("checked") && $("#nav-tab-record").val() == 'nav-carte-tab' && $("#lat").val() != '' && $("#lng").val() != '') {
         debug('GET API baseTemperature');
-        $.getJSON( settings.apiBaseTemperature+'?lat='+$("#lat").val()+'&lng='+$("#lng").val()+'&nbYearsArchive='+$("#temp_base_years_archive").val()) 
+        let endYearArchive = '';
+        if (Number.isInteger(+$("#temp_base_end_years_archive").val()) && $("#temp_base_end_years_archive").val() >= 1970 && $("#temp_base_end_years_archive").val() <= 2099) {
+            endYearArchive = '&endYearArchive=' + $("#temp_base_end_years_archive").val();
+        } else {
+            if (settings?.form_default?.temp_base_end_years_archive !== undefined) {
+                $("#temp_base_end_years_archive").val(settings.form_default.temp_base_end_years_archive);
+            } else {
+                $("#temp_base_end_years_archive").val('');
+            }
+        }
+        if ($("#temp_base_nb_days").val() > 10) {
+            if (settings?.form_default?.temp_base_nb_days !== undefined) {
+                $("#temp_base_nb_days").val(settings.form_default.temp_base_nb_days);
+            } else {
+                $("#temp_base_nb_days").val(5);
+            }
+        }
+        if ($("#temp_base_nb_years_archive").val() > 40) {
+            if (settings?.form_default?.temp_base_nb_years_archive !== undefined) {
+                $("#temp_base_nb_years_archive").val(settings.form_default.temp_base_nb_years_archive);
+            } else {
+                $("#temp_base_nb_years_archive").val(20);
+            }
+        }
+        $.getJSON( settings.apiBaseTemperature+'?lat='+$("#lat").val()+'&lng='+$("#lng").val()+'&nbYearsArchive='+$("#temp_base_nb_years_archive").val()+'&nbDays='+$("#temp_base_nb_days").val()+'&mode='+$("#temp_base_mode").val()+endYearArchive) 
         .done(function( json ) {
             $("#temp_base").val(json.base);
             hashChange();
@@ -1348,11 +1372,15 @@ function tempBaseChangeMode() {
                 processChangelngLat();
             }
         }
+        $("#temp_base_param_plus").show();
+        $(".temp_base_param_plus").hide();
     } else {
         //$( "#lng" ).val('');
         //$( "#lat" ).val('');
         $("#temp_base").prop('disabled', false);
         $(".temp_base_auto").hide();
+        $("#temp_base_param_plus").hide();
+        $(".temp_base_param_plus").hide();
     }
 }
 

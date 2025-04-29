@@ -56,9 +56,9 @@ A chaque citation de suggestion on indique s'il est sur ou sous dimensionné et 
 
 Quelques exemples qui permettent différentes suggestion pour tester l'algo :
 
-Exemple n'aboutissant à aucune "super suggestion", que des "cool" : http://127.0.0.1:3000/index.html#level=1&transparent=true&livingspace=50&livingheight=2.5&livingvolume=125&livingvolume_auto=true&wastagesurface=120&temp_indor=19&g=1.8&ubat_global=0.4&venti_global=0.14&lat=&lng=&temp_base=11.6&temp_base_auto=&temp_base_years_archive=10&submit_input=1
-Exemple à plusieurs "super" suggestion : http://127.0.0.1:3000/index.html#level=1&transparent=true&livingspace=149.7&livingheight=2.5&livingvolume=374.25&livingvolume_auto=true&wastagesurface=120&temp_indor=19&g=1.8&ubat_global=0.4&venti_global=0.14&lat=&lng=&temp_base=11.6&temp_base_auto=&temp_base_years_archive=10&submit_input=1
-2 cool mais rien de super : http://127.0.0.1:3000/index.html#level=1&transparent=true&livingspace=149.7&livingheight=2.5&livingvolume=374.25&livingvolume_auto=true&wastagesurface=120&temp_indor=26&g=1.8&ubat_global=0.4&venti_global=0.14&lat=&lng=&temp_base=11.6&temp_base_auto=&temp_base_years_archive=10&submit_input=1
+Exemple n'aboutissant à aucune "super suggestion", que des "cool" : http://127.0.0.1:3000/index.html#level=1&transparent=true&livingspace=50&livingheight=2.5&livingvolume=125&livingvolume_auto=true&wastagesurface=120&temp_indor=19&g=1.8&ubat_global=0.4&venti_global=0.14&lat=&lng=&temp_base=11.6&temp_base_auto=&temp_base_nb_years_archive=10&submit_input=1
+Exemple à plusieurs "super" suggestion : http://127.0.0.1:3000/index.html#level=1&transparent=true&livingspace=149.7&livingheight=2.5&livingvolume=374.25&livingvolume_auto=true&wastagesurface=120&temp_indor=19&g=1.8&ubat_global=0.4&venti_global=0.14&lat=&lng=&temp_base=11.6&temp_base_auto=&temp_base_nb_years_archive=10&submit_input=1
+2 cool mais rien de super : http://127.0.0.1:3000/index.html#level=1&transparent=true&livingspace=149.7&livingheight=2.5&livingvolume=374.25&livingvolume_auto=true&wastagesurface=120&temp_indor=26&g=1.8&ubat_global=0.4&venti_global=0.14&lat=&lng=&temp_base=11.6&temp_base_auto=&temp_base_nb_years_archive=10&submit_input=1
 
 ## Changelog
 
