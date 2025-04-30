@@ -97,7 +97,7 @@
 	"form-temp_ground-label": "Température du sol extérieur",
 	"form-reset-button": "Ré-initialisation",
 	"form-submit-button": "Choisir mon poêle de masse",
-	"form-submit-button___etude": "Launch the study",
+	"form-submit-button___etude": "Lancer l'étude",
 	"result-title": "Besoin de chauffage",
 	"result-show_more": "Voir, comprendre la démarche, le calcul",
 	"result-g-explain": "Selon la méthode 'G', on cherche ici la déperdition de votre habitat dans la succession de jours la plus défavorable de l'hiver (en tenant compte de votre situation géographique) afin de déduire votre besoin de chauffage dans le cas le plus défavorable. La formule est la suivante : ",
