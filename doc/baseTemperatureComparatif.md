@@ -110,7 +110,7 @@ On constate des écarts très variables, de ~0 à ~6 °C. Cela s’explique pr
 
 > [!IMPORTANT]
 >
-> Au vu des faibles écarts, il reste difficile de privilégier une méthode plutôt qu’une autre ; la MAE varie seulement de 2.54 à 2.99 °C.
+> Au vu des faibles écarts, il reste difficile de privilégier une méthode plutôt qu’une autre ; la MAE varie seulement de 2.54 à 2.99 °C. Mais tout ça reste très loin des températures NF.
 
 Hypothèses possibles :
 
