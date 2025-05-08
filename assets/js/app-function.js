@@ -454,6 +454,7 @@ function validCustomMaterial() {
             + ' - src-name : ' + $('#material-src-name').val() + '<br />' 
             + ' - src-link : ' + $('#material-src-link').val() + '<br />' 
             + ' - src-contrib : ' + $('#material-src-contrib').val() + '<br />' 
+            + ' - src-contrib-email : ' + $('#material-src-contrib-email').val() + '<br />' 
             + 'Commentaire : ' + $('#material-comment').val() + '<br />' 
             + '<br />' 
             + 'INSERT INTO `materiaux` (`id`, `status`, `libelle`, `cath_id`, `generique`, `lambda`, `p`, `c`, `u`, `h`, `source_libelle`, `source_link`, `contrib`, `lastupdate`) VALUES (NULL, "5", "'+ $('#material-libelle').val() + '","'+$('#material-cath_id').val()+'","'+$('#material-generic').val()+'","'+$('#material-lambda').val()+'","'+$('#material-p').val()+'","'+$('#material-c').val()+'","'+$('#material-u').val()+'","'+$('#material-h').val()+'","'+$('#material-src-name').val()+'","'+$('#material-src-link').val()+'","'+$('#material-src-contrib').val()+'", current_timestamp());'
