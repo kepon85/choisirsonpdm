@@ -1402,6 +1402,7 @@ function livingVolumeChangeMode() {
 
 /*
 *   Carte NF des températures de bases
+*   Fortement inspiré de http://nourtier.net/JoceWanadoo/Bricolage/PAC/calcul_PAC.htm#
 */
 function temperatureBaseNFDetermine() {
     var zone = $('#zone').val();
