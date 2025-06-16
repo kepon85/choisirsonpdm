@@ -7,13 +7,13 @@
 
 **Parois**
 
-- **Murs** : 60 cm de pierre + 7 cm de chaux-chanvre
+- **Murs** : 60 cm de pierre + 10 cm de chaux-chanvre
   - Sud   : 10,0 m × 3,0 m = **30,0 m²**  
-    - Est   : 10,0 m × 3,0 m = **30,0 m²**  
-    - Ouest : 10,0 m × 3,0 m = **30,0 m²**  
-    - Nord  : 10,0 m × 3,0 m = **30,0 m²**  
+  - Est   : 10,0 m × 3,0 m = **30,0 m²**  
+  - Ouest : 10,0 m × 3,0 m = **30,0 m²**  
+  - Nord  : 10,0 m × 3,0 m = **30,0 m²**  
 
-- **Toiture** : 15 cm de laine de verre,  tuiles mécaniques, pente 45° (141,4 m²)  
+- **Toiture** : 30 cm de laine de bois,  tuiles mécaniques, pente 45° (141,4 m²)  
 - **Plancher bas** : dalle béton de 100m2
 
 **Ouvertures** (fenêtres uniquement - total 7,32 m²)

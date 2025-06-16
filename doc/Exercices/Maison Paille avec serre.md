@@ -3,12 +3,14 @@
 **Type de maison**
 
 - Maison en paille neuve, plain-pied, 170 m²  
-- Forme : rectangle 17,0 m × 10,0 m, HSP 3,00 m  
+  - Le mur Sud n'est pas en botte de paille mais en Adobe avec une serre.
+
+- Forme : rectangle 17,0 m × 10,0 m, hauteur sous plafond 3,00 m  
 
 **Parois**
 
-- **Murs** : 35 cm de bottes de paille (sauf Sud)  
-  - Sud (serre)   : 17,0 m × 3,0 m = **51,0 m²** (mur d’adobe derrière)  
+- **Murs** : 35 cm de bottes de paille (sauf Sud ou c'est un simple mur d'adobe acumulateur)  
+  - Sud (serre)   : 17,0 m × 3,0 m = **51,0 m²** (mur d’adobe - brique de terre crue - derrière la serre)  
   - Est           : 10,0 m × 3,0 m = **30,0 m²**  
   - Ouest         : 10,0 m × 3,0 m = **30,0 m²**  
   - Nord          : 17,0 m × 3,0 m = **51,0 m²**  

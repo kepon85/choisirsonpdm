@@ -3,7 +3,7 @@
 **Type de maison**
 
 - Chalet en bois massif type fuste, bioclimatique (gros apports solaires sud)  
-- Plain-pied, 56 m² au sol, HSP 2,70 m  
+- Plain-pied, 56 m² au sol, hauteur sous plafond 2,70 m  
 
 **Parois**
 
