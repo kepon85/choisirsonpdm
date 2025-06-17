@@ -1709,8 +1709,8 @@ function addBridgeForm(index, data = { name: "", type: "", length: "0" }) {
                     <input type="number" class="form-control bridgeLength" step="0.1" id="bridgeLength_${index}" placeholder="Longueur Ex: 12.5" data-index="${index}" value="${data.length}">
                     <span class="input-group-text">m</span>
                 </div>
-                <div class="form-text form_hide form_partition_wall">Souvent la longueur du mur</div>
-                <div class="form-text form_hide form_floor_lower_wall form_floor_high_wall form_floor_inter_wall">Souvent la hauteur du mur</div>
+                <div class="form-text form_hide form_partition_wall">Souvent la hauteur du mur</div>
+                <div class="form-text form_hide form_floor_lower_wall form_floor_high_wall form_floor_inter_wall">Souvent la longueur du mur</div>
             </div>
             
         </div>
