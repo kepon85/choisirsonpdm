@@ -1,5 +1,7 @@
 # Chalet type fuste
 
+Le projet se trouve à Rennes, la température de base est donnée pour -5°C (Zone C) selon la carte de la norme
+
 **Type de maison**
 
 - Chalet en bois massif type fuste, bioclimatique (gros apports solaires sud)  

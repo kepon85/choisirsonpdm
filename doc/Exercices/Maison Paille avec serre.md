@@ -1,5 +1,7 @@
 # Maison paille avec serre au Sud
 
+Le projet se trouve à Rennes, la température de base est donnée pour -5°C (Zone C) selon la carte de la norme
+
 **Type de maison**
 
 - Maison en paille neuve, plain-pied, 170 m²  

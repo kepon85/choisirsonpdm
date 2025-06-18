@@ -1,5 +1,7 @@
 # Maison année 90
 
+Le projet se trouve à Rennes, la température de base est donnée pour -5°C (Zone C) selon la carte de la norme
+
 **Type de maison**
 
 - Maison construite dans les années 90 en parpaings, plain-pied, 130 m²  

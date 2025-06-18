@@ -1,5 +1,7 @@
 # Rénovation ITE isolé au sol
 
+Le projet se trouve à Rennes, la température de base est donnée pour -5°C (Zone C) selon la carte de la norme
+
 > [!TIP]
 >
 > Même cas que "Rénovation ITE" mais avec une isolation au sol

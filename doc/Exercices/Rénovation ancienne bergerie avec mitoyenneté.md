@@ -1,5 +1,7 @@
 # Rénovation maison de bourg avec Mitoyenneté
 
+Le projet se trouve à Rennes, la température de base est donnée pour -5°C (Zone C) selon la carte de la norme
+
 - **Type de maison**
 
   - Rénovation d’une maison de ville sur 2 niveaux, 70 m² au sol (2 × 70 = 140 m² chauffés), hauteur sous plafond 2,50 m  

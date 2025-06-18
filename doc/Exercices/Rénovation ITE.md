@@ -1,5 +1,7 @@
 # Rénovation ITE
 
+Le projet se trouve à Rennes, la température de base est donnée pour -5°C (Zone C) selon la carte de la norme
+
 **Type de maison**
 
 - Rénovation en pierre, ITE (isolation par l'extérieur) 130 m², plain-pied  
