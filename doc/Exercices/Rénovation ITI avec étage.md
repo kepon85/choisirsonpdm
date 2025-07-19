@@ -22,12 +22,12 @@ Le projet se trouve à Rennes, la température de base est donnée pour -5°C (Z
 
 - **Ouvertures** (fenêtres uniquement — total ≃ 8,93 m²)
   - **Rez-de-chaussée**  
-    - Séjour (Sud)               : 3,00 m² (2,00 × 1,50 m) — PVC + double vitrage (Uw : 1,6 W/m²·K)  
-    - Cuisine (Est)              : 1,00 m² (1,00 × 1,00 m) — PVC + double vitrage (Uw : 1,6 W/m²·K)  
-    - Chambre parentale (Ouest)  : 1,44 m² (1,20 × 1,20 m) — Bois + double vitrage (Uw : 1,6 W/m²·K)  
-    - Scellier (Nord)            : 0,25 m² (0,50 × 0,50 m) — Bois + double vitrage (Uw : 1,8 W/m²·K)  
+    - Séjour (Sud)               : 3,00 m² (2,00 × 1,50 m) — PVC + double vitrage (Uw : 1,5 W/m²·K)  
+    - Cuisine (Est)              : 1,00 m² (1,00 × 1,00 m) — PVC + double vitrage (Uw : 1,5 W/m²·K)  
+    - Chambre parentale (Ouest)  : 1,44 m² (1,20 × 1,20 m) — Bois + double vitrage (Uw : 1,5 W/m²·K)  
+    - Scellier (Nord)            : 0,25 m² (0,50 × 0,50 m) — Bois + double vitrage (Uw : 1,7 W/m²·K)  
 
   - **1er étage**  
-    - Chambre 1 (Nord)           : 1,44 m² (1,20 × 1,20 m) — Bois + double vitrage (Uw : 1,6 W/m²·K)  
-    - Chambre 2 (Ouest)          : 1,44 m² (1,20 × 1,20 m) — Bois + double vitrage (Uw : 1,6 W/m²·K)  
-    - Salle de bains (Est)        : 0,36 m² (0,60 × 0,60 m) — Bois + double vitrage (Uw : 1,8 W/m²·K)  
+    - Chambre 1 (Nord)           : 1,44 m² (1,20 × 1,20 m) — Bois + double vitrage (Uw : 1,7 W/m²·K)  
+    - Chambre 2 (Ouest)          : 1,44 m² (1,20 × 1,20 m) — Bois + double vitrage (Uw : 1,7 W/m²·K)  
+    - Salle de bains (Est)        : 0,36 m² (0,60 × 0,60 m) — Bois + double vitrage (Uw : 1,7 W/m²·K)  

@@ -26,7 +26,7 @@ Le projet se trouve à Rennes, la température de base est donnée pour -5°C (Z
 
 - Séjour (Sud)             : 6,00 m² (3,00 m × 2,00 m) — alu/bois + triple vitrage (Uw : 1,1 W/m²·K)  
 - Cuisine (Est)            : 1,44 m² (1,20 m × 1,20 m) — alu/bois + triple vitrage (Uw : 1,1 W/m²·K)  
-- Chambre 1 (Sud-Ouest)    : 1,44 m² (1,20 m × 1,20 m) — bois + double vitrage (Uw : 1,6 W/m²·K)  
-- Chambre 2 (Nord)         : 1,44 m² (1,20 m × 1,20 m) — bois + double vitrage (Uw : 1,6 W/m²·K)  
-- Chambre 3 (Ouest)        : 1,44 m² (1,20 m × 1,20 m) — bois + double vitrage (Uw : 1,6 W/m²·K)  
-- Salle de bains (Est)      : 0,36 m² (0,60 m × 0,60 m) — bois + double vitrage (Uw : 1,8 W/m²·K)  
+- Chambre 1 (Sud-Ouest)    : 1,44 m² (1,20 m × 1,20 m) — bois + double vitrage (Uw : 1,5 W/m²·K)  
+- Chambre 2 (Nord)         : 1,44 m² (1,20 m × 1,20 m) — bois + double vitrage (Uw : 1,5 W/m²·K)  
+- Chambre 3 (Ouest)        : 1,44 m² (1,20 m × 1,20 m) — bois + double vitrage (Uw : 1,5 W/m²·K)  
+- Salle de bains (Est)      : 0,36 m² (0,60 m × 0,60 m) — bois + double vitrage (Uw : 1,7 W/m²·K)  

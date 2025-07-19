@@ -26,5 +26,5 @@ Le projet se trouve à Rennes, la température de base est donnée pour -5°C (Z
 - Chambre 1 (Est)        : 1,44 m² (1,20 m × 1,20 m) — bois triple vitrage (Uw : 1,1 W/m²·K)  
 - Chambre 2 (Ouest)      : 1,44 m² (1,20 m × 1,20 m) — bois triple vitrage (Uw : 1,1 W/m²·K)  
 - Chambre 3 (Nord)       : 1,44 m² (1,20 m × 1,20 m) — bois triple vitrage (Uw : 1,1 W/m²·K)  
-- Salle de bains         : 0,25 m² (0,50 m × 0,50 m) — bois double vitrage (Uw : 1,8 W/m²·K)  
-- Hall d’entrée (Est)    : 0,96 m² (0,80 m × 1,20 m) — bois double vitrage (Uw : 1,6 W/m²·K)  
+- Salle de bains         : 0,25 m² (0,50 m × 0,50 m) — bois double vitrage (Uw : 1,7 W/m²·K)  
+- Hall d’entrée (Est)    : 0,96 m² (0,80 m × 1,20 m) — bois double vitrage (Uw : 1,7 W/m²·K)  

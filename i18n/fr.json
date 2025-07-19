@@ -93,7 +93,7 @@
 	"form-temp_base_mode-label": "Mode 'jour consécutif' ou 'non consécutif' pour le calcul de la température de base",
 	"form-temp_base_mode-contiguousDay": "Jours consécutifs",
 	"form-temp_base_mode-uncontiguousDay": "Jours non consécutifs",
-	"form-dju_years_archive-label": "Année de d'archive pour le <a href='https://fr.wikipedia.org/wiki/Degr%C3%A9_jour_unifi%C3%A9'>DJU</a>",
+	"form-dju_years_archive-label": "Année d'archive pour le <a href='https://fr.wikipedia.org/wiki/Degr%C3%A9_jour_unifi%C3%A9'>DJU</a>",
 	"form-temp_ground-label": "Température du sol extérieur",
 	"form-reset-button": "Ré-initialisation",
 	"form-submit-button": "Choisir mon poêle de masse",

@@ -22,10 +22,10 @@ Le projet se trouve à Rennes, la température de base est donnée pour -5°C (Z
   **Ouvertures** (fenêtres uniquement — total ≃ 8,60 m²)
 
   - **Rez-de-chaussée**  
-    - Séjour (Sud)             : 4,40 m² (2,00 m × 2,20 m) — PVC + double vitrage (Uw : 1,6 W/m²·K)  
-    - Cuisine / Entrée (Nord)  : 1,20 m² (1,00 m × 1,20 m) — PVC + double vitrage (Uw : 1,6 W/m²·K)  
+    - Séjour (Sud)             : 4,40 m² (2,00 m × 2,20 m) — PVC + double vitrage (Uw : 1,5 W/m²·K)  
+    - Cuisine / Entrée (Nord)  : 1,20 m² (1,00 m × 1,20 m) — PVC + double vitrage (Uw : 1,5 W/m²·K)  
 
   - **1er étage**  
-    - Chambre 1 (Sud)          : 1,44 m² (1,20 m × 1,20 m) — Bois + double vitrage (Uw : 1,6 W/m²·K)  
-    - Chambre 2 (Nord)         : 1,20 m² (1,00 m × 1,20 m) — Bois + double vitrage (Uw : 1,6 W/m²·K)  
-    - Salle de bains (Nord)    : 0,36 m² (0,60 m × 0,60 m) — Bois + double vitrage (Uw : 1,8 W/m²·K)  
+    - Chambre 1 (Sud)          : 1,44 m² (1,20 m × 1,20 m) — Bois + double vitrage (Uw : 1,5 W/m²·K)  
+    - Chambre 2 (Nord)         : 1,20 m² (1,00 m × 1,20 m) — Bois + double vitrage (Uw : 1,5 W/m²·K)  
+    - Salle de bains (Nord)    : 0,36 m² (0,60 m × 0,60 m) — Bois + double vitrage (Uw : 1,7 W/m²·K)  
