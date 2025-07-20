@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -12,33 +11,31 @@
 <body>
   <div class="container text-center mt-5">
     <img src="../assets/img/logo.png" alt="Choisir son PDM" class="logo mb-4">
-    <h1>Portail - Choisir son poêle de masse</h1>
-    <p class="lead">Différntes versions de l'outil :</p>
-    <div class="list-group mb-4">
-      <a href="https://choisir.poeledemasse.org/" class="list-group-item list-group-item-action">
-        Choisir son poêle &mdash; Pour les particuliers, auto-constructeur
-      </a>
-      <a href="https://etude.poeledemasse.org/" class="list-group-item list-group-item-action">
-        Étude &mdash; Pour les professionneles, artisants poêliers
-      </a>
-      <a href="https://afpma.choisir.poeledemasse.org/" class="list-group-item list-group-item-action">
-        AFPMA : Pour les particuliers  Trouver un artisan poêlier proche de chez vous
-      </a>
+    <h1>Choisir son poêle de masse</h1>
+    <div class="d-grid gap-3 col-lg-6 mx-auto my-4">
+      <button class="btn btn-primary btn-lg" type="button" data-bs-toggle="collapse" data-bs-target="#particulier" aria-expanded="false" aria-controls="particulier">
+        Particulier
+      </button>
+      <div class="collapse" id="particulier">
+        <div class="d-grid gap-1 col-lg-12 mx-auto">
+            <a class="btn btn-secondary btn-lg" href="https://afpma.choisir.poeledemasse.org/">Utilisateur  cherchant (aussi) un professionnel près de chez lui</a>
+            <a class="btn btn-secondary btn-lg" href="https://choisir.poeledemasse.org/">Auto-constructeur, utilisateur averti</a>
+        </div>
     </div>
-    <small class="text-muted d-block mb-2">Les autres variantes :</small>
-    <div class="list-group">
-      <a href="https://minimasse.choisir.poeledemasse.org/" class="list-group-item list-group-item-action">
-        MiniMasse : Permet de déterminer si ce modèle de petit poêle est fait pour votre maison
-      </a>
-      <a href="https://uzume.choisir.poeledemasse.org/" class="list-group-item list-group-item-action">
-        Uzume : Même chose avec la game Uzume
-      </a>
-      <a href="https://temperature-de-base.zici.fr/" class="list-group-item list-group-item-action">
-        La "température de base" mis à jour.
-      </a>
-      
+      <a class="btn btn-primary btn-lg" href="https://etude.poeledemasse.org/">Professionnel</a>
     </div>
+   <footer class="my-5 pt-5 text-body-secondary text-center text-small">
+        <div class="mb-1">
+          <ul class="list-inline">
+            <li class="list-inline-item">Licence <a href="LICENSE.txt">GNU v3</a></li>
+            <li class="list-inline-item">Auteur <a href="https://david.mercereau.info/contact/">David Mercereau</a></li>
+            <li class="list-inline-item"><a href="https://framagit.org/kepon/choisirsonpdm/" data-i18n="[html]app-source">Source Code</a></li>
+          </ul>
+        </div>
+      </footer>
+
   </div>
 </body>
+
   <script src="../assets/js/bootstrap.bundle.min.js"></script>
 </html>
