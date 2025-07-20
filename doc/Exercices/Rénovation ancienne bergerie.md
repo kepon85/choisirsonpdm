@@ -6,10 +6,11 @@ Le projet se trouve à Rennes, la température de base est donnée pour -5°C (Z
 
 - Rénovation d’une ancienne bergerie
 - Plain-pied, 100 m² au sol, 2,70m de hauteur sous plafond soit 270m3 de volume habitable 
+- VMC simple flux
 
 **Parois**
 
-- **Murs** : 60 cm de pierre + 10 cm de chaux-chanvre
+- **Murs** : 60 cm de pierre + 10 cm de chaux-chanvre appliqué à l'intérieur
   - Sud   : 10,0 m × 3,0 m = **30,0 m²**  
   - Est   : 10,0 m × 3,0 m = **30,0 m²**  
   - Ouest : 10,0 m × 3,0 m = **30,0 m²**  

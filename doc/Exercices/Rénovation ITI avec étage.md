@@ -6,6 +6,7 @@ Le projet se trouve à Rennes, la température de base est donnée pour -5°C (Z
 
 - Rénovation en pierre avec isolation par l’intérieur (ITI)  
 - 2 niveaux, 60 m² au sol par niveau (120 m² chauffés), HSP 2,50 m  
+- VMC simple flux
 
 **Parois**
 
