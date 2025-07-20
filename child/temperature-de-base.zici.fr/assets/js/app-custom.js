@@ -26,7 +26,7 @@ $(".lead").removeAttr('data-i18n');
 $("#app-alert").hide();
 $("#app-alert").removeAttr('data-i18n');
 $(".disclamer").html('<p>Cette proposition s\'appuie sur une <a href="https://framagit.org/kepon/choisirsonpdm/-/blob/main/api/Readme.md#api-temp%C3%A9rature-de-base">API open source</a> développée pour le logiciel "<a href="https://choisir.poeledemasse.org/">choisir son poêle de masse</a>", qui tire ces données météo du projet <a href="https://open-meteo.com/en/docs/historical-weather-api#data-sources">Climate Data Store (copernicus Europe)</a>.</p>' + 
-                        '<p>La présente page permet de se rendre compte des différences entres la norme (NF P52-612/CN - dont nous ne connaissons pas le calcul ni la source des données) et les données historiques météo Copernicus</p>'
+                        '<p>La présente page permet de se rendre compte des différences entres la norme (NF P52-612/CN - dont nous ne connaissons pas le calcul ni la source des données) et les données historiques météo Copernicus</p>' +
                         '<p><b><a href="https://framagit.org/kepon/choisirsonpdm/-/blob/main/doc/baseTemperatureCompa">Une étude a été mené pour comparer ces données</a></b>. L\'AFPMA a publier <a href="https://www.afpma.pro/2025/06/23/reviser-la-temperature-de-base-nf-p52-612-une-necessite/">un article sur le sujet</a>.</p>');
 $(".disclamer").removeAttr('data-i18n');
 
