@@ -1074,7 +1074,7 @@ function submitForm() {
                             } else {
                                 typePrint = "Aucun";
                             }
-                            bridgesPrint = bridgesPrint + `<li>${item.name} ${typePrint} longueur=${item.length}m<sup>2</sup>, <span data-toggle="tooltip" title="Surface * Uw">Perte=${item.pt}W/°C</span></li>`; 
+                            bridgesPrint = bridgesPrint + `<li>${item.name} ${typePrint} longueur=${item.length}m, <span data-toggle="tooltip" title="Surface * Uw">Perte=${item.pt}W/°C</span></li>`; 
                             // Ajouter la valeur de pt à la somme totale
                             bridgePt += parseFloat(item.pt);
                         });
