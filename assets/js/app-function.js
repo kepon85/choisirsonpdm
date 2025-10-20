@@ -1151,7 +1151,7 @@ function conso() {
             var c = (24 * resDeperdition * dju * settings.dju.i) / (deltaT*settings.dju.η*settings.dju.pci.wood);
             debug("[conso] c = "+c);
             $('.res_c').html(precise_round(c,2));
-            var c_stere = precise_round(c*1000/settings.dju.stere.hardwoods,0);
+            var c_stere = precise_round(c*1000/settings.dju.stere.hardwoods,1);
             debug("[conso] c en stèr e= "+c_stere);
             $('.res_stere_hardwoods').html(c_stere);
             $("#conso").show();
@@ -1276,10 +1276,33 @@ function calcVolume (){
  * @param {integer}           r Description : Précision (nombre de chiffre après la vircule)
  */
 function precise_round(n, r) {
-    let int = Math.floor(n).toString()
     if (typeof n !== 'number' || typeof r !== 'number') return 'Not a Number'
-    if (int[0] == '-' || int[0] == '+') int = int.slice(int[1], int.length)
-    return n.toPrecision(int.length + r)
+
+    let int = Math.floor(n).toString()
+    if (int[0] == '-' || int[0] == '+') int = int.slice(1)
+
+    let precision = int.length + r
+    if (Math.floor(n) === 0) {
+        precision = r + 1
+    }
+
+    let rounded = n.toPrecision(precision)
+
+    if (rounded.indexOf('e') !== -1 || rounded.indexOf('E') !== -1) {
+        const decimals = Math.max(r, 0)
+        rounded = Number(rounded).toFixed(decimals)
+    } else if (r > 0) {
+        if (rounded.indexOf('.') === -1) {
+            rounded = rounded + '.' + '0'.repeat(r)
+        } else {
+            const decimals = rounded.split('.')[1] || ''
+            if (decimals.length < r) {
+                rounded = rounded + '0'.repeat(r - decimals.length)
+            }
+        }
+    }
+
+    return rounded
 }
 /**
  * Résumé : Changer l'URL (hash) en fonction de la classe "hashchange"
