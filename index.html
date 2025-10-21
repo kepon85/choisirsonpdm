@@ -815,7 +815,7 @@
             <div class="calcul_level3 calculs">
             </div>
             <div id="deperdition">
-              <b><span data-i18n="[html]result-need-explain">Your heating need is</span> <span id='resDeperditionMax'></span> kW</b>
+              <b><span data-i18n="[html]result-need-explain">Your heating need is</span> <span id='resDeperditionMax' class="power-value"></span></b>
               <input type="hidden" name="resDeperdition" id="resDeperdition" />
             </div>
             <p><span id="calcShowHide" class="btn btn-light btn-sm" data-i18n="[html]result-show_more">See, understand the process, the calculation</span></p>
@@ -890,6 +890,13 @@
             <li><a href="#" class="fr flag" data-locale="fr"><img src="assets/img/fr.png" alt="FR" width="23" height="15" /></a></li>
             <li><a href="#" class="es flag" data-locale="es"><img src="assets/img/es.png" alt="FR" width="23" height="15" /></a></li>
           </ul>
+          <div class="unit-switcher">
+            <label for="unit_system" data-i18n="[html]unit-system-label">Units</label>
+            <select id="unit_system" class="hashchange">
+              <option value="metric" data-i18n="[html]unit-system-metric">Metric (kW)</option>
+              <option value="imperial" data-i18n="[html]unit-system-imperial">Imperial (BTU/hr)</option>
+            </select>
+          </div>
         </div>
         <div id="sharingButton" class="mb-1">
           <h4 data-i18n="[html]app-sharing">Sharing</h4>

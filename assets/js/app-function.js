@@ -67,6 +67,63 @@ function appAlert(msg, type = 'warning', time = 3) {
     }, time*1000);
 }
 
+const POWER_UNIT_SYSTEMS = {
+    metric: {
+        power: {
+            unit: 'kW',
+            convert: function (watts) {
+                return precise_round(watts / 1000, 2);
+            }
+        }
+    },
+    imperial: {
+        power: {
+            unit: 'BTU/hr',
+            convert: function (watts) {
+                return precise_round(watts * 3.412141633, 0);
+            }
+        }
+    }
+};
+
+function getUnitSystem() {
+    const value = $('#unit_system').val();
+    if (value && Object.prototype.hasOwnProperty.call(POWER_UNIT_SYSTEMS, value)) {
+        return value;
+    }
+    return 'metric';
+}
+
+function getPowerDisplay(watts) {
+    const system = POWER_UNIT_SYSTEMS[getUnitSystem()] || POWER_UNIT_SYSTEMS.metric;
+    const value = system.power.convert(watts);
+    return {
+        value: value,
+        unit: system.power.unit,
+        text: value + '\u00A0' + system.power.unit
+    };
+}
+
+function formatPowerText(watts) {
+    return getPowerDisplay(watts).text;
+}
+
+function refreshPowerValues(scope = null) {
+    let $targets;
+    if (scope) {
+        const $scope = $(scope);
+        $targets = $scope.filter('.power-value').add($scope.find('.power-value'));
+    } else {
+        $targets = $('.power-value');
+    }
+    $targets.each(function() {
+        const watts = parseFloat($(this).attr('data-power-watts'));
+        if (!isNaN(watts)) {
+            $(this).text(formatPowerText(watts));
+        }
+    });
+}
+
 /**
  * Résumé : Listener pour le changement des class "hashchange"
  */
@@ -87,13 +144,19 @@ function hashchangeListener() {
 
 function hashchangeAllAction(element) {
     debug('hashchangeAllAction');
-    $(".result").hide(); // Hide résult
-    $("#submit_input").val(0); // Remise à 0 du résultat
+    const isUnitChange = element !== undefined && element.id === 'unit_system';
+    if (!isUnitChange) {
+        $(".result").hide(); // Hide résult
+        $("#submit_input").val(0); // Remise à 0 du résultat
+    }
     // SI c'est la latitude ou la longitude qui ont changé, on recherche la valeur dans l'API
     if (element != undefined && (element.name == 'lat' || element.name == 'lng')) {
         processChangelngLat();
     }
     hashChange();
+    if (isUnitChange) {
+        refreshPowerValues();
+    }
     sharingButton(); // Update sharing button
 }
 
@@ -905,7 +968,7 @@ function openData() {
             $('#opendataTab > tbody:last-child').append(
                 '<tr>'
                     +'<td>'+pdmData.name+'</td>'
-                    +'<td class="text-center">'+precise_round(this.power/1000,2)+'kW</td>'
+                    +'<td class="text-center power-value" data-power-watts="'+this.power+'">'+formatPowerText(this.power)+'</td>'
                     +'<td class="text-center">'+this.fire+'</td>'
                     +'<td class="text-center">'+this.woodLoad+'kg</td>'
                     +'<td class="text-center">'+this.use+'</td>'
@@ -1114,7 +1177,7 @@ function submitForm() {
             + '</div></div></div>'
         );
     }
-    $("#resDeperditionMax").html(precise_round(resDeperditionMax/1000, 2));
+    $("#resDeperditionMax").attr('data-power-watts', resDeperditionMax).text(formatPowerText(resDeperditionMax));
     $("#resDeperdition").val(resDeperditionMax);
     debug("Besoin de chauffage : " + resDeperditionMax + "Wh");
     conso();

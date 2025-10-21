@@ -24,8 +24,9 @@ const defaultSettings = {
     },
   },
   "form_default": {
-    "temp_indor":                 19, 
+    "temp_indor":                 19,
     "level":                       1,
+    "unit_system":                 "metric",
     "temp_base_nb_years_archive":  20,
     "temp_base_end_years_archive": '',
     "temp_base_nb_days":           5,

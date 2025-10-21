@@ -11,7 +11,7 @@ function suggestion() {
             + '<span data-i18n="[html]suggestion-too-large-3"> </span>'
             + '</div>');
     } else {
-        $("#suggestionContent").append('<p id="best" style="display: none"><span data-i18n="[html]suggestion-best-1">Le poêle de masse open source (référencé ici) qui se rapproche le plus de votre besoin de chauffage maximum, lors des 5 jours les plus froids de l’année, semble être le </span><span id="bestName"></span> <span data-i18n="[html]suggestion-best-2">pour une puissance journalière de</span> <span id="bestPower"></span><span data-i18n="[html]suggestion-best-3">kW.</span></p>');
+        $("#suggestionContent").append('<p id="best" style="display: none"><span data-i18n="[html]suggestion-best-1">Le poêle de masse open source (référencé ici) qui se rapproche le plus de votre besoin de chauffage maximum, lors des 5 jours les plus froids de l’année, semble être le </span><span id="bestName"></span> <span data-i18n="[html]suggestion-best-2">pour une puissance journalière de</span> <span id="bestPower"></span>.</p>');
         $("#suggestionContent").append('<p id="best-multi" style="display: none"><span data-i18n="[html]suggestion-best-multi-1">Plusieurs poêle de masse open source (référencé ici) semble se rapproche le de votre besoin de chauffage maximum (lors des 5 jours les plus froids de l’année) : </span><ul id="best-multi-ul"></ul></p>');
         $("#suggestionContent").append('<p id="bestCool-multi" style="display: none"><span data-i18n="[html]suggestion-best-multi-1">Plusieurs poêle de masse open source (référencé ici) semble se rapproche le de votre besoin de chauffage maximum (lors des 5 jours les plus froids de l’année) : </span><ul id="bestCool-multi-ul"></ul></p>');
         //$("#suggestionContent").append('<p id="bestCool-multi" style="display: none"><span data-i18n="[html]suggestion-bestCool-multi-1">Aucun poêle de masse open source (référencé ici) semble complètement satisfaisant mais voici ceux qui se rapproche le plus de votre besoin de chauffage maximum (lors des 5 jours les plus froids de l’année) : </span><ul id="bestCool-multi-ul"></ul></p>');
@@ -90,7 +90,7 @@ function suggestion() {
             $('#bestCool-multi').show();
             $.each(pdmSuggestions, function() {
                 if (this.bestClass == 1) {
-                    $("#bestCool-multi-ul").append('<li><a href="'+this.link+'">'+this.name+'</a> <span data-i18n="[html]suggestion-best-2">pour une puissance journalière de</span><b> ' + precise_round(this.power/1000, 2) + '</b><span data-i18n="[html]suggestion-best-3">kW.</span></li>');
+                    $("#bestCool-multi-ul").append('<li><a href="'+this.link+'">'+this.name+'</a> <span data-i18n="[html]suggestion-best-2">pour une puissance journalière de</span><b class="power-value" data-power-watts="'+this.power+'">'+formatPowerText(this.power)+'</b>.</li>');
                 }
             });
         */
@@ -104,7 +104,7 @@ function suggestion() {
             $.each(pdmSuggestions, function() {
                 if (this.bestClass == 2) {
                     $('#bestName').html("<a href='"+this.link+"' target='_blank'>"+this.name+"</a>");
-                    $('#bestPower').html("<b>"+precise_round(this.power/1000, 2)+"</b>");
+                    $('#bestPower').html('<b class="power-value" data-power-watts="'+this.power+'">'+formatPowerText(this.power)+'</b>');
                 }
             });
         } else if (bestClass1 == 1) {
@@ -113,7 +113,7 @@ function suggestion() {
             $.each(pdmSuggestions, function() {
                 if (this.bestClass == 1) {
                     $('#bestName').html("<a href='"+this.link+"' target='_blank'>"+this.name+"</a>");
-                    $('#bestPower').html("<b>"+precise_round(this.power/1000, 2)+"</b>");
+                    $('#bestPower').html('<b class="power-value" data-power-watts="'+this.power+'">'+formatPowerText(this.power)+'</b>');
                 }
             });
         // plusieurs 
@@ -122,7 +122,7 @@ function suggestion() {
             $('#best-multi').show();
             $.each(pdmSuggestions, function() {
                 if (this.bestClass == 2 || this.bestClass == 1) {
-                    $("#best-multi-ul").append('<li><a href="'+this.link+'" target="_blank">'+this.name+'</a> <span data-i18n="[html]suggestion-best-2">pour une puissance journalière de</span><b> ' + precise_round(this.power/1000, 2) + '</b><span data-i18n="[html]suggestion-best-3">kW.</span></li>');
+                    $("#best-multi-ul").append('<li><a href="'+this.link+'" target="_blank">'+this.name+'</a> <span data-i18n="[html]suggestion-best-2">pour une puissance journalière de</span><b class="power-value" data-power-watts="'+this.power+'">'+formatPowerText(this.power)+'</b>.</li>');
                 }
             });
         // Aucun
@@ -144,7 +144,7 @@ function suggestion() {
             $('#suggestionTab > tbody:last-child').append(
                 '<tr class="'+this.trClass+'">'
                     +'<td>'+this.name+'</td>'
-                    +'<td class="text-center">'+precise_round(this.power/1000,2)+'kW</td>'
+                    +'<td class="text-center power-value" data-power-watts="'+this.power+'">'+formatPowerText(this.power)+'</td>'
                     +'<td class="text-center">'+this.weight+'kg</td>'
                     +'<td class="text-center"><a href="'+this.link+'" data-i18n="[html]suggestion-link" target="_blank">link</a></td>'
                     +'<td class="text-center" data-toggle="tooltip" title="'+tooltips+'">'+precise_round(this.diffPowerDeperditionAbs/1000, 2)+' ('+Math.round(this.diffPowerDeperditionPercent)+'%)</td>'

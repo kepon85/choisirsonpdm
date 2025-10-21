@@ -232,14 +232,17 @@
     right: 20px;
     padding: 6px;
     border: 1px solid #2F2F2F;
-	border-bottom-left-radius: 8px;
-	border-bottom-right-radius: 8px;
-	background: #616161; 
-	-moz-box-shadow: 0 0 10px black; 
-	-webkit-box-shadow: 0 0 10px black; 
-	box-shadow: 0 0 10px black; 
-	opacity: 0.60;
-	z-index: 999;
+        border-bottom-left-radius: 8px;
+        border-bottom-right-radius: 8px;
+        background: #616161;
+        -moz-box-shadow: 0 0 10px black;
+        -webkit-box-shadow: 0 0 10px black;
+        box-shadow: 0 0 10px black;
+        opacity: 0.60;
+        z-index: 999;
+        display: flex;
+        align-items: center;
+        gap: 8px;
 }
 .locale-switcher li {
     display: inline-block;
@@ -248,13 +251,37 @@
     margin: 0px;
     padding: 0px;
     list-style-type:none;
+    display: flex;
+    align-items: center;
 }
 .locale-switcher img {
-	margin-right: 6px;
-	margin-left: 6px;
+        margin-right: 6px;
+        margin-left: 6px;
 }
 .locale-switcher .active {
-	opacity: 0.50;
+        opacity: 0.50;
+}
+
+.locale-switcher .unit-switcher {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.locale-switcher .unit-switcher label {
+    margin: 0;
+    color: #fff;
+    font-size: 0.85rem;
+}
+
+.locale-switcher .unit-switcher select {
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    background-color: #f8f9fa;
+    color: #212529;
+    padding: 2px 6px;
+    font-size: 0.85rem;
+    height: 26px;
 }
 
 /* Default */
