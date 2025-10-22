@@ -236,8 +236,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 <body>
     <div class="error-container">
-        <h1>404 - Lien non trouvé</h1>
-        <p>Désolé, le lien que vous recherchez n\'existe pas.</p>
+        <h1>404 - Enregistrement non trouvé</h1>
+        <p>Désolé, l\'enregistrement que vous recherchez n\'existe pas/plus.</p>
     </div>
 </body>
 </html>';
