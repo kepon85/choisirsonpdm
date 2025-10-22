@@ -1,4 +1,6 @@
 const userSettings = {
+  "appName":                      "Etude/dimensionnement poêle de masse",
+  "appShortName":                 "etude.poeledemasse.org",
   "form_default": {
     "level":                    3,
     "wastagesurface":           200,

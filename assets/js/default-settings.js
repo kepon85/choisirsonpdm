@@ -5,6 +5,7 @@
 const defaultSettings = {
   "debug":                        false,
   "debugLoadMap":                 false,
+  "appName":                      "Choisir son poêle de masse",
   "appShortName":                 "choisirsonpdm",
   "apiBaseTemperature":           "https://choisir.poeledemasse.org/api/baseTemperature.php",
   "apiDju":                       "https://choisir.poeledemasse.org/api/dju.php",
