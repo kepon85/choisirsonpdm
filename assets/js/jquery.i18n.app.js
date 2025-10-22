@@ -12,10 +12,12 @@ jQuery(function($) {
         $( ".locale-switcher ." + $.i18n().locale).addClass( "active" );
     }
     //Chargement des fichiers de traduction
+    const cacheSuffix = settings.version ? ('?v=' + encodeURIComponent(settings.version)) : '';
+
     $.i18n().load({
-        'en': './i18n/en.json',
-        'fr': './i18n/fr.json',
-        'es': './i18n/es.json',
+        'en': './i18n/en.json' + cacheSuffix,
+        'fr': './i18n/fr.json' + cacheSuffix,
+        'es': './i18n/es.json' + cacheSuffix,
     }).done(function() {
         
         // Switch language
