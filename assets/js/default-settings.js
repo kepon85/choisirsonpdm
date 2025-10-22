@@ -55,8 +55,10 @@ const defaultSettings = {
     'vk': 'http://vk.com/share.php?title=__TITLE__&url=__URL__',
     'telegram': 'https://telegram.me/share/url?text=__TITLE__&url=__URL__',
   },
+  'example': {
+  },
   "localSettingDefault": {
-    "version": 2, 
+    "version": 2,
     "material": [],
     "wall": []
   },

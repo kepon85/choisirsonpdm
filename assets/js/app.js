@@ -726,6 +726,7 @@ $( document ).ready(function() {
     });
 
     updateStudyMenuState();
+    populateGlobalMenuExamples();
 
     $('#study-save-action').on('click', function(e) {
         e.preventDefault();

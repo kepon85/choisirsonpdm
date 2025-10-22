@@ -240,24 +240,24 @@
         -moz-box-shadow: 0 0 10px black;
         -webkit-box-shadow: 0 0 10px black;
         box-shadow: 0 0 10px black;
-        opacity: 0.60;
+        opacity: 0.9;
         z-index: 999;
         display: flex;
         align-items: center;
         gap: 8px;
 }
-.locale-switcher .study-menu {
+.locale-switcher .global-menu {
     position: relative;
 }
-.locale-switcher .study-menu .btn {
+.locale-switcher .global-menu .btn {
     padding: 2px 8px;
     font-size: 0.85rem;
 }
-.locale-switcher .study-menu .dropdown-menu {
+.locale-switcher .global-menu .dropdown-menu {
     min-width: 12rem;
     padding: 0.25rem 0;
 }
-.locale-switcher .study-menu .dropdown-item {
+.locale-switcher .global-menu .dropdown-item {
     font-size: 0.85rem;
 }
 .locale-switcher > ul > li {

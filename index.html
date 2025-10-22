@@ -929,19 +929,19 @@
       <footer class="my-5 pt-5 text-body-secondary text-center text-small">
         <div class="locale-switcher">
           <img class="logoMenu" id="logoMenu" src="./assets/img/logo.png" width="15"  height="15" alt="">
-          <div class="study-menu dropdown">
-            <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="studyMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-              <span data-i18n="[html]study-menu-label">Menu</span>
+          <div class="global-menu dropdown">
+            <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="globalMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+              <span data-i18n="[html]global-menu-label">Menu</span>
             </button>
-            <ul class="dropdown-menu" aria-labelledby="studyMenuButton">
-              <li><button class="dropdown-item" type="button" id="study-save-action" data-i18n="[html]study-menu-save">Enregistrer l'étude</button></li>
-              <li><button class="dropdown-item" type="button" id="study-save-device-action" data-i18n="[html]study-menu-save-device">Enregistrer sur mon périphérique</button></li>
-              <li><button class="dropdown-item" type="button" id="study-open-action" data-i18n="[html]study-menu-open">Ouvrir une étude</button></li>
-              <li><button class="dropdown-item" type="button" id="study-open-device-action" data-i18n="[html]study-menu-open-device">Ouvrir depuis mon périphérique</button></li>
-              <li><button class="dropdown-item" type="button" id="study-share-action" data-i18n="[html]study-menu-share">Partager</button></li>
-              <li><hr class="dropdown-divider" /></li>
-              <li><h6 class="dropdown-header">Paramètres</h6></li>
-              <li class="privacy-link"><button class="dropdown-item" type="button" data-privacy-action="customize" data-i18n="[html]privacy-manage">Gérer mes préférences de confidentialité</button></li>
+            <ul class="dropdown-menu" aria-labelledby="globalMenuButton">
+              <li><button class="dropdown-item" type="button" id="study-save-action" data-i18n="[html]global-menu-save">Enregistrer</button></li>
+              <li><button class="dropdown-item" type="button" id="study-save-device-action" data-i18n="[html]global-menu-save-device">Enregistrer sur mon périphérique</button></li>
+              <li><button class="dropdown-item" type="button" id="study-open-action" data-i18n="[html]global-menu-open">Ouvrir</button></li>
+              <li><button class="dropdown-item" type="button" id="study-open-device-action" data-i18n="[html]global-menu-open-device">Ouvrir depuis mon périphérique</button></li>
+              <li><button class="dropdown-item" type="button" id="study-share-action" data-i18n="[html]global-menu-share">Partager</button></li>
+              <li id="global-menu-settings-divider"><hr class="dropdown-divider" /></li>
+              <li><h6 class="dropdown-header" data-i18n="[html]global-menu-settings-header">Paramètres (parois + matériaux personnalisés)</h6></li>
+              <li><button class="dropdown-item" type="button" data-privacy-action="customize" data-i18n="[html]privacy-manage">Gérer mes préférences de confidentialité</button></li>
               <li>
                 <div class="dropdown-item-text menu-unit-switcher">
                   <label for="unit_system" class="form-label" data-i18n="[html]unit-system-label">Units</label>
@@ -951,9 +951,9 @@
                   </select>
                 </div>
               </li>
-              <li><hr class="dropdown-divider" /></li>
-              <li class="menu-item-level3 d-none"><button class="dropdown-item" type="button" id="study-settings-import-action" data-i18n="[html]setting-import-button">Importer</button></li>
-              <li class="menu-item-level3 d-none"><button class="dropdown-item" type="button" id="study-settings-export-action" data-i18n="[html]setting-export-button">Exporter</button></li>
+              <li><h6 class="dropdown-header">Parois + matériaux personnalisés</h6></li>
+              <li class="menu-item-level3 d-none"><button class="dropdown-item" type="button" id="study-settings-import-action" data-i18n="[html]setting-import-button">Importer les paramètres</button></li>
+              <li class="menu-item-level3 d-none"><button class="dropdown-item" type="button" id="study-settings-export-action" data-i18n="[html]setting-export-button">Exporter les paramètres</button></li>
             </ul>
           </div>
           <input id="study-import-file" type="file" class="d-none" accept="application/json" />

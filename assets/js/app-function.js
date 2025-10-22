@@ -1624,6 +1624,76 @@ function updateStudyMenuState() {
     }
 }
 
+function resolveGlobalMenuExamples() {
+    if (typeof settings !== 'object' || settings === null) {
+        return [];
+    }
+    const rawExamples = settings.example;
+    if (!rawExamples || typeof rawExamples !== 'object') {
+        return [];
+    }
+    const entries = [];
+    Object.entries(rawExamples).forEach(([label, url]) => {
+        const normalizedLabel = String(label ?? '').trim();
+        const normalizedUrl = typeof url === 'string' ? url.trim() : '';
+        if (!normalizedLabel || !normalizedUrl) {
+            return;
+        }
+        entries.push({
+            label: normalizedLabel,
+            url: normalizedUrl
+        });
+    });
+    return entries;
+}
+
+function populateGlobalMenuExamples() {
+    if (typeof $ === 'undefined') {
+        return;
+    }
+    const $menu = $('.global-menu .dropdown-menu');
+    if ($menu.length === 0) {
+        return;
+    }
+    $menu.find('[data-global-menu-example]').remove();
+    const examples = resolveGlobalMenuExamples();
+    if (examples.length === 0) {
+        return;
+    }
+    const $divider = $('#global-menu-settings-divider');
+    const insertBefore = $divider.length > 0 ? $divider : null;
+    const insertElement = ($element) => {
+        if (insertBefore) {
+            $element.insertBefore(insertBefore);
+        } else {
+            $menu.append($element);
+        }
+    };
+    const $header = $('<li/>', {
+        'data-global-menu-example': 'header'
+    }).append(
+        $('<h6/>', {
+            class: 'dropdown-header',
+            'data-i18n': '[html]global-menu-examples-header',
+            text: 'Examples'
+        })
+    );
+    insertElement($header);
+    examples.forEach((example) => {
+        const $item = $('<li/>', {
+            'data-global-menu-example': 'item'
+        }).append(
+            $('<a/>', {
+                class: 'dropdown-item',
+                href: example.url,
+                text: example.label
+            })
+        );
+        insertElement($item);
+    });
+    applyTranslations($header);
+}
+
 function renderStudyList() {
     const $dialog = $('#study-open-dialog');
     const $list = $('#study-open-list');
