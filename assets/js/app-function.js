@@ -1644,24 +1644,208 @@ function isLocalWallId(idSearch) {
     return retour;
 }
 
+function cleanTextContent(value) {
+    if (value === undefined || value === null) {
+        return '';
+    }
+    return String(value).replace(/\s+/g, ' ').trim();
+}
+
+function formatValueWithUnit(value, unit) {
+    const cleanedValue = cleanTextContent(value);
+    if (!cleanedValue) {
+        return 'Non renseigné';
+    }
+    if (!unit) {
+        return cleanedValue;
+    }
+    return cleanedValue + '\u00A0' + unit;
+}
+
+function buildResultRow(label, value, unit = null) {
+    const formattedValue = formatValueWithUnit(value, unit);
+    return [label, formattedValue];
+}
+
+function getSanitizedValue(selector) {
+    const text = cleanTextContent($(selector).text());
+    if (!text || text === '?') {
+        return '';
+    }
+    return text;
+}
+
 /**
- * Résumé : Généer des PDF avec PDF Make  selon un ID
+ * Résumé : Généer des PDF avec PDF Make selon un ID
  */
 function generatePDF(id, file) {
-    appAlert("Export PDF...", "success", 5)
-    html2canvas($('#'+id)[0], {
-        onrendered: function (canvas) {
-            var data = canvas.toDataURL();
-            var docDefinition = {
-                content: [{
-                    image: data,
-                    width: 500
-                }]
-            };
-            pdfMake.createPdf(docDefinition).download(file+".pdf");
-            appAlert("... Export PDF ok !", "success", 2)
+    if (typeof pdfMake === 'undefined' || !pdfMake.createPdf) {
+        appAlert("Erreur lors du chargement de la librairie PDF.", "danger", 5);
+        return;
+    }
+
+    const $section = $('#' + id);
+    if ($section.length === 0) {
+        appAlert("Section introuvable pour l'export PDF.", "danger", 5);
+        return;
+    }
+
+    appAlert("Export PDF...", "success", 5);
+
+    const now = new Date();
+    const appName = (typeof settings !== 'undefined' && settings.appName) ? settings.appName : 'Choisir son PDM';
+    const docTitle = appName + ' - Résultat';
+    const sectionIdentifier = '#' + id;
+    const heatingNeed = cleanTextContent($('#resDeperditionMax').text()) || cleanTextContent($('#resDeperdition').val());
+    const consumptionSummary = cleanTextContent($('#conso .calcul_conso_result').text());
+    const methodGResult = getSanitizedValue('.res_level1');
+    const methodUbatResult = getSanitizedValue('.res_level2');
+    const gCoefficient = cleanTextContent($('#g').val());
+    const ubat = cleanTextContent($('#ubat_global').val());
+    const wastageSurface = cleanTextContent($('#wastagesurface').val());
+    const volume = cleanTextContent($('#livingvolume').val());
+    const ventiValue = cleanTextContent($('#venti_global').val());
+    const vmcType = cleanTextContent($('#venti_global option:selected').text());
+    const tempBase = cleanTextContent($('#temp_base').val());
+    const tempIndoor = cleanTextContent($('#temp_indor').val());
+    const ventiText = vmcType || (ventiValue ? ventiValue : 'Non renseigné');
+    const thermalStudyTitle = cleanTextContent($('#result-title-building-title').text());
+    const thermalStudyDetails = cleanTextContent($('#thermal-study').text());
+    const shortStudyLink = window.location.origin + window.location.pathname + '?s=3RGDZ1YSurT4ctw8';
+
+    const parameterTable = {
+        table: {
+            widths: ['*', '*'],
+            body: [
+                [
+                    { text: 'Paramètre', style: 'tableHeader' },
+                    { text: 'Valeur', style: 'tableHeader' }
+                ],
+                buildResultRow('Volume chauffé', volume, 'm³'),
+                buildResultRow('Température de base', tempBase, '°C'),
+                buildResultRow('Température intérieure de consigne', tempIndoor, '°C'),
+                ['Type de VMC', ventiText || 'Non renseigné']
+            ]
+        },
+        layout: 'lightHorizontalLines',
+        margin: [0, 0, 0, 10]
+    };
+
+    const resultRows = [];
+    if (methodGResult) {
+        let methodGText = methodGResult;
+        if (gCoefficient && volume && tempIndoor && tempBase) {
+            methodGText = `D = (${tempIndoor} - ${tempBase}) * ${volume} * ${gCoefficient} = ${methodGResult}`;
         }
-    });
+        resultRows.push(['Méthode G', methodGText]);
+    }
+    if (methodUbatResult) {
+        let methodUbatText = methodUbatResult;
+        if (ubat && wastageSurface && volume && ventiValue && tempIndoor && tempBase) {
+            methodUbatText = `D = (${ubat} * ${wastageSurface} + ${volume} * ${ventiValue}) * (${tempIndoor} - ${tempBase}) = ${methodUbatResult}`;
+        }
+        resultRows.push(['Méthode Ubat', methodUbatText]);
+    }
+
+    const detailedResultsTable = resultRows.length > 0 ? {
+        table: {
+            widths: ['*', '*'],
+            body: [
+                [
+                    { text: 'Calcul', style: 'tableHeader' },
+                    { text: 'Résultat', style: 'tableHeader' }
+                ],
+                ...resultRows
+            ]
+        },
+        layout: 'lightHorizontalLines',
+        margin: [0, 0, 0, 10]
+    } : null;
+
+    const content = [
+        { text: docTitle, style: 'header' },
+        //{ text: 'Identifiant de section : ' + sectionIdentifier, style: 'small' },
+        { text: 'Date : ' + now.toLocaleString(), style: 'small', margin: [0, 0, 0, 10] }
+    ];
+
+    content.push({ text: 'Synthèse', style: 'subheader' });
+    if (heatingNeed) {
+        content.push({ text: 'Besoin de chauffage estimé : ' + heatingNeed, margin: [0, 0, 0, 5] });
+    }
+    if (consumptionSummary) {
+        content.push({ text: consumptionSummary, margin: [0, 0, 0, 10] });
+    }
+    content.push({ text: 'Paramètres utilisés', style: 'subheader' });
+    content.push(parameterTable);
+
+    if (detailedResultsTable) {
+        content.push({ text: 'Résultats détaillés', style: 'subheader' });
+        content.push(detailedResultsTable);
+    }
+
+    if (thermalStudyTitle || thermalStudyDetails) {
+        content.push({ text: 'Étude thermique', style: 'subheader' });
+        if (thermalStudyTitle) {
+            content.push({ text: thermalStudyTitle, style: 'smallBold', margin: [0, 0, 0, 5] });
+        }
+        if (thermalStudyDetails) {
+            content.push({ text: thermalStudyDetails, margin: [0, 0, 0, 10] });
+        }
+    }
+
+    content.push({ text: 'Lien vers l’étude : ' + shortStudyLink, link: shortStudyLink, style: 'link', margin: [0, 10, 0, 0] });
+
+    const docDefinition = {
+        info: {
+            title: docTitle
+        },
+        content: content,
+        defaultStyle: {
+            font: 'Roboto'
+        },
+        styles: {
+            header: {
+                fontSize: 18,
+                bold: true
+            },
+            subheader: {
+                fontSize: 14,
+                bold: true,
+                margin: [0, 15, 0, 8]
+            },
+            small: {
+                fontSize: 9,
+                color: '#555555'
+            },
+            smallBold: {
+                fontSize: 11,
+                bold: true
+            },
+            tableHeader: {
+                bold: true,
+                fillColor: '#eeeeee'
+            },
+            link: {
+                color: '#0645ad',
+                decoration: 'underline'
+            }
+        },
+        footer: function(currentPage, pageCount) {
+            return {
+                columns: [
+                    {
+                        text: 'Choisir son PDM – Licence GPL-3.0-or-later • Page ' + currentPage + '/' + pageCount,
+                        alignment: 'center',
+                        fontSize: 8,
+                        margin: [0, 10, 0, 0]
+                    }
+                ]
+            };
+        }
+    };
+
+    pdfMake.createPdf(docDefinition).download(file + '.pdf');
+    appAlert("... Export PDF ok !", "success", 2);
 }
 
 /* 

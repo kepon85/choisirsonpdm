@@ -64,7 +64,10 @@ Exemple à plusieurs "super" suggestion : http://127.0.0.1:3000/index.html#level
 
 * Futur : 
   * https://framagit.org/kepon/choisirsonpdm/-/issues/23
-* 2.3 (current)
+* 2.4 (current)
+  * [add] Changement d'unité impériale/métrique https://framagit.org/kepon/choisirsonpdm/-/issues/36
+  * [add] PDF généré en "vrai" 
+* 2.3
   * [add] Tiny URL (url courte) https://framagit.org/kepon/choisirsonpdm/-/issues/23
   * [add] Considération des ponts thermiques selon la 3CL https://framagit.org/kepon/choisirsonpdm/-/issues/32
     * Démo : https://framagit.org/kepon/choisirsonpdm/-/raw/main/doc/demo-pontThermique.gif
