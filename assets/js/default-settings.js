@@ -15,6 +15,11 @@ const defaultSettings = {
   "apiLink":                      "https://choisir.poeledemasse.org/api/link.php",
   "apiDebounceTtimeout":           1500,
   "defaultLanguage":              "fr",
+  "autoSave": {
+    "enabled": true,
+    "intervalMinutes": 5,
+    "retention": 10
+  },
   "dju": {           // https://blog.elyotherm.fr/2015/08/dju-degre-jour-unifies-base-18.html
     "η":      0.75,    // https://forum.afpma.pro/t/logiciel-choisir-son-pdm-pour-sa-maison/763/29?u=david.mercereau
     "i":      0.8,   // https://forum.afpma.pro/t/logiciel-choisir-son-pdm-pour-sa-maison/763/29?u=david.mercereau

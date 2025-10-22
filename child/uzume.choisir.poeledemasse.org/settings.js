@@ -10,6 +10,11 @@ const userSettings = {
     "temp_base_auto":             true,
     "nav-tab-record":             "nav-cartenf-tab",
   },
+  "autoSave": {
+    "enabled": false,
+    "intervalMinutes": 5,
+    "retention": 10
+  },
   "help": {
     'url': "https://forum.poeledemasse.org/new-topic",
     'title': "Partage de mon dimensionnement",

@@ -10,4 +10,9 @@ const userSettings = {
   },
   'sharingButton': {
   },
+  "autoSave": {
+    "enabled": false,
+    "intervalMinutes": 5,
+    "retention": 10
+  },
 }

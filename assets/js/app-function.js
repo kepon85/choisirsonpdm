@@ -263,7 +263,8 @@ function hashchangeAllAction(element) {
     if (element != undefined && (element.name == 'lat' || element.name == 'lng')) {
         processChangelngLat();
     }
-    hashChange();
+    const newHash = hashChange();
+    markStudyAsDirty(newHash);
     if (isUnitChange) {
         refreshPowerValues();
     }
@@ -1532,6 +1533,162 @@ function hashChange() {
 const STUDY_STORAGE_KEY = 'choisirsonpdm.savedStudies';
 const CONTACT_RETURN_KEY = 'choisirsonpdm.contactReturn';
 
+let studyAutoSaveTimerId = null;
+let lastSavedStudyHash = '';
+let studyHasPendingChanges = false;
+let beforeUnloadWarningAttached = false;
+
+function coercePositiveNumber(value, fallback) {
+    const parsed = Number(value);
+    if (!Number.isFinite(parsed) || parsed <= 0) {
+        return fallback;
+    }
+    return parsed;
+}
+
+function getAutoSaveConfig() {
+    const config = settings && typeof settings === 'object' && settings.autoSave ? settings.autoSave : {};
+    const enabled = config.enabled !== false;
+    const intervalMinutes = coercePositiveNumber(
+        config.intervalMinutes ?? config.interval ?? config.frequency,
+        5
+    );
+    const retention = coercePositiveNumber(
+        config.retention ?? config.maxEntries ?? config.keepLast,
+        10
+    );
+    return {
+        enabled,
+        intervalMs: Math.max(1, Math.round(intervalMinutes * 60000)),
+        maxEntries: Math.max(1, Math.floor(retention))
+    };
+}
+
+function buildAutoSaveName(date) {
+    const prefix = (typeof $.i18n === 'function') ? $.i18n('study-auto-save-prefix') : 'Auto-save';
+    const timestamp = date.toLocaleString([], {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
+    });
+    return prefix + ' ' + timestamp;
+}
+
+function initializeStudySaveTracking() {
+    const state = getCurrentStudyState();
+    if (state && state.hash) {
+        lastSavedStudyHash = normalizeStudyHash(state.hash);
+    } else {
+        lastSavedStudyHash = normalizeStudyHash(window.location.hash);
+    }
+    studyHasPendingChanges = false;
+}
+
+function markStudyAsSaved(hash) {
+    lastSavedStudyHash = normalizeStudyHash(typeof hash === 'string' ? hash : window.location.hash);
+    studyHasPendingChanges = false;
+}
+
+function markStudyAsDirty(hash) {
+    const normalized = normalizeStudyHash(typeof hash === 'string' ? hash : window.location.hash);
+    studyHasPendingChanges = normalized !== lastSavedStudyHash;
+}
+
+function shouldWarnBeforeUnload() {
+    return studyHasPendingChanges;
+}
+
+function attachBeforeUnloadWarning() {
+    if (beforeUnloadWarningAttached) {
+        return;
+    }
+    window.addEventListener('beforeunload', function(event) {
+        if (!shouldWarnBeforeUnload()) {
+            return;
+        }
+        const warningMessage = (typeof $.i18n === 'function') ? $.i18n('study-before-unload-warning') : 'You have unsaved changes. Save your study before leaving?';
+        event.preventDefault();
+        event.returnValue = warningMessage;
+        return warningMessage;
+    });
+    beforeUnloadWarningAttached = true;
+}
+
+function stopAutoSaveTimer() {
+    if (studyAutoSaveTimerId !== null) {
+        window.clearInterval(studyAutoSaveTimerId);
+        studyAutoSaveTimerId = null;
+    }
+}
+
+function startAutoSaveTimer() {
+    stopAutoSaveTimer();
+    const config = getAutoSaveConfig();
+    if (!config.enabled) {
+        return;
+    }
+    studyAutoSaveTimerId = window.setInterval(runAutoSaveCycle, config.intervalMs);
+}
+
+function runAutoSaveCycle() {
+    const config = getAutoSaveConfig();
+    if (!config.enabled) {
+        return;
+    }
+    const currentHash = normalizeStudyHash(window.location.hash);
+    if (!currentHash) {
+        return;
+    }
+    if (!studyHasPendingChanges && currentHash === lastSavedStudyHash) {
+        return;
+    }
+    const studies = getSavedStudies();
+    const manualStudies = [];
+    const autoStudies = [];
+    studies.forEach((item) => {
+        if (item && item.autoSave) {
+            autoStudies.push(item);
+        } else {
+            manualStudies.push(item);
+        }
+    });
+    if (autoStudies.length > 0) {
+        autoStudies.sort((a, b) => {
+            return new Date(b.updatedAt || 0) - new Date(a.updatedAt || 0);
+        });
+        const latestAuto = autoStudies[0];
+        if (latestAuto && normalizeStudyHash(latestAuto.hash) === currentHash) {
+            markStudyAsSaved(currentHash);
+            return;
+        }
+    }
+    const now = new Date();
+    const payload = {
+        name: buildAutoSaveName(now),
+        hash: currentHash,
+        updatedAt: now.toISOString(),
+        autoSave: true
+    };
+    autoStudies.push(payload);
+    autoStudies.sort((a, b) => {
+        return new Date(b.updatedAt || 0) - new Date(a.updatedAt || 0);
+    });
+    const trimmedAuto = autoStudies.slice(0, config.maxEntries);
+    persistSavedStudies(manualStudies.concat(trimmedAuto));
+    updateStudyMenuState();
+    renderStudyList();
+    markStudyAsSaved(currentHash);
+}
+
+function initializeStudyAutoSaveFeatures() {
+    initializeStudySaveTracking();
+    attachBeforeUnloadWarning();
+    startAutoSaveTimer();
+}
+
 function resolveActiveLocale() {
     if (typeof $ === 'undefined' || typeof $.i18n !== 'function') {
         return null;
@@ -1765,6 +1922,7 @@ function openStudySaveDialog(mode = 'local') {
         if (isDeviceMode) {
             saveStudyToDevice(name, currentHash);
             setCurrentStudyState(name, currentHash, { origin: 'device-save' });
+            markStudyAsSaved(currentHash);
             $dialog.dialog('close');
             return;
         }
@@ -1794,6 +1952,7 @@ function openStudySaveDialog(mode = 'local') {
             appAlert(successMessage, 'success');
         }
         setCurrentStudyState(name, currentHash, { origin: 'local-save' });
+        markStudyAsSaved(currentHash);
         $dialog.dialog('close');
     };
 
@@ -1909,7 +2068,9 @@ function buildStudyExportPayload(name, hash) {
 
 function saveStudyToDevice(name, hash) {
     const payload = buildStudyExportPayload(name, hash);
-    const fileNameBase = sanitizeUrlString(name) || settings.appShortName || 'study';
+    const sanitizedName = sanitizeUrlString(name);
+    const prefix = sanitizeUrlString(settings.appShortName || 'study');
+    const fileNameBase = prefix + (sanitizedName ? '-' + sanitizedName : '');
     const fileName = fileNameBase + '.json';
     const link = $('<a/>', {
         download: fileName,

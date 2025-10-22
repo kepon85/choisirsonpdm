@@ -4,6 +4,8 @@ $( document ).ready(function() {
     // Init global var
     apiMateriauxData=null;
 
+    initializeStudyAutoSaveFeatures();
+
     function getFunctionalItem(key) {
         if (window.PrivacyConsent && typeof window.PrivacyConsent.getFunctionalItem === 'function') {
             return window.PrivacyConsent.getFunctionalItem(key);

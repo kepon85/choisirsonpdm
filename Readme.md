@@ -69,6 +69,8 @@ Exemple à plusieurs "super" suggestion : http://127.0.0.1:3000/index.html#level
   * [add] PDF généré en "vrai" 
   * [fix] Thème sombre compatible https://framagit.org/kepon/choisirsonpdm/-/issues/41
   * [add] Menu général pour ouvrir/enregistrer une étude (dans le navigateur ou sur votre ordinateur via un fichier)
+  * [add] RGPD freindly https://framagit.org/kepon/choisirsonpdm/-/issues/34
+  * [add] Mode auto-save : https://framagit.org/kepon/choisirsonpdm/-/issues/45
 * 2.3
   * [add] Tiny URL (url courte) https://framagit.org/kepon/choisirsonpdm/-/issues/23
   * [add] Considération des ponts thermiques selon la 3CL https://framagit.org/kepon/choisirsonpdm/-/issues/32

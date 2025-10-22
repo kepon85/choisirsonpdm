@@ -302,6 +302,8 @@
 
 #study-open-list {
     padding-left: 0;
+    max-height: 18rem;
+    overflow-y: auto;
 }
 
 #study-open-dialog .list-group-item {
