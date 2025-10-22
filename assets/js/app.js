@@ -835,6 +835,7 @@ $( document ).ready(function() {
     ////////////////////////
     let mapInitialized = false;
     let mapInstance = null;
+    let geocoderControl = null;
     let searchMarker = null;
     let markerClick = null;
 
@@ -852,19 +853,30 @@ $( document ).ready(function() {
         return fallback;
     }
 
+    function clearGeocoderContainer() {
+        $('#map-geocoder').empty();
+    }
+
     function showMapDisabledMessage() {
+        clearGeocoderContainer();
         $('#map').css('background-color', '').empty();
         $('#map').addClass('privacy-map-disabled');
         $('#map').text(translateKey('privacy-map-disabled', 'Activez la carte dans vos préférences de confidentialité pour choisir votre localisation.'));
     }
 
     function clearMapPlaceholder() {
+        clearGeocoderContainer();
         $('#map').removeClass('privacy-map-disabled');
         $('#map').css('background-color', '');
         $('#map').empty();
     }
 
     function destroyMapInstance() {
+        if (geocoderControl && typeof geocoderControl.onRemove === 'function') {
+            geocoderControl.onRemove();
+        }
+        geocoderControl = null;
+        clearGeocoderContainer();
         if (searchMarker && typeof searchMarker.remove === 'function') {
             searchMarker.remove();
         }
@@ -950,6 +962,7 @@ $( document ).ready(function() {
             accessToken: mapboxgl.accessToken,
             marker: false
         });
+        geocoderControl = geocoder;
         geocoder.on('result', function(e) {
             justClick = false;
             if (searchMarker) {
@@ -966,7 +979,12 @@ $( document ).ready(function() {
                 }
             });
         });
-        mapInstance.addControl(geocoder);
+        const geocoderContainer = document.getElementById('map-geocoder');
+        if (geocoderContainer) {
+            geocoderContainer.appendChild(geocoder.onAdd(mapInstance));
+        } else {
+            mapInstance.addControl(geocoder);
+        }
         if (markerDefault === true) {
             markerClick = new mapboxgl.Marker()
                 .setLngLat([lng, lat])
