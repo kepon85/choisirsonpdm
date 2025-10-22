@@ -9,13 +9,15 @@ CREATE TABLE `links` (
   `date` datetime NOT NULL,
   `hash` text NOT NULL,
   `level` int(11) DEFAULT 0,
+  `lock` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   UNIQUE KEY `link` (`link`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
- ALTER TABLE `links` 
+ ALTER TABLE `links`
 CHANGE COLUMN `hash` `url` text NOT NULL,
 ADD COLUMN `last_access` datetime DEFAULT NULL,
-ADD COLUMN `count_access` int DEFAULT 0;
+ADD COLUMN `count_access` int DEFAULT 0,
+ADD COLUMN `lock` tinyint(1) NOT NULL DEFAULT 0;
 */
 
 header("Access-Control-Allow-Origin: *");
@@ -60,9 +62,11 @@ function purgeLiens($pdo, $purgeDay) {
     
     try {
         $stmt = $pdo->prepare("
-            DELETE FROM links 
-            WHERE (last_access IS NULL AND date < DATE_SUB(NOW(), INTERVAL ? DAY))
-            OR (last_access IS NOT NULL AND last_access < DATE_SUB(NOW(), INTERVAL ? DAY))
+            DELETE FROM links
+            WHERE `lock` = 0 AND (
+                (last_access IS NULL AND date < DATE_SUB(NOW(), INTERVAL ? DAY))
+                OR (last_access IS NOT NULL AND last_access < DATE_SUB(NOW(), INTERVAL ? DAY))
+            )
         ");
         
         addDebugLog("Exécution de la requête de purge", [
