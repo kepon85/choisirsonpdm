@@ -260,10 +260,10 @@
 .locale-switcher .study-menu .dropdown-item {
     font-size: 0.85rem;
 }
-.locale-switcher li {
+.locale-switcher > ul > li {
     display: inline-block;
 }
-.locale-switcher ul {
+.locale-switcher > ul {
     margin: 0px;
     padding: 0px;
     list-style-type:none;

@@ -574,7 +574,7 @@ function refreshLayerDialogChange() {
     // Listener hash
     hashchangeListener();
     // Traduction
-    $('html').i18n();
+    applyTranslations();
 }
 
 /**
@@ -677,7 +677,7 @@ function refreshDetailBuildingChange() {
     hashchangeListener();
 
     // Traduction
-    $('html').i18n();
+    applyTranslations();
 }
 
 ////////////////////////////
@@ -1414,6 +1414,71 @@ function hashChange() {
 
 const STUDY_STORAGE_KEY = 'choisirsonpdm.savedStudies';
 
+function resolveActiveLocale() {
+    if (typeof $ === 'undefined' || typeof $.i18n !== 'function') {
+        return null;
+    }
+    const translator = $.i18n();
+    if (translator && translator.locale) {
+        return translator.locale;
+    }
+    try {
+        const stored = localStorage ? localStorage.getItem('i18n') : null;
+        if (stored) {
+            translator.locale = stored;
+            return translator.locale;
+        }
+    } catch (error) {
+        console.warn('Unable to resolve locale from localStorage', error);
+    }
+    if (typeof settings === 'object' && settings.defaultLanguage) {
+        translator.locale = settings.defaultLanguage;
+        return translator.locale;
+    }
+    return null;
+}
+
+function applyTranslations(target) {
+    if (typeof $ === 'undefined' || typeof $.i18n !== 'function') {
+        return;
+    }
+    const translator = $.i18n();
+    if (!translator) {
+        return;
+    }
+    if (!translator.locale) {
+        if (!resolveActiveLocale()) {
+            return;
+        }
+    }
+    const $target = target ? $(target) : $('html');
+    if ($target.length === 0) {
+        return;
+    }
+    $target.i18n();
+}
+
+function normalizeStudyKey(name) {
+    return String(name ?? '').toLowerCase();
+}
+
+function sanitizeStudyEntry(item) {
+    if (!item || typeof item !== 'object') {
+        return null;
+    }
+    const hasName = typeof item.name === 'string' || typeof item.name === 'number';
+    if (!hasName || typeof item.hash !== 'string') {
+        return null;
+    }
+    const sanitized = Object.assign({}, item);
+    sanitized.name = String(item.name);
+    sanitized.hash = String(item.hash);
+    if (sanitized.updatedAt != null && typeof sanitized.updatedAt !== 'string') {
+        sanitized.updatedAt = String(sanitized.updatedAt);
+    }
+    return sanitized;
+}
+
 function getSavedStudies() {
     let stored = [];
     try {
@@ -1421,7 +1486,7 @@ function getSavedStudies() {
         if (raw) {
             const parsed = JSON.parse(raw);
             if (Array.isArray(parsed)) {
-                stored = parsed.filter(item => item && typeof item.name === 'string' && typeof item.hash === 'string');
+                stored = parsed.map(sanitizeStudyEntry).filter(Boolean);
             }
         }
     } catch (error) {
@@ -1431,7 +1496,8 @@ function getSavedStudies() {
 }
 
 function persistSavedStudies(studies) {
-    localStorage.setItem(STUDY_STORAGE_KEY, JSON.stringify(studies));
+    const sanitized = Array.isArray(studies) ? studies.map(sanitizeStudyEntry).filter(Boolean) : [];
+    localStorage.setItem(STUDY_STORAGE_KEY, JSON.stringify(sanitized));
 }
 
 function updateStudyMenuState() {
@@ -1511,13 +1577,13 @@ function openStudySaveDialog() {
         hashChange();
         const currentHash = window.location.hash.slice(1);
         let studies = getSavedStudies();
-        const normalizedName = name.toLowerCase();
+        const normalizedName = normalizeStudyKey(name);
         const payload = {
-            name: name,
+            name: String(name),
             hash: currentHash,
             updatedAt: new Date().toISOString()
         };
-        const existingIndex = studies.findIndex((item) => item && item.name && item.name.toLowerCase() === normalizedName);
+        const existingIndex = studies.findIndex((item) => item && normalizeStudyKey(item.name) === normalizedName);
         const successKey = existingIndex >= 0 ? 'study-save-updated' : 'study-save-success';
         if (existingIndex >= 0) {
             studies[existingIndex] = payload;
@@ -1547,6 +1613,8 @@ function openStudySaveDialog() {
             $pane.find('button').removeClass('btn btn-secondary btn-primary');
             $pane.find('button:contains("' + cancelLabel + '")').addClass('btn btn-secondary');
             $pane.find('button:contains("' + saveLabel + '")').addClass('btn btn-primary');
+            applyTranslations($dialog);
+            applyTranslations($pane);
         },
         close: function() {
             $input.val('').removeClass('is-invalid');
@@ -1573,14 +1641,16 @@ function openStudyOpenDialog() {
             const $pane = $('.ui-dialog-buttonpane');
             $pane.find('button').removeClass('btn btn-secondary btn-primary');
             $pane.find('button:contains("' + closeLabel + '")').addClass('btn btn-secondary');
+            applyTranslations($dialog);
+            applyTranslations($pane);
         }
     });
 }
 
 function loadStudyByName(name) {
     const studies = getSavedStudies();
-    const normalizedName = name.toLowerCase();
-    const entry = studies.find((item) => item && item.name && item.name.toLowerCase() === normalizedName);
+    const normalizedName = normalizeStudyKey(name);
+    const entry = studies.find((item) => item && normalizeStudyKey(item.name) === normalizedName);
     if (!entry) {
         if (typeof appAlert === 'function') {
             const errorMessage = (typeof $.i18n === 'function') ? $.i18n('study-open-not-found') : "Étude introuvable.";
@@ -1596,8 +1666,8 @@ function loadStudyByName(name) {
 
 function deleteStudyByName(name) {
     let studies = getSavedStudies();
-    const normalizedName = name.toLowerCase();
-    const index = studies.findIndex((item) => item && item.name && item.name.toLowerCase() === normalizedName);
+    const normalizedName = normalizeStudyKey(name);
+    const index = studies.findIndex((item) => item && normalizeStudyKey(item.name) === normalizedName);
     if (index === -1) {
         return;
     }
@@ -1726,34 +1796,40 @@ function temperatureBaseNFDetermine() {
 
 // Formulaire de contact
 function contactShow() {
+    const cancelLabel = (typeof $.i18n === 'function') ? $.i18n('study-dialog-cancel') : 'Cancel';
+    const sendLabel = (typeof $.i18n === 'function') ? $.i18n('contact-send') : 'Envoyer';
+    const buttonsConfig = {};
+    buttonsConfig[cancelLabel] = function() {
+        dialog.dialog('close');
+    };
+    buttonsConfig[sendLabel] = function() {
+        localStorage.setItem(returnSendContact, null);
+        sendContact($('#contact-from').val(), $('#contact-subject').val(), $('#contact-body').val() + "\n\n" + document.location.href).done(function(data){
+            localStorage.setItem(returnSendContact,  data.return);
+        });
+        var returnSendContact = localStorage.getItem(returnSendContact);
+        debug("Retour contact : "+returnSendContact)
+        if (returnSendContact == "true") {
+            dialog.dialog('close');
+            appAlert('Message envoyé !', "success");
+        } else {
+            appAlert("Error");
+        }
+        localStorage.removeItem(returnSendContact);
+    };
     dialog = $( "#dialog-contact" ).dialog({
         overlay: { opacity: 0.1, background: "black" },
         width: 600,
         height: 450,
         modal: true,
-        buttons: {
-            Cancel: function() {
-                dialog.dialog( "close" );
-            },
-            "Envoyer": function() {
-                localStorage.setItem(returnSendContact, null);
-                sendContact($('#contact-from').val(), $('#contact-subject').val(), $('#contact-body').val() + "\n\n" + document.location.href).done(function(data){
-                    localStorage.setItem(returnSendContact,  data.return);
-                });
-                var returnSendContact = localStorage.getItem(returnSendContact);
-                debug("Retour contact : "+returnSendContact)
-                if (returnSendContact == "true") {
-                    dialog.dialog( "close" );
-                    appAlert('Message envoyé !', "success");
-                } else {
-                    appAlert("Error");
-                }
-                localStorage.removeItem(returnSendContact);
-            }
-        },
+        buttons: buttonsConfig,
         open: function() {
-            $('.ui-dialog-buttonpane').find('button:contains("Cancel")').addClass('btn btn-secondary');
-            $('.ui-dialog-buttonpane').find('button:contains("Envoyer")').addClass('btn btn-primary');
+            const $pane = $('.ui-dialog-buttonpane');
+            $pane.find('button').removeClass('btn btn-secondary btn-primary');
+            $pane.find('button:contains("' + cancelLabel + '")').addClass('btn btn-secondary');
+            $pane.find('button:contains("' + sendLabel + '")').addClass('btn btn-primary');
+            applyTranslations($('#dialog-contact'));
+            applyTranslations($pane);
         }
     });
 }
@@ -2493,4 +2569,19 @@ function initSelect2() {
             return ui_dialog_interaction.apply(this, arguments);
         };
     }
+}
+
+if (typeof $ !== 'undefined') {
+    $(document).on('dialogopen', function(event) {
+        const $target = event ? $(event.target) : null;
+        if ($target && $target.length) {
+            applyTranslations($target);
+            const $widget = $target.closest('.ui-dialog');
+            if ($widget.length) {
+                applyTranslations($widget);
+            }
+        } else {
+            applyTranslations();
+        }
+    });
 }
