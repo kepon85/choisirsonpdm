@@ -1791,7 +1791,7 @@ function generatePDF(id, file) {
     const ventiText = vmcType || (ventiValue ? ventiValue : 'Non renseigné');
     const thermalStudyTitle = cleanTextContent($('#result-title-building-title').text());
     const thermalStudyContent = buildThermalStudyContent(level, thermalStudyTitle);
-    const shortStudyLink = window.location.origin + window.location.pathname + '?s=3RGDZ1YSurT4ctw8';
+    const shortStudyLink = window.location.href;
 
     const parameterTable = {
         table: {
@@ -1827,21 +1827,6 @@ function generatePDF(id, file) {
         resultRows.push(['Méthode Ubat', methodUbatText]);
     }
 
-    const detailedResultsTable = resultRows.length > 0 ? {
-        table: {
-            widths: ['*', '*'],
-            body: [
-                [
-                    { text: 'Calcul', style: 'tableHeader' },
-                    { text: 'Résultat', style: 'tableHeader' }
-                ],
-                ...resultRows
-            ]
-        },
-        layout: 'lightHorizontalLines',
-        margin: [0, 0, 0, 10]
-    } : null;
-
     const content = [
         { text: docTitle, style: 'header' },
         //{ text: 'Identifiant de section : ' + sectionIdentifier, style: 'small' },
@@ -1857,11 +1842,6 @@ function generatePDF(id, file) {
     }
     content.push({ text: 'Paramètres utilisés', style: 'subheader' });
     content.push(parameterTable);
-
-    if (detailedResultsTable) {
-        content.push({ text: 'Résultats détaillés', style: 'subheader' });
-        content.push(detailedResultsTable);
-    }
 
     if (thermalStudyContent.length > 0) {
         content.push({ text: 'Étude thermique', style: 'subheader' });
