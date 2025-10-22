@@ -24,7 +24,15 @@ jQuery(function($) {
         $('.locale-switcher').on('click', 'a.flag', function(e) {
             e.preventDefault();
             debug('Locale switch : ' + $(this).data('locale'));
-            localStorage.setItem('i18n', $(this).data('locale'));
+            if (window.PrivacyConsent && typeof window.PrivacyConsent.setFunctionalItem === 'function') {
+                window.PrivacyConsent.setFunctionalItem('i18n', $(this).data('locale'));
+            } else if (window.localStorage) {
+                try {
+                    window.localStorage.setItem('i18n', $(this).data('locale'));
+                } catch (error) {
+                    // ignore storage error
+                }
+            }
             $.i18n().locale = $(this).data('locale');
             do_translate();
             // Bug traduction select2 https://framagit.org/kepon/choisirsonpdm/-/issues/37
@@ -32,9 +40,19 @@ jQuery(function($) {
         });
         var userLang = navigator.language || navigator.userLanguage;
         // Détection paramètre utilisateur
-        if (localStorage.getItem('i18n')) {
-            debug('Detect locale localSstorage : '+localStorage.getItem('i18n'));
-            $.i18n().locale = localStorage.getItem('i18n');
+        var storedLocale = null;
+        if (window.PrivacyConsent && typeof window.PrivacyConsent.getFunctionalItem === 'function') {
+            storedLocale = window.PrivacyConsent.getFunctionalItem('i18n');
+        } else if (window.localStorage) {
+            try {
+                storedLocale = window.localStorage.getItem('i18n');
+            } catch (error) {
+                storedLocale = null;
+            }
+        }
+        if (storedLocale) {
+            debug('Detect locale localSstorage : '+storedLocale);
+            $.i18n().locale = storedLocale;
         // Sinon je prend la langue du navigateur
         } else if($('.' + userLang.split('-')[0]).length) {
             debug('Detect locale user : '+userLang.split('-')[0]);

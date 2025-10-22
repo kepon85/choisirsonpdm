@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-  <head><script src="./assets/js/color-modes.js?v=2025-10-22"></script>
+  <head><script src="./assets/js/privacy.js?v=2025-10-22"></script><script src="./assets/js/color-modes.js?v=2025-10-22"></script>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
@@ -12,10 +12,7 @@
     <link href="./assets/css/jquery-ui.min.css?v=2025-10-22" rel="stylesheet">
     <link href="./assets/css/select2.min.css?v=2025-10-22" rel="stylesheet">
     <link href="./assets/css/app.css?v=2025-10-22" rel="stylesheet">
-    <!-- Load mapbox -->
-    <link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet">
-    <!-- Load the `mapbox-gl-geocoder` plugin. -->
-    <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.css" type="text/css">
+    <link href="./assets/css/privacy.css?v=2025-10-22" rel="stylesheet">
     <link rel="icon" type="image/png" href="assets/img/favicon-32.png?v=2025-10-22" sizes="32x32" />
     <link rel="icon" type="image/png" href="assets/img/favicon-192.png?v=2025-10-22" sizes="192x192" />
     <link rel="apple-touch-icon" href="assets/img/favicon-180.png?v=2025-10-22" sizes="180x180" />
@@ -23,6 +20,44 @@
   <!--<body class="bg-secondary">-->
   <body class="">
     <div id="body-container" class="container">
+      <div id="privacy-banner" class="alert alert-info privacy-banner" role="status">
+        <div class="privacy-banner-text">
+          <h3 data-i18n="[html]privacy-banner-title">Protection de vos données</h3>
+          <p data-i18n="[html]privacy-banner-description">Nous utilisons uniquement des éléments techniques indispensables et pouvons, avec votre accord, enregistrer des préférences sur votre appareil ainsi qu'afficher la carte Mapbox. Vous pouvez modifier vos choix à tout moment.</p>
+        </div>
+        <div class="privacy-banner-actions">
+          <button type="button" class="btn btn-primary" data-privacy-action="accept-all" data-i18n="[html]privacy-banner-accept">Tout accepter</button>
+          <button type="button" class="btn btn-outline-secondary" data-privacy-action="reject" data-i18n="[html]privacy-banner-reject">Tout refuser</button>
+          <button type="button" class="btn btn-link" data-privacy-action="customize" data-i18n="[html]privacy-banner-customize">Personnaliser</button>
+        </div>
+      </div>
+      <div id="privacy-modal" class="privacy-modal" role="dialog" aria-modal="true" aria-labelledby="privacy-modal-title" hidden>
+        <div class="privacy-modal__dialog">
+          <div class="privacy-modal__header">
+            <h3 id="privacy-modal-title" data-i18n="[html]privacy-modal-title">Vos préférences de confidentialité</h3>
+            <button type="button" class="btn-close" aria-label="Fermer" data-privacy-action="close"></button>
+          </div>
+          <div class="privacy-modal__body">
+            <p data-i18n="[html]privacy-modal-intro">Cette application fonctionne sans utiliser de cookie. Les données saisies restent sur votre appareil et ne sont jamais envoyées à notre serveur sauf si vous utilisez le formulaire de contact. Vous pouvez choisir d'autoriser :</p>
+            <div class="form-check mb-3">
+              <input class="form-check-input" type="checkbox" id="privacy-consent-functional">
+              <label class="form-check-label" for="privacy-consent-functional" data-i18n="[html]privacy-modal-functional">Enregistrement local des paramètres et des études (localStorage).</label>
+              <div class="form-text" data-i18n="[html]privacy-modal-functional-help">Sans cet accord vos préférences ne seront pas sauvegardées et seront perdues à la fermeture de l'onglet.</div>
+            </div>
+            <div class="form-check mb-3">
+              <input class="form-check-input" type="checkbox" id="privacy-consent-thirdparty">
+              <label class="form-check-label" for="privacy-consent-thirdparty" data-i18n="[html]privacy-modal-thirdparty">Affichage de la carte Mapbox pour choisir votre localisation.</label>
+              <div class="form-text" data-i18n="[html]privacy-modal-thirdparty-help">Mapbox reçoit votre adresse IP lors du chargement de la carte. Refuser désactive l'utilisation de Mapbox.</div>
+            </div>
+            <div class="alert alert-info privacy-modal__feedback" id="privacy-modal-feedback" role="status" hidden></div>
+          </div>
+          <div class="privacy-modal__footer">
+            <button type="button" class="btn btn-outline-danger me-auto" data-privacy-action="delete" data-i18n="[html]privacy-modal-delete">Supprimer les données enregistrées</button>
+            <button type="button" class="btn btn-secondary" data-privacy-action="reject" data-i18n="[html]privacy-modal-reject">Refuser</button>
+            <button type="button" class="btn btn-primary" data-privacy-action="save" data-i18n="[html]privacy-modal-save">Enregistrer</button>
+          </div>
+        </div>
+      </div>
       <div id="loadData">
         <div id="loadData_messages">
           <p class="loading-gif"><img src="assets/img/loading.gif"/></p>
@@ -905,6 +940,8 @@
               <li><button class="dropdown-item" type="button" id="study-open-device-action" data-i18n="[html]study-menu-open-device">Ouvrir depuis mon périphérique</button></li>
               <li><button class="dropdown-item" type="button" id="study-share-action" data-i18n="[html]study-menu-share">Partager</button></li>
               <li><hr class="dropdown-divider" /></li>
+              <li><h6 class="dropdown-header">Paramètres</h6></li>
+              <li class="privacy-link"><button class="dropdown-item" type="button" data-privacy-action="customize" data-i18n="[html]privacy-manage">Gérer mes préférences de confidentialité</button></li>
               <li>
                 <div class="dropdown-item-text menu-unit-switcher">
                   <label for="unit_system" class="form-label" data-i18n="[html]unit-system-label">Units</label>
@@ -914,6 +951,7 @@
                   </select>
                 </div>
               </li>
+              <li><hr class="dropdown-divider" /></li>
               <li class="menu-item-level3 d-none"><button class="dropdown-item" type="button" id="study-settings-import-action" data-i18n="[html]setting-import-button">Importer</button></li>
               <li class="menu-item-level3 d-none"><button class="dropdown-item" type="button" id="study-settings-export-action" data-i18n="[html]setting-export-button">Exporter</button></li>
             </ul>
@@ -1017,10 +1055,6 @@
     <script type="text/javascript" src="./assets/js/jquery.i18n.emitter.bidi.js?v=2025-10-22"></script>
     <!--<script src="./assets/js/languages/ru.js"></script>-->
     <script type="text/javascript" src="./assets/js/jquery.i18n.app.js?v=2025-10-22"></script>
-    <!-- Load mapbox -->
-    <script type="text/javascript" src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
-    <!-- Load the `mapbox-gl-geocoder` plugin. -->
-    <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.min.js"></script>
     <script type="text/javascript" src="./assets/js/app-function.js?v=2025-10-22"></script>
     <script type="text/javascript" src="./assets/js/app.js?v=2025-10-22"></script>
     <script type="text/javascript" src="./assets/js/app-custom.js?v=2025-10-22"></script>

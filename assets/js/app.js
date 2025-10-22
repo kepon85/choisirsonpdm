@@ -4,14 +4,80 @@ $( document ).ready(function() {
     // Init global var
     apiMateriauxData=null;
 
-    // Load localStorage setting
-    if (localStorage.getItem('setting') == null) {
-        localStorage.setItem('setting', JSON.stringify(settings.localSettingDefault));
+    function getFunctionalItem(key) {
+        if (window.PrivacyConsent && typeof window.PrivacyConsent.getFunctionalItem === 'function') {
+            return window.PrivacyConsent.getFunctionalItem(key);
+        }
+        try {
+            return window.localStorage ? window.localStorage.getItem(key) : null;
+        } catch (error) {
+            return null;
+        }
     }
-    localSetting=JSON.parse(localStorage.getItem('setting'));
+
+    function setFunctionalItem(key, value) {
+        if (window.PrivacyConsent && typeof window.PrivacyConsent.setFunctionalItem === 'function') {
+            window.PrivacyConsent.setFunctionalItem(key, value);
+            return;
+        }
+        if (window.localStorage) {
+            try {
+                window.localStorage.setItem(key, value);
+            } catch (error) {
+                // ignore storage failure
+            }
+        }
+    }
+
+    function removeFunctionalItem(key) {
+        if (window.PrivacyConsent && typeof window.PrivacyConsent.removeFunctionalItem === 'function') {
+            window.PrivacyConsent.removeFunctionalItem(key);
+            return;
+        }
+        if (window.localStorage) {
+            try {
+                window.localStorage.removeItem(key);
+            } catch (error) {
+                // ignore remove failure
+            }
+        }
+    }
+
+    function cloneDefaultLocalSetting() {
+        try {
+            return JSON.parse(JSON.stringify(settings.localSettingDefault));
+        } catch (error) {
+            return $.extend(true, {}, settings.localSettingDefault);
+        }
+    }
+
+    function loadLocalSetting() {
+        var raw = getFunctionalItem('setting');
+        if (!raw) {
+            return cloneDefaultLocalSetting();
+        }
+        try {
+            return JSON.parse(raw);
+        } catch (error) {
+            return cloneDefaultLocalSetting();
+        }
+    }
+
+    function saveLocalSetting(data) {
+        setFunctionalItem('setting', JSON.stringify(data));
+    }
+
+    // Load persisted settings if consent is granted
+    localSetting = loadLocalSetting();
+    if (!localSetting || typeof localSetting !== 'object') {
+        localSetting = cloneDefaultLocalSetting();
+    }
     // Rupture de compatibilité localSetting 1
     if (localSetting.version == 1) {
-        localStorage.setItem('setting', JSON.stringify(settings.localSettingDefault));
+        localSetting = cloneDefaultLocalSetting();
+        saveLocalSetting(localSetting);
+    } else if (!getFunctionalItem('setting')) {
+        saveLocalSetting(localSetting);
     }
     debug("Local setting : ");
     debug(localSetting);
@@ -87,7 +153,7 @@ $( document ).ready(function() {
                     if ((isLocalWallId(localWall.idu)) === false) {
                         debug("N'existe pas, on l'a crée !");
                         localSetting.wall.push(localWall);
-                        localStorage.setItem('setting', JSON.stringify(localSetting));
+                        saveLocalSetting(localSetting);
                     }
                 }
                 return res;
@@ -304,8 +370,8 @@ $( document ).ready(function() {
         readTextFile(path, function(text){
             var data = JSON.parse(text);
             debug(data);
-            // import dans le localstorage
-            localStorage.setItem('setting', JSON.stringify(data));
+            // import dans le stockage local si autorisé
+            saveLocalSetting(data);
             // Reload page
             location.reload();
         });
@@ -385,7 +451,7 @@ $( document ).ready(function() {
             // Delete DATA
             localSetting.wall.splice($('#custom-wall').val(), 1)
             // Sauvegarde
-            localStorage.setItem('setting', JSON.stringify(localSetting));
+            saveLocalSetting(localSetting);
             // Refresh
             appAlert('Supprimé !', "success");
             customWallSelect();
@@ -515,7 +581,7 @@ $( document ).ready(function() {
             // Delete DATA
             localSetting.material.splice($('#custom-material').val(), 1)
             // Sauvegarde
-            localStorage.setItem('setting', JSON.stringify(localSetting));
+            saveLocalSetting(localSetting);
             appAlert('Supprimé !', "success");
             // Refresh
             customMaterialSelect();
@@ -764,99 +830,180 @@ $( document ).ready(function() {
     ////////////////////////
     // MAPBOX
     ////////////////////////
-    if (!settings.debugLoadMap) {
-        // Change de comportement si marker présent par défaut
-        var justClick = true;
-        // Set Longitude/latitude 
+    let mapInitialized = false;
+    let mapInstance = null;
+    let searchMarker = null;
+    let markerClick = null;
+
+    function translateKey(key, fallback) {
+        if (window.jQuery && typeof $.i18n === 'function') {
+            try {
+                const value = $.i18n(key);
+                if (value) {
+                    return value;
+                }
+            } catch (error) {
+                // ignore translation errors
+            }
+        }
+        return fallback;
+    }
+
+    function showMapDisabledMessage() {
+        $('#map').css('background-color', '').empty();
+        $('#map').addClass('privacy-map-disabled');
+        $('#map').text(translateKey('privacy-map-disabled', 'Activez la carte dans vos préférences de confidentialité pour choisir votre localisation.'));
+    }
+
+    function clearMapPlaceholder() {
+        $('#map').removeClass('privacy-map-disabled');
+        $('#map').css('background-color', '');
+        $('#map').empty();
+    }
+
+    function destroyMapInstance() {
+        if (searchMarker && typeof searchMarker.remove === 'function') {
+            searchMarker.remove();
+        }
+        searchMarker = null;
+        if (markerClick && typeof markerClick.remove === 'function') {
+            markerClick.remove();
+        }
+        markerClick = null;
+        if (mapInstance && typeof mapInstance.remove === 'function') {
+            mapInstance.remove();
+        }
+        mapInstance = null;
+        mapInitialized = false;
+    }
+
+    function initializeMapbox() {
+        if (mapInitialized) {
+            return;
+        }
+        if (settings.debugLoadMap) {
+            mapInitialized = true;
+            $('#map').addClass('privacy-map-disabled');
+            $('#map').css('background-color', 'grey');
+            $('#map').text('Disable by settings.debugLoadMap');
+            return;
+        }
+        if (typeof mapboxgl === 'undefined' || typeof MapboxGeocoder === 'undefined') {
+            showMapDisabledMessage();
+            return;
+        }
+        mapInitialized = true;
+        clearMapPlaceholder();
+        let justClick = true;
         function setLocalLngLat(lng, lat){
             lat = precise_round(lat, 6);
             lng = precise_round(lng, 6);
             var newData = {'lng': lng, 'lat': lat};
             $( "#lng" ).val( lng );
-            $( "#lat" ).val( lat );	
-            localStorage.setItem('lngLat', JSON.stringify(newData));
+            $( "#lat" ).val( lat );
+            setFunctionalItem('lngLat', JSON.stringify(newData));
             processChangelngLat();
             hashChange();
         }
         mapboxgl.accessToken = 'pk.eyJ1Ijoia2Vwb24tcGRtIiwiYSI6ImNsam91MzF4ejAyYXMzZHA3YzJocnZjemIifQ.Lx-TCB9dD9R_3EhNH7Wf_Q';
-        // Position de la carte par défaut
         var lng = 3;
-        var lat =47;
+        var lat = 47;
         var zoom = 4;
         var markerDefault = false;
-        // Priorité au GET (hash)
         if ($( "#lng" ).val() != '' && $( "#lat" ).val()) {
             lng = $( "#lng" ).val();
             lat = $( "#lat" ).val();
             zoom = 8;
             markerDefault = true;
             getBaseTemperature();
-        // Ensuite le localStorage
-        } else if (localStorage.getItem('lngLat')) {
-            debug('Load localStorage');
-            var storageLngLat = JSON.parse(localStorage.getItem('lngLat'));
-            lng = storageLngLat.lng;
-            $( "#lng" ).val(lng);
-            lat = storageLngLat.lat;
-            $( "#lat" ).val(lat);
-            zoom = 8;
-            markerDefault = true;
-            getBaseTemperature();
-        }
-        // Init de la cart
-        var map = new mapboxgl.Map({
-            container: 'map', // container id
-            style: 'mapbox://styles/mapbox/streets-v11',
-            center: [lng, lat], // starting position
-            zoom: zoom // starting zoom
-        });
-        // Init recherche par geocoder
-        const geocoder = new MapboxGeocoder({
-            mapboxgl: mapboxgl,                                                                               
-            accessToken: mapboxgl.accessToken,
-            marker: false
-        })
-        // Quand un résultat est trouvé
-        geocoder.on('result', e => {
-            // On arrête de toucher au click
-            justClick = false;
-            // On ajoute la navigation 
-            map.addControl(new mapboxgl.NavigationControl());
-            // On enregistre la position de la recherche
-            setLocalLngLat(e.result.center[0], e.result.center[1], 6);
-            // On ajoute un marker draggable sur le point de la recherche
-            const marker = new mapboxgl.Marker({
-                draggable: true
-            }).setLngLat(e.result.center).addTo(map)
-            // A chaque fois que le marker est déplacer
-            marker.on('dragend', e => {
-                // on enregistre sa position
-                setLocalLngLat(e.target._lngLat.lng, e.target._lngLat.lat);
-            })
-        })
-        map.addControl(geocoder)
-        // Si j'ai une position d'enregistré ou de passé  en paramètre
-        if (markerDefault == true) {
-            // Je crée un maker sur cette position
-            const markerClick = new mapboxgl.Marker()
-                .setLngLat([lng, lat])
-                .addTo(map);
-            // On ajoute la navigation 
-            map.addControl(new mapboxgl.NavigationControl());
-            // Si on click sur la carte, on enregistre la position du nouveau marqueur
-            function add_marker (event) {
-                if (justClick == true) {
-                    var coordinates = event.lngLat;
-                    setLocalLngLat(coordinates.lng, coordinates.lat);
-                    markerClick.setLngLat(coordinates).addTo(map);
+        } else {
+            var storedLngLatRaw = getFunctionalItem('lngLat');
+            if (storedLngLatRaw) {
+                try {
+                    var storageLngLat = JSON.parse(storedLngLatRaw);
+                    if (storageLngLat && storageLngLat.lng !== undefined && storageLngLat.lat !== undefined) {
+                        lng = storageLngLat.lng;
+                        $( "#lng" ).val(lng);
+                        lat = storageLngLat.lat;
+                        $( "#lat" ).val(lat);
+                        zoom = 8;
+                        markerDefault = true;
+                        getBaseTemperature();
+                    }
+                } catch (error) {
+                    // ignore parse error
                 }
             }
-            map.on('click', add_marker);
         }
-    } else {
-        $('#map').css("background-color","grey");
-        $('#map').text("Disable by settings.debugLoadMap");
+        mapInstance = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/mapbox/streets-v11',
+            center: [lng, lat],
+            zoom: zoom
+        });
+        mapInstance.addControl(new mapboxgl.NavigationControl());
+        const geocoder = new MapboxGeocoder({
+            mapboxgl: mapboxgl,
+            accessToken: mapboxgl.accessToken,
+            marker: false
+        });
+        geocoder.on('result', function(e) {
+            justClick = false;
+            if (searchMarker) {
+                searchMarker.remove();
+            }
+            setLocalLngLat(e.result.center[0], e.result.center[1]);
+            searchMarker = new mapboxgl.Marker({
+                draggable: true
+            }).setLngLat(e.result.center).addTo(mapInstance);
+            searchMarker.on('dragend', function(event) {
+                const current = event.target && event.target.getLngLat ? event.target.getLngLat() : event.target._lngLat;
+                if (current) {
+                    setLocalLngLat(current.lng, current.lat);
+                }
+            });
+        });
+        mapInstance.addControl(geocoder);
+        if (markerDefault === true) {
+            markerClick = new mapboxgl.Marker()
+                .setLngLat([lng, lat])
+                .addTo(mapInstance);
+            mapInstance.on('click', function(event) {
+                if (justClick === true && event && event.lngLat) {
+                    var coordinates = event.lngLat;
+                    setLocalLngLat(coordinates.lng, coordinates.lat);
+                    markerClick.setLngLat(coordinates).addTo(mapInstance);
+                }
+            });
+        }
     }
+
+    function setupMapboxWithConsent() {
+        if (window.PrivacyConsent && typeof window.PrivacyConsent.isThirdPartyAllowed === 'function') {
+            if (window.PrivacyConsent.isThirdPartyAllowed()) {
+                window.PrivacyConsent.ensureThirdPartyAssets().then(function() {
+                    initializeMapbox();
+                });
+            } else {
+                showMapDisabledMessage();
+            }
+            window.PrivacyConsent.onThirdPartyAllowed(function() {
+                destroyMapInstance();
+                clearMapPlaceholder();
+                window.PrivacyConsent.ensureThirdPartyAssets().then(function() {
+                    initializeMapbox();
+                });
+            });
+            window.PrivacyConsent.onThirdPartyRevoked(function() {
+                destroyMapInstance();
+                showMapDisabledMessage();
+            });
+        } else {
+            initializeMapbox();
+        }
+    }
+
+    setupMapboxWithConsent();
 
     // Tooltips (infobule)
     $('[data-toggle="tooltip"]').tooltip();

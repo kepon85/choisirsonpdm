@@ -7,8 +7,27 @@
 (() => {
   'use strict'
 
-  const getStoredTheme = () => localStorage.getItem('theme')
-  const setStoredTheme = theme => localStorage.setItem('theme', theme)
+  const getStoredTheme = () => {
+    if (window.PrivacyConsent && typeof window.PrivacyConsent.getFunctionalItem === 'function') {
+      return window.PrivacyConsent.getFunctionalItem('theme')
+    }
+    try {
+      return window.localStorage.getItem('theme')
+    } catch (error) {
+      return null
+    }
+  }
+  const setStoredTheme = theme => {
+    if (window.PrivacyConsent && typeof window.PrivacyConsent.setFunctionalItem === 'function') {
+      window.PrivacyConsent.setFunctionalItem('theme', theme)
+      return
+    }
+    try {
+      window.localStorage.setItem('theme', theme)
+    } catch (error) {
+      // ignore storage errors
+    }
+  }
 
   const getPreferredTheme = () => {
     const storedTheme = getStoredTheme()

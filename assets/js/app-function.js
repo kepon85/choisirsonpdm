@@ -90,6 +90,45 @@ function debug(msg) {
     }
 }
 
+function getFunctionalStorageItem(key) {
+    if (window.PrivacyConsent && typeof window.PrivacyConsent.getFunctionalItem === 'function') {
+        return window.PrivacyConsent.getFunctionalItem(key);
+    }
+    try {
+        return window.localStorage ? window.localStorage.getItem(key) : null;
+    } catch (error) {
+        return null;
+    }
+}
+
+function setFunctionalStorageItem(key, value) {
+    if (window.PrivacyConsent && typeof window.PrivacyConsent.setFunctionalItem === 'function') {
+        window.PrivacyConsent.setFunctionalItem(key, value);
+        return;
+    }
+    if (window.localStorage) {
+        try {
+            window.localStorage.setItem(key, value);
+        } catch (error) {
+            // ignore storage failure
+        }
+    }
+}
+
+function removeFunctionalStorageItem(key) {
+    if (window.PrivacyConsent && typeof window.PrivacyConsent.removeFunctionalItem === 'function') {
+        window.PrivacyConsent.removeFunctionalItem(key);
+        return;
+    }
+    if (window.localStorage) {
+        try {
+            window.localStorage.removeItem(key);
+        } catch (error) {
+            // ignore remove failure
+        }
+    }
+}
+
 /**
  * Résumé : Sélection une option par son text
  * @param {string}           selectId ID du select
@@ -532,7 +571,7 @@ function validCustomWall() {
             }
         });
     }
-    localStorage.setItem('setting', JSON.stringify(localSetting));
+    setFunctionalStorageItem('setting', JSON.stringify(localSetting));
     customWallSelect();
     wallTypeAllSelect();
     return true;
@@ -570,7 +609,7 @@ function validCustomMaterial() {
         newmaterial.idu = localSetting.material[$('#custom-material').val()].idu;
         localSetting.material[$('#custom-material').val()] = newmaterial;
     }
-    localStorage.setItem('setting', JSON.stringify(localSetting));
+    setFunctionalStorageItem('setting', JSON.stringify(localSetting));
     customMaterialSelect();
     // Send
     if ($('#material-forcontrib').prop('checked')) {
@@ -1491,6 +1530,7 @@ function hashChange() {
 //
 
 const STUDY_STORAGE_KEY = 'choisirsonpdm.savedStudies';
+const CONTACT_RETURN_KEY = 'choisirsonpdm.contactReturn';
 
 function resolveActiveLocale() {
     if (typeof $ === 'undefined' || typeof $.i18n !== 'function') {
@@ -1500,14 +1540,10 @@ function resolveActiveLocale() {
     if (translator && translator.locale) {
         return translator.locale;
     }
-    try {
-        const stored = localStorage ? localStorage.getItem('i18n') : null;
-        if (stored) {
-            translator.locale = stored;
-            return translator.locale;
-        }
-    } catch (error) {
-        console.warn('Unable to resolve locale from localStorage', error);
+    const stored = getFunctionalStorageItem('i18n');
+    if (stored) {
+        translator.locale = stored;
+        return translator.locale;
     }
     if (typeof settings === 'object' && settings.defaultLanguage) {
         translator.locale = settings.defaultLanguage;
@@ -1560,7 +1596,7 @@ function sanitizeStudyEntry(item) {
 function getSavedStudies() {
     let stored = [];
     try {
-        const raw = localStorage.getItem(STUDY_STORAGE_KEY);
+        const raw = getFunctionalStorageItem(STUDY_STORAGE_KEY);
         if (raw) {
             const parsed = JSON.parse(raw);
             if (Array.isArray(parsed)) {
@@ -1568,14 +1604,14 @@ function getSavedStudies() {
             }
         }
     } catch (error) {
-        console.error('Unable to parse saved studies from localStorage', error);
+        console.error('Unable to parse saved studies from storage', error);
     }
     return stored;
 }
 
 function persistSavedStudies(studies) {
     const sanitized = Array.isArray(studies) ? studies.map(sanitizeStudyEntry).filter(Boolean) : [];
-    localStorage.setItem(STUDY_STORAGE_KEY, JSON.stringify(sanitized));
+    setFunctionalStorageItem(STUDY_STORAGE_KEY, JSON.stringify(sanitized));
 }
 
 function updateStudyMenuState() {
@@ -1987,19 +2023,26 @@ function contactShow() {
         dialog.dialog('close');
     };
     buttonsConfig[sendLabel] = function() {
-        localStorage.setItem(returnSendContact, null);
-        sendContact($('#contact-from').val(), $('#contact-subject').val(), $('#contact-body').val() + "\n\n" + document.location.href).done(function(data){
-            localStorage.setItem(returnSendContact,  data.return);
-        });
-        var returnSendContact = localStorage.getItem(returnSendContact);
-        debug("Retour contact : "+returnSendContact)
-        if (returnSendContact == "true") {
-            dialog.dialog('close');
-            appAlert('Message envoyé !', "success");
-        } else {
-            appAlert("Error");
-        }
-        localStorage.removeItem(returnSendContact);
+        setFunctionalStorageItem(CONTACT_RETURN_KEY, 'pending');
+        sendContact($('#contact-from').val(), $('#contact-subject').val(), $('#contact-body').val() + "\n\n" + document.location.href)
+            .done(function(data){
+                const result = (data && typeof data.return !== 'undefined') ? String(data.return) : 'false';
+                setFunctionalStorageItem(CONTACT_RETURN_KEY, result);
+            })
+            .fail(function() {
+                setFunctionalStorageItem(CONTACT_RETURN_KEY, 'false');
+            })
+            .always(function() {
+                var contactStatus = getFunctionalStorageItem(CONTACT_RETURN_KEY);
+                debug("Retour contact : "+contactStatus);
+                if (contactStatus === "true") {
+                    dialog.dialog('close');
+                    appAlert('Message envoyé !', "success");
+                } else {
+                    appAlert("Error");
+                }
+                removeFunctionalStorageItem(CONTACT_RETURN_KEY);
+            });
     };
     dialog = $( "#dialog-contact" ).dialog({
         overlay: { opacity: 0.1, background: "black" },
@@ -2023,7 +2066,8 @@ function help() {
     debug("Help ?");
     var userLang = navigator.language || navigator.userLanguage;
     debug('Help : detect locale user : '+userLang.split('-')[0]);
-    if(userLang.split('-')[0] == 'fr' || localStorage.getItem('i18n') == 'fr') {
+    const storedLocale = getFunctionalStorageItem('i18n');
+    if(userLang.split('-')[0] == 'fr' || storedLocale == 'fr') {
         debug("Help show");
         // Préparatin du lien
         var body_avec_url = encodeURI(settings.help.body);
