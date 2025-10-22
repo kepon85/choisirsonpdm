@@ -893,27 +893,37 @@
       </main>
       <footer class="my-5 pt-5 text-body-secondary text-center text-small">
         <div class="locale-switcher">
+          <img class="logoMenu" id="logoMenu" src="./assets/img/logo.png" width="15"  height="15" alt="">
           <div class="study-menu dropdown">
             <button class="btn btn-sm btn-light dropdown-toggle" type="button" id="studyMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-              <span data-i18n="[html]study-menu-label">Études</span>
+              <span data-i18n="[html]study-menu-label">Menu</span>
             </button>
             <ul class="dropdown-menu" aria-labelledby="studyMenuButton">
-              <li><a class="dropdown-item" href="#" id="study-save-action" data-i18n="[html]study-menu-save">Enregistrer l'étude</a></li>
-              <li><a class="dropdown-item" href="#" id="study-open-action" data-i18n="[html]study-menu-open">Ouvrir une étude</a></li>
+              <li><button class="dropdown-item" type="button" id="study-save-action" data-i18n="[html]study-menu-save">Enregistrer l'étude</button></li>
+              <li><button class="dropdown-item" type="button" id="study-save-device-action" data-i18n="[html]study-menu-save-device">Enregistrer sur mon périphérique</button></li>
+              <li><button class="dropdown-item" type="button" id="study-open-action" data-i18n="[html]study-menu-open">Ouvrir une étude</button></li>
+              <li><button class="dropdown-item" type="button" id="study-open-device-action" data-i18n="[html]study-menu-open-device">Ouvrir depuis mon périphérique</button></li>
+              <li><button class="dropdown-item" type="button" id="study-share-action" data-i18n="[html]study-menu-share">Partager</button></li>
+              <li><hr class="dropdown-divider" /></li>
+              <li>
+                <div class="dropdown-item-text menu-unit-switcher">
+                  <label for="unit_system" class="form-label" data-i18n="[html]unit-system-label">Units</label>
+                  <select id="unit_system" class="form-select form-select-sm hashchange">
+                    <option value="metric" data-i18n="[html]unit-system-metric">Metric (kW)</option>
+                    <option value="imperial" data-i18n="[html]unit-system-imperial">Imperial (BTU/hr)</option>
+                  </select>
+                </div>
+              </li>
+              <li class="menu-item-level3 d-none"><button class="dropdown-item" type="button" id="study-settings-import-action" data-i18n="[html]setting-import-button">Importer</button></li>
+              <li class="menu-item-level3 d-none"><button class="dropdown-item" type="button" id="study-settings-export-action" data-i18n="[html]setting-export-button">Exporter</button></li>
             </ul>
           </div>
+          <input id="study-import-file" type="file" class="d-none" accept="application/json" />
           <ul>
             <li><a href="#" class="en flag" data-locale="en"><img src="assets/img/en.png" alt="EN" width="23" height="15" /></a></li>
             <li><a href="#" class="fr flag" data-locale="fr"><img src="assets/img/fr.png" alt="FR" width="23" height="15" /></a></li>
             <li><a href="#" class="es flag" data-locale="es"><img src="assets/img/es.png" alt="FR" width="23" height="15" /></a></li>
           </ul>
-          <div class="unit-switcher">
-            <label for="unit_system" data-i18n="[html]unit-system-label">Units</label>
-            <select id="unit_system" class="hashchange">
-              <option value="metric" data-i18n="[html]unit-system-metric">Metric (kW)</option>
-              <option value="imperial" data-i18n="[html]unit-system-imperial">Imperial (BTU/hr)</option>
-            </select>
-          </div>
         </div>
         <div id="sharingButton" class="mb-1">
           <h4 data-i18n="[html]app-sharing">Sharing</h4>

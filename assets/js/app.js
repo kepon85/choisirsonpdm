@@ -219,6 +219,7 @@ $( document ).ready(function() {
     // Pour le reset du formulaire on retourne à la racine
     $("#reset").on( "click", function(e) {
         debug('Reset');
+        clearCurrentStudyState();
         location.href='/';
     });
 
@@ -662,7 +663,12 @@ $( document ).ready(function() {
 
     $('#study-save-action').on('click', function(e) {
         e.preventDefault();
-        openStudySaveDialog();
+        openStudySaveDialog('local');
+    });
+
+    $('#study-save-device-action').on('click', function(e) {
+        e.preventDefault();
+        openStudySaveDialog('device');
     });
 
     $('#study-open-action').on('click', function(e) {
@@ -671,6 +677,34 @@ $( document ).ready(function() {
             return;
         }
         openStudyOpenDialog();
+    });
+
+    $('#study-open-device-action').on('click', function(e) {
+        e.preventDefault();
+        $('#study-import-file').trigger('click');
+    });
+
+    $('#study-share-action').on('click', function(e) {
+        e.preventDefault();
+        handleTinyUrl();
+    });
+
+    $('#study-settings-import-action').on('click', function(e) {
+        e.preventDefault();
+        if ($('#level').val() == '3') {
+            $('#setting-import').trigger('click');
+        }
+    });
+
+    $('#study-settings-export-action').on('click', function(e) {
+        e.preventDefault();
+        if ($('#level').val() == '3') {
+            $('#setting-export').trigger('click');
+        }
+    });
+
+    $('#study-import-file').on('change', function(event) {
+        handleStudyImportFromFile(event);
     });
 
     $('#study-open-list').on('click', '.study-open-open', function() {

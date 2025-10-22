@@ -9,6 +9,77 @@ if (settings.apiLink == undefined || settings.apiLink == '') {
     $('#tinyUrlBtn').hide();
 }
 
+const CURRENT_STUDY_STATE_KEY = 'currentStudyState';
+
+function getCurrentStudyState() {
+    if (typeof sessionStorage === 'undefined') {
+        return null;
+    }
+    try {
+        const raw = sessionStorage.getItem(CURRENT_STUDY_STATE_KEY);
+        if (!raw) {
+            return null;
+        }
+        const parsed = JSON.parse(raw);
+        if (parsed && typeof parsed === 'object') {
+            return parsed;
+        }
+    } catch (error) {
+        debug('Unable to parse current study state');
+    }
+    sessionStorage.removeItem(CURRENT_STUDY_STATE_KEY);
+    return null;
+}
+
+function getCurrentStudyName() {
+    const state = getCurrentStudyState();
+    const currentHash = window.location.hash.slice(1);
+    if (!state || !state.name) {
+        return '';
+    }
+    if (!currentHash && state.hash) {
+        return '';
+    }
+    return state.name;
+}
+
+function setCurrentStudyState(name, hash = '', extra = {}) {
+    if (typeof sessionStorage === 'undefined') {
+        return;
+    }
+    const trimmedName = typeof name === 'string' ? name.trim() : '';
+    if (!trimmedName) {
+        clearCurrentStudyState();
+        return;
+    }
+    const payload = Object.assign({}, extra, {
+        name: trimmedName,
+        hash: typeof hash === 'string' ? hash : String(hash || ''),
+        timestamp: Date.now()
+    });
+    sessionStorage.setItem(CURRENT_STUDY_STATE_KEY, JSON.stringify(payload));
+}
+
+function updateCurrentStudyHash(hash) {
+    if (typeof sessionStorage === 'undefined') {
+        return;
+    }
+    const state = getCurrentStudyState();
+    if (!state || !state.name) {
+        return;
+    }
+    state.hash = typeof hash === 'string' ? hash : String(hash || '');
+    state.timestamp = Date.now();
+    sessionStorage.setItem(CURRENT_STUDY_STATE_KEY, JSON.stringify(state));
+}
+
+function clearCurrentStudyState() {
+    if (typeof sessionStorage === 'undefined') {
+        return;
+    }
+    sessionStorage.removeItem(CURRENT_STUDY_STATE_KEY);
+}
+
 /**
  * Résumé : Affiche le debug en console
  * @param {string}           msg Description : Message à afficher dans le debug
@@ -574,7 +645,7 @@ function refreshLayerDialogChange() {
     // Listener hash
     hashchangeListener();
     // Traduction
-    $('html').i18n();
+    applyTranslations();
 }
 
 /**
@@ -677,7 +748,7 @@ function refreshDetailBuildingChange() {
     hashchangeListener();
 
     // Traduction
-    $('html').i18n();
+    applyTranslations();
 }
 
 ////////////////////////////
@@ -1318,7 +1389,12 @@ function changeLevel(level) {
         $("#livingvolume_auto").prop('checked', false);
         livingVolumeChangeMode();
     }
-    // required input change    
+    if (level == 3) {
+        $('.menu-item-level3').removeClass('d-none');
+    } else {
+        $('.menu-item-level3').addClass('d-none');
+    }
+    // required input change
 }
 
 /**
@@ -1406,6 +1482,8 @@ function hashChange() {
     const newUrl = url.origin + url.pathname + url.search; // Reconstruit l'URL sans 's'
     window.history.replaceState({}, '', newUrl);
     window.location.hash = hashnew;
+    updateCurrentStudyHash(hashnew);
+    return hashnew;
 }
 
 //
@@ -1414,6 +1492,71 @@ function hashChange() {
 
 const STUDY_STORAGE_KEY = 'choisirsonpdm.savedStudies';
 
+function resolveActiveLocale() {
+    if (typeof $ === 'undefined' || typeof $.i18n !== 'function') {
+        return null;
+    }
+    const translator = $.i18n();
+    if (translator && translator.locale) {
+        return translator.locale;
+    }
+    try {
+        const stored = localStorage ? localStorage.getItem('i18n') : null;
+        if (stored) {
+            translator.locale = stored;
+            return translator.locale;
+        }
+    } catch (error) {
+        console.warn('Unable to resolve locale from localStorage', error);
+    }
+    if (typeof settings === 'object' && settings.defaultLanguage) {
+        translator.locale = settings.defaultLanguage;
+        return translator.locale;
+    }
+    return null;
+}
+
+function applyTranslations(target) {
+    if (typeof $ === 'undefined' || typeof $.i18n !== 'function') {
+        return;
+    }
+    const translator = $.i18n();
+    if (!translator) {
+        return;
+    }
+    if (!translator.locale) {
+        if (!resolveActiveLocale()) {
+            return;
+        }
+    }
+    const $target = target ? $(target) : $('html');
+    if ($target.length === 0) {
+        return;
+    }
+    $target.i18n();
+}
+
+function normalizeStudyKey(name) {
+    return String(name ?? '').toLowerCase();
+}
+
+function sanitizeStudyEntry(item) {
+    if (!item || typeof item !== 'object') {
+        return null;
+    }
+    const hasName = typeof item.name === 'string' || typeof item.name === 'number';
+    if (!hasName || typeof item.hash !== 'string') {
+        return null;
+    }
+    const sanitized = Object.assign({}, item);
+    sanitized.name = String(item.name);
+    sanitized.hash = String(item.hash);
+    if (sanitized.updatedAt != null && typeof sanitized.updatedAt !== 'string') {
+        sanitized.updatedAt = String(sanitized.updatedAt);
+    }
+    return sanitized;
+}
+
 function getSavedStudies() {
     let stored = [];
     try {
@@ -1421,7 +1564,7 @@ function getSavedStudies() {
         if (raw) {
             const parsed = JSON.parse(raw);
             if (Array.isArray(parsed)) {
-                stored = parsed.filter(item => item && typeof item.name === 'string' && typeof item.hash === 'string');
+                stored = parsed.map(sanitizeStudyEntry).filter(Boolean);
             }
         }
     } catch (error) {
@@ -1431,7 +1574,8 @@ function getSavedStudies() {
 }
 
 function persistSavedStudies(studies) {
-    localStorage.setItem(STUDY_STORAGE_KEY, JSON.stringify(studies));
+    const sanitized = Array.isArray(studies) ? studies.map(sanitizeStudyEntry).filter(Boolean) : [];
+    localStorage.setItem(STUDY_STORAGE_KEY, JSON.stringify(sanitized));
 }
 
 function updateStudyMenuState() {
@@ -1490,12 +1634,14 @@ function renderStudyList() {
     });
 }
 
-function openStudySaveDialog() {
+function openStudySaveDialog(mode = 'local') {
     const $dialog = $('#study-save-dialog');
     const $input = $('#study-save-name');
     if ($dialog.length === 0 || $input.length === 0) {
         return;
     }
+    const normalizedMode = mode === 'device' ? 'device' : 'local';
+    const isDeviceMode = normalizedMode === 'device';
     const cancelLabel = (typeof $.i18n === 'function') ? $.i18n('study-dialog-cancel') : 'Annuler';
     const saveLabel = (typeof $.i18n === 'function') ? $.i18n('study-save-confirm') : 'Enregistrer';
     const buttonsConfig = {};
@@ -1510,16 +1656,26 @@ function openStudySaveDialog() {
         }
         hashChange();
         const currentHash = window.location.hash.slice(1);
+        if (isDeviceMode) {
+            saveStudyToDevice(name, currentHash);
+            setCurrentStudyState(name, currentHash, { origin: 'device-save' });
+            $dialog.dialog('close');
+            return;
+        }
         let studies = getSavedStudies();
-        const normalizedName = name.toLowerCase();
+        const normalizedName = normalizeStudyKey(name);
         const payload = {
-            name: name,
+            name: String(name),
             hash: currentHash,
             updatedAt: new Date().toISOString()
         };
-        const existingIndex = studies.findIndex((item) => item && item.name && item.name.toLowerCase() === normalizedName);
+        const existingIndex = studies.findIndex((item) => item && normalizeStudyKey(item.name) === normalizedName);
         const successKey = existingIndex >= 0 ? 'study-save-updated' : 'study-save-success';
         if (existingIndex >= 0) {
+            const overwriteMessage = (typeof $.i18n === 'function') ? $.i18n('study-save-overwrite-confirm', name) : 'Cette étude existe déjà. Voulez-vous l\'écraser ?';
+            if (!window.confirm(overwriteMessage)) {
+                return;
+            }
             studies[existingIndex] = payload;
         } else {
             studies.push(payload);
@@ -1531,6 +1687,7 @@ function openStudySaveDialog() {
             const successMessage = (typeof $.i18n === 'function') ? $.i18n(successKey, name) : 'Étude enregistrée.';
             appAlert(successMessage, 'success');
         }
+        setCurrentStudyState(name, currentHash, { origin: 'local-save' });
         $dialog.dialog('close');
     };
 
@@ -1540,6 +1697,14 @@ function openStudySaveDialog() {
         buttons: buttonsConfig,
         open: function() {
             $input.removeClass('is-invalid');
+            let defaultName = getCurrentStudyName();
+            if (!defaultName) {
+                const buildingTitle = $('#building-title').val();
+                if (buildingTitle && String(buildingTitle).trim() !== '') {
+                    defaultName = String(buildingTitle).trim();
+                }
+            }
+            $input.val(defaultName);
             setTimeout(() => {
                 $input.trigger('focus');
             }, 50);
@@ -1547,6 +1712,8 @@ function openStudySaveDialog() {
             $pane.find('button').removeClass('btn btn-secondary btn-primary');
             $pane.find('button:contains("' + cancelLabel + '")').addClass('btn btn-secondary');
             $pane.find('button:contains("' + saveLabel + '")').addClass('btn btn-primary');
+            applyTranslations($dialog);
+            applyTranslations($pane);
         },
         close: function() {
             $input.val('').removeClass('is-invalid');
@@ -1573,14 +1740,16 @@ function openStudyOpenDialog() {
             const $pane = $('.ui-dialog-buttonpane');
             $pane.find('button').removeClass('btn btn-secondary btn-primary');
             $pane.find('button:contains("' + closeLabel + '")').addClass('btn btn-secondary');
+            applyTranslations($dialog);
+            applyTranslations($pane);
         }
     });
 }
 
 function loadStudyByName(name) {
     const studies = getSavedStudies();
-    const normalizedName = name.toLowerCase();
-    const entry = studies.find((item) => item && item.name && item.name.toLowerCase() === normalizedName);
+    const normalizedName = normalizeStudyKey(name);
+    const entry = studies.find((item) => item && normalizeStudyKey(item.name) === normalizedName);
     if (!entry) {
         if (typeof appAlert === 'function') {
             const errorMessage = (typeof $.i18n === 'function') ? $.i18n('study-open-not-found') : "Étude introuvable.";
@@ -1590,14 +1759,15 @@ function loadStudyByName(name) {
         renderStudyList();
         return;
     }
+    setCurrentStudyState(entry.name, entry.hash || '', { origin: 'local-open' });
     window.location.hash = entry.hash || '';
     location.reload();
 }
 
 function deleteStudyByName(name) {
     let studies = getSavedStudies();
-    const normalizedName = name.toLowerCase();
-    const index = studies.findIndex((item) => item && item.name && item.name.toLowerCase() === normalizedName);
+    const normalizedName = normalizeStudyKey(name);
+    const index = studies.findIndex((item) => item && normalizeStudyKey(item.name) === normalizedName);
     if (index === -1) {
         return;
     }
@@ -1612,6 +1782,90 @@ function deleteStudyByName(name) {
     if (typeof appAlert === 'function') {
         const successMessage = (typeof $.i18n === 'function') ? $.i18n('study-delete-success', name) : 'Étude supprimée.';
         appAlert(successMessage, 'success');
+    }
+}
+
+function normalizeStudyHash(hash) {
+    if (typeof hash !== 'string') {
+        hash = String(hash || '');
+    }
+    return hash.replace(/^#/, '');
+}
+
+function buildStudyExportPayload(name, hash) {
+    return {
+        version: 1,
+        name: String(name),
+        hash: normalizeStudyHash(hash),
+        exportedAt: new Date().toISOString()
+    };
+}
+
+function saveStudyToDevice(name, hash) {
+    const payload = buildStudyExportPayload(name, hash);
+    const fileNameBase = sanitizeUrlString(name) || settings.appShortName || 'study';
+    const fileName = fileNameBase + '.json';
+    const link = $('<a/>', {
+        download: fileName,
+        href: 'data:application/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(payload, null, 2))
+    }).appendTo('body');
+    link.on('click', function() {
+        $(this).remove();
+    })[0].click();
+    if (typeof appAlert === 'function') {
+        const successMessage = (typeof $.i18n === 'function') ? $.i18n('study-device-save-success', name) : 'Fichier d\'étude téléchargé.';
+        appAlert(successMessage, 'success');
+    }
+    return true;
+}
+
+function handleStudyImportFromFile(event) {
+    const input = event && event.target ? event.target : null;
+    if (!input || !input.files || input.files.length === 0) {
+        return;
+    }
+    const file = input.files[0];
+    const finalize = () => {
+        input.value = '';
+    };
+    const errorMessage = (typeof $.i18n === 'function') ? $.i18n('study-device-open-error') : 'Impossible d\'ouvrir ce fichier d\'étude.';
+    try {
+        const reader = new FileReader();
+        reader.onload = function(loadEvent) {
+            try {
+                const content = loadEvent && loadEvent.target ? loadEvent.target.result : null;
+                const parsed = content ? JSON.parse(content) : null;
+                if (!parsed || typeof parsed !== 'object') {
+                    throw new Error('invalid');
+                }
+                const hash = normalizeStudyHash(parsed.hash || parsed.url || '');
+                if (!hash) {
+                    throw new Error('missing-hash');
+                }
+                const name = parsed.name ? String(parsed.name) : '';
+                setCurrentStudyState(name, hash, { origin: 'device-open' });
+                window.location.hash = hash;
+                location.reload();
+            } catch (error) {
+                if (typeof appAlert === 'function') {
+                    appAlert(errorMessage, 'danger');
+                }
+            } finally {
+                finalize();
+            }
+        };
+        reader.onerror = function() {
+            if (typeof appAlert === 'function') {
+                appAlert(errorMessage, 'danger');
+            }
+            finalize();
+        };
+        reader.readAsText(file);
+    } catch (error) {
+        if (typeof appAlert === 'function') {
+            appAlert(errorMessage, 'danger');
+        }
+        finalize();
     }
 }
 
@@ -1726,34 +1980,40 @@ function temperatureBaseNFDetermine() {
 
 // Formulaire de contact
 function contactShow() {
+    const cancelLabel = (typeof $.i18n === 'function') ? $.i18n('study-dialog-cancel') : 'Cancel';
+    const sendLabel = (typeof $.i18n === 'function') ? $.i18n('contact-send') : 'Envoyer';
+    const buttonsConfig = {};
+    buttonsConfig[cancelLabel] = function() {
+        dialog.dialog('close');
+    };
+    buttonsConfig[sendLabel] = function() {
+        localStorage.setItem(returnSendContact, null);
+        sendContact($('#contact-from').val(), $('#contact-subject').val(), $('#contact-body').val() + "\n\n" + document.location.href).done(function(data){
+            localStorage.setItem(returnSendContact,  data.return);
+        });
+        var returnSendContact = localStorage.getItem(returnSendContact);
+        debug("Retour contact : "+returnSendContact)
+        if (returnSendContact == "true") {
+            dialog.dialog('close');
+            appAlert('Message envoyé !', "success");
+        } else {
+            appAlert("Error");
+        }
+        localStorage.removeItem(returnSendContact);
+    };
     dialog = $( "#dialog-contact" ).dialog({
         overlay: { opacity: 0.1, background: "black" },
         width: 600,
         height: 450,
         modal: true,
-        buttons: {
-            Cancel: function() {
-                dialog.dialog( "close" );
-            },
-            "Envoyer": function() {
-                localStorage.setItem(returnSendContact, null);
-                sendContact($('#contact-from').val(), $('#contact-subject').val(), $('#contact-body').val() + "\n\n" + document.location.href).done(function(data){
-                    localStorage.setItem(returnSendContact,  data.return);
-                });
-                var returnSendContact = localStorage.getItem(returnSendContact);
-                debug("Retour contact : "+returnSendContact)
-                if (returnSendContact == "true") {
-                    dialog.dialog( "close" );
-                    appAlert('Message envoyé !', "success");
-                } else {
-                    appAlert("Error");
-                }
-                localStorage.removeItem(returnSendContact);
-            }
-        },
+        buttons: buttonsConfig,
         open: function() {
-            $('.ui-dialog-buttonpane').find('button:contains("Cancel")').addClass('btn btn-secondary');
-            $('.ui-dialog-buttonpane').find('button:contains("Envoyer")').addClass('btn btn-primary');
+            const $pane = $('.ui-dialog-buttonpane');
+            $pane.find('button').removeClass('btn btn-secondary btn-primary');
+            $pane.find('button:contains("' + cancelLabel + '")').addClass('btn btn-secondary');
+            $pane.find('button:contains("' + sendLabel + '")').addClass('btn btn-primary');
+            applyTranslations($('#dialog-contact'));
+            applyTranslations($pane);
         }
     });
 }
@@ -2493,4 +2753,19 @@ function initSelect2() {
             return ui_dialog_interaction.apply(this, arguments);
         };
     }
+}
+
+if (typeof $ !== 'undefined') {
+    $(document).on('dialogopen', function(event) {
+        const $target = event ? $(event.target) : null;
+        if ($target && $target.length) {
+            applyTranslations($target);
+            const $widget = $target.closest('.ui-dialog');
+            if ($widget.length) {
+                applyTranslations($widget);
+            }
+        } else {
+            applyTranslations();
+        }
+    });
 }

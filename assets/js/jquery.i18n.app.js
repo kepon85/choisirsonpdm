@@ -21,7 +21,7 @@ jQuery(function($) {
     }).done(function() {
         
         // Switch language
-        $('.locale-switcher').on('click', 'a', function(e) {
+        $('.locale-switcher').on('click', 'a.flag', function(e) {
             e.preventDefault();
             debug('Locale switch : ' + $(this).data('locale'));
             localStorage.setItem('i18n', $(this).data('locale'));
