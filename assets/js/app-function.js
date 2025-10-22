@@ -1694,6 +1694,7 @@ function generatePDF(id, file) {
 
     const now = new Date();
     const appName = (typeof settings !== 'undefined' && settings.appName) ? settings.appName : 'Choisir son PDM';
+    const appShortName = (typeof settings !== 'undefined' && settings.appShortName) ? settings.appShortName : 'choisirsonpdm';
     const docTitle = appName + ' - Résultat';
     const sectionIdentifier = '#' + id;
     const heatingNeed = cleanTextContent($('#resDeperditionMax').text()) || cleanTextContent($('#resDeperdition').val());
@@ -1844,7 +1845,7 @@ function generatePDF(id, file) {
         }
     };
 
-    pdfMake.createPdf(docDefinition).download(file + '.pdf');
+    pdfMake.createPdf(docDefinition).download(appShortName + "-" + file + '.pdf');
     appAlert("... Export PDF ok !", "success", 2);
 }
 
