@@ -1408,6 +1408,213 @@ function hashChange() {
     window.location.hash = hashnew;
 }
 
+//
+// Studies management (local storage)
+//
+
+const STUDY_STORAGE_KEY = 'choisirsonpdm.savedStudies';
+
+function getSavedStudies() {
+    let stored = [];
+    try {
+        const raw = localStorage.getItem(STUDY_STORAGE_KEY);
+        if (raw) {
+            const parsed = JSON.parse(raw);
+            if (Array.isArray(parsed)) {
+                stored = parsed.filter(item => item && typeof item.name === 'string' && typeof item.hash === 'string');
+            }
+        }
+    } catch (error) {
+        console.error('Unable to parse saved studies from localStorage', error);
+    }
+    return stored;
+}
+
+function persistSavedStudies(studies) {
+    localStorage.setItem(STUDY_STORAGE_KEY, JSON.stringify(studies));
+}
+
+function updateStudyMenuState() {
+    const hasStudies = getSavedStudies().length > 0;
+    const $openAction = $('#study-open-action');
+    if (hasStudies) {
+        $openAction.removeClass('disabled').attr('aria-disabled', 'false');
+    } else {
+        $openAction.addClass('disabled').attr('aria-disabled', 'true');
+    }
+}
+
+function renderStudyList() {
+    const $dialog = $('#study-open-dialog');
+    const $list = $('#study-open-list');
+    if ($dialog.length === 0 || $list.length === 0) {
+        return;
+    }
+    const studies = getSavedStudies().slice().sort((a, b) => {
+        return a.name.localeCompare(b.name, undefined, { sensitivity: 'accent', numeric: true });
+    });
+    $list.empty();
+    if (studies.length === 0) {
+        $dialog.find('.study-open-empty').show();
+        $list.hide();
+        return;
+    }
+    const loadLabel = (typeof $.i18n === 'function') ? $.i18n('study-open-load') : 'Ouvrir';
+    const deleteLabel = (typeof $.i18n === 'function') ? $.i18n('study-open-delete') : 'Supprimer';
+    $dialog.find('.study-open-empty').hide();
+    $list.show();
+    studies.forEach((study) => {
+        const $item = $('<li/>', {
+            class: 'list-group-item d-flex justify-content-between align-items-center'
+        });
+        $('<span/>', {
+            class: 'flex-grow-1 study-open-title text-truncate',
+            text: study.name
+        }).appendTo($item);
+        const $actions = $('<div/>', {
+            class: 'study-open-actions ms-3 d-flex'
+        }).appendTo($item);
+        $('<button/>', {
+            type: 'button',
+            class: 'btn btn-sm btn-primary study-open-open',
+            text: loadLabel,
+            'data-study-name': study.name
+        }).appendTo($actions);
+        $('<button/>', {
+            type: 'button',
+            class: 'btn btn-sm btn-outline-danger ms-2 study-open-delete',
+            text: deleteLabel,
+            'data-study-name': study.name
+        }).appendTo($actions);
+        $list.append($item);
+    });
+}
+
+function openStudySaveDialog() {
+    const $dialog = $('#study-save-dialog');
+    const $input = $('#study-save-name');
+    if ($dialog.length === 0 || $input.length === 0) {
+        return;
+    }
+    const cancelLabel = (typeof $.i18n === 'function') ? $.i18n('study-dialog-cancel') : 'Annuler';
+    const saveLabel = (typeof $.i18n === 'function') ? $.i18n('study-save-confirm') : 'Enregistrer';
+    const buttonsConfig = {};
+    buttonsConfig[cancelLabel] = function() {
+        $dialog.dialog('close');
+    };
+    buttonsConfig[saveLabel] = function() {
+        const name = $input.val().trim();
+        if (name === '') {
+            $input.addClass('is-invalid').trigger('focus');
+            return;
+        }
+        hashChange();
+        const currentHash = window.location.hash.slice(1);
+        let studies = getSavedStudies();
+        const normalizedName = name.toLowerCase();
+        const payload = {
+            name: name,
+            hash: currentHash,
+            updatedAt: new Date().toISOString()
+        };
+        const existingIndex = studies.findIndex((item) => item && item.name && item.name.toLowerCase() === normalizedName);
+        const successKey = existingIndex >= 0 ? 'study-save-updated' : 'study-save-success';
+        if (existingIndex >= 0) {
+            studies[existingIndex] = payload;
+        } else {
+            studies.push(payload);
+        }
+        persistSavedStudies(studies);
+        updateStudyMenuState();
+        renderStudyList();
+        if (typeof appAlert === 'function') {
+            const successMessage = (typeof $.i18n === 'function') ? $.i18n(successKey, name) : 'Étude enregistrée.';
+            appAlert(successMessage, 'success');
+        }
+        $dialog.dialog('close');
+    };
+
+    $dialog.dialog({
+        modal: true,
+        width: 420,
+        buttons: buttonsConfig,
+        open: function() {
+            $input.removeClass('is-invalid');
+            setTimeout(() => {
+                $input.trigger('focus');
+            }, 50);
+            const $pane = $('.ui-dialog-buttonpane');
+            $pane.find('button').removeClass('btn btn-secondary btn-primary');
+            $pane.find('button:contains("' + cancelLabel + '")').addClass('btn btn-secondary');
+            $pane.find('button:contains("' + saveLabel + '")').addClass('btn btn-primary');
+        },
+        close: function() {
+            $input.val('').removeClass('is-invalid');
+        }
+    });
+}
+
+function openStudyOpenDialog() {
+    const $dialog = $('#study-open-dialog');
+    if ($dialog.length === 0) {
+        return;
+    }
+    renderStudyList();
+    const closeLabel = (typeof $.i18n === 'function') ? $.i18n('study-dialog-close') : 'Fermer';
+    const buttonsConfig = {};
+    buttonsConfig[closeLabel] = function() {
+        $dialog.dialog('close');
+    };
+    $dialog.dialog({
+        modal: true,
+        width: 500,
+        buttons: buttonsConfig,
+        open: function() {
+            const $pane = $('.ui-dialog-buttonpane');
+            $pane.find('button').removeClass('btn btn-secondary btn-primary');
+            $pane.find('button:contains("' + closeLabel + '")').addClass('btn btn-secondary');
+        }
+    });
+}
+
+function loadStudyByName(name) {
+    const studies = getSavedStudies();
+    const normalizedName = name.toLowerCase();
+    const entry = studies.find((item) => item && item.name && item.name.toLowerCase() === normalizedName);
+    if (!entry) {
+        if (typeof appAlert === 'function') {
+            const errorMessage = (typeof $.i18n === 'function') ? $.i18n('study-open-not-found') : "Étude introuvable.";
+            appAlert(errorMessage, 'danger');
+        }
+        updateStudyMenuState();
+        renderStudyList();
+        return;
+    }
+    window.location.hash = entry.hash || '';
+    location.reload();
+}
+
+function deleteStudyByName(name) {
+    let studies = getSavedStudies();
+    const normalizedName = name.toLowerCase();
+    const index = studies.findIndex((item) => item && item.name && item.name.toLowerCase() === normalizedName);
+    if (index === -1) {
+        return;
+    }
+    const confirmMessage = (typeof $.i18n === 'function') ? $.i18n('study-delete-confirm', name) : 'Supprimer cette étude ?';
+    if (!window.confirm(confirmMessage)) {
+        return;
+    }
+    studies.splice(index, 1);
+    persistSavedStudies(studies);
+    updateStudyMenuState();
+    renderStudyList();
+    if (typeof appAlert === 'function') {
+        const successMessage = (typeof $.i18n === 'function') ? $.i18n('study-delete-success', name) : 'Étude supprimée.';
+        appAlert(successMessage, 'success');
+    }
+}
+
 /**
  * Résumé : Fonction anti-rebond
  * Source : https://www.freecodecamp.org/french/news/anti-rebond-comment-retarder-une-fonction-en-javascript/ 

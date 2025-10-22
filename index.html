@@ -879,9 +879,29 @@
             <textarea class="form-control" id="contact-body" rows="5"></textarea>
           </div>
         </div>
+        <div id="study-save-dialog" title="Enregistrer une étude">
+          <div class="mb-3">
+            <label for="study-save-name" class="form-label" data-i18n="[html]study-save-name-label">Nom de l'étude</label>
+            <input type="text" class="form-control" id="study-save-name">
+            <div class="invalid-feedback" id="study-save-name-feedback" data-i18n="[html]study-save-name-error">Veuillez saisir un nom.</div>
+          </div>
+        </div>
+        <div id="study-open-dialog" title="Ouvrir une étude">
+          <p class="study-open-empty" data-i18n="[html]study-open-empty">Aucune étude enregistrée pour le moment.</p>
+          <ul id="study-open-list" class="list-group"></ul>
+        </div>
       </main>
       <footer class="my-5 pt-5 text-body-secondary text-center text-small">
         <div class="locale-switcher">
+          <div class="study-menu dropdown">
+            <button class="btn btn-sm btn-light dropdown-toggle" type="button" id="studyMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+              <span data-i18n="[html]study-menu-label">Études</span>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="studyMenuButton">
+              <li><a class="dropdown-item" href="#" id="study-save-action" data-i18n="[html]study-menu-save">Enregistrer l'étude</a></li>
+              <li><a class="dropdown-item" href="#" id="study-open-action" data-i18n="[html]study-menu-open">Ouvrir une étude</a></li>
+            </ul>
+          </div>
           <ul>
             <li><a href="#" class="en flag" data-locale="en"><img src="assets/img/en.png" alt="EN" width="23" height="15" /></a></li>
             <li><a href="#" class="fr flag" data-locale="fr"><img src="assets/img/fr.png" alt="FR" width="23" height="15" /></a></li>

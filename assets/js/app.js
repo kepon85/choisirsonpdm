@@ -652,6 +652,42 @@ $( document ).ready(function() {
     });
 
     ////////////////////////////
+    // Saved studies
+    ////////////////////////////
+    $('#study-save-name').on('input', function() {
+        $(this).removeClass('is-invalid');
+    });
+
+    updateStudyMenuState();
+
+    $('#study-save-action').on('click', function(e) {
+        e.preventDefault();
+        openStudySaveDialog();
+    });
+
+    $('#study-open-action').on('click', function(e) {
+        e.preventDefault();
+        if ($(this).hasClass('disabled')) {
+            return;
+        }
+        openStudyOpenDialog();
+    });
+
+    $('#study-open-list').on('click', '.study-open-open', function() {
+        const name = $(this).data('study-name');
+        if (name) {
+            loadStudyByName(name);
+        }
+    });
+
+    $('#study-open-list').on('click', '.study-open-delete', function() {
+        const name = $(this).data('study-name');
+        if (name) {
+            deleteStudyByName(name);
+        }
+    });
+
+    ////////////////////////////
     // Pint 
     ////////////////////////////
     $( ".topdf" ).on( "click", function() {
