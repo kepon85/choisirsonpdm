@@ -7,7 +7,7 @@ const defaultSettings = {
   "debugLoadMap":                 false,
   "appName":                      "Choisir son poêle de masse",
   "appShortName":                 "choisirsonpdm",
-  "version":                      "2025-10-22",
+  "version":                      "2025-10-23",
   "apiBaseTemperature":           "https://choisir.poeledemasse.org/api/baseTemperature.php",
   "apiDju":                       "https://choisir.poeledemasse.org/api/dju.php",
   "apiMateriaux":                 "https://choisir.poeledemasse.org/api/materiaux/index.php",
