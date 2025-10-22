@@ -1675,6 +1675,84 @@ function getSanitizedValue(selector) {
     return text;
 }
 
+function buildThermalStudyContent(level, title) {
+    const content = [];
+    if (title) {
+        content.push({ text: title, style: 'smallBold', margin: [0, 0, 0, 5] });
+    }
+
+    if (level === '3') {
+        const wallCards = $('#thermal-study .col-sm-6 .card');
+        wallCards.each(function() {
+            const $card = $(this);
+            const wallTitle = cleanTextContent($card.find('h6').first().text());
+            const listItems = [];
+
+            $card.find('> .card-body > ul > li').each(function() {
+                const $li = $(this);
+                if (!$li.is(':visible')) {
+                    return;
+                }
+
+                const $clone = $li.clone();
+                $clone.find('ul').remove();
+                const mainText = cleanTextContent($clone.text());
+                if (!mainText) {
+                    return;
+                }
+
+                const subListItems = [];
+                $li.children('ul').children('li').each(function() {
+                    const $subLi = $(this);
+                    if (!$subLi.is(':visible')) {
+                        return;
+                    }
+                    const subText = cleanTextContent($subLi.text());
+                    if (subText) {
+                        subListItems.push(subText);
+                    }
+                });
+
+                if (subListItems.length > 0) {
+                    listItems.push({ text: mainText, ul: subListItems });
+                } else {
+                    listItems.push(mainText);
+                }
+            });
+
+            if (wallTitle) {
+                content.push({ text: wallTitle, style: 'smallBold', margin: [0, 5, 0, 2] });
+            }
+            if (listItems.length > 0) {
+                content.push({ ul: listItems, margin: [0, 0, 0, 5] });
+            }
+        });
+
+        const summaryCard = $('#thermal-study .col-sm-12 .card .card-body');
+        if (summaryCard.length) {
+            const summaryTexts = [];
+            summaryCard.find('h6').each(function() {
+                const text = cleanTextContent($(this).text());
+                if (text) {
+                    summaryTexts.push(text);
+                }
+            });
+            if (summaryTexts.length > 0) {
+                content.push({ text: 'Synthèse des déperditions', style: 'smallBold', margin: [0, 10, 0, 2] });
+                content.push({ ul: summaryTexts, margin: [0, 0, 0, 10] });
+            }
+        }
+
+        return content;
+    }
+
+    const detailsText = cleanTextContent($('#thermal-study').text());
+    if (detailsText) {
+        content.push({ text: detailsText, margin: [0, 0, 0, 10] });
+    }
+    return content;
+}
+
 /**
  * Résumé : Généer des PDF avec PDF Make selon un ID
  */
@@ -1699,6 +1777,7 @@ function generatePDF(id, file) {
     const sectionIdentifier = '#' + id;
     const heatingNeed = cleanTextContent($('#resDeperditionMax').text()) || cleanTextContent($('#resDeperdition').val());
     const consumptionSummary = cleanTextContent($('#conso .calcul_conso_result').text());
+    const level = cleanTextContent($('#level').val());
     const methodGResult = getSanitizedValue('.res_level1');
     const methodUbatResult = getSanitizedValue('.res_level2');
     const gCoefficient = cleanTextContent($('#g').val());
@@ -1711,7 +1790,7 @@ function generatePDF(id, file) {
     const tempIndoor = cleanTextContent($('#temp_indor').val());
     const ventiText = vmcType || (ventiValue ? ventiValue : 'Non renseigné');
     const thermalStudyTitle = cleanTextContent($('#result-title-building-title').text());
-    const thermalStudyDetails = cleanTextContent($('#thermal-study').text());
+    const thermalStudyContent = buildThermalStudyContent(level, thermalStudyTitle);
     const shortStudyLink = window.location.origin + window.location.pathname + '?s=3RGDZ1YSurT4ctw8';
 
     const parameterTable = {
@@ -1773,7 +1852,7 @@ function generatePDF(id, file) {
     if (heatingNeed) {
         content.push({ text: 'Besoin de chauffage estimé : ' + heatingNeed, margin: [0, 0, 0, 5] });
     }
-    if (consumptionSummary) {
+    if (consumptionSummary && /\d/.test(consumptionSummary)) {
         content.push({ text: consumptionSummary, margin: [0, 0, 0, 10] });
     }
     content.push({ text: 'Paramètres utilisés', style: 'subheader' });
@@ -1784,14 +1863,11 @@ function generatePDF(id, file) {
         content.push(detailedResultsTable);
     }
 
-    if (thermalStudyTitle || thermalStudyDetails) {
+    if (thermalStudyContent.length > 0) {
         content.push({ text: 'Étude thermique', style: 'subheader' });
-        if (thermalStudyTitle) {
-            content.push({ text: thermalStudyTitle, style: 'smallBold', margin: [0, 0, 0, 5] });
-        }
-        if (thermalStudyDetails) {
-            content.push({ text: thermalStudyDetails, margin: [0, 0, 0, 10] });
-        }
+        thermalStudyContent.forEach(function(item) {
+            content.push(item);
+        });
     }
 
     content.push({ text: 'Lien vers l’étude : ' + shortStudyLink, link: shortStudyLink, style: 'link', margin: [0, 10, 0, 0] });
