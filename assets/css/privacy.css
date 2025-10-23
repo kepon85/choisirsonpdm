@@ -92,6 +92,7 @@ body.privacy-modal-open {
 
 
 #map.privacy-map-disabled {
+  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;

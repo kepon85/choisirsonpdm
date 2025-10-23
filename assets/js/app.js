@@ -730,6 +730,11 @@ $( document ).ready(function() {
     updateStudyMenuState();
     populateGlobalMenuExamples();
 
+    $('#study-new-action').on('click', function(e) {
+        e.preventDefault();
+        $('#reset').trigger('click');
+    });
+
     $('#study-save-action').on('click', function(e) {
         e.preventDefault();
         openStudySaveDialog('local');
@@ -862,6 +867,12 @@ $( document ).ready(function() {
         $('#map').css('background-color', '').empty();
         $('#map').addClass('privacy-map-disabled');
         $('#map').text(translateKey('privacy-map-disabled', 'Activez la carte dans vos préférences de confidentialité pour choisir votre localisation.'));
+        $('#map').off('click.privacyConsent').on('click.privacyConsent', function(event) {
+            event.preventDefault();
+            if (window.PrivacyConsent && typeof window.PrivacyConsent.openModal === 'function') {
+                window.PrivacyConsent.openModal();
+            }
+        });
     }
 
     function clearMapPlaceholder() {
@@ -869,6 +880,7 @@ $( document ).ready(function() {
         $('#map').removeClass('privacy-map-disabled');
         $('#map').css('background-color', '');
         $('#map').empty();
+        $('#map').off('click.privacyConsent');
     }
 
     function destroyMapInstance() {

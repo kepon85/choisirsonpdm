@@ -941,7 +941,7 @@ function detailBuildingAddWindows2Wall(wallId, id = null) {
             + '<td colspan="2"><input type="text" class="form-control hashchange" name="window-name[]" id="wall-name-' + wallId + '-window-'+ winId +'" value=""  placeholder="Ex: Fenêtre cuisine" /></td>'
             + '<td>'
                 + '<select name="window-type[]" id="wall-type-' + wallId + '-window-'+ winId +'" style="width: 100%;" class="form-control hashchange window-type">'
-                    + '<option value="" selected="selected">-</option>'
+                    + '<option value="" selected="selected">Sélectionner un type de fenêtre</option>'
                 + '</select>'
             + '</td>'
             + '<td class="text-center"><input type="number" class="form-control hashchange text-center" min="0" step="0.01" name="window-surface[]" id="wall-surface-' + wallId + '-window-'+ winId +'" value="0" /></td>'
