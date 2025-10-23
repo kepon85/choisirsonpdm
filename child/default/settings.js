@@ -1,6 +1,7 @@
 const userSettings = {
   "debug": true,
   "debugLoadMap": false,
+  "studyWarnBeforeUnload":        false,
 /*
   "form_default": {
     "level":     3,
