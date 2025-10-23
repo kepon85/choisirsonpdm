@@ -2070,7 +2070,6 @@ function loadStudyByName(name) {
         window.location.hash = entry.hash || '';
         debug('Reloading page to load study hash: ' + window.location.hash);
         location.href = './?reload='+encodeURI(name)+'' + window.location.hash;
-        location.reload();
     });
 }
 
@@ -2159,7 +2158,6 @@ function handleStudyImportFromFile(event) {
                 window.location.hash = hash;
                 debug('Reloading page to load study hash: ' + window.location.hash);
                 location.href = './?reload='+encodeURI(name)+'' + window.location.hash;
-                location.reload();
             } catch (error) {
                 if (typeof appAlert === 'function') {
                     appAlert(errorMessage, 'danger');
