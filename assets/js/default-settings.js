@@ -15,6 +15,7 @@ const defaultSettings = {
   "apiLink":                      "https://choisir.poeledemasse.org/api/link.php",
   "apiDebounceTtimeout":           1500,
   "defaultLanguage":              "fr",
+  "studyWarnBeforeUnload":        true,
   "autoSave": {
     "enabled": true,
     "intervalMinutes": 5,

@@ -1537,6 +1537,36 @@ let studyAutoSaveTimerId = null;
 let lastSavedStudyHash = '';
 let studyHasPendingChanges = false;
 let beforeUnloadWarningAttached = false;
+let beforeUnloadHandler = null;
+let ignoreBeforeUnloadWarning = false;
+
+function isBeforeUnloadProtectionEnabled() {
+    if (typeof settings === 'object' && settings !== null) {
+        const flag = settings.studyWarnBeforeUnload;
+        if (flag === false) {
+            return false;
+        }
+        if (typeof flag === 'string') {
+            const normalized = flag.trim().toLowerCase();
+            if (['false', '0', 'no', 'off'].includes(normalized)) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+function bypassBeforeUnloadWarningDuring(action) {
+    const previousState = ignoreBeforeUnloadWarning;
+    ignoreBeforeUnloadWarning = true;
+    try {
+        action();
+    } finally {
+        window.setTimeout(() => {
+            ignoreBeforeUnloadWarning = previousState;
+        }, 0);
+    }
+}
 
 function coercePositiveNumber(value, fallback) {
     const parsed = Number(value);
@@ -1598,6 +1628,12 @@ function markStudyAsDirty(hash) {
 }
 
 function shouldWarnBeforeUnload() {
+    if (!isBeforeUnloadProtectionEnabled()) {
+        return false;
+    }
+    if (ignoreBeforeUnloadWarning) {
+        return false;
+    }
     return studyHasPendingChanges;
 }
 
@@ -1605,7 +1641,10 @@ function attachBeforeUnloadWarning() {
     if (beforeUnloadWarningAttached) {
         return;
     }
-    window.addEventListener('beforeunload', function(event) {
+    if (!isBeforeUnloadProtectionEnabled()) {
+        return;
+    }
+    beforeUnloadHandler = function(event) {
         if (!shouldWarnBeforeUnload()) {
             return;
         }
@@ -1613,7 +1652,8 @@ function attachBeforeUnloadWarning() {
         event.preventDefault();
         event.returnValue = warningMessage;
         return warningMessage;
-    });
+    };
+    window.addEventListener('beforeunload', beforeUnloadHandler);
     beforeUnloadWarningAttached = true;
 }
 
@@ -2026,10 +2066,12 @@ function loadStudyByName(name) {
         return;
     }
     setCurrentStudyState(entry.name, entry.hash || '', { origin: 'local-open' });
-    window.location.hash = entry.hash || '';
-    debug('Reloading page to load study hash: ' + window.location.hash);
-    location.href="./"+window.location.hash;
-    location.reload();
+    bypassBeforeUnloadWarningDuring(() => {
+        window.location.hash = entry.hash || '';
+        debug('Reloading page to load study hash: ' + window.location.hash);
+        location.href = './?reload='+encodeURI(name)+'' + window.location.hash;
+        location.reload();
+    });
 }
 
 function deleteStudyByName(name) {
@@ -2115,6 +2157,8 @@ function handleStudyImportFromFile(event) {
                 const name = parsed.name ? String(parsed.name) : '';
                 setCurrentStudyState(name, hash, { origin: 'device-open' });
                 window.location.hash = hash;
+                debug('Reloading page to load study hash: ' + window.location.hash);
+                location.href = './?reload='+encodeURI(name)+'' + window.location.hash;
                 location.reload();
             } catch (error) {
                 if (typeof appAlert === 'function') {
@@ -2713,7 +2757,23 @@ async function genTinyUrl(url, name = '') {
             $('#building-title').val() != '') {
             name = sanitizeUrlString($('#building-title').val());
         }
-        let data = name ? { url: url, name: name } : { url: url };
+        // Sanitize URL : supprimer le paramètre "reload" tout en conservant le hash et les autres searchParams
+        let sanitizedUrl = url;
+        try {
+            const u = new URL(url, window.location.origin);
+            // Supprimer uniquement le paramètre "reload"
+            if (u.searchParams.has('reload')) {
+                u.searchParams.delete('reload');
+            }
+            // Reconstruire l'URL (si aucune searchParams restent, on n'ajoute pas '?')
+            const search = u.searchParams.toString();
+            sanitizedUrl = u.origin + u.pathname + (search ? ('?' + search) : '') + u.hash;
+            debug('[link] URL sanitized for tiny link: ' + sanitizedUrl);
+        } catch (e) {
+            debug('[link] Impossible de parser l\'URL pour sanitation, on garde l\'originale');
+            sanitizedUrl = url;
+        }
+        let data = name ? { url: sanitizedUrl, name: name } : { url: sanitizedUrl };
         try {
             let response = await $.post(settings.apiLink, data);
             debug(response);
@@ -2725,8 +2785,8 @@ async function genTinyUrl(url, name = '') {
             }
             return newUrl;
         } catch (error) {
-            appAlert('<span>Request Failed to get API LINK ' + error.responseJSON.message + '. </span>', "danger", 3);
-            debug("[link] API return : " + error.responseJSON.message);
+            appAlert('<span>Request Failed to get API LINK ' + (error?.responseJSON?.message || error.message) + '. </span>', "danger", 3);
+            debug("[link] API return : " + (error?.responseJSON?.message || error.message));
             return null;
         }
     } else {
