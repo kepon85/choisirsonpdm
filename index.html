@@ -943,15 +943,6 @@
               <li id="global-menu-settings-divider"><hr class="dropdown-divider" /></li>
               <li><h6 class="dropdown-header" data-i18n="[html]global-menu-settings-header">Paramètres (parois + matériaux personnalisés)</h6></li>
               <li><button class="dropdown-item" type="button" data-privacy-action="customize" data-i18n="[html]privacy-manage">Gérer mes préférences de confidentialité</button></li>
-              <li>
-                <div class="dropdown-item-text menu-unit-switcher">
-                  <label for="unit_system" class="form-label" data-i18n="[html]unit-system-label">Units</label>
-                  <select id="unit_system" class="form-select form-select-sm hashchange">
-                    <option value="metric" data-i18n="[html]unit-system-metric">Metric (kW)</option>
-                    <option value="imperial" data-i18n="[html]unit-system-imperial">Imperial (BTU/hr)</option>
-                  </select>
-                </div>
-              </li>
               <li><h6 class="dropdown-header level3">Parois + matériaux personnalisés</h6></li>
               <li class="menu-item-level3 d-none"><button class="dropdown-item" type="button" id="study-settings-import-action" data-i18n="[html]setting-import-button">Importer les paramètres</button></li>
               <li class="menu-item-level3 d-none"><button class="dropdown-item" type="button" id="study-settings-export-action" data-i18n="[html]setting-export-button">Exporter les paramètres</button></li>
@@ -963,6 +954,12 @@
             <li><a href="#" class="fr flag" data-locale="fr"><img src="assets/img/fr.png" alt="FR" width="23" height="15" /></a></li>
             <li><a href="#" class="es flag" data-locale="es"><img src="assets/img/es.png" alt="FR" width="23" height="15" /></a></li>
           </ul>
+          <div>
+            <select id="unit_system" class="form-select form-select-sm hashchange">
+              <option value="metric" data-i18n="[html]unit-system-metric">Metric (kW)</option>
+              <option value="imperial" data-i18n="[html]unit-system-imperial">Imperial (BTU/hr)</option>
+            </select>
+          </div>
         </div>
         <div id="sharingButton" class="mb-1">
           <h4 data-i18n="[html]app-sharing">Sharing</h4>
