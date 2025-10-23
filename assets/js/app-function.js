@@ -218,6 +218,48 @@ function formatPowerText(watts) {
     return getPowerDisplay(watts).text;
 }
 
+function formatDetailedPowerText(watts) {
+    const numericValue = parseFloat(watts);
+    if (isNaN(numericValue)) {
+        return '?';
+    }
+    if (getUnitSystem() === 'imperial') {
+        return precise_round(numericValue * 3.412141633, 0) + '\u00A0BTU/hr';
+    }
+    return precise_round(numericValue, 0) + '\u00A0W';
+}
+
+function getPowerTextForElement(watts, element = null) {
+    if (!element) {
+        return formatPowerText(watts);
+    }
+    const $element = $(element);
+    const formatType = $element.attr('data-power-format');
+    if (formatType === 'detailed') {
+        return formatDetailedPowerText(watts);
+    }
+    return formatPowerText(watts);
+}
+
+function setPowerValue(target, watts) {
+    const isJqueryObject = typeof jQuery !== 'undefined' && target instanceof jQuery;
+    const $targets = isJqueryObject ? target : $(target);
+    if ($targets.length === 0) {
+        return;
+    }
+    const numericValue = parseFloat(watts);
+    $targets.each(function() {
+        const $element = $(this);
+        if (isNaN(numericValue)) {
+            $element.removeAttr('data-power-watts');
+            $element.text('?');
+            return;
+        }
+        $element.attr('data-power-watts', numericValue);
+        $element.text(getPowerTextForElement(numericValue, this));
+    });
+}
+
 function refreshPowerValues(scope = null) {
     let $targets;
     if (scope) {
@@ -229,7 +271,7 @@ function refreshPowerValues(scope = null) {
     $targets.each(function() {
         const watts = parseFloat($(this).attr('data-power-watts'));
         if (!isNaN(watts)) {
-            $(this).text(formatPowerText(watts));
+            $(this).text(getPowerTextForElement(watts, this));
         }
     });
 }
@@ -1155,7 +1197,7 @@ function submitForm() {
                     }
                     $("#thermal-study").append(
                         '<div class="col-sm-6"><div class="card"><div class="card-body">'
-                        + '<h6><span data-i18n="[html]thead-wall-name">Paroi</span> : '+$('#wall-name-'+wallId).val()+' (<span class="wall-'+wallId+'-and-window-loss-value"></span>W)</h6>' 
+                        + '<h6><span data-i18n="[html]thead-wall-name">Paroi</span> : '+$('#wall-name-'+wallId).val()+' (<span class="power-value wall-'+wallId+'-and-window-loss-value" data-power-format="detailed" data-power-watts="0"></span>)</h6>'
                         + '<ul>'
                             + '<li><span data-i18n="[html]thead-wall-type">Type</span> : '+$('#wall-type-'+wallId+' option:selected').text()+' (R = '+$('#wall-r-'+wallId).val()+' °C.m²/W)'
                                 + '<ul id="wall-'+wallId+'-detail"></ul>'
@@ -1164,11 +1206,11 @@ function submitForm() {
                             + commentTempUse
                             + '<li><span data-i18n="[html]wall-surface">Surface paroi</span> : '+$('#wall-surface-'+wallId).val()+'m2</li>'
                             + '<li><span data-toggle="tooltip" title="R + Rsi + Rse"><span data-i18n="[html]wall-rt">R total</span> : '+rt+'</span>°C.m²/W</li>'
-                            + '<li id="wall-'+wallId+'-windows-parent"><span data-i18n="[html]windows">Fenêtre(s)</span> <span data-toggle="tooltip" title="Différence entre la température intérieure et extérieure (dite de base) (°C) * Perte total des fenêtres (W/°C)"><span data-i18n="[html]window-loss">Déperdition</span>=<span id="wall-'+wallId+'-window-loss-value"></span>W</span> : <ul id="wall-'+wallId+'-windows"></ul></li>'
-                            + '<li id="wall-'+wallId+'-bridge-parent"><span data-i18n="[html]bridges">Pont(s) thermique(s)</span> <span data-toggle="tooltip" title="Différence entre la température intérieure et extérieure (dite de base) (°C) * Perte total des ponts thermiques (W/°C)"><span data-i18n="[html]bridge-loss">Déperdition</span>=<span id="wall-'+wallId+'-bridge-loss-value"></span>W</span> : <ul id="wall-'+wallId+'-bridges"></ul></li>'
+                            + '<li id="wall-'+wallId+'-windows-parent"><span data-i18n="[html]windows">Fenêtre(s)</span> <span data-toggle="tooltip" title="Différence entre la température intérieure et extérieure (dite de base) (°C) * Perte total des fenêtres (W/°C)"><span data-i18n="[html]window-loss">Déperdition</span>=<span class="power-value" id="wall-'+wallId+'-window-loss-value" data-power-format="detailed" data-power-watts="0"></span></span> : <ul id="wall-'+wallId+'-windows"></ul></li>'
+                            + '<li id="wall-'+wallId+'-bridge-parent"><span data-i18n="[html]bridges">Pont(s) thermique(s)</span> <span data-toggle="tooltip" title="Différence entre la température intérieure et extérieure (dite de base) (°C) * Perte total des ponts thermiques (W/°C)"><span data-i18n="[html]bridge-loss">Déperdition</span>=<span class="power-value" id="wall-'+wallId+'-bridge-loss-value" data-power-format="detailed" data-power-watts="0"></span></span> : <ul id="wall-'+wallId+'-bridges"></ul></li>'
                             + '<li><span data-toggle="tooltip" title="Surface de la paroi - la surface vitrée"><span data-i18n="[html]opaque-surface">Surface opaque</span> : <span id="wall-'+wallId+'-window-opaque-surface-value"></span>m<sup>2</sup></span></li>'
-                            + '<li><span data-toggle="tooltip" title="'+titleTempUse+'"><span data-i18n="[html]wall-loss">Déperdition des surfaces opaques</span> : <span id="wall-'+wallId+'-loss-value"></span>W</span></li>'
-                            + '<li><span data-toggle="tooltip" title="Déperdition des surfaces opaque + surfaces vitrées"><span data-i18n="[html]wall-and-window-loss">Déperdition total</span> : <span class="wall-'+wallId+'-and-window-loss-value"></span>W</span></li>'
+                            + '<li><span data-toggle="tooltip" title="'+titleTempUse+'"><span data-i18n="[html]wall-loss">Déperdition des surfaces opaques</span> : <span class="power-value" id="wall-'+wallId+'-loss-value" data-power-format="detailed" data-power-watts="0"></span></span></li>'
+                            + '<li><span data-toggle="tooltip" title="Déperdition des surfaces opaque + surfaces vitrées"><span data-i18n="[html]wall-and-window-loss">Déperdition total</span> : <span class="power-value wall-'+wallId+'-and-window-loss-value" data-power-format="detailed" data-power-watts="0"></span></span></li>'
                         + '</ul>'
                         + '</div></div></div>'
                     );
@@ -1195,7 +1237,7 @@ function submitForm() {
                                 windowsSurfaceTotal=parseFloat(windowsSurfaceTotal)+parseFloat(surface);
                                 perte=precise_round($('#wall-type-' + wallId + '-window-'+ winId).val()*surface, 2);
                                 windowsPerteTotalPerDegre=parseFloat(windowsPerteTotalPerDegre)+parseFloat(perte);
-                                windows = windows + '<li>'+$('#wall-name-' + wallId + '-window-'+ winId).val()+' '+$('#wall-name-' + wallId + '-window-'+ winId+' option:selected').text()+' Uw='+$('#wall-type-' + wallId + '-window-'+ winId).val()+', Surface='+surface+'m<sup>2</sup>, <span data-toggle="tooltip" title="Surface * Uw">Perte='+perte+'W/°C</span></li>'; 
+                                windows = windows + '<li>'+$('#wall-name-' + wallId + '-window-'+ winId).val()+' '+$('#wall-name-' + wallId + '-window-'+ winId+' option:selected').text()+' Uw='+$('#wall-type-' + wallId + '-window-'+ winId).val()+', Surface='+surface+'m<sup>2</sup>, <span data-toggle="tooltip" title="Surface * Uw">Perte=<span class="power-value" data-power-format="detailed" data-power-watts="'+perte+'">'+formatDetailedPowerText(perte)+'</span>/°C</span></li>';
                                 debug('Window id ' + winId);
                             }
                         }
@@ -1205,7 +1247,7 @@ function submitForm() {
                     // Perte total fenêtre
                     windowsPerteTotal=($("#temp_indor").val()-$("#temp_base").val())*windowsPerteTotalPerDegre;
                     debug('Windows perte (W) total : '+windowsPerteTotal);
-                    $('#wall-'+wallId+'-window-loss-value').html(precise_round(windowsPerteTotal, 0));
+                    setPowerValue($('#wall-'+wallId+'-window-loss-value'), precise_round(windowsPerteTotal, 0));
                     // Surface opaque
                     surfaceOpaque=parseFloat($('#wall-surface-'+wallId).val())-parseFloat(windowsSurfaceTotal);
                     $('#wall-'+wallId+'-window-opaque-surface-value').html(precise_round(surfaceOpaque, 2));
@@ -1218,7 +1260,7 @@ function submitForm() {
                     } else {
                         wallPerte=($("#temp_indor").val()-$("#temp_base").val())/(rt/surfaceOpaque);
                     }
-                    $('#wall-'+wallId+'-loss-value').html(precise_round(wallPerte, 0));
+                    setPowerValue($('#wall-'+wallId+'-loss-value'), precise_round(wallPerte, 0));
                     // Pont thermique
                     let wallBridge = $("#wall-bridge-" + wallId).val();
                     if (wallBridge) {
@@ -1248,9 +1290,13 @@ function submitForm() {
                             } else {
                                 typePrint = "Aucun";
                             }
-                            bridgesPrint = bridgesPrint + `<li>${item.name} ${typePrint} longueur=${item.length}m, <span data-toggle="tooltip" title="Surface * Uw">Perte=${item.pt}W/°C</span></li>`; 
+                            const bridgePtValue = parseFloat(item.pt);
+                            const bridgePtRounded = isNaN(bridgePtValue) ? '0' : precise_round(bridgePtValue, 2);
+                            bridgesPrint = bridgesPrint + `<li>${item.name} ${typePrint} longueur=${item.length}m, <span data-toggle="tooltip" title="Surface * Uw">Perte=<span class="power-value" data-power-format="detailed" data-power-watts="${bridgePtRounded}">${formatDetailedPowerText(bridgePtRounded)}</span>/°C</span></li>`;
                             // Ajouter la valeur de pt à la somme totale
-                            bridgePt += parseFloat(item.pt);
+                            if (!isNaN(bridgePtValue)) {
+                                bridgePt += bridgePtValue;
+                            }
                         });
                         if (bridgePt != 0) {
                             $('#wall-'+wallId+'-bridges').append(bridgesPrint);
@@ -1261,10 +1307,10 @@ function submitForm() {
 
                     debug('Pont thermique : '+bridgePt);
                     bridgePerte=bridgePt*($("#temp_indor").val()-$("#temp_base").val());
-                    $('#wall-'+wallId+'-bridge-loss-value').html(precise_round(bridgePerte, 0));
+                    setPowerValue($('#wall-'+wallId+'-bridge-loss-value'), precise_round(bridgePerte, 0));
                     // Perte total de la paroi (fenêtre + opaque + pont thermique)
                     perteTotal=parseFloat(windowsPerteTotal)+parseFloat(wallPerte)+parseFloat(bridgePerte);
-                    $('.wall-'+wallId+'-and-window-loss-value').html(precise_round(perteTotal, 0));
+                    setPowerValue($('.wall-'+wallId+'-and-window-loss-value'), precise_round(perteTotal, 0));
                     // Ajout des pertes totals aux 
                     depConductivite=parseFloat(depConductivite)+parseFloat(perteTotal);
                     if (windows == '') {
@@ -1279,12 +1325,14 @@ function submitForm() {
         }
         // Résultat
         depAeraulique=precise_round($("#livingvolume").val() * $("#venti_global").val(),0);
+        const depConductiviteArrondi = precise_round(depConductivite, 0);
         var resDeperditionMax=parseFloat(depAeraulique)+parseFloat(depConductivite);
+        const resDeperditionMaxArrondi = precise_round(resDeperditionMax, 0);
         $("#thermal-study").append(
             '<div class="col-sm-12"><div class="card"><div class="card-body">'
-            + '<h6 data-toggle="tooltip" title="Somme des déperditions par conduction (paroi)"><span data-i18n="[html]dep-conduction">Déperdition par conduction</span> : '+precise_round(depConductivite, 0)+'W</h6>' 
-            + '<h6 data-toggle="tooltip" title="Volume * VMC"><span data-i18n="[html]dep-aeraulique">Déperdition par aéraulique</span> : '+depAeraulique+'W</h6>' 
-            + '<h6 data-toggle="tooltip" title="Somme des déperditions par conduction et aéraulique"><b><span data-i18n="[html]dep-total">Déperdition total</span> : '+precise_round(resDeperditionMax, 0)+'W</b></h6>' 
+            + '<h6 data-toggle="tooltip" title="Somme des déperditions par conduction (paroi)"><span data-i18n="[html]dep-conduction">Déperdition par conduction</span> : <span class="power-value" data-power-format="detailed" data-power-watts="'+depConductiviteArrondi+'">'+formatDetailedPowerText(depConductiviteArrondi)+'</span></h6>'
+            + '<h6 data-toggle="tooltip" title="Volume * VMC"><span data-i18n="[html]dep-aeraulique">Déperdition par aéraulique</span> : <span class="power-value" data-power-format="detailed" data-power-watts="'+depAeraulique+'">'+formatDetailedPowerText(depAeraulique)+'</span></h6>'
+            + '<h6 data-toggle="tooltip" title="Somme des déperditions par conduction et aéraulique"><b><span data-i18n="[html]dep-total">Déperdition total</span> : <span class="power-value" data-power-format="detailed" data-power-watts="'+resDeperditionMaxArrondi+'">'+formatDetailedPowerText(resDeperditionMaxArrondi)+'</span></b></h6>'
             + '</div></div></div>'
         );
     }
@@ -1294,6 +1342,9 @@ function submitForm() {
     conso();
     suggestion();
     help();
+    if ($("#level").val() == 3) {
+        refreshPowerValues('#thermal-study');
+    }
     // Tooltip reset
     $('[data-toggle="tooltip"]').tooltip();
     if (shortLink == true) {
@@ -2560,7 +2611,7 @@ function generatePDF(id, file) {
     const now = new Date();
     const appName = (typeof settings !== 'undefined' && settings.appName) ? settings.appName : 'Choisir son PDM';
     const appShortName = (typeof settings !== 'undefined' && settings.appShortName) ? settings.appShortName : 'choisirsonpdm';
-    const docTitle = appName + ' - Résultat';
+    let docTitle = appName + ' - Résultat';
     const sectionIdentifier = '#' + id;
     const heatingNeed = cleanTextContent($('#resDeperditionMax').text()) || cleanTextContent($('#resDeperdition').val());
     const consumptionSummary = cleanTextContent($('#conso .calcul_conso_result').text());
@@ -2577,6 +2628,9 @@ function generatePDF(id, file) {
     const tempIndoor = cleanTextContent($('#temp_indor').val());
     const ventiText = vmcType || (ventiValue ? ventiValue : 'Non renseigné');
     const thermalStudyTitle = cleanTextContent($('#result-title-building-title').text());
+    if (level === '3' && thermalStudyTitle) {
+        docTitle = appName + ' - ' + thermalStudyTitle;
+    }
     const thermalStudyContent = buildThermalStudyContent(level, thermalStudyTitle);
     const shortStudyLink = window.location.href;
 
