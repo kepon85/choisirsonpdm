@@ -10,6 +10,10 @@ jQuery(function($) {
         // switch active flag
         $( ".locale-switcher .flag").removeClass( "active" );
         $( ".locale-switcher ." + $.i18n().locale).addClass( "active" );
+        if ($('#map').hasClass('privacy-map-disabled')) {
+            const message = (typeof $.i18n === 'function') ? $.i18n('privacy-map-disabled') : $('#map').text();
+            $('#map').text(message);
+        }
     }
     //Chargement des fichiers de traduction
     const cacheSuffix = settings.version ? ('?v=' + encodeURIComponent(settings.version)) : '';

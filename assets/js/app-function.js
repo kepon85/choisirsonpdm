@@ -2012,6 +2012,7 @@ function openStudyOpenDialog() {
 }
 
 function loadStudyByName(name) {
+    debug('loadStudyByName: ' + name);
     const studies = getSavedStudies();
     const normalizedName = normalizeStudyKey(name);
     const entry = studies.find((item) => item && normalizeStudyKey(item.name) === normalizedName);
@@ -2026,6 +2027,8 @@ function loadStudyByName(name) {
     }
     setCurrentStudyState(entry.name, entry.hash || '', { origin: 'local-open' });
     window.location.hash = entry.hash || '';
+    debug('Reloading page to load study hash: ' + window.location.hash);
+    location.href="./"+window.location.hash;
     location.reload();
 }
 

@@ -866,7 +866,9 @@ $( document ).ready(function() {
         clearGeocoderContainer();
         $('#map').css('background-color', '').empty();
         $('#map').addClass('privacy-map-disabled');
-        $('#map').text(translateKey('privacy-map-disabled', 'Activez la carte dans vos préférences de confidentialité pour choisir votre localisation.'));
+        $('#map')
+            .attr('data-i18n', '[html]privacy-map-disabled')
+            .text(translateKey('privacy-map-disabled', 'Activez la carte dans vos préférences de confidentialité pour choisir votre localisation.'));
         $('#map').off('click.privacyConsent').on('click.privacyConsent', function(event) {
             event.preventDefault();
             if (window.PrivacyConsent && typeof window.PrivacyConsent.openModal === 'function') {
@@ -880,6 +882,7 @@ $( document ).ready(function() {
         $('#map').removeClass('privacy-map-disabled');
         $('#map').css('background-color', '');
         $('#map').empty();
+        $('#map').removeAttr('data-i18n');
         $('#map').off('click.privacyConsent');
     }
 
