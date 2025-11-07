@@ -20,9 +20,9 @@ Le projet se trouve à Rennes, la température de base est donnée pour -5°C (Z
 
 **Ouvertures** (fenêtres uniquement — total ≃ 9,57 m²)
 
-- Séjour / Salle à manger (Sud) : 4,00 m² (2,00 × 2,00) — PVC + double vitrage (Uw : 2,9 W/m²·K)  
-- Cuisine (Est)                 : 1,00 m² (1,00 × 1,00) — PVC + double vitrage (Uw : 2,9 W/m²·K)  
-- Chambre 1 (Ouest)             : 1,44 m² (1,20 × 1,20) — PVC + double vitrage (Uw : 2,9 W/m²·K)  
-- Chambre 2 (Nord)              : 1,44 m² (1,20 × 1,20) — PVC + double vitrage (Uw : 2,9 W/m²·K)  
-- Chambre 3 (Est)               : 1,44 m² (1,20 × 1,20) — PVC + double vitrage (Uw : 2,9 W/m²·K)  
-- Salle de bains (Nord)          : 0,25 m² (0,50 × 0,50) — PVC + double vitrage (Uw : 2,9 W/m²·K)  
+- Séjour / Salle à manger (Sud) : 4,00 m² (2,00 × 2,00) — PVC + double vitrage (Uw : 2,8 W/m²·K)  
+- Cuisine (Est)                 : 1,00 m² (1,00 × 1,00) — PVC + double vitrage (Uw : 2,8 W/m²·K)  
+- Chambre 1 (Ouest)             : 1,44 m² (1,20 × 1,20) — PVC + double vitrage (Uw : 2,8 W/m²·K)  
+- Chambre 2 (Nord)              : 1,44 m² (1,20 × 1,20) — PVC + double vitrage (Uw : 2,8 W/m²·K)  
+- Chambre 3 (Est)               : 1,44 m² (1,20 × 1,20) — PVC + double vitrage (Uw : 2,8 W/m²·K)  
+- Salle de bains (Nord)          : 0,25 m² (0,50 × 0,50) — PVC + double vitrage (Uw : 2,8 W/m²·K)  

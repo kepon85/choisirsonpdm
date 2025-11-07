@@ -3,3 +3,5 @@
 Exercice : https://framagit.org/kepon/choisirsonpdm/-/tree/main/doc/Exercices
 
 https://formation.poeledemasse.org/?s=Renovation-ancienne-bergerie_718
+
+Résultat : 6.54 kW

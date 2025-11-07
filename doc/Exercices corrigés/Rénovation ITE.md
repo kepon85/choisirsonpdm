@@ -4,6 +4,8 @@ Exercice : https://framagit.org/kepon/choisirsonpdm/-/tree/main/doc/Exercices
 
 Correction :  https://formation.poeledemasse.org/?s=Renovation-ITE_709
 
+Résultat : 7.29 kW
+
 > #### Besoin de chauffage          
 >
 > Etude thermique : Rénovation ITE

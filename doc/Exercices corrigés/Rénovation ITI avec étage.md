@@ -4,6 +4,8 @@ Exercice : https://framagit.org/kepon/choisirsonpdm/-/tree/main/doc/Exercices
 
 Correction :  https://formation.poeledemasse.org/?s=Renovation-ITI-avec-etage_025
 
+Résultat : 4,196 kW
+
 > #### Besoin de chauffage          
 >
 > Etude thermique : Rénovation ITI avec étage
