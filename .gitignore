@@ -11,3 +11,4 @@ api/composer*
 api/contact.php
 api/config.php
 custom*
+doc/evaluationG/*.csv
