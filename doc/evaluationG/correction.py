@@ -13,9 +13,9 @@ avec :
 * l'adresse e-mail du répondant ;
 * pour chaque cas étudié : la réponse textuelle, la valeur de G extraite,
   les valeurs de référence (G calculé et G retenu) issues de
-  ``methode_reverse.md``, le lien vers la correction détaillée, la puissance
-  attendue (kW), la puissance déduite du G saisi (kW), l'écart (kW) et un
-  commentaire qualitatif (« Impec » / « Presque » / « Outch »).
+  ``methode_reverse.md``, la puissance attendue (kW), la puissance déduite du G
+  saisi (kW), l'écart (kW) et un commentaire qualitatif (configurable,
+  restitué avec une couleur HTML).
 
 Le fichier de sortie est ``<input>_corrige.csv`` par défaut.
 """
@@ -40,7 +40,41 @@ class CaseReference:
     volume_m3: float
     delta_t: float
     phi_reference_kw: float
-    search_url: str
+
+
+@dataclass(frozen=True)
+class CommentDefinition:
+    label: str
+    color: str
+
+
+# Liste ordonnée des valeurs possibles proposées dans le formulaire.
+G_CHOICES: Tuple[float, ...] = (
+    0.22,
+    0.30,
+    0.40,
+    0.50,
+    0.80,
+    0.90,
+    1.10,
+    1.30,
+    1.50,
+    1.60,
+    1.80,
+    2.75,
+)
+
+# Commentaires associés au nombre de « crans » d'écart entre la réponse et la
+# valeur de référence. Pour personnaliser le rendu, modifier les entrées
+# ci-dessous (libellés et couleurs). Toute distance non explicitement définie
+# utilisera DEFAULT_COMMENT.
+COMMENT_BY_DISTANCE: Dict[int, CommentDefinition] = {
+    0: CommentDefinition("Parfait", "#26a269"),
+    1: CommentDefinition("Presque", "#f6d32d"),
+    2: CommentDefinition("Hola", "#ffa500"),
+}
+
+DEFAULT_COMMENT = CommentDefinition("Outch", "#e01b24")
 
 
 CASES: Tuple[CaseReference, ...] = (
@@ -52,7 +86,6 @@ CASES: Tuple[CaseReference, ...] = (
         volume_m3=151.2,
         delta_t=25.0,
         phi_reference_kw=3.024,
-        search_url="https://formation.poeledemasse.org/?s=sQBDienalk4Fy2hA",
     ),
     CaseReference(
         slug="maison_paille_avec_serre",
@@ -62,7 +95,6 @@ CASES: Tuple[CaseReference, ...] = (
         volume_m3=510.0,
         delta_t=25.0,
         phi_reference_kw=3.825,
-        search_url="https://formation.poeledemasse.org/?s=FeGsb9VgWO3JN7YS",
     ),
     CaseReference(
         slug="maison_annee_90",
@@ -72,7 +104,6 @@ CASES: Tuple[CaseReference, ...] = (
         volume_m3=351.0,
         delta_t=25.0,
         phi_reference_kw=7.898,
-        search_url="https://formation.poeledemasse.org/?s=xVv3Ka6Bs2QWo8M1",
     ),
     CaseReference(
         slug="renovation_ancienne_bergerie",
@@ -82,7 +113,6 @@ CASES: Tuple[CaseReference, ...] = (
         volume_m3=270.0,
         delta_t=24.0,
         phi_reference_kw=7.128,
-        search_url="https://formation.poeledemasse.org/?s=D1Nr6imIuTCXL5la",
     ),
     CaseReference(
         slug="renovation_ite",
@@ -92,7 +122,6 @@ CASES: Tuple[CaseReference, ...] = (
         volume_m3=351.0,
         delta_t=25.0,
         phi_reference_kw=7.020,
-        search_url="https://formation.poeledemasse.org/?s=tplMmY3zryaoJwnF",
     ),
     CaseReference(
         slug="renovation_ite_isole_au_sol",
@@ -102,7 +131,6 @@ CASES: Tuple[CaseReference, ...] = (
         volume_m3=351.0,
         delta_t=25.0,
         phi_reference_kw=1.931,
-        search_url="https://formation.poeledemasse.org/?s=rHlj0mqkNP6dAauT",
     ),
     CaseReference(
         slug="renovation_iti_avec_etage",
@@ -112,7 +140,6 @@ CASES: Tuple[CaseReference, ...] = (
         volume_m3=300.0,
         delta_t=24.0,
         phi_reference_kw=3.600,
-        search_url="https://formation.poeledemasse.org/?s=ZFuLgSTjNb54ehtW",
     ),
     CaseReference(
         slug="renovation_maison_bourg_mitoyennete",
@@ -122,7 +149,6 @@ CASES: Tuple[CaseReference, ...] = (
         volume_m3=350.0,
         delta_t=24.0,
         phi_reference_kw=4.200,
-        search_url="https://formation.poeledemasse.org/?s=Renovation-maison-de-bourg-avec-Mitoyennete_990",
     ),
 )
 
@@ -179,18 +205,31 @@ def extract_g_value(answer: str) -> Optional[float]:
         return None
 
 
+def format_comment(definition: CommentDefinition) -> str:
+    return f'<font color="{definition.color}">{definition.label}</font>'
+
+
+def find_choice_index(value: float) -> Optional[int]:
+    for idx, choice in enumerate(G_CHOICES):
+        if abs(choice - value) < 1e-6:
+            return idx
+    return None
+
+
 def comment_for(answer: Optional[float], reference: float) -> str:
-    """Retourne le commentaire en fonction de l'écart avec la référence."""
+    """Retourne le commentaire en fonction du nombre de crans d'écart."""
 
     if answer is None or math.isnan(answer):
-        return "Outch"
+        return format_comment(DEFAULT_COMMENT)
 
-    diff = abs(answer - reference)
-    if diff < 1e-6:
-        return "Impec"
-    if diff <= 0.1:
-        return "Presque"
-    return "Outch"
+    answer_index = find_choice_index(answer)
+    reference_index = find_choice_index(reference)
+    if answer_index is None or reference_index is None:
+        return format_comment(DEFAULT_COMMENT)
+
+    distance = abs(answer_index - reference_index)
+    definition = COMMENT_BY_DISTANCE.get(distance, DEFAULT_COMMENT)
+    return format_comment(definition)
 
 
 def format_float(value: Optional[float], digits: int) -> str:
@@ -236,7 +275,6 @@ def build_corrections(
                 f"{case.slug}_phi_reponse_kw",
                 f"{case.slug}_ecart_kw",
                 f"{case.slug}_commentaire",
-                f"{case.slug}_lien",
             ]
         )
 
@@ -271,7 +309,6 @@ def build_corrections(
                     format_float(phi_reponse, 3),
                     format_float(ecart_kw, 3),
                     commentaire,
-                    case.search_url,
                 ]
             )
 
