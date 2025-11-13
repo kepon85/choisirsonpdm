@@ -2,9 +2,11 @@
 
 Exercice : https://framagit.org/kepon/choisirsonpdm/-/tree/main/doc/Exercices
 
-Correction :  https://formation.poeledemasse.org/?s=Renovation-ITI-avec-etage_025
+Le calcul paroi par paroi :   https://formation.poeledemasse.org/?s=Renovation-ITI-avec-etage_025
 
 Résultat : 4,196 kW
+
+**Piège** : ici le pont thermique du plancher haut est à considérer en ITI
 
 > #### Besoin de chauffage          
 >
