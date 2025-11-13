@@ -274,6 +274,7 @@ def build_corrections(
                 f"{case.slug}_phi_reference_kw",
                 f"{case.slug}_phi_reponse_kw",
                 f"{case.slug}_ecart_kw",
+                f"{case.slug}_erreur_percent",
                 f"{case.slug}_commentaire",
             ]
         )
@@ -297,6 +298,11 @@ def build_corrections(
                 if phi_reponse is not None
                 else None
             )
+            erreur_pct = (
+                (ecart_kw / case.phi_reference_kw * 100)
+                if ecart_kw is not None and abs(case.phi_reference_kw) > 1e-9
+                else None
+            )
             commentaire = comment_for(answer_value, case.g_retenu)
 
             line.extend(
@@ -308,6 +314,7 @@ def build_corrections(
                     format_float(case.phi_reference_kw, 3),
                     format_float(phi_reponse, 3),
                     format_float(ecart_kw, 3),
+                    format_float(erreur_pct, 1),
                     commentaire,
                 ]
             )
