@@ -71,10 +71,10 @@ G_CHOICES: Tuple[float, ...] = (
 COMMENT_BY_DISTANCE: Dict[int, CommentDefinition] = {
     0: CommentDefinition("Parfait", "#26a269"),
     1: CommentDefinition("Presque", "#f6d32d"),
-    2: CommentDefinition("Pas si loin", "#ff5500"),
+    2: CommentDefinition("Dans les choux", "#ff5500"),
 }
 
-DEFAULT_COMMENT = CommentDefinition("Oups", "#e01b24")
+DEFAULT_COMMENT = CommentDefinition("Trop loin", "#e01b24")
 
 
 CASES: Tuple[CaseReference, ...] = (
