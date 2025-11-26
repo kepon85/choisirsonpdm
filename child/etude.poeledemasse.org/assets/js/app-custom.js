@@ -49,3 +49,5 @@ if (inIframe()) {
     $('#body-container').removeClass('container');
     $('#body-container').addClass(' container-fluid');
 }
+
+ $('title').text('Dimensionner un poêle de masse');
