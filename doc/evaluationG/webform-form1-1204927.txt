@@ -1,0 +1,1938 @@
+$webform = array (
+  'nid' => '1204927',
+  'next_serial' => '12',
+  'confirmation' => '',
+  'confirmation_format' => 'wysiwyg_user',
+  'redirect_url' => '<confirmation>',
+  'status' => '1',
+  'block' => '0',
+  'allow_draft' => '0',
+  'auto_save' => '0',
+  'submit_notice' => '1',
+  'confidential' => '0',
+  'submit_text' => '',
+  'submit_limit' => '-1',
+  'submit_interval' => '-1',
+  'total_submit_limit' => '-1',
+  'total_submit_interval' => '-1',
+  'progressbar_bar' => '1',
+  'progressbar_page_number' => '0',
+  'progressbar_percent' => '1',
+  'progressbar_pagebreak_labels' => '1',
+  'progressbar_include_confirmation' => '1',
+  'progressbar_label_first' => 'Début',
+  'progressbar_label_confirmation' => 'Terminé',
+  'preview' => '0',
+  'preview_next_button_label' => '',
+  'preview_prev_button_label' => '',
+  'preview_title' => '',
+  'preview_message' => '',
+  'preview_message_format' => 'wysiwyg_user',
+  'preview_excluded_components' => 
+  array (
+  ),
+  'confirm_email_request_lifetime' => NULL,
+  'confirm_email_delete_submissions' => '0',
+  'record_exists' => true,
+  'roles' => 
+  array (
+    0 => '1',
+    1 => '2',
+  ),
+  'emails' => 
+  array (
+  ),
+  'components' => 
+  array (
+    2 => 
+    array (
+      'nid' => 1204927,
+      'cid' => '2',
+      'pid' => '0',
+      'form_key' => 'qualification',
+      'name' => 'Votre qualification',
+      'type' => 'select',
+      'value' => '',
+      'extra' => 
+      array (
+        'items' => 'pro|Professionnel du poêle de masse
+sympa|Sympathisant / Auto-constructeur
+',
+        'multiple' => false,
+        'aslist' => true,
+        'empty_option' => '',
+        'optrand' => 0,
+        'other_option' => NULL,
+        'other_text' => 'Autre...',
+        'title_display' => 'before',
+        'description' => '',
+        'description_above' => false,
+        'custom_keys' => 1,
+        'options_source' => '',
+        'private' => 0,
+        'analysis' => true,
+        'value' => '1',
+        'css_classes' => '',
+        'wrapper_classes' => '',
+      ),
+      'required' => '1',
+      'weight' => '1',
+      'page_num' => 1,
+    ),
+    4 => 
+    array (
+      'nid' => 1204927,
+      'cid' => '4',
+      'pid' => '0',
+      'form_key' => 'experience',
+      'name' => 'Expérience sur le dimensionnement / comortement thermique du bâtiment',
+      'type' => 'select',
+      'value' => '',
+      'extra' => 
+      array (
+        'items' => '0|Aucune expérience
+1|Peu d\'expérience
+2|Expérience significative
+3|Un expert
+',
+        'multiple' => false,
+        'aslist' => true,
+        'empty_option' => '',
+        'optrand' => 0,
+        'other_option' => NULL,
+        'other_text' => 'Autre...',
+        'title_display' => 'before',
+        'description' => 'On parle ici de dimensionnement de poêle de masse au sein de l\'habitat, de la recherche de puissance par rapport au type d\'habitat... ',
+        'description_above' => false,
+        'custom_keys' => 1,
+        'options_source' => '',
+        'private' => 0,
+        'analysis' => true,
+        'value' => '1',
+        'css_classes' => '',
+        'wrapper_classes' => '',
+      ),
+      'required' => '1',
+      'weight' => '2',
+      'page_num' => 1,
+    ),
+    6 => 
+    array (
+      'nid' => 1204927,
+      'cid' => '6',
+      'pid' => '0',
+      'form_key' => 'nb_dimensionnement',
+      'name' => 'Nombre de dimensionnement à votre actif ?',
+      'type' => 'select',
+      'value' => '',
+      'extra' => 
+      array (
+        'items' => '0|Aucun
+1|Un seul, pour chez moi...
+2-10|Entre 2 et 10
+10-30|Entre 10 et 30
+Plus de 30
+',
+        'multiple' => false,
+        'aslist' => true,
+        'empty_option' => '',
+        'optrand' => 0,
+        'other_option' => NULL,
+        'other_text' => 'Autre...',
+        'title_display' => 'before',
+        'description' => '',
+        'description_above' => false,
+        'custom_keys' => 1,
+        'options_source' => '',
+        'private' => 0,
+        'analysis' => true,
+        'value' => '1',
+        'css_classes' => '',
+        'wrapper_classes' => '',
+      ),
+      'required' => '1',
+      'weight' => '3',
+      'page_num' => 1,
+    ),
+    8 => 
+    array (
+      'nid' => 1204927,
+      'cid' => '8',
+      'pid' => '0',
+      'form_key' => 'methode_pref',
+      'name' => 'Votre méthode privilégier pour le dimensionnement',
+      'type' => 'select',
+      'value' => '',
+      'extra' => 
+      array (
+        'items' => 'aucune|Aucune, c\'est un resentie dans la maison
+g|La méthode G
+ubat|La méthode Ubat (caculateur Oxa-libre ou autre)
+g-et-ubat|La méthode G et la méthode Ubat
+paroi|La méthode paroi par paroi (avec feuille de calcul ou logiciel)
+autre|Une autre méthode (a décrire dans le commentaire libre à la fin du questionnaire)
+Je ne sais pas|Je ne sais pas
+',
+        'multiple' => false,
+        'aslist' => true,
+        'empty_option' => '',
+        'optrand' => 0,
+        'other_option' => NULL,
+        'other_text' => 'Autre...',
+        'title_display' => 'before',
+        'description' => 'La méthode que vous employez le plus',
+        'description_above' => false,
+        'custom_keys' => 1,
+        'options_source' => '',
+        'private' => 0,
+        'analysis' => true,
+        'value' => '1',
+        'css_classes' => '',
+        'wrapper_classes' => '',
+      ),
+      'required' => '1',
+      'weight' => '4',
+      'page_num' => 1,
+    ),
+    10 => 
+    array (
+      'nid' => 1204927,
+      'cid' => '10',
+      'pid' => '0',
+      'form_key' => 'motiv_1',
+      'name' => 'Motivation pour la suite',
+      'type' => 'markup',
+      'value' => 'On passe à au dimensionnement... ',
+      'extra' => 
+      array (
+        'format' => 'plain_text',
+        'private' => false,
+        'display_on' => 'form',
+      ),
+      'required' => '0',
+      'weight' => '5',
+      'page_num' => 1,
+    ),
+    25 => 
+    array (
+      'nid' => 1204927,
+      'cid' => '25',
+      'pid' => '0',
+      'form_key' => 'new_1752330412720',
+      'name' => 'Saut de page',
+      'type' => 'pagebreak',
+      'value' => '',
+      'extra' => 
+      array (
+        'private' => false,
+        'next_page_label' => '',
+        'prev_page_label' => '',
+      ),
+      'required' => '0',
+      'weight' => '6',
+      'page_num' => 2,
+    ),
+    26 => 
+    array (
+      'nid' => 1204927,
+      'cid' => '26',
+      'pid' => '0',
+      'form_key' => 'new_1752330459441',
+      'name' => 'maison-paille-avec-serre-au-sud',
+      'type' => 'markup',
+      'value' => '<p><strong>Cas d\'étude N°1<strong><p>
+
+<p><strong>Maison paille avec serre au Sud</p></strong>
+<br />
+<p>Le projet se trouve à Rennes, la température de base est donnée pour -5°C (Zone C) selon la carte de la norme</span></p>
+
+<p><strong><span>Type de maison</span></strong></p><ul><li><p><span>Maison en paille neuve, plain-pied, 170 m²  </span></p><ul><li><p><span>Le mur Sud n&#39;est pas en botte de paille mais en Adobe avec une serre.</span></p></li></ul></li><li><p><span>Forme : rectangle 17,0 m × 10,0 m, hauteur sous plafond 3,00 m  </span></p></li></ul><p><strong><span>Parois</span></strong></p><ul><li><p><strong><span>Murs</span></strong><span> : 35 cm de bottes de paille (sauf Sud ou c&#39;est un simple mur d&#39;adobe acumulateur)  </span></p><ul><li><p><span>Sud (serre)   : 17,0 m × 3,0 m = </span><strong><span>51,0 m²</span></strong><span> (mur d’adobe - brique de terre crue - derrière la serre)  </span></p></li><li><p><span>Est           : 10,0 m × 3,0 m = </span><strong><span>30,0 m²</span></strong><span>  </span></p></li><li><p><span>Ouest         : 10,0 m × 3,0 m = </span><strong><span>30,0 m²</span></strong><span>  </span></p></li><li><p><span>Nord          : 17,0 m × 3,0 m = </span><strong><span>51,0 m²</span></strong><span>  </span></p></li></ul></li><li><p><strong><span>Toiture</span></strong><span> : 20 cm de laine de bois croisée + tuiles mécaniques, pente 30°  </span></p><ul><li><p><span>Surface ≃ 170 m² / cos 30° ≃ </span><strong><span>196,2 m²</span></strong><span>  </span></p></li></ul></li><li><p><strong><span>Plancher bas</span></strong><span> : plancher bois massif sur isolation Misapor 35 cm, </span><strong><span>170 m²</span></strong><span>  </span></p></li></ul><p><strong><span>Ouvertures</span></strong><span> (fenêtres uniquement — total ≃ 11,5 m²)</span></p><ul><li><p><span>Salon/Cuisine (Sud)    : 6,00 m² (3,00 m × 2,00 m) — bois triple vitrage (Uw : 1,0 W/m²·K)  </span></p></li><li><p><span>Chambre 1 (Est)        : 1,44 m² (1,20 m × 1,20 m) — bois triple vitrage (Uw : 1,1 W/m²·K)  </span></p></li><li><p><span>Chambre 2 (Ouest)      : 1,44 m² (1,20 m × 1,20 m) — bois triple vitrage (Uw : 1,1 W/m²·K)  </span></p></li><li><p><span>Chambre 3 (Nord)       : 1,44 m² (1,20 m × 1,20 m) — bois triple vitrage (Uw : 1,1 W/m²·K)  </span></p></li><li><p><span>Salle de bains         : 0,25 m² (0,50 m × 0,50 m) — bois double vitrage (Uw : 1,8 W/m²·K)  </span></p></li><li><p><span>Hall d’entrée (Est)    : 0,96 m² (0,80 m × 1,20 m) — bois double vitrage (Uw : 1,6 W/m²·K)  </span></p></li></ul></div></div>',
+      'extra' => 
+      array (
+        'format' => 'filtered_html',
+        'private' => false,
+        'display_on' => 'form',
+      ),
+      'required' => '0',
+      'weight' => '7',
+      'page_num' => 2,
+    ),
+    44 => 
+    array (
+      'nid' => 1204927,
+      'cid' => '44',
+      'pid' => '0',
+      'form_key' => 'g_paille',
+      'name' => 'Déterminer le G de cette maison en paille',
+      'type' => 'select',
+      'value' => '',
+      'extra' => 
+      array (
+        'items' => '0.22|Maison bio-climatique - G=0.22
+0.3|Maison très bien isolée - G=0.3
+0.4|Maison RT 2020 - G=0.4
+0.5|Maison RT 2012 - G=0.5
+0.8|Maison RT 2005 - G=0.8
+0.9|Maison RT 2000 - G=0.9
+1.1|Maison années 1980 - G=1.1
+1.3|Maison années 1970 - G=1.3
+1.5|Maison ancienne mur épais pas isolée - G=1.5
+1.6|Bâtiments années 1960 - G=1.6
+1.8|Bâtiments non isolé - G=1.8
+2.75|Veranda - G=2.75
+',
+        'multiple' => false,
+        'aslist' => true,
+        'empty_option' => '',
+        'optrand' => 0,
+        'other_option' => NULL,
+        'other_text' => 'Autre...',
+        'title_display' => 'before',
+        'description' => '',
+        'description_above' => false,
+        'custom_keys' => 1,
+        'options_source' => '',
+        'private' => 0,
+        'analysis' => true,
+        'value' => '1',
+        'css_classes' => '',
+        'wrapper_classes' => '',
+      ),
+      'required' => '0',
+      'weight' => '8',
+      'page_num' => 2,
+    ),
+    50 => 
+    array (
+      'nid' => 1204927,
+      'cid' => '50',
+      'pid' => '0',
+      'form_key' => 'new_1752671751550',
+      'name' => 'Correspondance G/Ubat  (pour les utilisateurs du Ubat)',
+      'type' => 'fieldset',
+      'value' => '',
+      'extra' => 
+      array (
+        'title_display' => 0,
+        'collapsible' => 1,
+        'collapsed' => 1,
+        'description' => '',
+        'description_above' => false,
+        'private' => 0,
+        'css_classes' => '',
+      ),
+      'required' => '0',
+      'weight' => '9',
+      'page_num' => 2,
+    ),
+    51 => 
+    array (
+      'nid' => 1204927,
+      'cid' => '51',
+      'pid' => '50',
+      'form_key' => 'new_1752671792583',
+      'name' => 'Nouveau champ "balisage"',
+      'type' => 'markup',
+      'value' => '<table class="table table-bordered table-striped">
+  <thead>
+    <tr>
+      <th>G (W/m²·K)</th>
+      <th>Ubat global approx. (W/m²·K)</th>
+      <th>Commentaire</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0.22</td>
+      <td>≈ 0.15</td>
+      <td>Maison passive</td>
+    </tr>
+    <tr>
+      <td>0.3</td>
+      <td>≈ 0.3</td>
+      <td>Très bien isolée</td>
+    </tr>
+    <tr>
+      <td>0.4</td>
+      <td>≈ 0.4</td>
+      <td>RT 2020 ou BBC</td>
+    </tr>
+    <tr>
+      <td>0.5</td>
+      <td>≈ 0.6</td>
+      <td>RT 2012</td>
+    </tr>
+    <tr>
+      <td>0.8</td>
+      <td>≈ 0.75 – 0.8</td>
+      <td>RT 2005</td>
+    </tr>
+    <tr>
+      <td>0.9</td>
+      <td>≈ 0.8 – 0.95</td>
+      <td>RT 2000</td>
+    </tr>
+    <tr>
+      <td>1.1</td>
+      <td>≈ 1.15</td>
+      <td>Maison années 1980</td>
+    </tr>
+    <tr>
+      <td>1.3</td>
+      <td>≈ 1.3 – 1.5</td>
+      <td>Maison années 1970</td>
+    </tr>
+    <tr>
+      <td>1.5</td>
+      <td>≈ 1.5 – 1.6</td>
+      <td>Maison ancienne non isolée</td>
+    </tr>
+    <tr>
+      <td>1.6</td>
+      <td>≈ 1.6 – 1.7</td>
+      <td>Bâtiments années 1960</td>
+    </tr>
+    <tr>
+      <td>1.8</td>
+      <td>≈ 1.8</td>
+      <td>Bâtiment non isolé, simple vitrage</td>
+    </tr>
+    <tr>
+      <td>2.75</td>
+      <td>> 2.5</td>
+      <td>Véranda</td>
+    </tr>
+  </tbody>
+</table>
+',
+      'extra' => 
+      array (
+        'format' => 'wysiwyg_user',
+        'private' => false,
+        'display_on' => 'form',
+      ),
+      'required' => '0',
+      'weight' => '0',
+      'page_num' => 2,
+    ),
+    27 => 
+    array (
+      'nid' => 1204927,
+      'cid' => '27',
+      'pid' => '0',
+      'form_key' => 'new_1752330739804',
+      'name' => 'Saut de page',
+      'type' => 'pagebreak',
+      'value' => '',
+      'extra' => 
+      array (
+        'private' => false,
+        'next_page_label' => '',
+        'prev_page_label' => '',
+      ),
+      'required' => '0',
+      'weight' => '10',
+      'page_num' => 3,
+    ),
+    28 => 
+    array (
+      'nid' => 1204927,
+      'cid' => '28',
+      'pid' => '0',
+      'form_key' => 'new_1752330742276',
+      'name' => 'rénovation-ancienne-bergerie',
+      'type' => 'markup',
+      'value' => '<p><strong>Cas d\'étude N°2<strong><p>
+
+<p><strong>Rénovation ancienne bergerie</p></strong>
+<br />
+<p><span>Le projet se trouve à Rennes, la température de base est donnée pour -5°C (Zone C) selon la carte de la norme </span></p>
+
+<p><strong><span>Type de maison</span></strong></p><ul><li><p><span>Rénovation d’une ancienne bergerie</span></p></li><li><p><span>Plain-pied, 100 m² au sol, 2,70m de hauteur sous plafond soit 270m3 de volume habitable </span></p></li></ul><p><strong><span>Parois</span></strong></p><ul><li><p><strong><span>Murs</span></strong><span> : 60 cm de pierre + 10 cm de chaux-chanvre</span></p><ul><li><p><span>Sud   : 10,0 m × 3,0 m = </span><strong><span>30,0 m²</span></strong><span>  </span></p></li><li><p><span>Est   : 10,0 m × 3,0 m = </span><strong><span>30,0 m²</span></strong><span>  </span></p></li><li><p><span>Ouest : 10,0 m × 3,0 m = </span><strong><span>30,0 m²</span></strong><span>  </span></p></li><li><p><span>Nord  : 10,0 m × 3,0 m = </span><strong><span>30,0 m²</span></strong><span>  </span></p></li></ul></li><li><p><strong><span>Toiture</span></strong><span> : 30 cm de laine de bois,  tuiles mécaniques, pente 45° (141,4 m²)  </span></p></li><li><p><strong><span>Plancher bas</span></strong><span> : dalle béton de 100m2</span></p></li></ul><p><strong><span>Ouvertures</span></strong><span> (fenêtres uniquement - total 7,32 m²)</span></p><ul><li><p><span>Salon / Cuisine (Sud) : 3 m² (2 m × 1,5 m) — PVC + double vitrage (Uw : 1,3 W/m²·K)</span></p></li><li><p><span>Chambre 1 : 1,44 m² (1,2 m × 1,2 m) — Bois + double vitrage (Uw : 1,6 W/m²·K)</span></p></li><li><p><span>Chambre 2 : 1,44 m² (1,2 m × 1,2 m) — Bois + double vitrage (Uw : 1,6 W/m²·K)</span></p></li><li><p><span>Chambre 3 : 1,44 m² (1,2 m × 1,2 m) — Bois + double vitrage (Uw : 1,6 W/m²·K)</span></p></li><li><p><span>Salle de bains : 0</span></p></li><li><p><span>WC : 0</span></p></li></ul></div>',
+      'extra' => 
+      array (
+        'format' => 'filtered_html',
+        'private' => false,
+        'display_on' => 'form',
+      ),
+      'required' => '0',
+      'weight' => '11',
+      'page_num' => 3,
+    ),
+    45 => 
+    array (
+      'nid' => 1204927,
+      'cid' => '45',
+      'pid' => '0',
+      'form_key' => 'g_bergerie',
+      'name' => 'Déterminer le G de cette rénovation de bergerie',
+      'type' => 'select',
+      'value' => '',
+      'extra' => 
+      array (
+        'items' => '0.22|Maison bio-climatique - G=0.22
+0.3|Maison très bien isolée - G=0.3
+0.4|Maison RT 2020 - G=0.4
+0.5|Maison RT 2012 - G=0.5
+0.8|Maison RT 2005 - G=0.8
+0.9|Maison RT 2000 - G=0.9
+1.1|Maison années 1980 - G=1.1
+1.3|Maison années 1970 - G=1.3
+1.5|Maison ancienne mur épais pas isolée - G=1.5
+1.6|Bâtiments années 1960 - G=1.6
+1.8|Bâtiments non isolé - G=1.8
+2.75|Veranda - G=2.75
+',
+        'multiple' => false,
+        'aslist' => true,
+        'empty_option' => '',
+        'optrand' => 0,
+        'other_option' => NULL,
+        'other_text' => 'Autre...',
+        'title_display' => 'before',
+        'description' => '',
+        'description_above' => false,
+        'custom_keys' => 1,
+        'options_source' => '',
+        'private' => 0,
+        'analysis' => true,
+        'value' => '1',
+        'css_classes' => '',
+        'wrapper_classes' => '',
+      ),
+      'required' => '0',
+      'weight' => '12',
+      'page_num' => 3,
+    ),
+    53 => 
+    array (
+      'nid' => 1204927,
+      'cid' => '53',
+      'pid' => '0',
+      'form_key' => 'new_1752672079928',
+      'name' => 'Correspondance G/Ubat  (pour les utilisateurs du Ubat)',
+      'type' => 'fieldset',
+      'value' => '',
+      'extra' => 
+      array (
+        'title_display' => 0,
+        'collapsible' => 1,
+        'collapsed' => 1,
+        'description' => '',
+        'description_above' => false,
+        'private' => 0,
+        'css_classes' => '',
+      ),
+      'required' => '0',
+      'weight' => '13',
+      'page_num' => 3,
+    ),
+    54 => 
+    array (
+      'nid' => 1204927,
+      'cid' => '54',
+      'pid' => '53',
+      'form_key' => 'new_1752672067617',
+      'name' => 'Nouveau champ "balisage"',
+      'type' => 'markup',
+      'value' => '<table class="table table-bordered table-striped">
+  <thead>
+    <tr>
+      <th>G (W/m²·K)</th>
+      <th>Ubat global approx. (W/m²·K)</th>
+      <th>Commentaire</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0.22</td>
+      <td>≈ 0.15</td>
+      <td>Maison passive</td>
+    </tr>
+    <tr>
+      <td>0.3</td>
+      <td>≈ 0.3</td>
+      <td>Très bien isolée</td>
+    </tr>
+    <tr>
+      <td>0.4</td>
+      <td>≈ 0.4</td>
+      <td>RT 2020 ou BBC</td>
+    </tr>
+    <tr>
+      <td>0.5</td>
+      <td>≈ 0.6</td>
+      <td>RT 2012</td>
+    </tr>
+    <tr>
+      <td>0.8</td>
+      <td>≈ 0.75 – 0.8</td>
+      <td>RT 2005</td>
+    </tr>
+    <tr>
+      <td>0.9</td>
+      <td>≈ 0.8 – 0.95</td>
+      <td>RT 2000</td>
+    </tr>
+    <tr>
+      <td>1.1</td>
+      <td>≈ 1.15</td>
+      <td>Maison années 1980</td>
+    </tr>
+    <tr>
+      <td>1.3</td>
+      <td>≈ 1.3 – 1.5</td>
+      <td>Maison années 1970</td>
+    </tr>
+    <tr>
+      <td>1.5</td>
+      <td>≈ 1.5 – 1.6</td>
+      <td>Maison ancienne non isolée</td>
+    </tr>
+    <tr>
+      <td>1.6</td>
+      <td>≈ 1.6 – 1.7</td>
+      <td>Bâtiments années 1960</td>
+    </tr>
+    <tr>
+      <td>1.8</td>
+      <td>≈ 1.8</td>
+      <td>Bâtiment non isolé, simple vitrage</td>
+    </tr>
+    <tr>
+      <td>2.75</td>
+      <td>> 2.5</td>
+      <td>Véranda</td>
+    </tr>
+  </tbody>
+</table>
+',
+      'extra' => 
+      array (
+        'format' => 'wysiwyg_user',
+        'private' => false,
+        'display_on' => 'form',
+      ),
+      'required' => '0',
+      'weight' => '0',
+      'page_num' => 3,
+    ),
+    29 => 
+    array (
+      'nid' => 1204927,
+      'cid' => '29',
+      'pid' => '0',
+      'form_key' => 'new_1752330963488',
+      'name' => 'Saut de page',
+      'type' => 'pagebreak',
+      'value' => '',
+      'extra' => 
+      array (
+        'private' => false,
+        'next_page_label' => '',
+        'prev_page_label' => '',
+      ),
+      'required' => '0',
+      'weight' => '14',
+      'page_num' => 4,
+    ),
+    30 => 
+    array (
+      'nid' => 1204927,
+      'cid' => '30',
+      'pid' => '0',
+      'form_key' => 'new_1752330965935',
+      'name' => 'rénovation-ite',
+      'type' => 'markup',
+      'value' => '<p><strong>Cas d\'étude N°3<strong><p>
+
+<p><strong>Rénovation ITE</p></strong>
+<br />
+<p><span>Le projet se trouve à Rennes, la température de base est donnée pour -5°C (Zone C) selon la carte de la norme</span></p>
+
+<p><strong><span>Type de maison</span></strong></p><ul><li><p><span>Rénovation en pierre, ITE (isolation par l&#39;extérieur) 130 m², plain-pied  </span></p></li><li><p><span>Forme : rectangle 13,0 m × 10,0 m, hauteur sous plafond 2,70 m  </span></p></li></ul><p><strong><span>Parois</span></strong></p><ul><li><p><strong><span>Murs</span></strong><span> : 14 cm d’isolant bois type Steco + bardage bois  </span></p><ul><li><p><span>Sud   : 13,0 m × 2,7 m = </span><strong><span>35,1 m²</span></strong><span>  </span></p></li><li><p><span>Est   : 10,0 m × 2,7 m = </span><strong><span>27,0 m²</span></strong><span>  </span></p></li><li><p><span>Ouest : 10,0 m × 2,7 m = </span><strong><span>27,0 m²</span></strong><span>  </span></p></li><li><p><span>Nord  : 13,0 m × 2,7 m = </span><strong><span>35,1 m²</span></strong><span>  </span></p></li></ul></li><li><p><strong><span>Toiture</span></strong><span> : 30 cm de laine de bois + tuiles mécaniques, pente 30°  </span></p><ul><li><p><span>Surface ≃ 130 m² / cos 30° ≃ </span><strong><span>150,1 m²</span></strong><span>  </span></p></li></ul></li><li><p><strong><span>Plancher bas</span></strong><span> : dalle béton non isolée, </span><strong><span>130 m²</span></strong><span>  </span></p></li></ul><p><strong><span>Ouvertures</span></strong><span> (fenêtres uniquement — total ≃ 10,7 m²)</span></p><ul><li><p><span>Séjour (Sud)             : 6,00 m² (3,00 m × 2,00 m) — alu/bois + triple vitrage (Uw : 1,1 W/m²·K)  </span></p></li><li><p><span>Cuisine (Est)            : 1,44 m² (1,20 m × 1,20 m) — alu/bois + triple vitrage (Uw : 1,1 W/m²·K)  </span></p></li><li><p><span>Chambre 1 (Sud-Ouest)    : 1,44 m² (1,20 m × 1,20 m) — bois + double vitrage (Uw : 1,6 W/m²·K)  </span></p></li><li><p><span>Chambre 2 (Nord)         : 1,44 m² (1,20 m × 1,20 m) — bois + double vitrage (Uw : 1,6 W/m²·K)  </span></p></li><li><p><span>Chambre 3 (Ouest)        : 1,44 m² (1,20 m × 1,20 m) — bois + double vitrage (Uw : 1,6 W/m²·K)  </span></p></li><li><p><span>Salle de bains (Est)      : 0,36 m² (0,60 m × 0,60 m) — bois + double vitrage (Uw : 1,8 W/m²·K)  </span></p></li></ul></div>',
+      'extra' => 
+      array (
+        'format' => 'filtered_html',
+        'private' => false,
+        'display_on' => 'form',
+      ),
+      'required' => '0',
+      'weight' => '15',
+      'page_num' => 4,
+    ),
+    46 => 
+    array (
+      'nid' => 1204927,
+      'cid' => '46',
+      'pid' => '0',
+      'form_key' => 'g_ite',
+      'name' => 'Déterminer le G de cette rénovation ITE',
+      'type' => 'select',
+      'value' => '',
+      'extra' => 
+      array (
+        'items' => '0.22|Maison bio-climatique - G=0.22
+0.3|Maison très bien isolée - G=0.3
+0.4|Maison RT 2020 - G=0.4
+0.5|Maison RT 2012 - G=0.5
+0.8|Maison RT 2005 - G=0.8
+0.9|Maison RT 2000 - G=0.9
+1.1|Maison années 1980 - G=1.1
+1.3|Maison années 1970 - G=1.3
+1.5|Maison ancienne mur épais pas isolée - G=1.5
+1.6|Bâtiments années 1960 - G=1.6
+1.8|Bâtiments non isolé - G=1.8
+2.75|Veranda - G=2.75
+',
+        'multiple' => false,
+        'aslist' => true,
+        'empty_option' => '',
+        'optrand' => 0,
+        'other_option' => NULL,
+        'other_text' => 'Autre...',
+        'title_display' => 'before',
+        'description' => '',
+        'description_above' => false,
+        'custom_keys' => 1,
+        'options_source' => '',
+        'private' => 0,
+        'analysis' => true,
+        'value' => '1',
+        'css_classes' => '',
+        'wrapper_classes' => '',
+      ),
+      'required' => '0',
+      'weight' => '16',
+      'page_num' => 4,
+    ),
+    55 => 
+    array (
+      'nid' => 1204927,
+      'cid' => '55',
+      'pid' => '0',
+      'form_key' => 'new_1752672132285',
+      'name' => 'Correspondance G/Ubat  (pour les utilisateurs du Ubat)',
+      'type' => 'fieldset',
+      'value' => '',
+      'extra' => 
+      array (
+        'title_display' => 0,
+        'collapsible' => 1,
+        'collapsed' => 1,
+        'description' => '',
+        'description_above' => false,
+        'private' => 0,
+        'css_classes' => '',
+      ),
+      'required' => '0',
+      'weight' => '17',
+      'page_num' => 4,
+    ),
+    56 => 
+    array (
+      'nid' => 1204927,
+      'cid' => '56',
+      'pid' => '55',
+      'form_key' => 'new_1752672248281',
+      'name' => 'Nouveau champ "balisage"',
+      'type' => 'markup',
+      'value' => '<table class="table table-bordered table-striped">
+  <thead>
+    <tr>
+      <th>G (W/m²·K)</th>
+      <th>Ubat global approx. (W/m²·K)</th>
+      <th>Commentaire</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0.22</td>
+      <td>≈ 0.15</td>
+      <td>Maison passive</td>
+    </tr>
+    <tr>
+      <td>0.3</td>
+      <td>≈ 0.3</td>
+      <td>Très bien isolée</td>
+    </tr>
+    <tr>
+      <td>0.4</td>
+      <td>≈ 0.4</td>
+      <td>RT 2020 ou BBC</td>
+    </tr>
+    <tr>
+      <td>0.5</td>
+      <td>≈ 0.6</td>
+      <td>RT 2012</td>
+    </tr>
+    <tr>
+      <td>0.8</td>
+      <td>≈ 0.75 – 0.8</td>
+      <td>RT 2005</td>
+    </tr>
+    <tr>
+      <td>0.9</td>
+      <td>≈ 0.8 – 0.95</td>
+      <td>RT 2000</td>
+    </tr>
+    <tr>
+      <td>1.1</td>
+      <td>≈ 1.15</td>
+      <td>Maison années 1980</td>
+    </tr>
+    <tr>
+      <td>1.3</td>
+      <td>≈ 1.3 – 1.5</td>
+      <td>Maison années 1970</td>
+    </tr>
+    <tr>
+      <td>1.5</td>
+      <td>≈ 1.5 – 1.6</td>
+      <td>Maison ancienne non isolée</td>
+    </tr>
+    <tr>
+      <td>1.6</td>
+      <td>≈ 1.6 – 1.7</td>
+      <td>Bâtiments années 1960</td>
+    </tr>
+    <tr>
+      <td>1.8</td>
+      <td>≈ 1.8</td>
+      <td>Bâtiment non isolé, simple vitrage</td>
+    </tr>
+    <tr>
+      <td>2.75</td>
+      <td>> 2.5</td>
+      <td>Véranda</td>
+    </tr>
+  </tbody>
+</table>
+',
+      'extra' => 
+      array (
+        'format' => 'wysiwyg_user',
+        'private' => false,
+        'display_on' => 'form',
+      ),
+      'required' => '0',
+      'weight' => '0',
+      'page_num' => 4,
+    ),
+    31 => 
+    array (
+      'nid' => 1204927,
+      'cid' => '31',
+      'pid' => '0',
+      'form_key' => 'new_1752331214553',
+      'name' => 'Saut de page',
+      'type' => 'pagebreak',
+      'value' => '',
+      'extra' => 
+      array (
+        'private' => false,
+        'next_page_label' => '',
+        'prev_page_label' => '',
+      ),
+      'required' => '0',
+      'weight' => '18',
+      'page_num' => 5,
+    ),
+    32 => 
+    array (
+      'nid' => 1204927,
+      'cid' => '32',
+      'pid' => '0',
+      'form_key' => 'new_1752331216892',
+      'name' => 'rénovation-ite-isolé-au-sol',
+      'type' => 'markup',
+      'value' => '<p><strong>Cas d\'étude N°4<strong><p>
+
+<p><strong>Rénovation ITE isolé au sol</p></strong>
+<br />
+<p><span>Le projet se trouve à Rennes, la température de base est donnée pour -5°C (Zone C) selon la carte de la norme</span></p>
+
+<p><span>Tips : Même cas que précédent, &quot;Rénovation ITE&quot; mais avec une isolation au sol</span></p>
+
+<p><strong><span>Type de maison</span></strong></p><ul><li><p><span>Rénovation en pierre, ITE (isolation par l&#39;extérieur) 130 m², plain-pied  </span></p></li><li><p><span>Forme : rectangle 13,0 m × 10,0 m, hauteur sous plafond 2,70 m  </span></p></li></ul><p><strong><span>Parois</span></strong></p><ul><li><p><strong><span>Murs</span></strong><span> : 14 cm d’isolant bois type Steco + bardage bois  </span></p><ul><li><p><span>Sud   : 13,0 m × 2,7 m = </span><strong><span>35,1 m²</span></strong><span>  </span></p></li><li><p><span>Est   : 10,0 m × 2,7 m = </span><strong><span>27,0 m²</span></strong><span>  </span></p></li><li><p><span>Ouest : 10,0 m × 2,7 m = </span><strong><span>27,0 m²</span></strong><span>  </span></p></li><li><p><span>Nord  : 13,0 m × 2,7 m = </span><strong><span>35,1 m²</span></strong><span>  </span></p></li></ul></li><li><p><strong><span>Toiture</span></strong><span> : 30 cm de laine de bois + tuiles mécaniques, pente 30°  </span></p><ul><li><p><span>Surface ≃ 130 m² / cos 30° ≃ </span><strong><span>150,1 m²</span></strong><span>  </span></p></li></ul></li><li><p><strong><span>Plancher bas</span></strong><span> : 10cm de liège en vrac entre solive</span></p></li></ul><p><strong><span>Ouvertures</span></strong><span> (fenêtres uniquement — total ≃ 10,7 m²)</span></p><ul><li><p><span>Séjour (Sud)             : 6,00 m² (3,00 m × 2,00 m) — alu/bois + triple vitrage (Uw : 1,1 W/m²·K)  </span></p></li><li><p><span>Cuisine (Est)            : 1,44 m² (1,20 m × 1,20 m) — alu/bois + triple vitrage (Uw : 1,1 W/m²·K)  </span></p></li><li><p><span>Chambre 1 (Sud-Ouest)    : 1,44 m² (1,20 m × 1,20 m) — bois + double vitrage (Uw : 1,6 W/m²·K)  </span></p></li><li><p><span>Chambre 2 (Nord)         : 1,44 m² (1,20 m × 1,20 m) — bois + double vitrage (Uw : 1,6 W/m²·K)  </span></p></li><li><p><span>Chambre 3 (Ouest)        : 1,44 m² (1,20 m × 1,20 m) — bois + double vitrage (Uw : 1,6 W/m²·K)  </span></p></li><li><p><span>Salle de bains (Est)      : 0,36 m² (0,60 m × 0,60 m) — bois + double vitrage (Uw : 1,8 W/m²·K)  </span></p></li></ul></div>',
+      'extra' => 
+      array (
+        'format' => 'filtered_html',
+        'private' => false,
+        'display_on' => 'form',
+      ),
+      'required' => '0',
+      'weight' => '19',
+      'page_num' => 5,
+    ),
+    47 => 
+    array (
+      'nid' => 1204927,
+      'cid' => '47',
+      'pid' => '0',
+      'form_key' => 'g_iteisolesol',
+      'name' => 'Déterminer le G de cette rénovation ITE + isolation au sol',
+      'type' => 'select',
+      'value' => '',
+      'extra' => 
+      array (
+        'items' => '0.22|Maison bio-climatique - G=0.22
+0.3|Maison très bien isolée - G=0.3
+0.4|Maison RT 2020 - G=0.4
+0.5|Maison RT 2012 - G=0.5
+0.8|Maison RT 2005 - G=0.8
+0.9|Maison RT 2000 - G=0.9
+1.1|Maison années 1980 - G=1.1
+1.3|Maison années 1970 - G=1.3
+1.5|Maison ancienne mur épais pas isolée - G=1.5
+1.6|Bâtiments années 1960 - G=1.6
+1.8|Bâtiments non isolé - G=1.8
+2.75|Veranda - G=2.75
+',
+        'multiple' => false,
+        'aslist' => true,
+        'empty_option' => '',
+        'optrand' => 0,
+        'other_option' => NULL,
+        'other_text' => 'Autre...',
+        'title_display' => 'before',
+        'description' => '',
+        'description_above' => false,
+        'custom_keys' => 1,
+        'options_source' => '',
+        'private' => 0,
+        'analysis' => true,
+        'value' => '1',
+        'css_classes' => '',
+        'wrapper_classes' => '',
+      ),
+      'required' => '0',
+      'weight' => '20',
+      'page_num' => 5,
+    ),
+    57 => 
+    array (
+      'nid' => 1204927,
+      'cid' => '57',
+      'pid' => '0',
+      'form_key' => 'new_1752672147163',
+      'name' => 'Correspondance G/Ubat  (pour les utilisateurs du Ubat)',
+      'type' => 'fieldset',
+      'value' => '',
+      'extra' => 
+      array (
+        'title_display' => 0,
+        'collapsible' => 0,
+        'collapsed' => 0,
+        'description' => '',
+        'description_above' => false,
+        'private' => 0,
+        'css_classes' => '',
+      ),
+      'required' => '0',
+      'weight' => '21',
+      'page_num' => 5,
+    ),
+    58 => 
+    array (
+      'nid' => 1204927,
+      'cid' => '58',
+      'pid' => '57',
+      'form_key' => 'new_1752672263301',
+      'name' => 'Nouveau champ "balisage"',
+      'type' => 'markup',
+      'value' => '<table class="table table-bordered table-striped">
+  <thead>
+    <tr>
+      <th>G (W/m²·K)</th>
+      <th>Ubat global approx. (W/m²·K)</th>
+      <th>Commentaire</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0.22</td>
+      <td>≈ 0.15</td>
+      <td>Maison passive</td>
+    </tr>
+    <tr>
+      <td>0.3</td>
+      <td>≈ 0.3</td>
+      <td>Très bien isolée</td>
+    </tr>
+    <tr>
+      <td>0.4</td>
+      <td>≈ 0.4</td>
+      <td>RT 2020 ou BBC</td>
+    </tr>
+    <tr>
+      <td>0.5</td>
+      <td>≈ 0.6</td>
+      <td>RT 2012</td>
+    </tr>
+    <tr>
+      <td>0.8</td>
+      <td>≈ 0.75 – 0.8</td>
+      <td>RT 2005</td>
+    </tr>
+    <tr>
+      <td>0.9</td>
+      <td>≈ 0.8 – 0.95</td>
+      <td>RT 2000</td>
+    </tr>
+    <tr>
+      <td>1.1</td>
+      <td>≈ 1.15</td>
+      <td>Maison années 1980</td>
+    </tr>
+    <tr>
+      <td>1.3</td>
+      <td>≈ 1.3 – 1.5</td>
+      <td>Maison années 1970</td>
+    </tr>
+    <tr>
+      <td>1.5</td>
+      <td>≈ 1.5 – 1.6</td>
+      <td>Maison ancienne non isolée</td>
+    </tr>
+    <tr>
+      <td>1.6</td>
+      <td>≈ 1.6 – 1.7</td>
+      <td>Bâtiments années 1960</td>
+    </tr>
+    <tr>
+      <td>1.8</td>
+      <td>≈ 1.8</td>
+      <td>Bâtiment non isolé, simple vitrage</td>
+    </tr>
+    <tr>
+      <td>2.75</td>
+      <td>> 2.5</td>
+      <td>Véranda</td>
+    </tr>
+  </tbody>
+</table>
+',
+      'extra' => 
+      array (
+        'format' => 'wysiwyg_user',
+        'private' => false,
+        'display_on' => 'form',
+      ),
+      'required' => '0',
+      'weight' => '0',
+      'page_num' => 5,
+    ),
+    11 => 
+    array (
+      'nid' => 1204927,
+      'cid' => '11',
+      'pid' => '0',
+      'form_key' => 'new_1750065261400',
+      'name' => 'Saut de page',
+      'type' => 'pagebreak',
+      'value' => '',
+      'extra' => 
+      array (
+        'private' => false,
+        'next_page_label' => '',
+        'prev_page_label' => '',
+      ),
+      'required' => '0',
+      'weight' => '22',
+      'page_num' => 6,
+    ),
+    33 => 
+    array (
+      'nid' => 1204927,
+      'cid' => '33',
+      'pid' => '0',
+      'form_key' => 'new_1752331296889',
+      'name' => 'rénovation-iti-avec-étage',
+      'type' => 'markup',
+      'value' => '<p><strong>Cas d\'étude N°5<strong><p>
+
+<p><strong>Rénovation ITI avec étage</p></strong>
+<br />
+<p><span>Le projet se trouve à Rennes, la température de base est donnée pour -5°C (Zone C) selon la carte de la norme</span></p>
+
+<p><strong><span>Type de maison</span></strong></p><ul><li><p><span>Rénovation en pierre avec isolation par l’intérieur (ITI)  </span></p></li><li><p><span>2 niveaux, 60 m² au sol par niveau (120 m² chauffés), HSP 2,50 m  </span></p></li></ul><p><strong><span>Parois</span></strong></p><ul><li><p><strong><span>Murs</span></strong><span> : 60 cm de pierre + 15 cm de laine de verre + placo  </span></p><ul><li><p><span>Sud   : 10,0 m × 5,0 m = </span><strong><span>50,0 m²</span></strong><span>  </span></p></li><li><p><span>Est   :  6,0 m × 5,0 m = </span><strong><span>30,0 m²</span></strong><span>  </span></p></li><li><p><span>Ouest :  6,0 m × 5,0 m = </span><strong><span>30,0 m²</span></strong><span>  </span></p></li><li><p><span>Nord  : 10,0 m × 5,0 m = </span><strong><span>50,0 m²</span></strong><span>  </span></p></li></ul></li><li><p><strong><span>Toiture</span></strong><span> : 20 cm de laine de verre, pente 45°  </span></p><ul><li><p><span>Surface ≃ 60 m² / cos 45° ≃ </span><strong><span>84,9 m²</span></strong><span>  </span></p></li></ul></li><li><p><strong><span>Plancher bas</span></strong><span> : dalle béton de </span><strong><span>60 m²</span></strong><span>  </span></p></li><li><p><strong><span>Plancher intermédiaire</span></strong><span> : hourdis béton sur poutrelles (20 cm), </span><strong><span>60 m²</span></strong><span>  </span></p><blockquote><p><span>Liaison hourdis–mur pierre sans rupteur thermique  </span></p></blockquote></li><li><p><strong><span>Ouvertures</span></strong><span> (fenêtres uniquement — total ≃ 8,93 m²)</span></p><ul><li><p><strong><span>Rez-de-chaussée</span></strong><span>  </span></p><ul><li><p><span>Séjour (Sud)               : 3,00 m² (2,00 × 1,50 m) — PVC + double vitrage (Uw : 1,6 W/m²·K)  </span></p></li><li><p><span>Cuisine (Est)              : 1,00 m² (1,00 × 1,00 m) — PVC + double vitrage (Uw : 1,6 W/m²·K)  </span></p></li><li><p><span>Chambre parentale (Ouest)  : 1,44 m² (1,20 × 1,20 m) — Bois + double vitrage (Uw : 1,6 W/m²·K)  </span></p></li><li><p><span>Scellier (Nord)            : 0,25 m² (0,50 × 0,50 m) — Bois + double vitrage (Uw : 1,8 W/m²·K)  </span></p></li></ul></li><li><p><strong><span>1er étage</span></strong><span>  </span></p><ul><li><p><span>Chambre 1 (Nord)           : 1,44 m² (1,20 × 1,20 m) — Bois + double vitrage (Uw : 1,6 W/m²·K)  </span></p></li><li><p><span>Chambre 2 (Ouest)          : 1,44 m² (1,20 × 1,20 m) — Bois + double vitrage (Uw : 1,6 W/m²·K)  </span></p></li><li><p><span>Salle de bains (Est)        : 0,36 m² (0,60 × 0,60 m) — Bois + double vitrage (Uw : 1,8 W/m²·K)  </span></p></li></ul></li></ul></li></ul></div>',
+      'extra' => 
+      array (
+        'format' => 'filtered_html',
+        'private' => false,
+        'display_on' => 'form',
+      ),
+      'required' => '0',
+      'weight' => '23',
+      'page_num' => 6,
+    ),
+    48 => 
+    array (
+      'nid' => 1204927,
+      'cid' => '48',
+      'pid' => '0',
+      'form_key' => 'g_itiavecetage',
+      'name' => 'Déterminer le G de cette rénovation ITI avec étage',
+      'type' => 'select',
+      'value' => '',
+      'extra' => 
+      array (
+        'items' => '0.22|Maison bio-climatique - G=0.22
+0.3|Maison très bien isolée - G=0.3
+0.4|Maison RT 2020 - G=0.4
+0.5|Maison RT 2012 - G=0.5
+0.8|Maison RT 2005 - G=0.8
+0.9|Maison RT 2000 - G=0.9
+1.1|Maison années 1980 - G=1.1
+1.3|Maison années 1970 - G=1.3
+1.5|Maison ancienne mur épais pas isolée - G=1.5
+1.6|Bâtiments années 1960 - G=1.6
+1.8|Bâtiments non isolé - G=1.8
+2.75|Veranda - G=2.75
+',
+        'multiple' => false,
+        'aslist' => true,
+        'empty_option' => '',
+        'optrand' => 0,
+        'other_option' => NULL,
+        'other_text' => 'Autre...',
+        'title_display' => 'before',
+        'description' => '',
+        'description_above' => false,
+        'custom_keys' => 1,
+        'options_source' => '',
+        'private' => 0,
+        'analysis' => true,
+        'value' => '1',
+        'css_classes' => '',
+        'wrapper_classes' => '',
+      ),
+      'required' => '0',
+      'weight' => '24',
+      'page_num' => 6,
+    ),
+    59 => 
+    array (
+      'nid' => 1204927,
+      'cid' => '59',
+      'pid' => '0',
+      'form_key' => 'new_1752672156775',
+      'name' => 'Correspondance G/Ubat  (pour les utilisateurs du Ubat)',
+      'type' => 'fieldset',
+      'value' => '',
+      'extra' => 
+      array (
+        'title_display' => 0,
+        'collapsible' => 0,
+        'collapsed' => 0,
+        'description' => '',
+        'description_above' => false,
+        'private' => 0,
+        'css_classes' => '',
+      ),
+      'required' => '0',
+      'weight' => '25',
+      'page_num' => 6,
+    ),
+    60 => 
+    array (
+      'nid' => 1204927,
+      'cid' => '60',
+      'pid' => '59',
+      'form_key' => 'new_1752672274174',
+      'name' => 'Nouveau champ "balisage"',
+      'type' => 'markup',
+      'value' => '<table class="table table-bordered table-striped">
+  <thead>
+    <tr>
+      <th>G (W/m²·K)</th>
+      <th>Ubat global approx. (W/m²·K)</th>
+      <th>Commentaire</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0.22</td>
+      <td>≈ 0.15</td>
+      <td>Maison passive</td>
+    </tr>
+    <tr>
+      <td>0.3</td>
+      <td>≈ 0.3</td>
+      <td>Très bien isolée</td>
+    </tr>
+    <tr>
+      <td>0.4</td>
+      <td>≈ 0.4</td>
+      <td>RT 2020 ou BBC</td>
+    </tr>
+    <tr>
+      <td>0.5</td>
+      <td>≈ 0.6</td>
+      <td>RT 2012</td>
+    </tr>
+    <tr>
+      <td>0.8</td>
+      <td>≈ 0.75 – 0.8</td>
+      <td>RT 2005</td>
+    </tr>
+    <tr>
+      <td>0.9</td>
+      <td>≈ 0.8 – 0.95</td>
+      <td>RT 2000</td>
+    </tr>
+    <tr>
+      <td>1.1</td>
+      <td>≈ 1.15</td>
+      <td>Maison années 1980</td>
+    </tr>
+    <tr>
+      <td>1.3</td>
+      <td>≈ 1.3 – 1.5</td>
+      <td>Maison années 1970</td>
+    </tr>
+    <tr>
+      <td>1.5</td>
+      <td>≈ 1.5 – 1.6</td>
+      <td>Maison ancienne non isolée</td>
+    </tr>
+    <tr>
+      <td>1.6</td>
+      <td>≈ 1.6 – 1.7</td>
+      <td>Bâtiments années 1960</td>
+    </tr>
+    <tr>
+      <td>1.8</td>
+      <td>≈ 1.8</td>
+      <td>Bâtiment non isolé, simple vitrage</td>
+    </tr>
+    <tr>
+      <td>2.75</td>
+      <td>> 2.5</td>
+      <td>Véranda</td>
+    </tr>
+  </tbody>
+</table>
+',
+      'extra' => 
+      array (
+        'format' => 'wysiwyg_user',
+        'private' => false,
+        'display_on' => 'form',
+      ),
+      'required' => '0',
+      'weight' => '0',
+      'page_num' => 6,
+    ),
+    37 => 
+    array (
+      'nid' => 1204927,
+      'cid' => '37',
+      'pid' => '0',
+      'form_key' => 'new_1752331803014',
+      'name' => 'Saut de page',
+      'type' => 'pagebreak',
+      'value' => '',
+      'extra' => 
+      array (
+        'private' => false,
+        'next_page_label' => '',
+        'prev_page_label' => '',
+      ),
+      'required' => '0',
+      'weight' => '26',
+      'page_num' => 7,
+    ),
+    38 => 
+    array (
+      'nid' => 1204927,
+      'cid' => '38',
+      'pid' => '0',
+      'form_key' => 'new_1752331800496',
+      'name' => 'rénovation-maison-de-bourg-avec-mitoyenneté',
+      'type' => 'markup',
+      'value' => '<p><strong>Cas d\'étude N°6<strong><p>
+
+<p><strong>Rénovation maison de bourg avec Mitoyenneté</p></strong>
+<br />
+<p><span>Le projet se trouve à Rennes, la température de base est donnée pour -5°C (Zone C) selon la carte de la norme</span></p><ul><li>
+
+<p><strong><span>Type de maison</span></strong></p><ul><li><p><span>Rénovation d’une maison de ville sur 2 niveaux, 70 m² au sol (2 × 70 = 140 m² chauffés), hauteur sous plafond 2,50 m  </span></p></li><li><p><span>Forme : rectangle 5,0 m (façade Sud/Nord) × 14,0 m (profondeur)  </span></p></li></ul><p><strong><span>Parois</span></strong></p><ul><li><p><strong><span>Murs</span></strong><span> : 60 cm de pierre + 10 cm de chaux-chanvre  </span></p><ul><li><p><span>Sud   : 5,0 m × 5,0 m = </span><strong><span>25,0 m²</span></strong><span>  </span></p></li><li><p><span>Est   : 14,0 m × 5,0 m = </span><strong><span>70,0 m²</span></strong><span> (mitoyen, non isolé)  </span></p></li><li><p><span>Ouest : 14,0 m × 5,0 m = </span><strong><span>70,0 m²</span></strong><span> (mitoyen, non isolé)  </span></p></li><li><p><span>Nord  : 5,0 m × 5,0 m = </span><strong><span>25,0 m²</span></strong><span>  </span></p></li></ul></li><li><p><strong><span>Toiture (plafond rampant)</span></strong><span> : charpente + 30 cm de laine de bois, pente 45°  </span></p><ul><li><p><span>Surface réelle ≃ 70 m² / cos 45° ≃ </span><strong><span>99,0 m²</span></strong><span>  </span></p></li></ul></li><li><p><strong><span>Plancher bas</span></strong><span> : dalle béton de </span><strong><span>70 m²</span></strong><span>  </span></p></li><li><p><strong><span>Plancher intermédiaire</span></strong><span> : bois </span><strong><span>70 m²</span></strong><span>  </span></p></li></ul><p><strong><span>Ouvertures</span></strong><span> (fenêtres uniquement — total ≃ 8,60 m²)</span></p><ul><li><p><strong><span>Rez-de-chaussée</span></strong><span>  </span></p><ul><li><p><span>Séjour (Sud)             : 4,40 m² (2,00 m × 2,20 m) — PVC + double vitrage (Uw : 1,6 W/m²·K)  </span></p></li><li><p><span>Cuisine / Entrée (Nord)  : 1,20 m² (1,00 m × 1,20 m) — PVC + double vitrage (Uw : 1,6 W/m²·K)  </span></p></li></ul></li><li><p><strong><span>1er étage</span></strong><span>  </span></p><ul><li><p><span>Chambre 1 (Sud)          : 1,44 m² (1,20 m × 1,20 m) — Bois + double vitrage (Uw : 1,6 W/m²·K)  </span></p></li><li><p><span>Chambre 2 (Nord)         : 1,20 m² (1,00 m × 1,20 m) — Bois + double vitrage (Uw : 1,6 W/m²·K)  </span></p></li><li><p><span>Salle de bains (Nord)    : 0,36 m² (0,60 m × 0,60 m) — Bois + double vitrage (Uw : 1,8 W/m²·K)  </span></p></li></ul></li></ul></li></ul></div></div>',
+      'extra' => 
+      array (
+        'format' => 'filtered_html',
+        'private' => false,
+        'display_on' => 'form',
+      ),
+      'required' => '0',
+      'weight' => '27',
+      'page_num' => 7,
+    ),
+    42 => 
+    array (
+      'nid' => 1204927,
+      'cid' => '42',
+      'pid' => '0',
+      'form_key' => 'g_bourgmitoy',
+      'name' => 'Déterminer le G de cette maison de bourg avec mitoyenneté',
+      'type' => 'select',
+      'value' => '',
+      'extra' => 
+      array (
+        'items' => '0.22|Maison bio-climatique - G=0.22
+0.3|Maison très bien isolée - G=0.3
+0.4|Maison RT 2020 - G=0.4
+0.5|Maison RT 2012 - G=0.5
+0.8|Maison RT 2005 - G=0.8
+0.9|Maison RT 2000 - G=0.9
+1.1|Maison années 1980 - G=1.1
+1.3|Maison années 1970 - G=1.3
+1.5|Maison ancienne mur épais pas isolée - G=1.5
+1.6|Bâtiments années 1960 - G=1.6
+1.8|Bâtiments non isolé - G=1.8
+2.75|Veranda - G=2.75
+',
+        'multiple' => false,
+        'aslist' => true,
+        'empty_option' => '',
+        'optrand' => 0,
+        'other_option' => NULL,
+        'other_text' => 'Autre...',
+        'title_display' => 'before',
+        'description' => '',
+        'description_above' => false,
+        'custom_keys' => 1,
+        'options_source' => '',
+        'private' => 0,
+        'analysis' => true,
+        'value' => '1',
+        'css_classes' => '',
+        'wrapper_classes' => '',
+      ),
+      'required' => '0',
+      'weight' => '28',
+      'page_num' => 7,
+    ),
+    61 => 
+    array (
+      'nid' => 1204927,
+      'cid' => '61',
+      'pid' => '0',
+      'form_key' => 'new_1752672168450',
+      'name' => 'Correspondance G/Ubat  (pour les utilisateurs du Ubat)',
+      'type' => 'fieldset',
+      'value' => '',
+      'extra' => 
+      array (
+        'title_display' => 0,
+        'collapsible' => 0,
+        'collapsed' => 0,
+        'description' => '',
+        'description_above' => false,
+        'private' => 0,
+        'css_classes' => '',
+      ),
+      'required' => '0',
+      'weight' => '29',
+      'page_num' => 7,
+    ),
+    62 => 
+    array (
+      'nid' => 1204927,
+      'cid' => '62',
+      'pid' => '61',
+      'form_key' => 'new_1752672284657',
+      'name' => 'Nouveau champ "balisage"',
+      'type' => 'markup',
+      'value' => '<table class="table table-bordered table-striped">
+  <thead>
+    <tr>
+      <th>G (W/m²·K)</th>
+      <th>Ubat global approx. (W/m²·K)</th>
+      <th>Commentaire</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0.22</td>
+      <td>≈ 0.15</td>
+      <td>Maison passive</td>
+    </tr>
+    <tr>
+      <td>0.3</td>
+      <td>≈ 0.3</td>
+      <td>Très bien isolée</td>
+    </tr>
+    <tr>
+      <td>0.4</td>
+      <td>≈ 0.4</td>
+      <td>RT 2020 ou BBC</td>
+    </tr>
+    <tr>
+      <td>0.5</td>
+      <td>≈ 0.6</td>
+      <td>RT 2012</td>
+    </tr>
+    <tr>
+      <td>0.8</td>
+      <td>≈ 0.75 – 0.8</td>
+      <td>RT 2005</td>
+    </tr>
+    <tr>
+      <td>0.9</td>
+      <td>≈ 0.8 – 0.95</td>
+      <td>RT 2000</td>
+    </tr>
+    <tr>
+      <td>1.1</td>
+      <td>≈ 1.15</td>
+      <td>Maison années 1980</td>
+    </tr>
+    <tr>
+      <td>1.3</td>
+      <td>≈ 1.3 – 1.5</td>
+      <td>Maison années 1970</td>
+    </tr>
+    <tr>
+      <td>1.5</td>
+      <td>≈ 1.5 – 1.6</td>
+      <td>Maison ancienne non isolée</td>
+    </tr>
+    <tr>
+      <td>1.6</td>
+      <td>≈ 1.6 – 1.7</td>
+      <td>Bâtiments années 1960</td>
+    </tr>
+    <tr>
+      <td>1.8</td>
+      <td>≈ 1.8</td>
+      <td>Bâtiment non isolé, simple vitrage</td>
+    </tr>
+    <tr>
+      <td>2.75</td>
+      <td>> 2.5</td>
+      <td>Véranda</td>
+    </tr>
+  </tbody>
+</table>
+',
+      'extra' => 
+      array (
+        'format' => 'wysiwyg_user',
+        'private' => false,
+        'display_on' => 'form',
+      ),
+      'required' => '0',
+      'weight' => '0',
+      'page_num' => 7,
+    ),
+    34 => 
+    array (
+      'nid' => 1204927,
+      'cid' => '34',
+      'pid' => '0',
+      'form_key' => 'new_1752331294868',
+      'name' => 'Saut de page',
+      'type' => 'pagebreak',
+      'value' => '',
+      'extra' => 
+      array (
+        'private' => false,
+        'next_page_label' => '',
+        'prev_page_label' => '',
+      ),
+      'required' => '0',
+      'weight' => '30',
+      'page_num' => 8,
+    ),
+    39 => 
+    array (
+      'nid' => 1204927,
+      'cid' => '39',
+      'pid' => '0',
+      'form_key' => 'new_1752331934560',
+      'name' => 'maison-année-90\'',
+      'type' => 'markup',
+      'value' => '<p><strong>Cas d\'étude N°7<strong><p>
+
+<p><strong>Maison année 90</strong></p>
+<br />
+<p><span>Le projet se trouve à Rennes, la température de base est donnée pour -5°C (Zone C) selon la carte de la norme</span></p>
+
+<p><strong><span>Type de maison</span></strong></p><ul><li><p><span>Maison construite dans les années 90 en parpaings, plain-pied, 130 m²  </span></p></li><li><p><span>Forme : rectangle 13,0 m × 10,0 m, hauteur sous plafond 2,70 m  </span></p></li></ul><p><strong><span>Parois</span></strong></p><ul><li><p><strong><span>Murs</span></strong><span> : parpaing 20 cm + polystyrène expansé 4 cm + enduit plâtre 1,3 cm  </span></p><ul><li><p><span>Sud   : 13,0 m × 2,7 m = </span><strong><span>35,1 m²</span></strong><span>  </span></p></li><li><p><span>Est   : 10,0 m × 2,7 m = </span><strong><span>27,0 m²</span></strong><span>  </span></p></li><li><p><span>Ouest : 10,0 m × 2,7 m = </span><strong><span>27,0 m²</span></strong><span>  </span></p></li><li><p><span>Nord  : 13,0 m × 2,7 m = </span><strong><span>35,1 m²</span></strong><span>  </span></p></li></ul></li><li><p><strong><span>Toiture</span></strong><span> : 16 cm de laine de verre + 4 cm de polystyrène sous rampant, pente ~30°  </span></p><ul><li><p><span>Surface ≃ 130 m² / cos 30° ≃ </span><strong><span>150,1 m²</span></strong><span>  </span></p></li></ul></li><li><p><strong><span>Plancher bas</span></strong><span> : dalle béton non isolée, </span><strong><span>130 m²</span></strong><span>  </span></p></li></ul><p><strong><span>Ouvertures</span></strong><span> (fenêtres uniquement — total ≃ 9,57 m²)</span></p><ul><li><p><span>Séjour / Salle à manger (Sud) : 4,00 m² (2,00 × 2,00) — PVC + double vitrage (Uw : 2,9 W/m²·K)  </span></p></li><li><p><span>Cuisine (Est)                 : 1,00 m² (1,00 × 1,00) — PVC + double vitrage (Uw : 2,9 W/m²·K)  </span></p></li><li><p><span>Chambre 1 (Ouest)             : 1,44 m² (1,20 × 1,20) — PVC + double vitrage (Uw : 2,9 W/m²·K)  </span></p></li><li><p><span>Chambre 2 (Nord)              : 1,44 m² (1,20 × 1,20) — PVC + double vitrage (Uw : 2,9 W/m²·K)  </span></p></li><li><p><span>Chambre 3 (Est)               : 1,44 m² (1,20 × 1,20) — PVC + double vitrage (Uw : 2,9 W/m²·K)  </span></p></li><li><p><span>Salle de bains (Nord)          : 0,25 m² (0,50 × 0,50) — PVC + double vitrage (Uw : 2,9 W/m²·K)  </span></p></li></ul></div>',
+      'extra' => 
+      array (
+        'format' => 'filtered_html',
+        'private' => false,
+        'display_on' => 'form',
+      ),
+      'required' => '0',
+      'weight' => '31',
+      'page_num' => 8,
+    ),
+    23 => 
+    array (
+      'nid' => 1204927,
+      'cid' => '23',
+      'pid' => '0',
+      'form_key' => 'g_annequatrevingtdix',
+      'name' => 'Déterminer le G de cette maison des années 90',
+      'type' => 'select',
+      'value' => '',
+      'extra' => 
+      array (
+        'items' => '0.22|Maison bio-climatique - G=0.22
+0.3|Maison très bien isolée - G=0.3
+0.4|Maison RT 2020 - G=0.4
+0.5|Maison RT 2012 - G=0.5
+0.8|Maison RT 2005 - G=0.8
+0.9|Maison RT 2000 - G=0.9
+1.1|Maison années 1980 - G=1.1
+1.3|Maison années 1970 - G=1.3
+1.5|Maison ancienne mur épais pas isolée - G=1.5
+1.6|Bâtiments années 1960 - G=1.6
+1.8|Bâtiments non isolé - G=1.8
+2.75|Veranda - G=2.75
+',
+        'multiple' => false,
+        'aslist' => true,
+        'empty_option' => '',
+        'optrand' => 0,
+        'other_option' => NULL,
+        'other_text' => 'Autre...',
+        'title_display' => 'before',
+        'description' => '',
+        'description_above' => false,
+        'custom_keys' => 1,
+        'options_source' => '',
+        'private' => 0,
+        'analysis' => true,
+        'value' => '1',
+        'css_classes' => '',
+        'wrapper_classes' => '',
+      ),
+      'required' => '0',
+      'weight' => '32',
+      'page_num' => 8,
+    ),
+    63 => 
+    array (
+      'nid' => 1204927,
+      'cid' => '63',
+      'pid' => '0',
+      'form_key' => 'new_1752672177353',
+      'name' => 'Correspondance G/Ubat  (pour les utilisateurs du Ubat)',
+      'type' => 'fieldset',
+      'value' => '',
+      'extra' => 
+      array (
+        'title_display' => 0,
+        'collapsible' => 0,
+        'collapsed' => 0,
+        'description' => '',
+        'description_above' => false,
+        'private' => 0,
+        'css_classes' => '',
+      ),
+      'required' => '0',
+      'weight' => '33',
+      'page_num' => 8,
+    ),
+    64 => 
+    array (
+      'nid' => 1204927,
+      'cid' => '64',
+      'pid' => '63',
+      'form_key' => 'new_1752672293029',
+      'name' => 'Nouveau champ "balisage"',
+      'type' => 'markup',
+      'value' => '<table class="table table-bordered table-striped">
+  <thead>
+    <tr>
+      <th>G (W/m²·K)</th>
+      <th>Ubat global approx. (W/m²·K)</th>
+      <th>Commentaire</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0.22</td>
+      <td>≈ 0.15</td>
+      <td>Maison passive</td>
+    </tr>
+    <tr>
+      <td>0.3</td>
+      <td>≈ 0.3</td>
+      <td>Très bien isolée</td>
+    </tr>
+    <tr>
+      <td>0.4</td>
+      <td>≈ 0.4</td>
+      <td>RT 2020 ou BBC</td>
+    </tr>
+    <tr>
+      <td>0.5</td>
+      <td>≈ 0.6</td>
+      <td>RT 2012</td>
+    </tr>
+    <tr>
+      <td>0.8</td>
+      <td>≈ 0.75 – 0.8</td>
+      <td>RT 2005</td>
+    </tr>
+    <tr>
+      <td>0.9</td>
+      <td>≈ 0.8 – 0.95</td>
+      <td>RT 2000</td>
+    </tr>
+    <tr>
+      <td>1.1</td>
+      <td>≈ 1.15</td>
+      <td>Maison années 1980</td>
+    </tr>
+    <tr>
+      <td>1.3</td>
+      <td>≈ 1.3 – 1.5</td>
+      <td>Maison années 1970</td>
+    </tr>
+    <tr>
+      <td>1.5</td>
+      <td>≈ 1.5 – 1.6</td>
+      <td>Maison ancienne non isolée</td>
+    </tr>
+    <tr>
+      <td>1.6</td>
+      <td>≈ 1.6 – 1.7</td>
+      <td>Bâtiments années 1960</td>
+    </tr>
+    <tr>
+      <td>1.8</td>
+      <td>≈ 1.8</td>
+      <td>Bâtiment non isolé, simple vitrage</td>
+    </tr>
+    <tr>
+      <td>2.75</td>
+      <td>> 2.5</td>
+      <td>Véranda</td>
+    </tr>
+  </tbody>
+</table>
+',
+      'extra' => 
+      array (
+        'format' => 'wysiwyg_user',
+        'private' => false,
+        'display_on' => 'form',
+      ),
+      'required' => '0',
+      'weight' => '0',
+      'page_num' => 8,
+    ),
+    40 => 
+    array (
+      'nid' => 1204927,
+      'cid' => '40',
+      'pid' => '0',
+      'form_key' => 'new_1752331937721',
+      'name' => 'Saut de page',
+      'type' => 'pagebreak',
+      'value' => '',
+      'extra' => 
+      array (
+        'private' => false,
+        'next_page_label' => '',
+        'prev_page_label' => '',
+      ),
+      'required' => '0',
+      'weight' => '34',
+      'page_num' => 9,
+    ),
+    13 => 
+    array (
+      'nid' => 1204927,
+      'cid' => '13',
+      'pid' => '0',
+      'form_key' => 'new_1750065416341',
+      'name' => 'chalet',
+      'type' => 'markup',
+      'value' => '<p><strong>Cas d\'étude N°8<strong><p>
+
+<p><strong>Chalet type fuste</strong></p>
+<br />
+<p><strong><span>Type de maison</span></strong></p><ul><li><p><span>Chalet en bois massif type fuste, bioclimatique (gros apports solaires sud)  </span></p></li><li><p><span>Plain-pied, 56 m² au sol, HSP 2,70 m  </span></p></li></ul><p><strong><span>Parois</span></strong></p><ul><li><p><strong><span>Murs</span></strong><span> : 20 cm de bois massif  </span></p><ul><li><p><span>Sud   : 8,00 m × 3,00 m = </span><strong><span>24,0 m²</span></strong><span>  </span></p></li><li><p><span>Est   : 7,00 m × 3,00 m = </span><strong><span>21,0 m²</span></strong><span>  </span></p></li><li><p><span>Ouest : 7,00 m × 3,00 m = </span><strong><span>21,0 m²</span></strong><span>  </span></p></li><li><p><span>Nord  : 8,00 m × 3,00 m = </span><strong><span>24,0 m²</span></strong><span>  </span></p></li></ul></li><li><p><strong><span>Toiture</span></strong><span> : 10 cm de laine de bois + bardeaux bois, pente 45°  </span></p><ul><li><p><span>surface ≃ 56 m² / cos 45° ≃ </span><strong><span>79,2 m²</span></strong><span>  </span></p></li></ul></li><li><p><strong><span>Plancher bas</span></strong><span> : plancher bois massif 33 mm sur plots, </span><strong><span>56 m²</span></strong><span>  </span></p></li></ul><p><strong><span>Ouvertures</span></strong><span> (fenêtres uniquement — total 7,13 m²)</span></p><ul><li><p><span>Salon/Cuisine (Sud)    : 4,00 m² (2,00 m × 2,00 m) — bois/alu + triple vitrage (Uw : 1,1 W/m²·K)  </span></p></li><li><p><span>Chambre Est           : 1,44 m² (1,20 m × 1,20 m) — bois + double vitrage (Uw : 1,6 W/m²·K)  </span></p></li><li><p><span>Chambre Ouest         : 1,44 m² (1,20 m × 1,20 m) — bois + double vitrage (Uw : 1,6 W/m²·K)  </span></p></li><li><p><span>Salle de bains (Nord)  : 0,25 m² (0,50 m × 0,50 m) — bois + double vitrage (Uw : 1,8 W/m²·K)  </span></p></li></ul></div>',
+      'extra' => 
+      array (
+        'format' => 'filtered_html',
+        'private' => false,
+        'display_on' => 'form',
+      ),
+      'required' => '0',
+      'weight' => '35',
+      'page_num' => 9,
+    ),
+    14 => 
+    array (
+      'nid' => 1204927,
+      'cid' => '14',
+      'pid' => '0',
+      'form_key' => 'g_chalet',
+      'name' => 'Déterminer le G de ce chalet en fuste',
+      'type' => 'select',
+      'value' => '',
+      'extra' => 
+      array (
+        'items' => '0.22|Maison bio-climatique - G=0.22
+0.3|Maison très bien isolée - G=0.3
+0.4|Maison RT 2020 - G=0.4
+0.5|Maison RT 2012 - G=0.5
+0.8|Maison RT 2005 - G=0.8
+0.9|Maison RT 2000 - G=0.9
+1.1|Maison années 1980 - G=1.1
+1.3|Maison années 1970 - G=1.3
+1.5|Maison ancienne mur épais pas isolée - G=1.5
+1.6|Bâtiments années 1960 - G=1.6
+1.8|Bâtiments non isolé - G=1.8
+2.75|Veranda - G=2.75
+',
+        'multiple' => false,
+        'aslist' => true,
+        'empty_option' => '',
+        'optrand' => 0,
+        'other_option' => NULL,
+        'other_text' => 'Autre...',
+        'title_display' => 'before',
+        'description' => '',
+        'description_above' => false,
+        'custom_keys' => 1,
+        'options_source' => '',
+        'private' => 0,
+        'analysis' => true,
+        'value' => '1',
+        'css_classes' => '',
+        'wrapper_classes' => '',
+      ),
+      'required' => '0',
+      'weight' => '36',
+      'page_num' => 9,
+    ),
+    65 => 
+    array (
+      'nid' => 1204927,
+      'cid' => '65',
+      'pid' => '0',
+      'form_key' => 'new_1752672186094',
+      'name' => 'Correspondance G/Ubat  (pour les utilisateurs du Ubat)',
+      'type' => 'fieldset',
+      'value' => '',
+      'extra' => 
+      array (
+        'title_display' => 0,
+        'collapsible' => 0,
+        'collapsed' => 0,
+        'description' => '',
+        'description_above' => false,
+        'private' => 0,
+        'css_classes' => '',
+      ),
+      'required' => '0',
+      'weight' => '37',
+      'page_num' => 9,
+    ),
+    66 => 
+    array (
+      'nid' => 1204927,
+      'cid' => '66',
+      'pid' => '65',
+      'form_key' => 'new_1752672303226',
+      'name' => 'Nouveau champ "balisage"',
+      'type' => 'markup',
+      'value' => '<table class="table table-bordered table-striped">
+  <thead>
+    <tr>
+      <th>G (W/m²·K)</th>
+      <th>Ubat global approx. (W/m²·K)</th>
+      <th>Commentaire</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0.22</td>
+      <td>≈ 0.15</td>
+      <td>Maison passive</td>
+    </tr>
+    <tr>
+      <td>0.3</td>
+      <td>≈ 0.3</td>
+      <td>Très bien isolée</td>
+    </tr>
+    <tr>
+      <td>0.4</td>
+      <td>≈ 0.4</td>
+      <td>RT 2020 ou BBC</td>
+    </tr>
+    <tr>
+      <td>0.5</td>
+      <td>≈ 0.6</td>
+      <td>RT 2012</td>
+    </tr>
+    <tr>
+      <td>0.8</td>
+      <td>≈ 0.75 – 0.8</td>
+      <td>RT 2005</td>
+    </tr>
+    <tr>
+      <td>0.9</td>
+      <td>≈ 0.8 – 0.95</td>
+      <td>RT 2000</td>
+    </tr>
+    <tr>
+      <td>1.1</td>
+      <td>≈ 1.15</td>
+      <td>Maison années 1980</td>
+    </tr>
+    <tr>
+      <td>1.3</td>
+      <td>≈ 1.3 – 1.5</td>
+      <td>Maison années 1970</td>
+    </tr>
+    <tr>
+      <td>1.5</td>
+      <td>≈ 1.5 – 1.6</td>
+      <td>Maison ancienne non isolée</td>
+    </tr>
+    <tr>
+      <td>1.6</td>
+      <td>≈ 1.6 – 1.7</td>
+      <td>Bâtiments années 1960</td>
+    </tr>
+    <tr>
+      <td>1.8</td>
+      <td>≈ 1.8</td>
+      <td>Bâtiment non isolé, simple vitrage</td>
+    </tr>
+    <tr>
+      <td>2.75</td>
+      <td>> 2.5</td>
+      <td>Véranda</td>
+    </tr>
+  </tbody>
+</table>
+',
+      'extra' => 
+      array (
+        'format' => 'wysiwyg_user',
+        'private' => false,
+        'display_on' => 'form',
+      ),
+      'required' => '0',
+      'weight' => '0',
+      'page_num' => 9,
+    ),
+    16 => 
+    array (
+      'nid' => 1204927,
+      'cid' => '16',
+      'pid' => '0',
+      'form_key' => 'new_1750065979335',
+      'name' => 'Saut de page',
+      'type' => 'pagebreak',
+      'value' => '',
+      'extra' => 
+      array (
+        'private' => false,
+        'next_page_label' => '',
+        'prev_page_label' => '',
+      ),
+      'required' => '0',
+      'weight' => '38',
+      'page_num' => 10,
+    ),
+    17 => 
+    array (
+      'nid' => 1204927,
+      'cid' => '17',
+      'pid' => '0',
+      'form_key' => 'email',
+      'name' => 'Votre adresse e-mail',
+      'type' => 'email',
+      'value' => '',
+      'extra' => 
+      array (
+        'multiple' => 0,
+        'format' => 'short',
+        'width' => '',
+        'unique' => 1,
+        'disabled' => 0,
+        'title_display' => 'before',
+        'description' => 'Si vous souhaitez recevoir le comparatif entre le mode paroi par paroi et vos réponses....  Un correctif du Quizz.... ;-)',
+        'description_above' => false,
+        'placeholder' => '',
+        'attributes' => 
+        array (
+        ),
+        'private' => 0,
+        'analysis' => false,
+        'css_classes' => '',
+        'wrapper_classes' => '',
+      ),
+      'required' => '0',
+      'weight' => '39',
+      'page_num' => 10,
+    ),
+    18 => 
+    array (
+      'nid' => 1204927,
+      'cid' => '18',
+      'pid' => '0',
+      'form_key' => 'commentaire',
+      'name' => 'Commentaire libre',
+      'type' => 'textarea',
+      'value' => '',
+      'extra' => 
+      array (
+        'cols' => '',
+        'rows' => '',
+        'title_display' => 'before',
+        'resizable' => 1,
+        'disabled' => 0,
+        'description' => '',
+        'description_above' => false,
+        'placeholder' => '',
+        'attributes' => 
+        array (
+        ),
+        'private' => 0,
+        'analysis' => false,
+        'css_classes' => '',
+        'wrapper_classes' => '',
+      ),
+      'required' => '0',
+      'weight' => '40',
+      'page_num' => 10,
+    ),
+    19 => 
+    array (
+      'nid' => 1204927,
+      'cid' => '19',
+      'pid' => '0',
+      'form_key' => 'new_1750066091258',
+      'name' => 'Merci',
+      'type' => 'markup',
+      'value' => 'Merci beaucoup d\'avoir pris du temps pour ça ! On vous tient au courant des résultats.',
+      'extra' => 
+      array (
+        'format' => 'wysiwyg_user',
+        'private' => false,
+        'display_on' => 'form',
+      ),
+      'required' => '0',
+      'weight' => '41',
+      'page_num' => 10,
+    ),
+  ),
+  'conditionals' => 
+  array (
+  ),
+);
+
