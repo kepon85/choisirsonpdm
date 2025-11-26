@@ -200,8 +200,9 @@ $( document ).ready(function() {
                             console.error("Erreur lors du parsing JSON :", e);
                             bridges = []; // En cas d'erreur de parsing, définir comme un tableau vide
                         }
-                        let totalPt = bridges.reduce((sum, item) => sum + parseFloat(item.pt), 0);
-                        $('#wall-bridge-' + wallRe.groups.wallId + '-val').html(totalPt);
+                        let totalPt = bridges.reduce((sum, item) => sum + parseFloat(item.pt || 0), 0);
+                        // Affichage arrondi à 2 décimales
+                        $('#wall-bridge-' + wallRe.groups.wallId + '-val').html(precise_round(totalPt, 2));
                     }
                 }
                 // Détecter si c'est pour une fenêtre : 
@@ -437,8 +438,9 @@ $( document ).ready(function() {
         wallId=$('#wall-id-for-bridge').val();
         // Ecrire ça dans l'input du tableau
         $("#wall-bridge-"+wallId).val(jsonData);
-        let totalPt = bridges.reduce((sum, item) => sum + parseFloat(item.pt), 0);
-        $('#wall-bridge-' + wallId + '-val').html(totalPt);
+        let totalPt = bridges.reduce((sum, item) => sum + parseFloat(item.pt || 0), 0);
+        // Affichage arrondi à 2 décimales
+        $('#wall-bridge-' + wallId + '-val').html(precise_round(totalPt, 2));
         $( "#dialog-bridge" ).dialog( "close" );
         hashchangeAllAction();
         wallCheck(wallId);
