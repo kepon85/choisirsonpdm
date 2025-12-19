@@ -147,6 +147,8 @@
 	"result-conso-explain-1": "Votre consommation annuelle de bois serait estimé à ",
 	"result-conso-explain-2": "T de bois  (soit environ",
 	"result-conso-explain-3": "stère(s) de bois feuillus)",
+	"result-conso-explain-volumes-intro": "soit :",
+	"result-conso-explain-volumes-item": "$1 m3 de bois coupé en $2cm",
 	"result-need-explain": "Votre besoin de chauffage quotidien dans la période la plus froide s'élève à", 
 	"title-detail-building": "Nom du projet",
 	"thead-wall-name": "Paroi",

@@ -149,6 +149,8 @@
 	"result-conso-explain-1": "Your annual wood consumption would be estimated at",
 	"result-conso-explain-2": "tonnes of wood (i.e. approximately",
 	"result-conso-explain-3": "cubic metres of hardwood)",
+	"result-conso-explain-volumes-intro": "that is:",
+	"result-conso-explain-volumes-item": "$1 m3 of wood cut into $2cm logs",
 	"result-need-explain": "Your daily heating requirement in the most critical case amounts to",
 	"title-detail-building": "Project name",
 	"thead-wall-name": "Wall",

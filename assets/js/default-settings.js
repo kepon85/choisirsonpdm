@@ -31,6 +31,20 @@ const defaultSettings = {
       "hardwoods": 420, // kg/stere
     },
   },
+  "woodLogVolumeEstimates": [
+    {
+      "length_cm": 25,
+      "cubic_meters_per_stere": 0.6,
+    },
+    {
+      "length_cm": 33,
+      "cubic_meters_per_stere": 0.7,
+    },
+    {
+      "length_cm": 50,
+      "cubic_meters_per_stere": 0.8,
+    },
+  ],
   "form_default": {
     "temp_indor":                 19,
     "level":                       1,

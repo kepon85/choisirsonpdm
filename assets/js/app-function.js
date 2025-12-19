@@ -1379,6 +1379,7 @@ function conso() {
             var c_stere = precise_round(c*1000/settings.dju.stere.hardwoods,1);
             debug("[conso] c en stèr e= "+c_stere);
             $('.res_stere_hardwoods').html(c_stere);
+            renderWoodLogVolumes(c_stere);
             $("#conso").show();
         })
         .fail(function( jqxhr, textStatus, error ) {
@@ -1387,6 +1388,35 @@ function conso() {
         });
     } else {
         debug("[conso] Désactivé car pas de latitude ou longitude");
+    }
+}
+
+function renderWoodLogVolumes(cStere) {
+    const $container = $('.res_wood_log_volumes');
+    const $list = $('#res-wood-log-volumes');
+    $list.empty();
+
+    if (!Array.isArray(settings.woodLogVolumeEstimates) || settings.woodLogVolumeEstimates.length === 0) {
+        $container.addClass('d-none');
+        return;
+    }
+
+    let hasItem = false;
+    const translatorFn = (typeof $.i18n === 'function') ? $.i18n : null;
+    settings.woodLogVolumeEstimates.forEach((entry) => {
+        if (entry && typeof entry.length_cm === 'number' && typeof entry.cubic_meters_per_stere === 'number') {
+            const cubicMeters = precise_round(cStere * entry.cubic_meters_per_stere, 2);
+            const itemText = translatorFn ? translatorFn('result-conso-explain-volumes-item', cubicMeters, entry.length_cm) : `${cubicMeters} m3 de bois coupé en ${entry.length_cm}cm`;
+            const item = $('<li></li>').text(itemText);
+            $list.append(item);
+            hasItem = true;
+        }
+    });
+
+    if (hasItem) {
+        $container.removeClass('d-none');
+    } else {
+        $container.addClass('d-none');
     }
 }
 

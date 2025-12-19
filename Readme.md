@@ -64,7 +64,9 @@ Exemple à plusieurs "super" suggestion : http://127.0.0.1:3000/index.html#level
 
 * Futur : 
   * https://framagit.org/kepon/choisirsonpdm/-/issues/23
-* 2.4 (current)
+* 2.5 (current)
+  * [add] Estimation de la consommation en m3 en plus des T et des Stères : https://framagit.org/kepon/choisirsonpdm/-/issues/42
+* 2.4
   * [add] Changement d'unité impériale/métrique https://framagit.org/kepon/choisirsonpdm/-/issues/36
   * [add] PDF généré en "vrai" 
   * [fix] Thème sombre compatible https://framagit.org/kepon/choisirsonpdm/-/issues/41
