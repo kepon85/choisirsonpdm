@@ -1324,14 +1324,16 @@ function submitForm() {
             }
         }
         // Résultat
-        depAeraulique=precise_round($("#livingvolume").val() * $("#venti_global").val(),0);
+        const deltaT = parseFloat($("#temp_indor").val()) - parseFloat($("#temp_base").val());
+        depAeraulique=precise_round(parseFloat($("#livingvolume").val()) * parseFloat($("#venti_global").val()) * deltaT,0);
+        debug('Déperdition aéraulique : ' + depAeraulique + 'W (V * VMC * ΔT)');
         const depConductiviteArrondi = precise_round(depConductivite, 0);
         var resDeperditionMax=parseFloat(depAeraulique)+parseFloat(depConductivite);
         const resDeperditionMaxArrondi = precise_round(resDeperditionMax, 0);
         $("#thermal-study").append(
             '<div class="col-sm-12"><div class="card"><div class="card-body">'
             + '<h6 data-toggle="tooltip" title="Somme des déperditions par conduction (paroi)"><span data-i18n="[html]dep-conduction">Déperdition par conduction</span> : <span class="power-value" data-power-format="detailed" data-power-watts="'+depConductiviteArrondi+'">'+formatDetailedPowerText(depConductiviteArrondi)+'</span></h6>'
-            + '<h6 data-toggle="tooltip" title="Volume * VMC"><span data-i18n="[html]dep-aeraulique">Déperdition par aéraulique</span> : <span class="power-value" data-power-format="detailed" data-power-watts="'+depAeraulique+'">'+formatDetailedPowerText(depAeraulique)+'</span></h6>'
+            + '<h6 data-toggle="tooltip" title="Volume * VMC * (Ti - Te)"><span data-i18n="[html]dep-aeraulique">Déperdition par aéraulique</span> : <span class="power-value" data-power-format="detailed" data-power-watts="'+depAeraulique+'">'+formatDetailedPowerText(depAeraulique)+'</span></h6>'
             + '<h6 data-toggle="tooltip" title="Somme des déperditions par conduction et aéraulique"><b><span data-i18n="[html]dep-total">Déperdition total</span> : <span class="power-value" data-power-format="detailed" data-power-watts="'+resDeperditionMaxArrondi+'">'+formatDetailedPowerText(resDeperditionMaxArrondi)+'</span></b></h6>'
             + '</div></div></div>'
         );
