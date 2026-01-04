@@ -67,6 +67,7 @@ Exemple à plusieurs "super" suggestion : http://127.0.0.1:3000/index.html#level
 * 2.5 (current)
   * [add] Estimation de la consommation en m3 en plus des T et des Stères : https://framagit.org/kepon/choisirsonpdm/-/issues/42
   * [add] Base matériaux de l'association Arcanne : https://framagit.org/kepon/choisirsonpdm/-/issues/40
+  * [fix] Bug calcul déperdition ventilation / aérobique dans le level3 https://framagit.org/kepon/choisirsonpdm/-/issues/47
 * 2.4
   * [add] Changement d'unité impériale/métrique https://framagit.org/kepon/choisirsonpdm/-/issues/36
   * [add] PDF généré en "vrai" 
