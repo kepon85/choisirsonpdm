@@ -77,7 +77,7 @@
 	"form-ubat_global-help": "Si vous avez une étude thermique de votre bâtiment, le Ubat y est peut être indiqué. Ici vous pouvez personnaliser cette valeur",
 	"form-wastagesurface-label": "Surface de déperdition",
 	"form-wastagesurface-help": "Il s'agit de toutes les surfaces attenantes à l'air extérieur : mur, toiture, sol",
-	"form-venti_global-label": "Ventilation (résistance thermique)",
+	"form-venti_global-label": "Coefficient de pertes par ventilation (W/m³·K)",
 	"form-venti_global-0-2": "0.2 pas de ventilation mécanique contrôlée ou une ventilation mécanique contrôlée autoréglable",
 	"form-venti_global-0-14": "0.14 ventilation mécanique contrôlée hygroréglable",
 	"form-venti_global-0-08": "0.08 ventilation mécanique contrôlée double flux",

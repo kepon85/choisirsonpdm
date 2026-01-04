@@ -70,7 +70,7 @@
 	"form-ubat_global-help": "",
 	"form-wastagesurface-label": "Superficie de pérdida de calor",
 	"form-wastagesurface-help": "This concerns all wall, roof, floor surfaces",
-	"form-venti_global-label": "Ventilación (resistencia térmica)",
+	"form-venti_global-label": "Coefficient de pertes par ventilation (W/m³·K)",
 	"form-venti_global-0-14": "0,14 Ventilación mecánica higrorregulable",
 	"form-venti_global-0-2": "0,2 ventilaciones mecánica no controlada / Ventilación mecánica controlada autorregulable",
 	"form-venti_global-0-08": "0,08 ventilaciones mecánica controlada de doble flujo",

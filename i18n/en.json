@@ -79,7 +79,7 @@
 	"form-ubat_global-help": "",
 	"form-wastagesurface-label": "Total thermal loss area",
 	"form-wastagesurface-help": "This concerns all wall, roof, floor surfaces",
-	"form-venti_global-label": "Ventilation (thermal resistance)",
+	"form-venti_global-label": "Coefficient de pertes par ventilation (W/m³·K)",
 	"form-venti_global-0-2": "0.2 no controlled mechanical ventilation or self-adjusting controlled mechanical ventilation",
 	"form-venti_global-0-14": "0.14 humidity controlled mechanical ventilation",
 	"form-venti_global-0-08": "0.08 dual-flow controlled mechanical ventilation",
