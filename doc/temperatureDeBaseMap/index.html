@@ -34,24 +34,40 @@
         display: block;
       }
 
-      .popup {
-        position: absolute;
-        background: rgba(20, 20, 20, 0.92);
-        color: #ffffff;
+      .temperature-input {
+        width: min(320px, 90vw);
         padding: 8px 10px;
-        border-radius: 6px;
         font-size: 14px;
-        pointer-events: none;
-        transform: translate(8px, 8px);
-        white-space: nowrap;
-        display: none;
+        border: 1px solid #cfcfcf;
+        border-radius: 6px;
       }
     </style>
   </head>
   <body>
     <div class="map-wrapper">
+      <label for="altitudeInput">Altitude (m)</label>
+      <input
+        id="altitudeInput"
+        class="temperature-input"
+        type="number"
+        min="0"
+        max="2000"
+        step="1"
+        value="0"
+      />
+    </div>
+    <div class="map-wrapper">
+      <label for="temperatureInput">Temperature de base corrigee</label>
+      <input
+        id="temperatureInput"
+        class="temperature-input"
+        type="text"
+        readonly
+        value="Cliquez sur un departement"
+      />
+    </div>
+    <div class="map-wrapper">
       <div class="map-container" id="mapContainer">
-        <div class="popup" id="popup"></div>
       </div>
     </div>
 
@@ -59,19 +75,24 @@
       const svgPath =
         "carte_temperature_cote_seule__idDep_Contour_FrontiereDep.svg";
       const mapContainer = document.getElementById("mapContainer");
-      const popup = document.getElementById("popup");
+      const altitudeInput = document.getElementById("altitudeInput");
+      const temperatureInput = document.getElementById("temperatureInput");
+      const lastSelection = {
+        id: null,
+        baseTemperature: null,
+      };
 
-      const temperatureByColor = {
-        "#3b4cc0ff": -15,
-        "#86a9fcff": -12,
-        "#bbd1f8ff": -10,
-        "#d3dbe7ff": -9,
-        "#e6d7cfff": -8,
-        "#0c384eff": -7,
-        "#08506eff": -6,
-        "#0d6d8bff": -5,
-        "#1b91a9ff": -4,
-        "#4bfbd9ff": -2,
+      const fallbackTemperatureByColor = {
+        "#3b4cc0": -15,
+        "#86a9fc": -12,
+        "#bbd1f8": -10,
+        "#d3dbe7": -9,
+        "#e6d7cf": -8,
+        "#f3c7b1": -7,
+        "#f7af91": -6,
+        "#f29274": -5,
+        "#e46e56": -4,
+        "#b40426": -2,
       };
 
       const normalizeColor = (color) => {
@@ -89,11 +110,14 @@
             const hex = parts
               .map((value) => value.toString(16).padStart(2, "0"))
               .join("");
-            return `#${hex}ff`;
+            return `#${hex}`;
           }
         }
         if (trimmed.startsWith("#") && trimmed.length === 7) {
-          return `${trimmed}ff`;
+          return trimmed;
+        }
+        if (trimmed.startsWith("#") && trimmed.length === 9) {
+          return trimmed.slice(0, 7);
         }
         return trimmed;
       };
@@ -114,7 +138,7 @@
 
       const getMostCommonFill = (group) => {
         const counts = new Map();
-        const elements = group.querySelectorAll("*");
+        const elements = [group, ...group.querySelectorAll("*")];
         elements.forEach((element) => {
           const styleFill = getFillFromStyle(element.getAttribute("style"));
           const fill =
@@ -140,24 +164,298 @@
         return topColor;
       };
 
-      const showPopup = (event, label, temperature) => {
-        popup.textContent =
-          temperature === null
-            ? `${label} · Température inconnue`
-            : `${label} · Température de base: ${temperature}°C`;
-        const containerRect = mapContainer.getBoundingClientRect();
-        popup.style.left = `${event.clientX - containerRect.left}px`;
-        popup.style.top = `${event.clientY - containerRect.top}px`;
-        popup.style.display = "block";
+      const buildTemperatureByColor = (svgText) => {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(svgText, "image/svg+xml");
+        const legend = doc.querySelector("#legend_1");
+        if (!legend) {
+          return fallbackTemperatureByColor;
+        }
+
+        const legendHtml = legend.innerHTML || "";
+        const labelMatches = [...legendHtml.matchAll(/<!--\\s*([^<]+?)\\s*-->/g)];
+        const labels = labelMatches
+          .map((match) => match[1].trim())
+          .map((label) => Number.parseFloat(label.replace(",", ".").replace(/[^\d.-]/g, "")))
+          .filter((value) => Number.isFinite(value));
+
+        const patches = [...legend.querySelectorAll('g[id^="patch_"] path')];
+        const colors = patches
+          .map((path) => {
+            const styleFill = getFillFromStyle(path.getAttribute("style"));
+            return normalizeColor(styleFill || path.getAttribute("fill"));
+          })
+          .filter(Boolean);
+
+        if (!labels.length || labels.length !== colors.length) {
+          return fallbackTemperatureByColor;
+        }
+
+        return labels.reduce((acc, label, index) => {
+          acc[colors[index]] = label;
+          return acc;
+        }, {});
       };
 
-      const hidePopup = () => {
-        popup.style.display = "none";
+      const altitudeCorrectionTable = [
+        {
+          min: 0,
+          max: 200,
+          values: {
+            "-2": -2,
+            "-4": -4,
+            "-5": -5,
+            "-6": -6,
+            "-7": -7,
+            "-8": -8,
+            "-10": -10,
+            "-12": -12,
+            "-15": -15,
+          },
+        },
+        {
+          min: 201,
+          max: 400,
+          values: {
+            "-2": -3,
+            "-4": -5,
+            "-5": -6,
+            "-6": -7,
+            "-7": -8,
+            "-8": -9,
+            "-10": -11,
+            "-12": -13,
+            "-15": -15,
+          },
+        },
+        {
+          min: 401,
+          max: 500,
+          values: {
+            "-2": -4,
+            "-4": -6,
+            "-5": -7,
+            "-6": -8,
+            "-7": -9,
+            "-8": -10,
+            "-10": -12,
+            "-12": -14,
+            "-15": -16,
+          },
+        },
+        {
+          min: 501,
+          max: 600,
+          values: {
+            "-2": -4,
+            "-5": -7,
+            "-6": -9,
+            "-8": -11,
+            "-10": -13,
+            "-12": -15,
+            "-15": -17,
+          },
+        },
+        {
+          min: 601,
+          max: 700,
+          values: {
+            "-2": -5,
+            "-5": -8,
+            "-6": -10,
+            "-8": -12,
+            "-10": -14,
+            "-12": -16,
+            "-15": -18,
+          },
+        },
+        {
+          min: 701,
+          max: 800,
+          values: {
+            "-2": -6,
+            "-5": -8,
+            "-6": -11,
+            "-8": -13,
+            "-10": -15,
+            "-12": -17,
+            "-15": -19,
+          },
+        },
+        {
+          min: 801,
+          max: 900,
+          values: {
+            "-5": -9,
+            "-6": -12,
+            "-8": -14,
+            "-10": -16,
+            "-12": -18,
+            "-15": -20,
+          },
+        },
+        {
+          min: 901,
+          max: 1000,
+          values: {
+            "-5": -9,
+            "-6": -13,
+            "-8": -15,
+            "-10": -17,
+            "-12": -19,
+            "-15": -21,
+          },
+        },
+        {
+          min: 1001,
+          max: 1100,
+          values: {
+            "-5": -10,
+            "-6": -14,
+            "-8": -16,
+            "-10": -18,
+            "-12": -20,
+            "-15": -22,
+          },
+        },
+        {
+          min: 1101,
+          max: 1200,
+          values: {
+            "-5": -10,
+            "-8": -17,
+            "-10": -19,
+            "-12": -21,
+            "-15": -23,
+          },
+        },
+        {
+          min: 1201,
+          max: 1300,
+          values: {
+            "-5": -11,
+            "-8": -18,
+            "-10": -20,
+            "-12": -22,
+            "-15": -24,
+          },
+        },
+        {
+          min: 1301,
+          max: 1400,
+          values: {
+            "-5": -11,
+            "-8": -19,
+            "-10": -21,
+            "-12": -23,
+            "-15": -25,
+          },
+        },
+        {
+          min: 1401,
+          max: 1500,
+          values: {
+            "-5": -12,
+            "-10": -22,
+            "-12": -24,
+            "-15": -25,
+          },
+        },
+        {
+          min: 1501,
+          max: 1600,
+          values: {
+            "-5": -12,
+            "-10": -23,
+          },
+        },
+        {
+          min: 1601,
+          max: 1700,
+          values: {
+            "-5": -12,
+            "-10": -24,
+          },
+        },
+        {
+          min: 1701,
+          max: 1800,
+          values: {
+            "-5": -13,
+            "-10": -25,
+          },
+        },
+        {
+          min: 1801,
+          max: 1900,
+          values: {
+            "-5": -14,
+            "-10": -26,
+          },
+        },
+        {
+          min: 1901,
+          max: 2000,
+          values: {
+            "-5": -14,
+            "-10": -27,
+          },
+        },
+      ];
+
+      const getAltitudeBand = (altitude) => {
+        if (!Number.isFinite(altitude)) {
+          return null;
+        }
+        const clamped = Math.min(Math.max(Math.round(altitude), 0), 2000);
+        return (
+          altitudeCorrectionTable.find(
+            (band) => clamped >= band.min && clamped <= band.max
+          ) || null
+        );
+      };
+
+      const debug = (details) => {
+        console.log("[temp-base]", details);
+      };
+
+      const getCorrectedTemperature = (baseTemperature, altitude) => {
+        if (baseTemperature === null || baseTemperature === undefined) {
+          return null;
+        }
+        const band = getAltitudeBand(altitude);
+        if (!band) {
+          return null;
+        }
+        const corrected = band.values[String(baseTemperature)];
+        return Number.isFinite(corrected) ? corrected : null;
+      };
+
+      const updateInput = (label, baseTemperature) => {
+        const altitude = Number.parseInt(altitudeInput.value, 10);
+        const correctedTemperature = getCorrectedTemperature(
+          baseTemperature,
+          altitude
+        );
+        const details = {
+          dep: label,
+          baseTemperature,
+          altitude,
+          altitudeBand: getAltitudeBand(altitude),
+          correctedTemperature,
+        };
+        debug(details);
+
+        temperatureInput.value =
+          correctedTemperature === null
+            ? `${label} : Temperature inconnue`
+            : `${label} : ${correctedTemperature}°C (carte: ${baseTemperature}°C)`;
       };
 
       fetch(svgPath)
         .then((response) => response.text())
         .then((svgText) => {
+          const temperatureByColor = buildTemperatureByColor(svgText);
           mapContainer.insertAdjacentHTML("afterbegin", svgText);
           const svgElement = mapContainer.querySelector("svg");
           if (!svgElement) {
@@ -169,26 +467,41 @@
             if (!(target instanceof Element)) {
               return;
             }
-            const group = target.closest("[id]");
-            if (!group) {
+            const depIdPattern = /^dep(?:\d{2}|2A|2B)(?:_25km)?$/;
+            let current = target;
+            let depElement = null;
+            while (current && current !== svgElement) {
+              if (current.id && depIdPattern.test(current.id)) {
+                depElement = current;
+                break;
+              }
+              current = current.parentElement;
+            }
+            if (!depElement) {
               return;
             }
-            const id = group.id;
-            const isValid =
-              /^dep\d{2}(_25km)?$/.test(id) && !id.endsWith("_global");
+            const id = depElement.id;
+            const isValid = depIdPattern.test(id);
             if (!isValid) {
               return;
             }
 
-            const commonFill = getMostCommonFill(group);
+            const commonFill = getMostCommonFill(depElement);
             const temperature =
               commonFill && commonFill in temperatureByColor
                 ? temperatureByColor[commonFill]
                 : null;
-            showPopup(event, id, temperature);
+            lastSelection.id = id;
+            lastSelection.baseTemperature = temperature;
+            updateInput(id, temperature);
           });
 
-          svgElement.addEventListener("mouseleave", hidePopup);
+          altitudeInput.addEventListener("input", () => {
+            if (!lastSelection.id) {
+              return;
+            }
+            updateInput(lastSelection.id, lastSelection.baseTemperature);
+          });
         })
         .catch(() => {
           const errorMessage = document.createElement("p");
