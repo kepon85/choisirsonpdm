@@ -4,6 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Carte température de base</title>
+    <link href="../../assets/css/bootstrap.css?v=2026-01-04" rel="stylesheet">
     <style>
       body {
         font-family: Arial, Helvetica, sans-serif;
@@ -41,6 +42,14 @@
         border: 1px solid #cfcfcf;
         border-radius: 6px;
       }
+
+      .hover-label {
+        width: min(800px, 90vw);
+        min-height: 20px;
+        font-size: 14px;
+        text-align: center;
+        color: #333333;
+      }
     </style>
   </head>
   <body>
@@ -57,30 +66,39 @@
       />
     </div>
     <div class="map-wrapper">
-      <label for="temperatureInput">Temperature de base corrigee</label>
+      <label for="temperatureInput">Temperature de base corrigee (°C)</label>
       <input
         id="temperatureInput"
         class="temperature-input"
-        type="text"
+        type="number"
         readonly
-        value="Cliquez sur un departement"
+        step="1"
+        placeholder="Cliquez sur un departement"
       />
+    </div>
+    <div class="map-wrapper">
+      <div id="hoverLabel" class="hover-label"></div>
     </div>
     <div class="map-wrapper">
       <div class="map-container" id="mapContainer">
       </div>
     </div>
 
+    <script src="../../assets/js/jquery-3.7.0.min.js?v=2026-01-04"></script>
     <script>
       const svgPath =
         "carte_temperature_cote_seule__idDep_Contour_FrontiereDep.svg";
       const mapContainer = document.getElementById("mapContainer");
       const altitudeInput = document.getElementById("altitudeInput");
       const temperatureInput = document.getElementById("temperatureInput");
+      const hoverLabel = document.getElementById("hoverLabel");
+      const $altitudeInput = $("#altitudeInput");
+      const $temperatureInput = $("#temperatureInput");
       const lastSelection = {
         id: null,
         baseTemperature: null,
       };
+      const depIdPattern = /^dep(?:\d{2}|2A|2B)(?:_25km)?$/;
 
       const fallbackTemperatureByColor = {
         "#3b4cc0": -15,
@@ -162,6 +180,33 @@
           }
         }
         return topColor;
+      };
+
+      const findDepElement = (target, svgElement) => {
+        let current = target;
+        while (current && current !== svgElement) {
+          if (current.id && depIdPattern.test(current.id)) {
+            return current;
+          }
+          current = current.parentElement;
+        }
+        return null;
+      };
+
+      const getDepLabel = (id) => {
+        const isCoastal = id.endsWith("_25km");
+        const depNumber = id.replace(/^dep/, "").replace(/_25km$/, "");
+        return isCoastal
+          ? `Dep ${depNumber} (zone 25km)`
+          : `Dep ${depNumber}`;
+      };
+
+      const showDepTooltip = (text) => {
+        hoverLabel.textContent = text;
+      };
+
+      const hideDepTooltip = () => {
+        hoverLabel.textContent = "";
       };
 
       const buildTemperatureByColor = (svgText) => {
@@ -437,19 +482,33 @@
           baseTemperature,
           altitude
         );
+        const correctionDelta =
+          Number.isFinite(correctedTemperature) &&
+          Number.isFinite(baseTemperature)
+            ? correctedTemperature - baseTemperature
+            : null;
         const details = {
           dep: label,
           baseTemperature,
           altitude,
           altitudeBand: getAltitudeBand(altitude),
+          correctionDelta,
           correctedTemperature,
         };
         debug(details);
 
-        temperatureInput.value =
-          correctedTemperature === null
-            ? `${label} : Temperature inconnue`
-            : `${label} : ${correctedTemperature}°C (carte: ${baseTemperature}°C)`;
+        if (correctedTemperature === null) {
+          if (Number.isFinite(baseTemperature)) {
+            temperatureInput.placeholder = "";
+            temperatureInput.value = baseTemperature;
+            return;
+          }
+          temperatureInput.value = "";
+          temperatureInput.placeholder = "Temperature inconnue";
+          return;
+        }
+        temperatureInput.placeholder = "";
+        temperatureInput.value = correctedTemperature;
       };
 
       fetch(svgPath)
@@ -461,22 +520,14 @@
           if (!svgElement) {
             return;
           }
+          const $svg = $(svgElement);
 
-          svgElement.addEventListener("click", (event) => {
+          $svg.on("click", (event) => {
             const target = event.target;
             if (!(target instanceof Element)) {
               return;
             }
-            const depIdPattern = /^dep(?:\d{2}|2A|2B)(?:_25km)?$/;
-            let current = target;
-            let depElement = null;
-            while (current && current !== svgElement) {
-              if (current.id && depIdPattern.test(current.id)) {
-                depElement = current;
-                break;
-              }
-              current = current.parentElement;
-            }
+            const depElement = findDepElement(target, svgElement);
             if (!depElement) {
               return;
             }
@@ -496,7 +547,25 @@
             updateInput(id, temperature);
           });
 
-          altitudeInput.addEventListener("input", () => {
+          $svg.on("mousemove", (event) => {
+            const target = event.target;
+            if (!(target instanceof Element)) {
+              hideDepTooltip();
+              return;
+            }
+            const depElement = findDepElement(target, svgElement);
+            if (!depElement) {
+              hideDepTooltip();
+              return;
+            }
+            showDepTooltip(getDepLabel(depElement.id));
+          });
+
+          $svg.on("mouseleave", () => {
+            hideDepTooltip();
+          });
+
+          $altitudeInput.on("input", () => {
             if (!lastSelection.id) {
               return;
             }
