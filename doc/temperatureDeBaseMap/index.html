@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Carte température de base</title>
+    <style>
+      body {
+        font-family: Arial, Helvetica, sans-serif;
+        margin: 0;
+        background: #f5f5f5;
+      }
+
+      .map-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        padding: 24px;
+      }
+
+      .map-container {
+        position: relative;
+        background: #ffffff;
+        border: 1px solid #d9d9d9;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+        padding: 16px;
+        max-width: 90vw;
+        overflow: auto;
+      }
+
+      .map-container svg {
+        width: 100%;
+        height: auto;
+        display: block;
+      }
+
+      .popup {
+        position: absolute;
+        background: rgba(20, 20, 20, 0.92);
+        color: #ffffff;
+        padding: 8px 10px;
+        border-radius: 6px;
+        font-size: 14px;
+        pointer-events: none;
+        transform: translate(8px, 8px);
+        white-space: nowrap;
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="map-wrapper">
+      <div class="map-container" id="mapContainer">
+        <div class="popup" id="popup"></div>
+      </div>
+    </div>
+
+    <script>
+      const svgPath =
+        "carte_temperature_cote_seule__idDep_Contour_FrontiereDep.svg";
+      const mapContainer = document.getElementById("mapContainer");
+      const popup = document.getElementById("popup");
+
+      const temperatureByColor = {
+        "#3b4cc0ff": -15,
+        "#86a9fcff": -12,
+        "#bbd1f8ff": -10,
+        "#d3dbe7ff": -9,
+        "#e6d7cfff": -8,
+        "#0c384eff": -7,
+        "#08506eff": -6,
+        "#0d6d8bff": -5,
+        "#1b91a9ff": -4,
+        "#4bfbd9ff": -2,
+      };
+
+      const normalizeColor = (color) => {
+        if (!color) {
+          return null;
+        }
+        const trimmed = color.trim().toLowerCase();
+        if (trimmed.startsWith("rgb(")) {
+          const parts = trimmed
+            .replace("rgb(", "")
+            .replace(")", "")
+            .split(",")
+            .map((value) => Number.parseInt(value.trim(), 10));
+          if (parts.length === 3 && parts.every((value) => !Number.isNaN(value))) {
+            const hex = parts
+              .map((value) => value.toString(16).padStart(2, "0"))
+              .join("");
+            return `#${hex}ff`;
+          }
+        }
+        if (trimmed.startsWith("#") && trimmed.length === 7) {
+          return `${trimmed}ff`;
+        }
+        return trimmed;
+      };
+
+      const getFillFromStyle = (styleValue) => {
+        if (!styleValue) {
+          return null;
+        }
+        const fragments = styleValue.split(";").map((item) => item.trim());
+        for (const fragment of fragments) {
+          const [key, value] = fragment.split(":").map((item) => item.trim());
+          if (key === "fill") {
+            return value;
+          }
+        }
+        return null;
+      };
+
+      const getMostCommonFill = (group) => {
+        const counts = new Map();
+        const elements = group.querySelectorAll("*");
+        elements.forEach((element) => {
+          const styleFill = getFillFromStyle(element.getAttribute("style"));
+          const fill =
+            styleFill ||
+            element.getAttribute("fill") ||
+            element.style?.fill ||
+            null;
+          const normalized = normalizeColor(fill);
+          if (!normalized) {
+            return;
+          }
+          counts.set(normalized, (counts.get(normalized) || 0) + 1);
+        });
+
+        let topColor = null;
+        let topCount = 0;
+        for (const [color, count] of counts.entries()) {
+          if (count > topCount) {
+            topColor = color;
+            topCount = count;
+          }
+        }
+        return topColor;
+      };
+
+      const showPopup = (event, label, temperature) => {
+        popup.textContent =
+          temperature === null
+            ? `${label} · Température inconnue`
+            : `${label} · Température de base: ${temperature}°C`;
+        const containerRect = mapContainer.getBoundingClientRect();
+        popup.style.left = `${event.clientX - containerRect.left}px`;
+        popup.style.top = `${event.clientY - containerRect.top}px`;
+        popup.style.display = "block";
+      };
+
+      const hidePopup = () => {
+        popup.style.display = "none";
+      };
+
+      fetch(svgPath)
+        .then((response) => response.text())
+        .then((svgText) => {
+          mapContainer.insertAdjacentHTML("afterbegin", svgText);
+          const svgElement = mapContainer.querySelector("svg");
+          if (!svgElement) {
+            return;
+          }
+
+          svgElement.addEventListener("click", (event) => {
+            const target = event.target;
+            if (!(target instanceof Element)) {
+              return;
+            }
+            const group = target.closest("[id]");
+            if (!group) {
+              return;
+            }
+            const id = group.id;
+            const isValid =
+              /^dep\d{2}(_25km)?$/.test(id) && !id.endsWith("_global");
+            if (!isValid) {
+              return;
+            }
+
+            const commonFill = getMostCommonFill(group);
+            const temperature =
+              commonFill && commonFill in temperatureByColor
+                ? temperatureByColor[commonFill]
+                : null;
+            showPopup(event, id, temperature);
+          });
+
+          svgElement.addEventListener("mouseleave", hidePopup);
+        })
+        .catch(() => {
+          const errorMessage = document.createElement("p");
+          errorMessage.textContent =
+            "Impossible de charger la carte SVG.";
+          mapContainer.appendChild(errorMessage);
+        });
+    </script>
+  </body>
+</html>
