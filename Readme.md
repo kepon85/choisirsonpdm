@@ -64,7 +64,10 @@ Exemple à plusieurs "super" suggestion : http://127.0.0.1:3000/index.html#level
 
 * Futur : 
   * https://framagit.org/kepon/choisirsonpdm/-/issues/23
-* 2.5 (current)
+* 2.6 (current)
+  * [add] Nouvelle carte NF : https://framagit.org/kepon/choisirsonpdm/-/issues/39
+
+* 2.5
   * [add] Estimation de la consommation en m3 en plus des T et des Stères : https://framagit.org/kepon/choisirsonpdm/-/issues/42
   * [add] Base matériaux de l'association Arcanne : https://framagit.org/kepon/choisirsonpdm/-/issues/40
   * [fix] Bug calcul déperdition ventilation / aérobique dans le level3 https://framagit.org/kepon/choisirsonpdm/-/issues/47
