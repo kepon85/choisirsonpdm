@@ -1484,6 +1484,499 @@ function getBaseTemperature(){
 const processChangelngLat = debounce(() => getBaseTemperature(), settings.apiDebounceTtimeout);
 
 /**
+ * Initialise la carte SVG NF et applique la correction altimétrique.
+ */
+function initializeTempBaseSvgMap(options = {}) {
+    const config = Object.assign({
+        svgPath: 'assets/img/base-temperature-map.svg',
+        containerSelector: '#temp-base-map-container',
+        altitudeSelector: '#altitude',
+        tempBaseInputSelector: '#temp_base',
+    }, options || {});
+
+    const container = document.querySelector(config.containerSelector);
+    const hoverLabel = document.querySelector(config.hoverSelector);
+    const altitudeInput = document.querySelector(config.altitudeSelector);
+    const tempBaseInput = document.querySelector(config.tempBaseInputSelector);
+
+    if (!container || !altitudeInput || !tempBaseInput) {
+        return null;
+    }
+
+    const lastSelection = {
+        id: null,
+        baseTemperature: null,
+    };
+    const depIdPattern = /^dep(?:\d{2}|2A|2B)(?:_25km)?$/;
+
+    const fallbackTemperatureByColor = {
+        "#3b4cc0": -15,
+        "#86a9fc": -12,
+        "#bbd1f8": -10,
+        "#d3dbe7": -9,
+        "#e6d7cf": -8,
+        "#f3c7b1": -7,
+        "#f7af91": -6,
+        "#f29274": -5,
+        "#e46e56": -4,
+        "#b40426": -2,
+    };
+
+    function normalizeColor(color) {
+        if (!color) {
+            return null;
+        }
+        const trimmed = color.trim().toLowerCase();
+        if (trimmed.startsWith('rgb(')) {
+            const parts = trimmed
+                .replace('rgb(', '')
+                .replace(')', '')
+                .split(',')
+                .map((value) => Number.parseInt(value.trim(), 10));
+            if (parts.length === 3 && parts.every((value) => !Number.isNaN(value))) {
+                const hex = parts
+                    .map((value) => value.toString(16).padStart(2, '0'))
+                    .join('');
+                return `#${hex}`;
+            }
+        }
+        if (trimmed.startsWith('#') && trimmed.length === 7) {
+            return trimmed;
+        }
+        if (trimmed.startsWith('#') && trimmed.length === 9) {
+            return trimmed.slice(0, 7);
+        }
+        return trimmed;
+    }
+
+    function getFillFromStyle(styleValue) {
+        if (!styleValue) {
+            return null;
+        }
+        const fragments = styleValue.split(';').map((item) => item.trim());
+        for (const fragment of fragments) {
+            const [key, value] = fragment.split(':').map((item) => item.trim());
+            if (key === 'fill') {
+                return value;
+            }
+        }
+        return null;
+    }
+
+    function getMostCommonFill(group) {
+        const counts = new Map();
+        const elements = [group, ...group.querySelectorAll('*')];
+        elements.forEach((element) => {
+            const styleFill = getFillFromStyle(element.getAttribute('style'));
+            const fill = styleFill || element.getAttribute('fill') || element.style?.fill || null;
+            const normalized = normalizeColor(fill);
+            if (!normalized) {
+                return;
+            }
+            counts.set(normalized, (counts.get(normalized) || 0) + 1);
+        });
+
+        let topColor = null;
+        let topCount = 0;
+        for (const [color, count] of counts.entries()) {
+            if (count > topCount) {
+                topColor = color;
+                topCount = count;
+            }
+        }
+        return topColor;
+    }
+
+    function findDepElement(target, svgElement) {
+        let current = target;
+        while (current && current !== svgElement) {
+            if (current.id && depIdPattern.test(current.id)) {
+                return current;
+            }
+            current = current.parentElement;
+        }
+        return null;
+    }
+
+    function getDepLabel(id) {
+        const isCoastal = id.endsWith('_25km');
+        const depNumber = id.replace(/^dep/, '').replace(/_25km$/, '');
+        return isCoastal ? `Dep ${depNumber} (zone 25km)` : `Dep ${depNumber}`;
+    }
+
+    function showDepTooltip(text) {
+        if (hoverLabel) {
+            hoverLabel.textContent = text || '';
+        }
+    }
+
+    function buildTemperatureByColor(svgText) {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(svgText, 'image/svg+xml');
+        const legend = doc.querySelector('#legend_1');
+        if (!legend) {
+            return fallbackTemperatureByColor;
+        }
+
+        const legendHtml = legend.innerHTML || '';
+        const labelMatches = [...legendHtml.matchAll(/<!--\s*([^<]+?)\s*-->/g)];
+        const labels = labelMatches
+            .map((match) => match[1].trim())
+            .map((label) => Number.parseFloat(label.replace(',', '.').replace(/[^\d.-]/g, '')))
+            .filter((value) => Number.isFinite(value));
+
+        const patches = [...legend.querySelectorAll('g[id^="patch_"] path')];
+        const colors = patches
+            .map((path) => {
+                const styleFill = getFillFromStyle(path.getAttribute('style'));
+                return normalizeColor(styleFill || path.getAttribute('fill'));
+            })
+            .filter(Boolean);
+
+        if (!labels.length || labels.length !== colors.length) {
+            return fallbackTemperatureByColor;
+        }
+
+        return labels.reduce((acc, label, index) => {
+            acc[colors[index]] = label;
+            return acc;
+        }, {});
+    }
+
+    const altitudeCorrectionTable = [
+        {
+            min: 0,
+            max: 200,
+            values: {
+                "-2": -2,
+                "-4": -4,
+                "-5": -5,
+                "-6": -6,
+                "-7": -7,
+                "-8": -8,
+                "-10": -10,
+                "-12": -12,
+                "-15": -15,
+            },
+        },
+        {
+            min: 201,
+            max: 400,
+            values: {
+                "-2": -3,
+                "-4": -5,
+                "-5": -6,
+                "-6": -7,
+                "-7": -8,
+                "-8": -9,
+                "-10": -11,
+                "-12": -13,
+                "-15": -15,
+            },
+        },
+        {
+            min: 401,
+            max: 500,
+            values: {
+                "-2": -4,
+                "-4": -6,
+                "-5": -7,
+                "-6": -8,
+                "-7": -9,
+                "-8": -10,
+                "-10": -12,
+                "-12": -14,
+                "-15": -16,
+            },
+        },
+        {
+            min: 501,
+            max: 600,
+            values: {
+                "-2": -4,
+                "-5": -7,
+                "-6": -9,
+                "-8": -11,
+                "-10": -13,
+                "-12": -15,
+                "-15": -17,
+            },
+        },
+        {
+            min: 601,
+            max: 700,
+            values: {
+                "-2": -5,
+                "-5": -8,
+                "-6": -10,
+                "-8": -12,
+                "-10": -14,
+                "-12": -16,
+                "-15": -18,
+            },
+        },
+        {
+            min: 701,
+            max: 800,
+            values: {
+                "-2": -6,
+                "-5": -8,
+                "-6": -11,
+                "-8": -13,
+                "-10": -15,
+                "-12": -17,
+                "-15": -19,
+            },
+        },
+        {
+            min: 801,
+            max: 900,
+            values: {
+                "-5": -9,
+                "-6": -12,
+                "-8": -14,
+                "-10": -16,
+                "-12": -18,
+                "-15": -20,
+            },
+        },
+        {
+            min: 901,
+            max: 1000,
+            values: {
+                "-5": -9,
+                "-6": -13,
+                "-8": -15,
+                "-10": -17,
+                "-12": -19,
+                "-15": -21,
+            },
+        },
+        {
+            min: 1001,
+            max: 1100,
+            values: {
+                "-5": -10,
+                "-6": -14,
+                "-8": -16,
+                "-10": -18,
+                "-12": -20,
+                "-15": -22,
+            },
+        },
+        {
+            min: 1101,
+            max: 1200,
+            values: {
+                "-5": -10,
+                "-8": -17,
+                "-10": -19,
+                "-12": -21,
+                "-15": -23,
+            },
+        },
+        {
+            min: 1201,
+            max: 1300,
+            values: {
+                "-5": -11,
+                "-8": -18,
+                "-10": -20,
+                "-12": -22,
+                "-15": -24,
+            },
+        },
+        {
+            min: 1301,
+            max: 1400,
+            values: {
+                "-5": -11,
+                "-8": -19,
+                "-10": -21,
+                "-12": -23,
+                "-15": -25,
+            },
+        },
+        {
+            min: 1401,
+            max: 1500,
+            values: {
+                "-5": -12,
+                "-10": -22,
+                "-12": -24,
+                "-15": -25,
+            },
+        },
+        {
+            min: 1501,
+            max: 1600,
+            values: {
+                "-5": -12,
+                "-10": -23,
+            },
+        },
+        {
+            min: 1601,
+            max: 1700,
+            values: {
+                "-5": -12,
+                "-10": -24,
+            },
+        },
+        {
+            min: 1701,
+            max: 1800,
+            values: {
+                "-5": -13,
+                "-10": -25,
+            },
+        },
+        {
+            min: 1801,
+            max: 1900,
+            values: {
+                "-5": -14,
+                "-10": -26,
+            },
+        },
+        {
+            min: 1901,
+            max: 2000,
+            values: {
+                "-5": -14,
+                "-10": -27,
+            },
+        },
+    ];
+
+    function getAltitudeBand(altitude) {
+        if (!Number.isFinite(altitude)) {
+            return null;
+        }
+        const clamped = Math.min(Math.max(Math.round(altitude), 0), 2000);
+        return altitudeCorrectionTable.find((band) => clamped >= band.min && clamped <= band.max) || null;
+    }
+
+    function getCorrectedTemperature(baseTemperature, altitude) {
+        if (baseTemperature === null || baseTemperature === undefined) {
+            return null;
+        }
+        const band = getAltitudeBand(altitude);
+        if (!band) {
+            return null;
+        }
+        const corrected = band.values[String(baseTemperature)];
+        return Number.isFinite(corrected) ? corrected : null;
+    }
+
+    function setTempBaseValue(value) {
+        if (!tempBaseInput) {
+            return;
+        }
+        if (value === null || value === undefined || value === '') {
+            $(tempBaseInput).val('');
+            hashchangeAllAction(tempBaseInput);
+            return;
+        }
+        const numeric = Number.parseFloat(value);
+        if (Number.isFinite(numeric)) {
+            $(tempBaseInput).val(numeric);
+        } else {
+            $(tempBaseInput).val('');
+        }
+        hashchangeAllAction(tempBaseInput);
+    }
+
+    function updateInput(label, baseTemperature) {
+        const altitude = Number.parseInt(altitudeInput.value, 10);
+        const correctedTemperature = getCorrectedTemperature(baseTemperature, altitude);
+        if (correctedTemperature === null) {
+            setTempBaseValue(Number.isFinite(baseTemperature) ? baseTemperature : '');
+            return;
+        }
+        setTempBaseValue(correctedTemperature);
+    }
+
+    function refreshSelection() {
+        if (!lastSelection.id) {
+            return;
+        }
+        updateInput(lastSelection.id, lastSelection.baseTemperature);
+    }
+
+    function handleAltitudeChange() {
+        refreshSelection();
+    }
+
+    fetch(config.svgPath)
+        .then((response) => response.text())
+        .then((svgText) => {
+            const temperatureByColor = buildTemperatureByColor(svgText);
+            container.innerHTML = '';
+            container.insertAdjacentHTML('afterbegin', svgText);
+            const svgElement = container.querySelector('svg');
+            if (!svgElement) {
+                return;
+            }
+            const $svg = $(svgElement);
+
+            $svg.on('click', (event) => {
+                const target = event.target;
+                if (!(target instanceof Element)) {
+                    return;
+                }
+                const depElement = findDepElement(target, svgElement);
+                if (!depElement) {
+                    return;
+                }
+                const id = depElement.id;
+                const isValid = depIdPattern.test(id);
+                if (!isValid) {
+                    return;
+                }
+
+                const commonFill = getMostCommonFill(depElement);
+                const temperature = (commonFill && Object.prototype.hasOwnProperty.call(temperatureByColor, commonFill))
+                    ? temperatureByColor[commonFill]
+                    : null;
+                lastSelection.id = id;
+                lastSelection.baseTemperature = temperature;
+                updateInput(id, temperature);
+                showDepTooltip(getDepLabel(id));
+            });
+
+            $svg.on('mousemove', (event) => {
+                const target = event.target;
+                if (!(target instanceof Element)) {
+                    showDepTooltip('');
+                    return;
+                }
+                const depElement = findDepElement(target, svgElement);
+                if (!depElement) {
+                    showDepTooltip('');
+                    return;
+                }
+                showDepTooltip(getDepLabel(depElement.id));
+            });
+
+            $svg.on('mouseleave', () => {
+                showDepTooltip('');
+            });
+
+            $(altitudeInput).on('input', handleAltitudeChange);
+        })
+        .catch(() => {
+            const errorMessage = document.createElement('p');
+            errorMessage.textContent = 'Impossible de charger la carte SVG.';
+            container.appendChild(errorMessage);
+        });
+
+    return {
+        refreshSelection,
+    };
+}
+
+/**
  * Résumé : Changement de niveau 
  */
 function changeLevel(level) {
@@ -2344,34 +2837,6 @@ function livingVolumeChangeMode() {
         $("#livingspace").removeAttr("required");
         $("#livingheight").removeAttr("required");
     }
-}
-
-/*
-*   Carte NF des températures de bases
-*   Fortement inspiré de http://nourtier.net/JoceWanadoo/Bricolage/PAC/calcul_PAC.htm#
-*/
-function temperatureBaseNFDetermine() {
-    var zone = $('#zone').val();
-    var altitude = $('#altitude').val();
-    var temperatureBase = null;
-    console.log("Zone : " + zone);
-    console.log("Altitude : " + altitude);
-    if (zone != '' && altitude >= 0 && altitude <= 2000) {
-        console.log("Détermination de la température de base possible");
-        $.each(settings.temperatureBaseData[zone], function (zoneIndex, ZoneValue) {
-            if (altitude >= ZoneValue['altitudeMin'] && altitude <= ZoneValue['altitudeMax']) {
-                temperatureBase = ZoneValue['temperature'];
-                console.log("Température déterminé : " + temperatureBase);
-            }
-        });
-        if (temperatureBase == null) {
-            alert("Aucune donnée n'existe pour cette zone avec cette altitude");
-        }
-    } else {
-        alert("La zone n'est pas déterminé ou l'altitude n'est pas comprise entre 0 et 2000m");
-    }
-    $('#temp_base').val(temperatureBase);
-    hashchangeAllAction($('#temp_base'));
 }
 
 // Formulaire de contact

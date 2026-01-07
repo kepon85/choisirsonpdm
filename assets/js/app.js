@@ -3,6 +3,7 @@ $( document ).ready(function() {
     
     // Init global var
     apiMateriauxData=null;
+    let tempBaseSvgMap = null;
 
     initializeStudyAutoSaveFeatures();
 
@@ -299,15 +300,18 @@ $( document ).ready(function() {
     
 
     // Enregistrement du click sur une tab pour la carte
-    $("#nav-tab").on("click", function (e) {
-        $('#nav-tab-record').val($(".nav-link.active").attr('id'));
+    $("#nav-tab").on("click", function () {
+        const activeTabId = $(".nav-link.active").attr('id');
+        $('#nav-tab-record').val(activeTabId);
         // Changement de tab/carte, on met la température de base à 0
-        $( "#temp_base" ).val('');
-        if ($(".nav-link.active").attr('id') == 'nav-carte-tab' &&
+        $("#temp_base").val('');
+        if (activeTabId === 'nav-carte-tab' &&
              $("#lat").val() != '' && 
              $("#lng").val() != '') {        
                 // Si c'est la carte auto et qu'une latitude/longitude est renseigné alors on récupère la température de base
                 processChangelngLat();
+        } else if (activeTabId === 'nav-cartenf-tab' && tempBaseSvgMap && typeof tempBaseSvgMap.refreshSelection === 'function') {
+            tempBaseSvgMap.refreshSelection();
         }
         hashchangeAllAction();
     });
@@ -823,19 +827,13 @@ $( document ).ready(function() {
         document.body.appendChild(includeJavascript);
     });
 
-    // Map NF
-    $( "#altitude" ).on( "change", function() {
-        var zone = $('#zone').val();
-        if (zone != '') {
-            temperatureBaseNFDetermine();
-        }
-    } );
-    $( "#mapnfarea area" ).on( "click", function() {
-        console.log("zone:"+$(this).data("zone"));
-        console.log("dept:"+$(this).data("dept"));
-        $('#zone').val($(this).data("zone"));
-        temperatureBaseNFDetermine();
-    } );
+    // Carte température de base SVG
+    tempBaseSvgMap = initializeTempBaseSvgMap({
+        svgPath: 'assets/img/base-temperature-map.svg',
+        containerSelector: '#temp-base-map-container',
+        altitudeSelector: '#altitude',
+        tempBaseInputSelector: '#temp_base',
+    });
 
     ////////////////////////
     // MAPBOX
